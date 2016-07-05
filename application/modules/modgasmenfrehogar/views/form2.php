@@ -209,6 +209,9 @@
 	}*/
 ?>
 $(function() {
+	$( document ).ready(function() {
+	  // Handler for .ready() called.
+	});
 	$( "input[type=checkbox]" ).on( "change", function(){
 		var articulos = $( ".articulo" ).length;
 		var cont  = 0;

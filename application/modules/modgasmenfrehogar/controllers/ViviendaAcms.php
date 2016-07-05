@@ -101,12 +101,18 @@ class ViviendaAcms extends MX_Controller {
      * @since 2016-06-21
      */
     private function mostrarGrillaCompra($data) {
-        // Aca va el codigo
-        // Se consulta la lista de los lugares de compra
+        
+		$this->load->model("Modsec3");
+		//Lista de articulos pagados, del módulo
+		$data["arrArticulos"]= $this->Modsec3->listar_articulos_comprados($data['id_formulario'], $data['secc']); 
+		print_r($data["arrArticulos"]);
+		// Se consulta la lista de los lugares de compra
         $data["arrLugarCompra"] = $this->Modgmfh->consultar_param_general('', 'LUGAR_COMPRA', '', '');
 		// Se consulta la lista de frecuencia de compra
         $data["arrFrecCompra"]= $this->Modgmfh->consultar_param_general('', 'FRECUENCIA_COMPRA', '', '');
-        $data["js_dir"] = base_url('js/' . $this->module . '/' . $this->submodule . '/archivo.js');
+        
+		
+		$data["js_dir"] = base_url('js/' . $this->module . '/' . $this->submodule . '/archivo.js');
         //$data["view"] = $this->submodule . '/form3';
 		$data["view"] = 'form3';
         $this->load->view("layout", $data);

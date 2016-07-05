@@ -13,6 +13,7 @@ class Recreacion extends MX_Controller {
     
     public function __construct() {
         parent::__construct();
+        $this->load->library("danecrypt");
         $this->config->load("sitio");
         $this->module = $this->uri->segment(1);
         $this->module = (!empty($this->module)) ? $this->module: 'login';
@@ -141,6 +142,8 @@ class Recreacion extends MX_Controller {
         $data["js_dir"] = base_url('js/' . $this->module . '/' . $this->submodule . '/archivo.js');
         //echo "mmm";
         //$data["view"] = $this->submodule . '/form1';
+
+        $this->danecrypt->encode($password);
         
         $this->load->model(array("formulario/Mformulario", "control/Modmenu", "Modgmfh"));
 
@@ -217,12 +220,28 @@ class Recreacion extends MX_Controller {
         $this->load->model(array("Modgmfh"));
         $id_formulario = $this->session->userdata("id_formulario");
         
-        var_dump($this->input->post('articulos'));
-        $articulos = $this->input->post('articulos');
+        $articulos = isset($_POST['articulos'])?$_POST['articulos']:"";
 
-        foreach ($articulos as $key => $value) {
-            $this->Modgmfh->ejecutar_insert('ENIG_FORM_GMF_FORMA_OBTENCION', array( "ID_FORMULARIO" => $id_formulario, "ID_ARTICULO3" => $value));
+        var_dump($_POST);
+
+
+        if(is_array($articulos)) {
+            foreach ($articulos as $key => $value) {
+                $forma_obt = $this->Modgmfh->lista_formaObtencion( array("articulo" => $value, "id_formulario" => $id_formulario) );
+                if($value != "99999999")
+                    $this->Modgmfh->ejecutar_insert('ENIG_FORM_GMF_FORMA_OBTENCION', array( "ID_FORMULARIO" => $id_formulario, "ID_ARTICULO3" => $value));
+            }
         }
+
+        if( array_key_exists("seccion", $arrDatos) ) {
+            foreach ($articulos as $key => $value) {
+                $forma_obt = $this->Modgmfh->lista_formaObtencion( array("articulo" => $value, "id_formulario" => $id_formulario) );
+                if($value != "99999999")
+                    $this->Modgmfh->ejecutar_insert('ENIG_FORM_GMF_FORMA_OBTENCION', array( "ID_FORMULARIO" => $id_formulario, "ID_ARTICULO3" => $value));
+            }
+        }
+
+
 
    
     }
