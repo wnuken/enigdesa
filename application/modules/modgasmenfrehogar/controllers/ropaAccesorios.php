@@ -21,6 +21,7 @@ class Ropaaccesorios extends MX_Controller {
         $this->idCapitulo = '';
         $this->idSubModulo = 'D';
         $this->idSeccion = '';
+        $this->load->model(array("formulario/Mformulario", "control/Modmenu", "Modgmfh"));
     }
 
     private function actualizarEstado() {
@@ -82,28 +83,41 @@ class Ropaaccesorios extends MX_Controller {
     }
     
     public function index() {
-        $this->load->model(array("formulario/Mformulario", "control/Modmenu", "Modgmfh"));
-        $data["id_formulario"] = $this->session->userdata("id_formulario");
-        if (empty($data["id_formulario"])) {
+        // $this->load->model(array("formulario/Mformulario", "control/Modmenu", "Modgmfh"));
+        $dataElement["id_formulario"] = $this->session->userdata("id_formulario");
+        if (empty($dataElement["id_formulario"])) {
             redirect('/');
             return false;
         }
 
-        $arrSA = $this->Modgmfh->listar_secciones_avances(array( "id0" => $this->idSubModulo , "estado" => array(0,1)));
+        $arrSA = $this->getElementsSection();
 
-        $id_formulario = $this->session->userdata("id_formulario");
-        $formas_obt = $this->Modgmfh->lista_formaObtencion( array("seccion" => $this->idSeccion, "id_formulario" => $id_formulario) );
 
-        print('<pre>');
-        // print_r($arrSA);
-        print('</pre>');
 
-        if(is_array($arrSA) && $arrSA[0]['ID_SECCION3'] == ($this->idSubModulo . '0')){
+
+
+        // $paramsToUpdate['id_formulario'] = $this->session->userdata("id_formulario");
+        // $formas_obt = $this->Modgmfh->lista_formaObtencion( array("seccion" => $this->idSeccion, "id_formulario" => $dataElement['id_formulario']) );
+       /* print('<pre>');
+        print_r($arrSA);
+        print('</pre>');*/
+        
+
+        if(is_array($arrSA) && $arrSA[0]['ID_ESTADO_SEC'] != 2){
+
+            if($arrSA[0]['ID_ESTADO_SEC'] ==  0){
+
+                 
+                $dataElement['ID_SECCION3'] =  $arrSA[0]['ID_SECCION3'];
+                $this->updateElementSection($dataElement);
+            }
+
+
             $data["view"]= $arrSA;
             $data["view"]="ropaaccesorios/form1";
             $this->load->view("layout", $data);
         }else{
-             redirect('modgasmenfrehogar/index');
+           //  redirect('modgasmenfrehogar/');
             return false;
         }
 
@@ -148,6 +162,20 @@ class Ropaaccesorios extends MX_Controller {
             }
             
         }*/
+    }
+
+
+    private function getElementsSection(){
+        $result = $this->Modgmfh->listar_secciones_avances(array( "id0" => $this->idSubModulo , "estado" => array(0,1,2)));
+        return $result;
+    }
+
+    private function updateElementSection($params){
+        $result = $this->Modgmfh->ejecutar_update(
+            'ENIG_ADMIN_GMF_CONTROL', 
+            array( "ID_ESTADO_SEC" => 1), 
+            array( "ID_FORMULARIO" => $params['id_formulario'], 
+                "ID_SECCION3" => $params['ID_SECCION3']));
     }
     
     /**
