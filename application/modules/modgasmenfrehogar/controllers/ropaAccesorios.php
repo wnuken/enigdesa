@@ -82,7 +82,6 @@ class Ropaaccesorios extends MX_Controller {
     }
     
     public function index() {
-        var_dump("elementos");
         $this->load->model(array("formulario/Mformulario", "control/Modmenu", "Modgmfh"));
         $data["id_formulario"] = $this->session->userdata("id_formulario");
         if (empty($data["id_formulario"])) {
@@ -90,6 +89,27 @@ class Ropaaccesorios extends MX_Controller {
             return false;
         }
 
+        $arrSA = $this->Modgmfh->listar_secciones_avances(array( "id0" => $this->idSubModulo , "estado" => array(0,1)));
+
+        $id_formulario = $this->session->userdata("id_formulario");
+        $formas_obt = $this->Modgmfh->lista_formaObtencion( array("seccion" => $this->idSeccion, "id_formulario" => $id_formulario) );
+
+        print('<pre>');
+        // print_r($arrSA);
+        print('</pre>');
+
+        if(is_array($arrSA) && $arrSA[0]['ID_SECCION3'] == ($this->idSubModulo . '0')){
+            $data["view"]= $arrSA;
+            $data["view"]="ropaaccesorios/form1";
+            $this->load->view("layout", $data);
+        }else{
+            // redirect('modgasmenfrehogar');
+            return false;
+        }
+
+        
+
+        /*
         
         $arrSA = $this->actualizarEstado();
         
@@ -127,7 +147,7 @@ class Ropaaccesorios extends MX_Controller {
                     break;
             }
             
-        }
+        }*/
     }
     
     /**
