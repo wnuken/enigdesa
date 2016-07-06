@@ -106,6 +106,7 @@ class ViviendaAcms extends MX_Controller {
 		//Lista de articulos pagados, del módulo
 		$data["arrArticulos"]= $this->Modsec3->listar_articulos_comprados($data['id_formulario'], $data['secc'][0]['ID_SECCION3']); 
 		
+		// nota: verificar si consultamos nombres de variables medios de pago desde BD
 		$data["medio_pago"]["requiere"]=1;
 		$data["medio_pago"]["nom_var"]="P438C11";
 		$data["medio_pago"]["nom_otro"]="P438S1C11";
@@ -117,7 +118,7 @@ class ViviendaAcms extends MX_Controller {
         $data["arrFrecCompra"]= $this->Modgmfh->consultar_param_general('', 'FRECUENCIA_COMPRA', '', '');
         
 		
-		$data["js_dir"] = base_url('js/' . $this->module . '/' . $this->submodule . '/archivo.js');
+		$data["js_dir"] = base_url('js/gasmenfrehogar/viviendaAcms/viviendaAcms.js');
         //$data["view"] = $this->submodule . '/form3';
 		$data["view"] = 'form3';
         $this->load->view("layout", $data);

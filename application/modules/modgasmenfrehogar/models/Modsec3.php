@@ -25,7 +25,7 @@ class Modsec3 extends My_model {
                
         if (!empty($id_form) && !empty($submod)  ) {
             
-			$sql = "SELECT  F.ID_ARTICULO3, P.ETIQUETA 
+			$sql = "SELECT  F.ID_ARTICULO3, P.ETIQUETA , P.DEFINE_LUGAR_COMPRA, P.DEFINE_FRECU_COMPRA
 					FROM  ENIG_FORM_GMF_FORMA_OBTENCION F
 					JOIN  ENIG_PARAM_GMF_ARTICULOS P ON P.ID_ARTICULO3 = F.ID_ARTICULO3
 					WHERE F.ID_FORMULARIO='$id_form'
@@ -40,6 +40,8 @@ class Modsec3 extends My_model {
     			foreach($query->result() as $row){
     				$data[$i]["ID_ARTICULO3"] = $row->ID_ARTICULO3;
 					$data[$i]["ETIQUETA"] = $row->ETIQUETA;
+					$data[$i]["DEFINE_LUGAR_COMPRA"] = $row->DEFINE_LUGAR_COMPRA;
+					$data[$i]["DEFINE_FRECU_COMPRA"] = $row->DEFINE_FRECU_COMPRA;
     				$i++;		
     			}		
     		}
