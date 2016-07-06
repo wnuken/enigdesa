@@ -103,7 +103,7 @@ class Ropaaccesorios extends MX_Controller {
             $data["view"]="ropaaccesorios/form1";
             $this->load->view("layout", $data);
         }else{
-            // redirect('modgasmenfrehogar');
+             redirect('modgasmenfrehogar/index');
             return false;
         }
 
