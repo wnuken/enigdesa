@@ -18,7 +18,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Encuesta Nacional de Presupuesto de los Hogares</title>
 <link href="<?php echo base_url("images/favicon2.png"); ?>" rel="shortcut icon" type="image/vnd.microsoft.icon">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">-->
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="<?php echo base_url("css/bootstrap/bootstrap.min.css"); ?>">
 <!-- Optional theme -->

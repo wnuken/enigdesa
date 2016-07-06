@@ -14,28 +14,32 @@ class Modsec3 extends My_model {
     
     
     /**
-     * Consulta los datos de los registros de los articulos por seccion
+     * Consulta los articulos en los que en la sección 2 respondieron opción "Compra o pago"
      * @access Public
-     * @author 
-     * @param Array     $arrDatos   Arreglo asociativo con los valores para hacer la consulta
-     * @return Array    $data       Registros devueltos por la consulta
+     * @author hhchavezv
+     * @param  $id_form: id del formulario
+	 * @param  $submod: submódulo que está diligenciando (ej: C1 )
+     * @return Array    $data:Registros devueltos por la consulta
      */
-    public function listar_articulos_comprados($id_form, $sec) {
+    public function listar_articulos_comprados($id_form, $submod) {
                
-        if (!empty($id_form) && !empty($sec)  ) {
+        if (!empty($id_form) && !empty($submod)  ) {
             
-		echo	$sql = 'SELECT f.id_articulo3 FROM  ENIG_FORM_GMF_FORMA_OBTENCION F
-					JOIN  ENIG_PARAM_GMF_ARTICULOS P ON P.id_articulo3 = F.id_articulo3
-					WHERE F.id_formulario=$id_form
-					AND P.id_seccion3="$sec"
-					AND F.compra=1';        
+			$sql = "SELECT  F.ID_ARTICULO3, P.ETIQUETA 
+					FROM  ENIG_FORM_GMF_FORMA_OBTENCION F
+					JOIN  ENIG_PARAM_GMF_ARTICULOS P ON P.ID_ARTICULO3 = F.ID_ARTICULO3
+					WHERE F.ID_FORMULARIO='$id_form'
+					AND P.ID_SECCION3='$submod'
+					AND F.COMPRA=1
+					ORDER BY P.ORDEN_VISUAL";        
         
 		$i=0;
 		$data=array();
         $query = $this->db->query($sql);
         if ($query->num_rows()>0){    			
     			foreach($query->result() as $row){
-    				$data[$i]["id_articulo3"] = $row->id_articulo3;
+    				$data[$i]["ID_ARTICULO3"] = $row->ID_ARTICULO3;
+					$data[$i]["ETIQUETA"] = $row->ETIQUETA;
     				$i++;		
     			}		
     		}
@@ -44,6 +48,28 @@ class Modsec3 extends My_model {
         return $data;
 		}
     }
+	/**
+     * Consulta los tipos de medios de pago
+     * @access Public
+     * @author hhchavezv
+     * @return Array    $data:Registros devueltos por la consulta
+     */
+    public function listar_medios_pago() {               
+       
+		$data[1]["id"]= "1";
+		$data[1]["nombre"]= "Tarjeta d&eacute;bito";
+		$data[2]["id"]= "2";
+		$data[2]["nombre"]= "Tarjeta cr&eacute;dito";
+		$data[3]["id"]= "3";
+		$data[3]["nombre"]= "Efectivo";
+		$data[4]["id"]= "4";
+		$data[4]["nombre"]= "Bonos";
+		$data[5]["id"]= "5";
+		$data[5]["nombre"]= "Cheques";
+		$data[6]["id"]= "6";
+		$data[6]["nombre"]= "Otro";
+		return $data;
+	}
     
     
     

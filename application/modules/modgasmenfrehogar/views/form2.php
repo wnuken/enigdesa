@@ -27,29 +27,8 @@
 			echo "					</div>\n";
 			echo "				</div>\n";
 			// Inicio Grupo de preguntas...
-			/*if (!empty($preg['grv'])) {
-				foreach ($preg['grv'] as $grv) {
-					if ($grv['PRI_VARIABLE'] == $v3['ID_VARIABLE']) {
-						echo "	<div id='". $grv['IDGRUPO'] ."'>\n";
-						echo "		<h5>". $grv['ETIQUETA'] ."";
-						if (!empty($grv['AYUDA']))
-							echo "&nbsp;&nbsp;<a href='#' data-toggle='tooltip' title='". $grv['AYUDA'] ."'>(?)</a>";
-						echo "</h5>\n";
-						if (!empty($grv['DESCRIPCION']))
-							echo "		". $grv['DESCRIPCION'] ."<br/>\n";
-						if (!empty($grv['TEXTO_AUXILIAR']))
-							echo "		<i>". $grv['TEXTO_AUXILIAR'] ."</i><br/>\n";
-						echo "		<br/>\n";
-						$vargrupo = true;
-					}
-				}
-			}
-			else
-				$vargrupo = false;
-			// Esta opcion oculta el grupo y los campos asociados cuando el tipo de campo este definido como oculto.
-			if ($v3['TIPO_CAMPO'] == "OCULTO")
-				echo "				<div class='form-group has-feedback' style='display: none'>\n";
-			else*/
+			
+
 			
 				echo "				<div class='form-group has-feedback' id='div-". $v3['ID_ARTICULO3'] ."'>\n";
 			//echo "<input type='checkbox' name='articulos[]' value='" . $v3['ID_ARTICULO3'] . "' id='articulo_". $v3['ID_ARTICULO3'] ."' />";
@@ -77,7 +56,7 @@
 			echo "</h5>\n";
 			echo "</td>";
 			echo "<td>";
-			echo "<input type='checkbox' name='art_" . $v3['ID_ARTICULO3'] . "[compra]' value='" . $v3['ID_ARTICULO3'] . "_1' id='art_". $v3['ID_ARTICULO3'] ."_1' class='ops_" . $i . "' />";
+			echo "<input type='checkbox' name='" . $v3['ID_ARTICULO3'] . "[compra]' value='" . $v3['ID_ARTICULO3'] . "_1' id='art_". $v3['ID_ARTICULO3'] ."_1' class='ops_" . $i . "' />";
 			echo "</td>";
 			
 			echo "</tr>";
@@ -88,7 +67,7 @@
 			echo "</h5>\n";
 			echo "</td>";
 			echo "<td>";
-			echo "<input type='checkbox' name='art_" . $v3['ID_ARTICULO3'] . "[trabajo]' value=' value='" . $v3['ID_ARTICULO3'] . "_2' id='articulo_". $v3['ID_ARTICULO3'] ."_2' class='ops_" . $i . "' />";
+			echo "<input type='checkbox' name='" . $v3['ID_ARTICULO3'] . "[recibido_pago]' value=' value='" . $v3['ID_ARTICULO3'] . "_2' id='articulo_". $v3['ID_ARTICULO3'] ."_2' class='ops_" . $i . "' />";
 			echo "</td>";
 			echo "</tr>";
 
@@ -98,7 +77,7 @@
 			echo "</h5>\n";
 			echo "</td>";
 			echo "<td>";
-			echo "<input type='checkbox' name='art_" . $v3['ID_ARTICULO3'] . "[regalo]' value='" . $v3['ID_ARTICULO3'] . "_3' id='articulo_". $v3['ID_ARTICULO3'] ."_3' class='ops_" . $i . "' />";
+			echo "<input type='checkbox' name='" . $v3['ID_ARTICULO3'] . "[regalo]' value='" . $v3['ID_ARTICULO3'] . "_3' id='articulo_". $v3['ID_ARTICULO3'] ."_3' class='ops_" . $i . "' />";
 			echo "</td>";			
 			echo "</tr>";
 
@@ -108,7 +87,7 @@
 			echo "</h5>\n";
 			echo "</td>";
 			echo "<td>";
-			echo "<input type='checkbox' name='art_" . $v3['ID_ARTICULO3'] . "[intercambio]' value='" . $v3['ID_ARTICULO3'] . "_4' id='articulo_". $v3['ID_ARTICULO3'] ."_4' class='ops_" . $i . "' />";
+			echo "<input type='checkbox' name='" . $v3['ID_ARTICULO3'] . "[intercambio]' value='" . $v3['ID_ARTICULO3'] . "_4' id='articulo_". $v3['ID_ARTICULO3'] ."_4' class='ops_" . $i . "' />";
 			echo "</td>";
 			
 			echo "</tr>";
@@ -118,7 +97,7 @@
 			echo "</h5>\n";
 			echo "</td>";
 			echo "<td>";
-			echo "<input type='checkbox' name='art_" . $v3['ID_ARTICULO3'] . "[hogar]' value='" . $v3['ID_ARTICULO3'] . "_5' id='articulo_". $v3['ID_ARTICULO3'] ."_5' class='ops_" . $i . "' />";
+			echo "<input type='checkbox' name='" . $v3['ID_ARTICULO3'] . "[producido]' value='" . $v3['ID_ARTICULO3'] . "_5' id='articulo_". $v3['ID_ARTICULO3'] ."_5' class='ops_" . $i . "' />";
 			echo "</td>";
 			
 			echo "</tr>";
@@ -128,7 +107,7 @@
 			echo "</h5>\n";
 			echo "</td>";
 			echo "<td>";
-			echo "<input type='checkbox' name='art_" . $v3['ID_ARTICULO3'] . "[negocio]' value='" . $v3['ID_ARTICULO3'] . "_6' id='articulo_". $v3['ID_ARTICULO3'] ."_6' class='ops_" . $i . "' />";
+			echo "<input type='checkbox' name='" . $v3['ID_ARTICULO3'] . "[negocio_propio]' value='" . $v3['ID_ARTICULO3'] . "_6' id='articulo_". $v3['ID_ARTICULO3'] ."_6' class='ops_" . $i . "' />";
 			echo "</td>";
 			
 			echo "</tr>";
@@ -138,45 +117,14 @@
 			echo "</h5>\n";
 			echo "</td>";
 			echo "<td>";
-			echo "<input type='checkbox' name='art_" . $v3['ID_ARTICULO3'] . "[otra]' value='" . $v3['ID_ARTICULO3'] . "_7' id='articulo_". $v3['ID_ARTICULO3'] ."_7' class='ops_" . $i . "' />";
+			echo "<input type='checkbox' name='" . $v3['ID_ARTICULO3'] . "[otra]' value='" . $v3['ID_ARTICULO3'] . "_7' id='articulo_". $v3['ID_ARTICULO3'] ."_7' class='ops_" . $i . "' />";
 			echo "</td>";			
 			echo "</tr>";
 
 			echo "</table>";
-			
-			//if ($v3['TEXTO_AUXILIAR'] != '')
-			//	echo "<small><i>". $v3['TEXTO_AUXILIAR']. "</i></small><br/>\n";
-		/*} else {
-			echo "&nbsp;&nbsp;";
-		}*/
-		/*if ($v3['TIPO_CAMPO'] == "SELUNICA") {
-			echo mostrar_select($v3, $preg['opc']);
-		}
-		else if ($v3['TIPO_CAMPO'] == "SELUNICA_RAD") {
-			echo mostrar_radios($v3, $preg['opc']);
-		}
-		else if ($v3['TIPO_CAMPO'] == "SINO") {
-			echo mostrar_sino($v3, $preg['opc']);
-		}
-		else if ($v3['TIPO_CAMPO'] == "NUMNOSABE") {
-			echo mostrar_numnosabe($v3);
-		}
-		else if ($v3['TIPO_CAMPO'] == "NUMNOINFO") {
-			echo mostrar_numnoinfo($v3);
-		}
-		else {
-			echo mostrar_input_text($v3);
-		}*/
-		//if (!$vargrupo)
+
 			echo "<hr>\n";
-		//$nuevogrupo = $v3['GRUPO'];
-		// Fin grupo de preguntas.
-		/*if (!empty($preg['grv'])) {
-			foreach ($preg['grv'] as $grv) {
-				if ($grv['ULT_VARIABLE'] == $v3['ID_VARIABLE'])
-					echo "		<hr></div><!-- ". $grv['IDGRUPO'] ."-->\n";
-			}
-		}*/
+
 		$i++;
 	}
 ?>
@@ -194,7 +142,7 @@
 	// mayandarl - incorpora los botones de anterior y siguiente 
 	//if ($secc['SIGUIENTE'] == 'SI') {
 		//if ($secc['ACCION'] == 'CONTINUAR')
-			echo "	<button disabled=disabled class='btn btn-success' id='ENV_2_2'>Guardar y Continuar <span class='glyphicon glyphicon-chevron-right' aria-hidden='true' title='Continuar'></span></button>\n";
+			echo "	<button  class='btn btn-success' id='ENV_2_2'>Guardar y Continuar <span class='glyphicon glyphicon-chevron-right' aria-hidden='true' title='Continuar'></span></button>\n";
 		//elseif ($secc['ACCION'] == 'FINALIZAR')
 		//	echo "	<button class='btn btn-success' id='ENV_". $secc['ID_SECCION'] .'_'. $secc['PAGINA'] ."'>Guardar y Finalizar <span class='glyphicon glyphicon-chevron-right' aria-hidden='true' title='Fin'></span></button>\n";
 	//}
@@ -202,16 +150,8 @@
 
 		</div>
 <script>
-<?php
-	/*echo "\t var regla_". $secc['ID_SECCION']."_". $secc['PAGINA'] ." = new Array();\n";
-	foreach ($preg['reg'] as $k2=>$v2) {
-		echo "\t regla_". $secc['ID_SECCION']."_". $secc['PAGINA'] ."['$k2']= new Array('". $v2['CONDICION'] ."','". $v2['MENSAJE_ERROR'] ."','". $v2['TIPO_ERROR'] ."',0);\n";
-	}*/
-?>
+
 $(function() {
-	$( document ).ready(function() {
-	  // Handler for .ready() called.
-	});
 	$( "input[type=checkbox]" ).on( "change", function(){
 		var articulos = $( ".articulo" ).length;
 		var cont  = 0;
@@ -248,7 +188,7 @@ $(function() {
 				//$('#CHK_'+ capitulo).addClass('ui-icon ui-icon-check');
 				//$('.nav-tabs > .active').next('li').find('a').trigger('click');
 				//$('#btn_seguir').html('<span id="btn_seguir"><span> <button type="button" name="btnReminder" class="btn btn-success" onClick="location.reload();">Continuar</button>');
-				//location.reload();
+				setTimeout(function(){location.reload()}, 3000);
 			},
 			error: function (respuesta) {
 				$('#mensaje_').html('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Error guardando m&oacute;dulo</div>');

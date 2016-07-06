@@ -78,7 +78,7 @@
 <hr />
 		<div class="row">
 			<div class="col-sm-2"><img src="<?php echo base_url("images/form_icon-ingresospersonales.png"); ?>" /></div>
-			<div class="col-sm-8"><?=$this->router->fetch_class();?>
+			<div class="col-sm-8">
 				<h2><?=$secc[0]['DESCR_SECCION'] . "(" . $secc[0]['TEMPORALIDAD'] . ")"; ?></h2>
 				<h4><?//echo $persona['P521A'] ." ". $persona['P521C'] ." (". $persona['P6040'] .")"; ?></h4>
 			</div>
@@ -174,6 +174,19 @@
 			}
 		}*/
 	}
+	echo "					</div>\n";
+			echo "				</div>\n";
+	echo "				<div class='form-group has-feedback' id='div-99999999'>\n";
+			echo "<input type='checkbox' name='articulos[]' value='99999999' id='99999999' />";
+			
+			// mayandarl - Texto de la pregunta.
+			echo "<h5 class='control-label' for='99999999'  >(99999999) Ninguna de las anteriores";
+			// mayandarl - Ayuda asociada a la pregunta.
+			//if (!empty($v3['AYUDA']))
+			//	echo "&nbsp;<a href='#' data-toggle='tooltip' title='". $v3['AYUDA'] ."'>(?)</a>";
+			echo "</h5>\n";
+			// mayandarl - Asigna ID para la seccion de opciones de respuesta. Se utiliza en la verificacion de consistencias.
+			echo "					<div class='col-sm-8' id='RESP_99999999' data-toggle='popover' data-placement='top' data-trigger='hover' data-content=''>\n";
 ?>
 					</div>
 				</div>
@@ -260,7 +273,7 @@ $(function() {
 				//$('#CHK_'+ capitulo).addClass('ui-icon ui-icon-check');
 				//$('.nav-tabs > .active').next('li').find('a').trigger('click');
 				//$('#btn_seguir').html('<span id="btn_seguir"><span> <button type="button" name="btnReminder" class="btn btn-success" onClick="location.reload();">Continuar</button>');
-				//location.reload();
+				setTimeout(function(){location.reload()}, 3000);
 			},
 			error: function (respuesta) {
 				$('#mensaje_').html('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Error guardando m&oacute;dulo</div>');

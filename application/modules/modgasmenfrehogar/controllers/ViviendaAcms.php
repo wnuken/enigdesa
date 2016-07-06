@@ -43,7 +43,7 @@ class ViviendaAcms extends MX_Controller {
         }*/
 		$data['secc'] = $this->Modgmfh->listar_secciones(array("id" => $this->idSeccion ));
 
-        //pr($arrSA); 
+        //pr($data['secc']); 
         //if(!empty($arrSA["0"]["PAG_SECCION3"])) {
 		if(1==1) {
             //switch ($arrSA["0"]["PAG_SECCION3"]) {
@@ -104,8 +104,13 @@ class ViviendaAcms extends MX_Controller {
         
 		$this->load->model("Modsec3");
 		//Lista de articulos pagados, del módulo
-		$data["arrArticulos"]= $this->Modsec3->listar_articulos_comprados($data['id_formulario'], $data['secc']); 
-		print_r($data["arrArticulos"]);
+		$data["arrArticulos"]= $this->Modsec3->listar_articulos_comprados($data['id_formulario'], $data['secc'][0]['ID_SECCION3']); 
+		
+		$data["medio_pago"]["requiere"]=1;
+		$data["medio_pago"]["nom_var"]="P438C11";
+		$data["medio_pago"]["nom_otro"]="P438S1C11";
+		$data["arrMediosPago"]=$this->Modsec3->listar_medios_pago(); 
+		
 		// Se consulta la lista de los lugares de compra
         $data["arrLugarCompra"] = $this->Modgmfh->consultar_param_general('', 'LUGAR_COMPRA', '', '');
 		// Se consulta la lista de frecuencia de compra

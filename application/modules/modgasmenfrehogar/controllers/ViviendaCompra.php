@@ -1,7 +1,7 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * Controlador para la sección COMPRA Y ADECUACIÓN DE VIVIENDA, del submodulo de GASTOS EN ALQUILER, COMBUSTIBLES, MANTENIMIENTO Y SERVICIOS DE LA VIVIENDA 
+ * Controlador para la secciï¿½n COMPRA Y ADECUACIï¿½N DE VIVIENDA, del submodulo de GASTOS EN ALQUILER, COMBUSTIBLES, MANTENIMIENTO Y SERVICIOS DE LA VIVIENDA 
  * @author 
  * @since 
  */
@@ -22,47 +22,13 @@ class ViviendaCompra extends MX_Controller {
         $this->idSeccion = 'C1';*/
     }
     
+    /**
+     * MÃ©todo para mostrar opcion principal GASTOS EN ALQUILER, COMBUSTIBLES, MANTENIMIENTO Y SERVICIOS DE LA VIVIENDA.
+     * @author dmdiazf / @author hhchavez
+     * @since  05/07/2016
+     */    
     public function index() {
-		/*
-        $this->load->model(array("formulario/Mformulario", "control/Modmenu", "Modgmfh"));
-        $data["id_formulario"] = $this->session->userdata("id_formulario");
-        if (empty($data["id_formulario"])) {
-            redirect('/');
-            return false;
-        }
-        // Se consulta el estado de la seccion, si esta finalizado se redirige al menu del modulo
-        $arrParam = array('id' => $this->idSeccion);
-        $arrSA = $this->Modgmfh->listar_secciones_avances($arrParam);
-        if (count($arrSA) > 0) {
-            if($arrSA["0"]["ID_ESTADO_SEC"] == 2) {
-                redirect(base_url($this->module));
-                return false;
-            }
-        }
-        //pr($data); exit;
-        if(!empty($arrSA["0"]["PAG_SECCION3"])) {
-            switch ($arrSA["0"]["PAG_SECCION3"]) {
-                case 1:
-                    $this->mostrarListaArticulos($data);
-                    break;
-                case 2:
-                    $this->mostrarListaObtencion($data);
-                    break;
-                case 3:
-                    $this->mostrarGrillaCompra($data);
-                    break;
-                case 4:
-                    $this->mostrarGrillaNoCompra($data);
-                    break;
-				case 5:
-                    $this->mostrarFormCompraVivienda($data);
-                    break;	
-            }
-            
-        }*/
-		$data["js_dir"] = base_url('js/' . $this->module . '/' . $this->submodule . '/archivo.js');
-       // $data["view"] = $this->submodule . '/viviendaCompra';
-         $data["view"] = 'ViviendaAcms/formCompraVivienda';
+		$data["view"] = 'ViviendaAcms/formCompraVivienda';
 		$this->load->view("layout", $data);
     }
     
