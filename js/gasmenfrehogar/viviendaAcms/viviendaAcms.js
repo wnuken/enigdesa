@@ -6,21 +6,22 @@
  
 	$(function(){
 	$("#div_otro_pago").hide();
+	//$("#txt_total").numerico().largo(15);
 	
 	$("#form_sec3_C1").validate({
 		//Reglas de Validacion
 		rules : {
 			txt_total    		: {	required        :  true},
 			sel_medio_pago    	: {	comboBox        :  '-'},
-			txt_otro_medio_pago : {	required        :  true}
-			
+			txt_otro_medio_pago : {	required        :  true, maxlength: 100}
 					
 		},
 		//Mensajes de validacion
 		messages : {
 			txt_total    		: {	required        :  "Verifique el subtotal."},
 			sel_medio_pago    	: {	comboBox        :  "Seleccione una opci&oacute;n."},
-			txt_otro_medio_pago : {	required        :  "Diligencie c&uacute;al otro medio de pago. "}
+			txt_otro_medio_pago : {	required        :  "Diligencie c&uacute;al otro medio de pago. ", maxlength		:  "Máximo 100 caracteres"},
+			
 						
 		},
 		//Mensajes de error
@@ -40,8 +41,8 @@
 	
 	// VAlidaciones de la tabla de articulos
 	pag3_valida_articulos_pagados();
-	
-	$("#btn_form3_C1").click(function()
+	var nom_boton_form3="btn_form3_C1";
+	$("#"+nom_boton_form3).click(function()
 	{
 		// Vuelve a realizar suma total de pago de tabla articulos
 		pag3_suma_articulos();
@@ -50,26 +51,36 @@
 		
 			if(window.confirm('Haga clic en Aceptar si realmente quiere guardar y continuar a la siguiente secci\u00f3n.'))
 			{
-		
+				//Activa icono guardando
+				$("#pag3_error").css("display", "none");
+				$("#pag3_cargando").css("display", "inline");
+				$("#"+nom_boton_form3).attr('disabled','-1');
 				$.ajax({  
 					url: base_url + "modgasmenfrehogar/ViviendaAcms/guardaGrillaCompra",
 					type: "POST",
 					dataType: "html",
 					data: $("#form_sec3_C1").serialize(),
 					success: function(data){
-						
-							/*	
-								//Genera validaciones
-								s15_valida_viviendas();
-								
-								*/
-							
+						if(data ==="-ok-")
+						{	
+							alert('Guardado correctamente !!!');
+							$("#pag3_cargando").css("display", "none");
+							location.reload();
+						}	
+						else
+						{   alert('Error al guardar la secci\u00f3n. Intente nuevamente o recargue la p\u00e1gina.');
+							$("#pag3_cargando").css("display", "none");
+							$("#pag3_error").css("display", "inline");
+							$("#"+nom_boton_form3).removeAttr('disabled');
+						}	
 						
 					},
 						error: function(result) {
-						alert('Error . Ingrese nuvamente o recargue la página.');
-						//location.reload(); 
-						return false;       
+							alert('Error al guardar la secci\u00f3n. Intente nuevamente o recargue la p\u00e1gina.');
+							$("#pag3_cargando").css("display", "none");
+							$("#pag3_error").css("display", "inline");
+							$("#"+nom_boton_form3).removeAttr('disabled');
+							
 						}
 					
 					});
@@ -82,7 +93,7 @@
 	});
 	
 	
-	$("#sel_medio_pago").click(function()
+	$("#sel_medio_pago").blur(function()
 	{
 		if( $(this).val() == 6){
 			$("#div_otro_pago").show();

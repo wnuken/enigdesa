@@ -206,10 +206,22 @@ class Recreacion extends MX_Controller {
      * @since 2016-06-21
      */
     private function mostrarGrillaNoCompra() {
-        die("Vista 4");
+
         // Aca va el codigo
         $data["js_dir"] = base_url('js/' . $this->module . '/' . $this->submodule . '/archivo.js');
-        $data["view"] = $this->submodule . '/view1';
+
+        $this->load->model(array("formulario/Mformulario", "control/Modmenu", "Modgmfh"));
+
+        $this->session->set_userdata('id_seccion', $this->idSeccion);
+        $data["id_formulario"] = $this->session->userdata("id_formulario");
+
+        $data['secc'] = $this->Modgmfh->listar_secciones(array("id" => $this->idSeccion ));
+
+        $data['preg']["var"] = $this->Modgmfh->lista_formaObtencion( array("seccion" => $this->idSeccion, "id_formulario" => $data["id_formulario"]) );
+        $data['preg']["variables"] = $this->Modgmfh->lista_variables_param(array("seccion" => $this->idSeccion, "pagina" => "4"));
+
+        //$data["view"] = $this->submodule . '/form4';
+        $data["view"] = 'form4';
         $this->load->view("layout", $data);
     }
 

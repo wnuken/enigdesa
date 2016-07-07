@@ -80,21 +80,22 @@ class Modsec3 extends My_model {
      */
     public function guardaForm3($datos) 
 	{               
-       
+       $result=false;
 		foreach($datos as $nombre_campo => $valor){
 	    	
 	  			$asignacion = "\$" . $nombre_campo . "='" . $valor . "';";
 	   			eval($asignacion);
 			}
-			
-    	
-		isset($sel_medio_pago)?( ($sel_medio_pago=="" || $sel_medio_pago=="-")?$sel_medio_pago=NULL:$sel_medio_pago ): $sel_medio_pago=NULL;
-		isset($txt_otro_medio_pago)? $txt_otro_medio_pago: $txt_otro_medio_pago=NULL;
+		
 		
 		// Hace barrido en tabla articulos
 		if($hdd_nro_articulos >0)//verifica q hayan articulos en la tabla
     	{
-    		for ($i = 0; $i < $hdd_nro_articulos; $i++) 
+    		// Inicia transaccion
+			/*$this->db->trans_start();
+			*/
+			
+			for ($i = 0; $i < $hdd_nro_articulos; $i++) 
 			{
     			
     			$asignacion = "\$articulo=\$hdd_articulo_".$i.";";
@@ -103,45 +104,92 @@ class Modsec3 extends My_model {
    				$asignacion = "isset(\$txt_valor_".$i.")?\$pago=\$txt_valor_".$i.":\$pago=NULL;";
    				eval($asignacion);
 				//Asigna 99 a pago si existe check no recuerda ( es decir esta checkeado)
-				$asignacion = "isset(\$chk_no_recuerda_".$i.")?\$pago=99:\$pago=NULL;";
+				$asignacion = "isset(\$chk_no_recuerda_".$i.")?\$pago=99:'';";
    				eval($asignacion);
 				
-				$asignacion = "isset($sel_lugar_".$i.")?( ($$sel_lugar_".$i."=='' || $$sel_lugar_".$i."=='-')?$lugar=NULL:$lugar=$sel_lugar_".$i." ): $lugar=NULL; ";
+				$asignacion = "isset(\$sel_lugar_".$i.")?( (\$sel_lugar_".$i."=='' || \$sel_lugar_".$i."=='-')?\$lugar=NULL:\$lugar=\$sel_lugar_".$i." ): \$lugar=NULL; ";
 				eval($asignacion);
-				/*
-   				$asignacion = "isset(\$S15P163_".$i.")?\$v163=\$S15P163_".$i.":\$v163=NULL;";
-   				eval($asignacion);
-   				$asignacion = "isset(\$S15P164A_".$i.")?\$v164A=\$S15P164A_".$i.":\$v164A=NULL;";
-   				eval($asignacion);
-   				$asignacion = "isset(\$S15P164B_".$i.")?\$v164B=\$S15P164B_".$i.":\$v164B=NULL;";
-   				eval($asignacion);
-   				$asignacion = "isset(\$S15P164C_".$i.")?\$v164C=\$S15P164C_".$i.":\$v164C=NULL;";
-   				eval($asignacion);
-   				$asignacion = "isset(\$S15P164D_".$i.")?\$v164D=\$S15P164D_".$i.":\$v164D=NULL;";
-   				eval($asignacion);
-    			
-	    		$data_viv = array('numform' => $numform,
-	    	              'S15P159' => $v159,
-	    				  'S15P160' => $v160,
-				  		  'S15P161' => $v161,
-	    				  'S15P162'=>$v162,
-						  'S15P163'=>$v163,
-						  'S15P164A'=>$v164A,
-						  'S15P164B'=>$v164B,
-						  'S15P164C'=>$v164C,
-	    				  'S15P164D'=>$v164D
-		    	);
-		    	//print_r($data_viv);
-				$this->db->insert('cna_form_seccion_15a_viviendas', $data_viv);
-				if($this->db->affected_rows() > 0){
-	    				$retorno = true;
-	    			}
-	    			else{
-	    				$retorno = false;
-	    			}
-				*/
+				$asignacion = "isset(\$sel_frec_".$i.")?( (\$sel_frec_".$i."=='' || \$sel_frec_".$i."=='-')?\$frec=NULL:\$frec=\$sel_frec_".$i." ): \$frec=NULL; ";
+				eval($asignacion);
+				
+				
+				$arrValores["ID_FORMULARIO"]=$ID_FORMULARIO;
+				$arrValores["ID_ARTICULO3"]=$articulo;
+				$arrValores["VALOR_PAGADO"]=$pago;
+				$arrValores["LUGAR_COMPRA"]=$lugar;
+				$arrValores["FRECUENCIA_COMPRA"]=$frec;
+				$res=$this->ejecutar_insert("ENIG_FORM_GMF_COMPRA", $arrValores) ;
+				if(!$res)
+					echo "ERROR: al guardar una artículo";
+				
     		}
-    	}
+			
+			//isset($sel_medio_pago)?( ($sel_medio_pago=="" || $sel_medio_pago=="-")?$sel_medio_pago=NULL:$sel_medio_pago ): $sel_medio_pago=NULL;
+			if ( isset($sel_medio_pago) && ($sel_medio_pago!="" && $sel_medio_pago!="-"))
+			{
+				
+				$sql = "SELECT ID_VARIABLE_MEDIO_PAGO
+						FROM ENIG_ADMIN_GMF_SECCIONES 
+						WHERE ID_SECCION3='$hdd_sec' ";        
+				$nom_var="";
+				$query = $this->db->query($sql);
+				if ($query->num_rows()>0){
+						$row=$query->row();
+						$nom_var=$row->ID_VARIABLE_MEDIO_PAGO;
+					
+					//Inserta valor 	
+					$arrVal1["ID_FORMULARIO"]=$ID_FORMULARIO;
+					$arrVal1["ID_VARIABLE"]=$nom_var;
+					$arrVal1["VALOR_VARIABLE"]=$sel_medio_pago;	
+					
+					$res=$this->ejecutar_insert("ENIG_FORM_GMF_VARIABLES", $arrVal1) ;
+				}else
+				{
+					echo "ERROR: existe una variable";
+				}
+			}
+			
+			
+			if ( isset($txt_otro_medio_pago) && ($txt_otro_medio_pago!="" && $txt_otro_medio_pago!="-"))
+			{
+				
+				$sql = "SELECT ID_VARIABLE_OTRO_PAGO
+						FROM ENIG_ADMIN_GMF_SECCIONES 
+						WHERE ID_SECCION3='$hdd_sec' ";        
+				$nom_var="";
+				$query = $this->db->query($sql);
+				if ($query->num_rows()>0){
+						$row=$query->row();
+						$nom_var=$row->ID_VARIABLE_OTRO_PAGO;
+					
+					//Inserta valor 	
+					$arrVal2["ID_FORMULARIO"]=$ID_FORMULARIO;
+					$arrVal2["ID_VARIABLE"]=$nom_var;
+					$arrVal2["VALOR_VARIABLE"]=$txt_otro_medio_pago;	
+					
+					$res=$this->ejecutar_insert("ENIG_FORM_GMF_VARIABLES", $arrVal2) ;
+				}else
+				{
+					echo "ERROR: existe una variable";
+				}
+			}
+							
+		/*	// Fin de transaccion
+			$this->db->trans_complete();
+			if ($this->db->trans_status() === FALSE)
+			{
+				echo "ERROR al guardar. Intente nuevamente o actualice la p&aacute;gina.";
+				$result=false;
+			}
+			else
+			{
+				//echo "-ok-";
+				$result=true;
+			}*/$result=true;//temporal
+			
+			
+		}//if
+		return $result;
 	}
 }
 //EOC

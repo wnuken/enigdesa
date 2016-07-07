@@ -388,54 +388,5 @@ class Modgmfh extends My_model {
         return $data;
     }
 
-    /**
-     * Consulta los formas de adquisicion que van en los formlarios
-     * @access Public
-     * @author cemedinaa
-     * @param Array     $arrDatos   Arreglo asociativo con los valores para hacer la consulta
-     * @return Array    $data       Registros devueltos por la consulta
-     */
-    public function lista_variables_param($arrDatos) {
-        $data = array();
-        $cond = '';
-        $i = 0;
-
-        if (array_key_exists("id", $arrDatos)) {
-            if (is_string($arrDatos["articulo"])) {
-                $cond .= " AND V.ID_VARIABLE = '" . $arrDatos["id"] . "'";
-            } else if (is_array($arrDatos["articulo"])) {
-                $cond .= " AND V.ID_VARIABLE IN (" . implode(",", $arrDatos["id"]) . ")";
-            }
-        }
-        if (array_key_exists("seccion", $arrDatos)) {
-            if (is_string($arrDatos["seccion"])) {
-                $cond .= " AND V.ID_SECCION3 = '" . $arrDatos["seccion"] . "'";
-            } else if (is_array($arrDatos["seccion"])) {
-                $cond .= " AND V.ID_SECCION3 IN ('" . implode("','", $arrDatos["seccion"]) . "')";
-            }
-        }
-        if (array_key_exists("pagina", $arrDatos)) {
-            if (is_string($arrDatos["seccion"])) {
-                $cond .= " AND V.PAG_SECCION3 = '" . $arrDatos["pagina"] . "'";
-            } else if (is_array($arrDatos["seccion"])) {
-                $cond .= " AND V.PAG_SECCION3 IN ('" . implode("','", $arrDatos["pagina"]) . "')";
-            }
-        }
-    
-        
-        $sql = "SELECT V.* 
-            FROM ENIG_PARAM_GMF_VARIABLES V 
-            WHERE V.ID_SECCION3 IS NOT NULL $cond  
-             ORDER BY V.ORDEN_VISUAL ASC";
-        //pr($sql); exit;
-        $query = $this->db->query($sql);
-        while ($row = $query->unbuffered_row('array')) {
-            $data[$i] = $row;
-            $i++;
-        }
-        $this->db->close();
-        return $data;
-    }
-
 }
 //EOC

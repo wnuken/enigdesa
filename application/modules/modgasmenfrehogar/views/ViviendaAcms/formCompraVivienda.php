@@ -28,7 +28,7 @@
 			<label>&iquest; Cu&aacute;l fue el valor de la vivienda ?<input type="text" id="p10305s1" name="p10305s1" value="" placeholder="$" class="form-control"/></label>
 		</div>
 		<div class="radio form-group" style="padding-left: 23px;">
-			<label><input type="radio" id="p10305s1" name="p10305s1" value="99"/>No sabe o no informa</label>
+			<label><input type="radio" id="radp10305s1" name="radp10305s1" value="99"/>No sabe o no informa</label>
 		</div>
 	</div>	
 </div>
@@ -52,7 +52,7 @@
 			<label>&iquest; Cu&aacute;nto pag&oacute; por la vivienda ?<input type="text" id="p10306s1a1" name="p10306s1a1" value="" placeholder="$" class="form-control"/></label>
 		</div>
 		<div class="radio form-group" style="padding-left: 23px;">
-			<label><input type="radio" id="p10306s1a1" name="p10306s1a1" value="99"/>No sabe o no informa</label>
+			<label><input type="radio" id="radp10306s1a1" name="radp10306s1a1" value="99"/>No sabe o no informa</label>
 		</div>
 	</div>
 	<div id="divCV3" class="col-md-12 jumbotron" style="padding: 0px;">		
@@ -60,7 +60,7 @@
 			<label>&iquest; Cu&aacute;nto pag&oacute; de cuota inicial ?<input type="text" id="p10306s2a1" name="p10306s2a1" value="" placeholder="$" class="form-control"/></label>
 		</div>
 		<div class="radio form-group" style="padding-left: 23px;">
-			<label><input type="radio" id="p10306s2a1" name="p10306s2a1" value="99"/>No sabe o no informa</label>
+			<label><input type="radio" id="radp10306s2a1" name="radp10306s2a1" value="99"/>No sabe o no informa</label>
 		</div>
 	</div>
 </div>
@@ -148,10 +148,10 @@
         		<label>&iquest; Del Gobierno?</label>
         	</div>	
         	<div class="col-md-1 radio">
-        		<label><input type="radio" id="p5161s1c14_1" name="p5161s1c14" value="1"/>S&iacute;</label>
+        		<label><input type="radio" id="p5161s1c14" name="p5161s1c14" value="1"/>S&iacute;</label>
         	</div>
         	<div class="col-md-1 radio">
-        		<label><input type="radio" id="p5161s1c14_2" name="p5161s1c14" value="2"/>No</label>
+        		<label><input type="radio" id="p5161s1c14" name="p5161s1c14" value="2"/>No</label>
         	</div>
 		</div>    
 	</div>
@@ -161,10 +161,10 @@
         		<label>&iquest; De otra instituci&oacute;n (ONGS, Fundaci&oacute;n o Empresa privada)?</label>
         	</div>	
         	<div class="col-md-1 radio">
-        		<label><input type="radio" id="p5161s2c14_1" name="p5161s2c14" value="1"/>S&iacute;</label>
+        		<label><input type="radio" id="p5161s2c14" name="p5161s2c14" value="1"/>S&iacute;</label>
         	</div>
         	<div class="col-md-1 radio">
-        		<label><input type="radio" id="p5161s2c14_2" name="p5161s2c14" value="2"/>No</label>
+        		<label><input type="radio" id="p5161s2c14" name="p5161s2c14" value="2"/>No</label>
         	</div>
 		</div>    
 	</div>
@@ -193,20 +193,20 @@
 	        	</div>
 			</div>			
 		</div>
-		<div class="col-md-12" style="padding: 0px;">		
+		<div id="opcion71" class="col-md-12" style="padding: 0px;">		
 			<div class="radio form-group">
 				<label>&iquest; Cu&aacute;nto recibi&oacute; ?<input type="text" id="p5161s1a3c14" name="p5161s1a3c14" value="" placeholder="$" class="form-control"/></label>
 			</div>
 			<div class="radio form-group" style="padding-left: 23px;">
-				<label><input type="radio" id="p5161s1a3c14" name="p5161s1a3c14" value="99"/>No sabe o no informa</label>
+				<label><input type="radio" id="radp5161s1a3c14" name="radp5161s1a3c14" value="99"/>No sabe o no informa</label>
 			</div>
 		</div>
-		<div class="col-md-12" style="padding: 0px;">		
+		<div id="opcion72" class="col-md-12" style="padding: 0px;">		
 			<div class="radio form-group">
 				<label>&iquest; Si tuviera que pagar por lo que recibi&oacute;, &iquest; en cu&aacute;nto estima lo recibido ?<input type="text" id="p5161s1a4c14" name="p5161s1a4c14" value="" placeholder="$" class="form-control" style="width:50%;"/></label>
 			</div>
 			<div class="radio form-group" style="padding-left: 23px;">
-				<label><input type="radio" id="p5161s1a4c14" name="p5161s1a4c14" value="99"/>No sabe o no informa</label>
+				<label><input type="radio" id="radp5161s1a4c14" name="radp5161s1a4c14" value="99"/>No sabe o no informa</label>
 			</div>
 		</div>
 	</div>
@@ -235,20 +235,20 @@
 	        	</div>
 			</div>			
 		</div>
-		<div class="col-md-12" style="padding: 0px;">		
+		<div id="opcion81" class="col-md-12" style="padding: 0px;">		
 			<div class="radio form-group">
 				<label>&iquest; Cu&aacute;nto recibi&oacute; ?<input type="text" id="p5161s2a3c14" name="p5161s2a3c14" value="" placeholder="$" class="form-control"/></label>
 			</div>
 			<div class="radio form-group" style="padding-left: 23px;">
-				<label><input type="radio" id="p5161s2a3c14" name="p5161s2a3c14" value="99"/>No sabe o no informa</label>
+				<label><input type="radio" id="radp5161s2a3c14" name="radp5161s2a3c14" value="99"/>No sabe o no informa</label>
 			</div>
 		</div>
-		<div class="col-md-12" style="padding: 0px;">		
+		<div id="opcion82" class="col-md-12" style="padding: 0px;">		
 			<div class="radio form-group">
 				<label>&iquest; Si tuviera que pagar por lo que recibi&oacute;, &iquest; en cu&aacute;nto estima lo recibido ?<input type="text" id="p5161s2a4c14" name="p5161s2a4c14" value="" placeholder="$" class="form-control" style="width:50%;"/></label>
 			</div>
 			<div class="radio form-group" style="padding-left: 23px;">
-				<label><input type="radio" id="p5161s2a4c14" name="p5161s2a4c14" value="99"/>No sabe o no informa</label>
+				<label><input type="radio" id="radp5161s2a4c14" name="radp5161s2a4c14" value="99"/>No sabe o no informa</label>
 			</div>
 		</div>
 	</div>

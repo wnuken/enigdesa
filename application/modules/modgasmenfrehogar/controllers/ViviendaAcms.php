@@ -132,10 +132,11 @@ class ViviendaAcms extends MX_Controller {
     public function guardaGrillaCompra() {
         
 		$this->load->model("Modsec3");
-		
-		
-		
-		return true;
+		$result=false;//;$this->Modsec3->guardaForm3($_POST);		
+		if($result)
+			echo "-ok-";
+		else
+			echo "ERROR";	
     }
 	
     

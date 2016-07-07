@@ -22,7 +22,7 @@
 <form id="form_sec3_<? echo $secc[0]['ID_SECCION3']?>" name="form_sec3_<? echo $secc[0]['ID_SECCION3']?>" class="form-horizontal" role="form">
 
 		<input type="hidden" name="ID_FORMULARIO" id="ID_FORMULARIO" value="<?php echo $id_formulario;?>" />
-		<input type="hidden" name="hdd_sec" id="hdd_sec" value="<? //echo $secc[0]['ID_SECCION']?>" />
+		<input type="hidden" name="hdd_sec" id="hdd_sec" value="<? echo $secc[0]['ID_SECCION3']?>" />
 		
 
 	<?php /* ** Tabla con div		
@@ -70,7 +70,7 @@
 			<input type="hidden" id="hdd_articulo_<?php echo $i;?>" name="hdd_articulo_<?php echo $i;?>" value="<?php echo $articulo["ID_ARTICULO3"];?>" />
 			</td>
             <td> <input class="form-control" onBlur="pag3_suma_articulos();" type="text" name="txt_valor_<?php echo $i;?>" id="txt_valor_<?php echo $i;?>"  />  </td>
-            <td> <input name="chk_no_recuerda_<?php echo $i;?>" id="chk_no_recuerda_<?php echo $i;?>" type="checkbox" onClick="pag3_deshabilita_pago(<?php echo $i;?>)"> </td>
+            <td> <input name="chk_no_recuerda_<?php echo $i;?>" id="chk_no_recuerda_<?php echo $i;?>" value=1 type="checkbox" onClick="pag3_deshabilita_pago(<?php echo $i;?>)"> </td>
             <td>
 				<select name="sel_lugar_<?php echo $i;?>" id="sel_lugar_<?php echo $i;?>" class="form-control" <?php echo ($articulo["DEFINE_LUGAR_COMPRA"] !=1)?"disabled=disabled":"";?>  >
 				<option value="-">...</option>
@@ -99,7 +99,7 @@
 		}?>
 		 <tr align="center" class="active">
             <td><b>SUBTOTAL</b></td>
-			<td> <input class="form-control" type="text" name="txt_total" id="txt_total" />  </td>
+			<td> <input class="form-control" readonly="readonly" type="text" name="txt_total" id="txt_total" />  </td>
 			<td colspan="3">&nbsp;</td>
 		</tr>	
 	
@@ -127,7 +127,7 @@
 				<div class="col-md-3">C&uacute;al:</div>
 				<div class="col-md-9">
 					<!-- <input type="text" name="<?php echo $medio_pago["nom_otro"];?>" id="<?php echo $medio_pago["nom_otro"];?>" class="form-control" >-->
-					<input type="text" name="txt_otro_medio_pago" id="txt_otro_medio_pago" class="form-control" >				
+					<input type="text" name="txt_otro_medio_pago" id="txt_otro_medio_pago" class="form-control" maxlength="98" >				
 				</div>
 			</div>
 		</div>
@@ -135,9 +135,11 @@
 	</div>
 	<?php }?>
 	<br>
-	<div class="row">
-		<div class="col-md-12"> <button id="btn_form3_<? echo $secc[0]['ID_SECCION3']?>" name="btn_form3_<? echo $secc[0]['ID_SECCION3']?>" type="button" class="btn btn-success btn-md pull-right">Siguiente</button> </div>
+	<div class="row">		
+		<div class="col-md-11" align="right">
+		<div id="pag3_cargando" class="msj_guarda" style="display:none; color: green;">Guardando ... <img src="<?php echo base_url("images/ajax-loader.gif")?>" title="Guardando" /></div>
+		<div id="pag3_error" class="msj_error" style="display:none; color: red;" >Error: Secci&oacute;n no guardada.</div>
+		</div>
+		<div class="col-md-1"> <button id="btn_form3_<? echo $secc[0]['ID_SECCION3']?>" name="btn_form3_<? echo $secc[0]['ID_SECCION3']?>" type="button" class="btn btn-success btn-md pull-right">Siguiente</button> </div>
 	</div>
-</form>			
-
-<?php //print_r($arrLugarCompra); exit; ?>
+</form>
