@@ -96,9 +96,9 @@ class ViviendaAcms extends MX_Controller {
     }
     
     /**
-     * @author oagarzond
-     * @param   Int $pagina Numero de pagina que debe mostrar
-     * @since 2016-06-21
+     * @author hhchavezv
+     * @param   array $data: array con parametros a enviar a vista
+     * @since 2016-07-01
      */
     private function mostrarGrillaCompra($data) {
         
@@ -123,6 +123,21 @@ class ViviendaAcms extends MX_Controller {
 		$data["view"] = 'form3';
         $this->load->view("layout", $data);
     }
+	
+	/**
+     * @author hhchavezv
+     * @param   array $data: array con parametros a enviar a vista
+     * @since 2016-07-06
+     */
+    public function guardaGrillaCompra() {
+        
+		$this->load->model("Modsec3");
+		
+		
+		
+		return true;
+    }
+	
     
     /**
      * @author oagarzond

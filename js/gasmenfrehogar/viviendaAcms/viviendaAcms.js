@@ -51,45 +51,48 @@
 			if(window.confirm('Haga clic en Aceptar si realmente quiere guardar y continuar a la siguiente secci\u00f3n.'))
 			{
 		
-				/*$.ajax({  url: base_url + "form/seccion15/s15_noAgro",
+				$.ajax({  
+					url: base_url + "modgasmenfrehogar/ViviendaAcms/guardaGrillaCompra",
 					type: "POST",
 					dataType: "html",
+					data: $("#form_sec3_C1").serialize(),
 					success: function(data){
 						
-								
+							/*	
 								//Genera validaciones
 								s15_valida_viviendas();
 								
-								
+								*/
 							
 						
 					},
 						error: function(result) {
-						alert('Error al generar viviendas. Ingrese nuvamente o recargue la página.');
+						alert('Error . Ingrese nuvamente o recargue la página.');
 						//location.reload(); 
 						return false;       
 						}
 					
-					});*/
+					});
 			}		
 		}//if			
-		else
+		/*else
 		{
 			alert("El formulario tiene errores. Revise y corrija.");
-			
-		}
+		}*/
 	});
 	
 	
 	$("#sel_medio_pago").click(function()
 	{
 		if( $(this).val() == 6){
-			$("#div_otro_pago").show();			
+			$("#div_otro_pago").show();
+			$("#txt_otro_medio_pago").attr("disabled",false);			
 		}
 		else
 		{
 			$("#div_otro_pago").hide();
 			$("#txt_otro_medio_pago").val("");
+			$("#txt_otro_medio_pago").attr("disabled",true);
 		}
 	});
 		
@@ -141,6 +144,22 @@ function pag3_suma_articulos()
 			suma= suma+parseInt( $(valor).val() );
 	}
 	$("#txt_total").attr("value",suma);
+}//func
+
+// Deshabilita pago, si hizo clic en check de no recuerda valor
+function pag3_deshabilita_pago(fila)
+{
+		if($("#chk_no_recuerda_"+fila).is(':checked')) {
+			$("#txt_valor_"+fila).val("");
+			$("#txt_valor_"+fila).attr("disabled",true);			
+		}
+		else
+		{
+			$("#txt_valor_"+fila).attr("disabled",false);	
+		}	
+		// Vuelve a realizar suma total
+		pag3_suma_articulos();
+	
 }//func
 
 

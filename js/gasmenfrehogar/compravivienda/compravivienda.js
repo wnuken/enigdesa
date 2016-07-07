@@ -137,7 +137,19 @@ $(function(){
 });
 
 
-//Oculta los divs adicionales al iniciar por primera vez el formulario
+
+//Oculta todos los divs de las preguntas del formulario
+//@author dmdiazf / @author hhchavez
+//@since  06/07/2016
+function ocultarDivsPreguntas(){
+	$("#pregP10305").hide();
+	$("#pregP10306").hide();
+	$("#pregP10307").hide();
+}
+
+
+
+//Oculta los divs de preguntas adicionales al iniciar por primera vez el formulario
 //@author dmdiazf / @author hhchavez
 //@since  06/07/2016
 function ocultarDivsInicio(){	

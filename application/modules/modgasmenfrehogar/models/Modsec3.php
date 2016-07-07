@@ -73,7 +73,75 @@ class Modsec3 extends My_model {
 		return $data;
 	}
     
-    
-    
+	/**
+     * Guarda formulario de pagina 3 - artículo o servicio COMPRADO o PAGADO
+     * @access Public
+     * @author hhchavezv
+     */
+    public function guardaForm3($datos) 
+	{               
+       
+		foreach($datos as $nombre_campo => $valor){
+	    	
+	  			$asignacion = "\$" . $nombre_campo . "='" . $valor . "';";
+	   			eval($asignacion);
+			}
+			
+    	
+		isset($sel_medio_pago)?( ($sel_medio_pago=="" || $sel_medio_pago=="-")?$sel_medio_pago=NULL:$sel_medio_pago ): $sel_medio_pago=NULL;
+		isset($txt_otro_medio_pago)? $txt_otro_medio_pago: $txt_otro_medio_pago=NULL;
+		
+		// Hace barrido en tabla articulos
+		if($hdd_nro_articulos >0)//verifica q hayan articulos en la tabla
+    	{
+    		for ($i = 0; $i < $hdd_nro_articulos; $i++) 
+			{
+    			
+    			$asignacion = "\$articulo=\$hdd_articulo_".$i.";";
+   				eval($asignacion);
+   				   				
+   				$asignacion = "isset(\$txt_valor_".$i.")?\$pago=\$txt_valor_".$i.":\$pago=NULL;";
+   				eval($asignacion);
+				//Asigna 99 a pago si existe check no recuerda ( es decir esta checkeado)
+				$asignacion = "isset(\$chk_no_recuerda_".$i.")?\$pago=99:\$pago=NULL;";
+   				eval($asignacion);
+				
+				$asignacion = "isset($sel_lugar_".$i.")?( ($$sel_lugar_".$i."=='' || $$sel_lugar_".$i."=='-')?$lugar=NULL:$lugar=$sel_lugar_".$i." ): $lugar=NULL; ";
+				eval($asignacion);
+				/*
+   				$asignacion = "isset(\$S15P163_".$i.")?\$v163=\$S15P163_".$i.":\$v163=NULL;";
+   				eval($asignacion);
+   				$asignacion = "isset(\$S15P164A_".$i.")?\$v164A=\$S15P164A_".$i.":\$v164A=NULL;";
+   				eval($asignacion);
+   				$asignacion = "isset(\$S15P164B_".$i.")?\$v164B=\$S15P164B_".$i.":\$v164B=NULL;";
+   				eval($asignacion);
+   				$asignacion = "isset(\$S15P164C_".$i.")?\$v164C=\$S15P164C_".$i.":\$v164C=NULL;";
+   				eval($asignacion);
+   				$asignacion = "isset(\$S15P164D_".$i.")?\$v164D=\$S15P164D_".$i.":\$v164D=NULL;";
+   				eval($asignacion);
+    			
+	    		$data_viv = array('numform' => $numform,
+	    	              'S15P159' => $v159,
+	    				  'S15P160' => $v160,
+				  		  'S15P161' => $v161,
+	    				  'S15P162'=>$v162,
+						  'S15P163'=>$v163,
+						  'S15P164A'=>$v164A,
+						  'S15P164B'=>$v164B,
+						  'S15P164C'=>$v164C,
+	    				  'S15P164D'=>$v164D
+		    	);
+		    	//print_r($data_viv);
+				$this->db->insert('cna_form_seccion_15a_viviendas', $data_viv);
+				if($this->db->affected_rows() > 0){
+	    				$retorno = true;
+	    			}
+	    			else{
+	    				$retorno = false;
+	    			}
+				*/
+    		}
+    	}
+	}
 }
 //EOC

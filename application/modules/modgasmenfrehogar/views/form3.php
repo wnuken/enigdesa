@@ -45,16 +45,16 @@
 	<div class="table-responsive">
 	<input type="hidden" id="hdd_nro_articulos" name="hdd_nro_articulos" value="<?php echo count($arrArticulos);?>" />
 	<table class="table table-hover table-bordered">
-    <thead >
-        <tr class="warning"  align="center">
-            <th rowspan="2" width="28%">Nombre del artículo o servicio COMPRADO o PAGADO</th>
-            <th colspan="2" width="32%">¿Cuánto fue el valor TOTAL pagado por el artículo o servicio?</th>
-            <th rowspan="2" width="20%" >¿En qué LUGAR compró o pagó el artículo o servicio?</th>
-            <th rowspan="2" width="20%">¿Con qué FRECUENCIA compra o paga HABITUALMENTE el artículo o servicio?</th>
+    <thead>
+        <tr class="warning">
+            <th style="text-align:center;" rowspan="2" width="28%">Nombre del artículo o servicio COMPRADO o PAGADO</th>
+            <th style="text-align:center;" colspan="2" width="32%">¿Cuánto fue el valor TOTAL pagado por el artículo o servicio?</th>
+            <th style="text-align:center;" rowspan="2" width="20%" >¿En qué LUGAR compró o pagó el artículo o servicio?</th>
+            <th style="text-align:center;" rowspan="2" width="20%">¿Con qué FRECUENCIA compra o paga HABITUALMENTE el artículo o servicio?</th>
         </tr>
 		<tr class="warning" align="center">
-            <th>Valor Pagado</th>
-            <th width="12%">Compró o pagó el artículo o servicio pero no recuerda el valor</th>
+            <th style="text-align:center;">Valor Pagado</th>
+            <th style="text-align:center;" width="12%">Compró o pagó el artículo o servicio pero no recuerda el valor</th>
             
         </tr>
     </thead>
@@ -66,13 +66,13 @@
 		{
 		?>
         <tr align="center">
-            <td><?php echo $articulo["ETIQUETA"];?>
+            <td align="left"><?php echo $articulo["ETIQUETA"];?>
 			<input type="hidden" id="hdd_articulo_<?php echo $i;?>" name="hdd_articulo_<?php echo $i;?>" value="<?php echo $articulo["ID_ARTICULO3"];?>" />
 			</td>
             <td> <input class="form-control" onBlur="pag3_suma_articulos();" type="text" name="txt_valor_<?php echo $i;?>" id="txt_valor_<?php echo $i;?>"  />  </td>
-            <td> <input name="chk_no_recuerda_<?php echo $i;?>" id="chk_no_recuerda_<?php echo $i;?>" type="checkbox"> </td>
+            <td> <input name="chk_no_recuerda_<?php echo $i;?>" id="chk_no_recuerda_<?php echo $i;?>" type="checkbox" onClick="pag3_deshabilita_pago(<?php echo $i;?>)"> </td>
             <td>
-				<select name="sel_lugar_<?php echo $i;?>" id="sel_lugar_<?php echo $i;?>" class="form-control" <?php ($articulo["DEFINE_LUGAR_COMPRA"] !=1)?"disabled=disabled":"";?>  >
+				<select name="sel_lugar_<?php echo $i;?>" id="sel_lugar_<?php echo $i;?>" class="form-control" <?php echo ($articulo["DEFINE_LUGAR_COMPRA"] !=1)?"disabled=disabled":"";?>  >
 				<option value="-">...</option>
 				<?php 
 				foreach ($arrLugarCompra as $lugar)
@@ -83,7 +83,7 @@
 				</select>
 			</td>
 			 <td>
-				<select name="sel_frec_<?php echo $i;?>" id="sel_frec_<?php echo $i;?>" class="form-control" >
+				<select name="sel_frec_<?php echo $i;?>" id="sel_frec_<?php echo $i;?>" class="form-control" <?php echo ($articulo["DEFINE_FRECU_COMPRA"] !=1)?"disabled=disabled":"";?> >
 				<option value="-">...</option>
 				<?php 
 				foreach ($arrFrecCompra as $frec)
@@ -136,7 +136,7 @@
 	<?php }?>
 	<br>
 	<div class="row">
-		<div class="col-md-12"> <button id="btn_form3_<? echo $secc[0]['ID_SECCION3']?>" name="btn_form3_<? echo $secc[0]['ID_SECCION3']?>" type="button" class="btn btn-success btn-sm pull-right">Siguiente</button> </div>
+		<div class="col-md-12"> <button id="btn_form3_<? echo $secc[0]['ID_SECCION3']?>" name="btn_form3_<? echo $secc[0]['ID_SECCION3']?>" type="button" class="btn btn-success btn-md pull-right">Siguiente</button> </div>
 	</div>
 </form>			
 

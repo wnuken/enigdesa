@@ -7,7 +7,8 @@
 
 <form id="frmCompraVivienda" name="frmCompraVivienda" method="post" action="">
 
-<div class="row">
+
+<div id="pregP10305" class="row">
 	<div class="col-md-12">
 		<label>De P10304 del 2015 a P10304S1 del 2016, &iquest; usted o alg&uacute;n miembro del hogar realiz&oacute; la compra de vivienda nueva o usada diferente a la que habitan?</label>
 	</div>
@@ -34,7 +35,7 @@
 
 <br/>
 
-<div class="row">
+<div id="pregP10306" class="row">
 	<div class="col-md-12">
 		<label>El pago por adquisici&oacute;n de la vivienda, fue: (Seleccione la(s) opciones que desee)</label>
 	</div>
@@ -66,7 +67,7 @@
 
 <br/>
 
-<div class="row">
+<div id="pregP10307" class="row">
 	<div class="col-md-12">
 		<label>&iquest; La cuota a cr&eacute;dito  o de amortizaci&oacute;n que est&aacute; pagando es subsidiada ?</label>
 	</div>
@@ -82,7 +83,7 @@
 
 <br/>
 
-<div class="row">
+<div id="pregP10309" class="row">
 	<div class="col-md-12">
 		<label>&iquest; Cu&aacute;les de las siguientes fuentes utilizaron para la compra de esa vivienda ? (Seleccione la(s) opci&oacute;n que desee)</label>
 	</div>
@@ -137,7 +138,7 @@
 
 <br/>
 
-<div class="row">
+<div id="pregP5161" class="row">
 	<div class="col-md-12">
 		<label>&iquest; De cu&aacute;l entidad recibi&oacute; el subsidio ?</label>
 	</div>
@@ -255,7 +256,7 @@
 
 <br/>
 
-<div class="row">
+<div id="pregP10312" class="row">
 	<div class="col-md-12">
 		<label>De P10311 del 2015 a  P10311S1 del 2016, &iquest;usted o alg&uacute;n miembro del hogar realiz&oacute; alguna adecuaci&oacute;n, ampliaci&oacute;n o subdivisi&oacute;n de la vivienda?</label>
 	</div>
@@ -279,7 +280,7 @@
 
 <br/>
 
-<div class="row">
+<div id="pregP8697" class="row">
 	<div class="col-md-12">
 		<label>De las siguiente fuentes indique cu&aacute;les utilizaron para la adecuaci&oacute;n, ampliaci&oacute;n o subdivisi&oacute;n de la vivienda?</label>
 	</div>
