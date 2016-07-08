@@ -1,7 +1,11 @@
 <div ng-app="appGHogar">
 <?php
+if(!isset($idFormulario))
+	$idFormulario = '';
+
+
 // $data['pagesection'] = $pagesection;
-$this->load->view('ropaaccesorios/form' . $idsection);
+$this->load->view('ropaaccesorios/form' . $idSection);
 ?>
 </div>
 

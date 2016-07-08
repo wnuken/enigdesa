@@ -22,6 +22,7 @@ class Ropaaccesorios extends MX_Controller {
         $this->idSubModulo = 'D';
         $this->idSeccion = '';
         $this->load->model(array("formulario/Mformulario", "control/Modmenu", "Modgmfh"));
+        $this->load->model("/ropaaccesorios/Modelropaaccesorios", "Maccesorios");
     }
 
     private function actualizarEstado() {
@@ -116,39 +117,16 @@ class Ropaaccesorios extends MX_Controller {
             $validateControl = $this->getControlSection();
 
             if(is_array($validateControl)){
-
                 foreach ($validateControl as $key => $section) {
                     if($section['ID_ESTADO_SEC'] < 2 && $section['ID_SECCION3'] != ($this->idSubModulo . '0')){
-                        $data['pagesection'] = $section['PAG_SECCION3'];
-                        $data['idsection'] = $section['ID_SECCION3'];
+                        $data['pageSection'] = $section['PAG_SECCION3'];
+                        $data['idSection'] = $section['ID_SECCION3'];
+                        $data['idFormulario'] = $dataElement["id_formulario"];
                         $data["view"]="ropaaccesorios/form1";
                         $this->load->view("layout", $data);
                         return false;
                     }
                 }
-               /* if($validateControl[1]['ID_ESTADO_SEC'] < 2){
-                    $data['pageseccion'] = $validateControl[1]['PAG_SECCION3'];
-                    $data["view"]="ropaaccesorios/form1";
-                    $this->load->view("layout", $data);
-                }else if($validateControl[2]['ID_ESTADO_SEC'] < 2){
-                    $data['pageseccion'] = $validateControl[2]['PAG_SECCION3'];
-                    $data["view"]="ropaaccesorios/form2";
-                    $this->load->view("layout", $data);
-                }else if($validateControl[3]['ID_ESTADO_SEC'] < 2){
-                    $data['pageseccion'] = $validateControl[3]['PAG_SECCION3'];
-                    $data["view"]="ropaaccesorios/form3";
-                    $this->load->view("layout", $data);
-                }else if($validateControl[4]['ID_ESTADO_SEC'] < 2){
-                    $data['pageseccion'] = $validateControl[4]['PAG_SECCION3'];
-                    $data["view"]="ropaaccesorios/form4";
-                    $this->load->view("layout", $data);
-                }else if($validateControl[5]['ID_ESTADO_SEC'] < 2){
-                    $data['pageseccion'] = $validateControl[5]['PAG_SECCION3'];
-                    $data["view"]="ropaaccesorios/form5";
-                    $this->load->view("layout", $data);
-                }else{
-                    echo 'ninguno';
-                } */
             }
 
 
@@ -201,7 +179,6 @@ class Ropaaccesorios extends MX_Controller {
         }*/
     }
 
-
     private function getControlSection(){
         $result = $this->Modgmfh->listar_secciones_avances(
             array( "id0" => $this->idSubModulo , 
@@ -218,7 +195,37 @@ class Ropaaccesorios extends MX_Controller {
                 "ID_SECCION3" => $params['ID_SECCION3'])
             );
     }
-    
+
+    public function validateinitsection(){
+       $params = $this->input->get(NULL, TRUE);
+       $result = FALSE;
+
+       $existElment = $this->Maccesorios->getGmfVariable($params);
+      if($existElment == NULL){
+            $result = $this->Maccesorios->setGmfVariable($params);
+       }else{
+            $result = $this->Maccesorios->updateGmfVariable($params);
+       }
+
+        $dataElement['ID_SECCION3'] =  $this->idSubModulo . '1';
+        $dataElement['PAG_SECCION3'] = 1;
+        $resultControl = $this->Maccesorios->updateGmfControl($dataElement);
+
+       
+       $resposeArray = array(
+        'status' => $result,
+        'mesage' => 'OK',
+        'resultControl' => $resultControl,
+        'element' => $existElment
+
+
+        );
+       $response = json_encode($resposeArray);
+       echo $response;
+   }
+
+
+
     /**
      * @author oagarzond
      * @param   Int $pagina Numero de pagina que debe mostrar
@@ -348,8 +355,8 @@ class Ropaaccesorios extends MX_Controller {
             foreach ($formas_obt as $key => $value) {
                 //if(!array_key_exists($value['ID_ARTICULO3'], $_POST))
                 if(!isset($_POST[$value['ID_ARTICULO3']]['compra']) && !isset($_POST[$value['ID_ARTICULO3']]['recibido_pago']) && !isset($_POST[$value['ID_ARTICULO3']]['regalo']) && 
-                 !isset($_POST[$value['ID_ARTICULO3']]['intercambio']) && !isset($_POST[$value['ID_ARTICULO3']]['producido']) && !isset($_POST[$value['ID_ARTICULO3']]['negocio_propio']) &&
-                 !isset($_POST[$value['ID_ARTICULO3']]['otra']) )
+                   !isset($_POST[$value['ID_ARTICULO3']]['intercambio']) && !isset($_POST[$value['ID_ARTICULO3']]['producido']) && !isset($_POST[$value['ID_ARTICULO3']]['negocio_propio']) &&
+                   !isset($_POST[$value['ID_ARTICULO3']]['otra']) )
                     die("Debe escoger por lo menos una opci&oacute;n en cada uno de los productos!");
             }
             //var_dump($formas_obt);

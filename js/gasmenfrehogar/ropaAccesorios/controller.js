@@ -11,10 +11,11 @@ appGHogar.config(function(localStorageServiceProvider){
 appGHogar.service('dataService', function($http) {
 // delete $http.defaults.headers.common['X-Requested-With'];
 
-this.getCurrentSession = function(callbackFunc) {
+this.setInitSession = function(params, callbackFunc) {
 	$http({
 		method: 'GET',
-		url: baseUrl + 'response/getcaratula',
+		url: params.path,
+		params: params.elements
         /// headers: {'Authorization': 'Token token=xxxxYYYYZzzz'}
     }).success(function(response){
     	callbackFunc(response);
@@ -139,12 +140,28 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 
 	$scope.validateForm1 = function(params){
 		console.log(params);
-		if($scope.FormulariorHombre.adquiere == '1'){
-			$scope.pagesection = params;
-			// console.log($scope.pagesection);
-		}else{
-			console.log('va al home');
-		}
+
+		var paramssec0 = {
+				"elements" : {
+					"ID_FORMULARIO": $scope.FormulariorHombre.idFormulario,
+					"ID_VARIABLE": $scope.FormulariorHombre.idVariable,
+					"VALOR_VARIABLE": $scope.FormulariorHombre.valorVariable,
+				},				
+				"path": "validateinitsection"
+			}
+
+			dataService.setInitSession(paramssec0, function(dataResponse){
+				console.log(dataResponse);
+					if($scope.FormulariorHombre.valorVariable == '1' && dataResponse.status == true){
+						$scope.pagesection = params;
+					}else{
+						console.log('va al home');
+					}
+
+
+			});
+
+		
 		
 	};
 
