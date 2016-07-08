@@ -5,7 +5,7 @@
  * @author oagarzond
  * @since 2016-06-20
  */
-class Farmaceuticos extends MX_Controller {
+class Salud extends MX_Controller {
 
     private $idModulo;
     private $idCapitulo;
@@ -19,7 +19,7 @@ class Farmaceuticos extends MX_Controller {
         $this->submodule = $this->uri->segment(2);
         $this->idModulo = 'GMFHOGAR';
         $this->idCapitulo = '';
-        $this->idSeccion = 'F1';
+        $this->idSeccion = '';
     }
     
     public function index() {
@@ -30,17 +30,32 @@ class Farmaceuticos extends MX_Controller {
             return false;
         }
         // Se consulta el estado de la seccion, si esta finalizado se redirige al menu del modulo
-        $arrParam = array('id' => $this->idSeccion);
-        $arrSA = $this->Modgmfh->listar_secciones_avances($arrParam);
-        if (count($arrSA) > 0) {
-            if($arrSA["0"]["ID_ESTADO_SEC"] == 2) {
-                redirect(base_url($this->module));
-                return false;
+        $arrParam = array(
+                'mod' => $this->idModulo,
+                'cap' => $this->idCapitulo);
+        $data["secc"] = $this->Modgmfh->listar_secciones_avances($arrParam);        
+        //pr($data["secc"]); exit;
+        if (count($data["secc"]) > 0) {
+            $opt = true;
+            foreach ($data["secc"] as $ks => $vs) {
+                if ($vs["FINALIZADO"] == "SI" && $vs["ACCION"] == "FINALIZAR") {
+                    redirect(base_url($this->module));
+                    return false;
+                } else if ($vs["FINALIZADO"] == "NO" && $opt) {
+                    $data["ID_SECCION"] = $vs["ID_SECCION"];
+                    $data["PAGINA"] = $vs["PAGINA"];
+                    $data["ANTERIOR"] = $vs["ANTERIOR"];
+                    $data["SIGUIENTE"] = $vs["SIGUIENTE"];
+                    $data["ACCION"] = $vs["ACCION"];
+                    $data["DESCR_SECCION"] = $vs["DESCR_SECCION"];
+                    $data["ENCABEZADO"] = $vs["ENCABEZADO"];
+                    $opt = false;
+                }
             }
         }
         //pr($data); exit;
-        if(!empty($arrSA["0"]["PAG_SECCION3"])) {
-            switch ($arrSA["0"]["PAG_SECCION3"]) {
+        if(!empty($data["PAGINA"])) {
+            switch ($data["PAGINA"]) {
                 case 1:
                     $this->mostrarListaArticulos($data);
                     break;
@@ -76,36 +91,6 @@ class Farmaceuticos extends MX_Controller {
      * @since 2016-06-21
      */
     private function mostrarListaObtencion() {
-        // Aca va el codigo
-        // Se consulta la lista de forma de obtencion
-        $arrFO = $this->Modgmfh->consultar_param_general('', 'FORMAS_ADQUI', '', '');
-        $data["js_dir"] = base_url('js/' . $this->module . '/' . $this->submodule . '/archivo.js');
-        $data["view"] = $this->submodule . '/view1';
-        $this->load->view("layout", $data);
-    }
-    
-    /**
-     * @author oagarzond
-     * @param   Int $pagina Numero de pagina que debe mostrar
-     * @since 2016-06-21
-     */
-    private function mostrarGrillaCompra() {
-        // Aca va el codigo
-        // Se consulta la lista de los lugares de compra
-        $arrLC = $this->Modgmfh->consultar_param_general('', 'LUGAR_COMPRA', '', '');
-        // Se consulta la lista de frecuencia de compra
-        $arrFC = $this->Modgmfh->consultar_param_general('', 'FRECUENCIA_COMPRA', '', '');
-        $data["js_dir"] = base_url('js/' . $this->module . '/' . $this->submodule . '/archivo.js');
-        $data["view"] = $this->submodule . '/view1';
-        $this->load->view("layout", $data);
-    }
-    
-    /**
-     * @author oagarzond
-     * @param   Int $pagina Numero de pagina que debe mostrar
-     * @since 2016-06-21
-     */
-    private function mostrarGrillaNoCompra() {
         // Aca va el codigo
         $data["js_dir"] = base_url('js/' . $this->module . '/' . $this->submodule . '/archivo.js');
         $data["view"] = $this->submodule . '/view1';

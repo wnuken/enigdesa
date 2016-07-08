@@ -106,7 +106,7 @@
     </tbody>
 	</table>
 	</div>
-	<?php if(1==1) { ?>
+	<?php if($habilita_medio_pago) { // se debe habilitar ?>
 	<br>
 	<div class="row" id="div_medio_pago" name="div_medio_pago">
 		<div class="col-md-6">El medio de pago usado PRINCIPALMENTE para comprar los art&iacute;culos y servicios enunciados en este m&oacute;dulo fue:</div>

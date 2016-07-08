@@ -32,7 +32,7 @@ $(function(){
 	});
 	
 	//Ocultar / Mostrar Adicionales Pregunta 4
-	$("#p10309s1, #p10309s2, #p10309s3, #p10309s4, #p10309s5, #p10309s6").bind("click",function(){		
+	$("#p10309s1, #p10309s2, #p10309s3, #p10309s4, #p10309s5, #p10309s6").bind("click",function(){
 		if (parseInt($(this).val())==2){
 			mostrarDivsAdicionales([4]);
 			ocultarDivsAdicionales([5,6]);						
@@ -70,56 +70,57 @@ $(function(){
 		}		
 	});
 	
-	
-	
-	/***** ********/
-	//Ocultar / Mostrar divCV9
-	$("#p10312_1, #p10312_2").bind("click",function(){
+	//Ocultar / Mostrar Adicionales Pregunta 6
+	$("#p10312[name=p10312]").bind("click",function(){
 		if (parseInt($(this).val())==1){
-			$("#divCV9").show();
+			mostrarDivsAdicionales([9]);
 		}
-		else{
-			$("#divCV9").hide();
-		}
-	});
-	
-	//Ocultar / Mostrar divCV10
-	$("#p8697s1, #p8697s2, #p8697s3, #p8697s4, #p8697s5, #p8697s6").bind("click",function(){
-		if (parseInt($(this).val())==2){			
-			$("#divCV11").show();
-			$("#divCV12").hide();
-			$("#divCV13").hide();
-			$("#divCV14").hide();
-		}
-		else if (parseInt($(this).val())==3){
-			$("#divCV11").hide();
-			$("#divCV12").show();
-			$("#divCV13").hide();
-			$("#divCV14").hide();
-		}
-		else if (parseInt($(this).val())==4){
-			$("#divCV11").hide();
-			$("#divCV12").hide();
-			$("#divCV13").show();
-			$("#divCV14").hide();
-		}
-		else if (parseInt($(this).val())==6){
-			$("#divCV11").hide();
-			$("#divCV12").hide();
-			$("#divCV13").hide();
-			$("#divCV14").show();
-		}
-		else{
-			$("#divCV11").hide();
-			$("#divCV12").hide();
-			$("#divCV13").hide();
-			$("#divCV14").hide();
+		else{			
+			ocultarDivsAdicionales([9]);
 		}
 	});
 	
+	//Ocultar / Mostrar Adicionales Pregunta 7
+	$("#p8697s1, #p8697s2, #p8697s3, #p8697s4, #p8697s5, #p8697s6").bind("click",function(){		
+		if (parseInt($(this).val())==2){ //Prestamo Hipotecario
+			mostrarDivsAdicionales([10]);
+			ocultarDivsAdicionales([11,12,13]);
+		}
+		else if (parseInt($(this).val())==3){ //Prestamo Bancario de libre inversion
+			mostrarDivsAdicionales([11]);
+			ocultarDivsAdicionales([10,12,13]);
+		}
+		else if (parseInt($(this).val())==4){ //Subsidios
+			mostrarDivsAdicionales([12]);
+			ocultarDivsAdicionales([10,11,13]);
+		}
+		else if (parseInt($(this).val())==6){ //Otra
+			mostrarDivsAdicionales([13]);
+			ocultarDivsAdicionales([10,11,12]);
+		}
+		else{
+			ocultarDivsAdicionales([10,11,12,13]);
+		}
+	});	
+	
+	
+	//Botón para realizar validaciones y envio del formulario
+	$("#btnCompraVivienda").bind("click",function(){
+		validarFormulario();
+	});
 	
 	
 });
+
+
+//Validar las preguntas para realizar el envio del formulario
+//@author dmdiazf / @author hhchavez
+//@since  08/07/2016
+function validarFormulario(){
+	var valida = false;
+	var arrayPreg = new Array(true,false,false,false,false,false,false,false);
+	
+}
 
 
 
@@ -259,6 +260,7 @@ function ocultarDivsAdicionales(adiciones){
 			case 1: //Ocultar divCV1
 					if (!$("#divCV1").is(":hidden")){
 						$("#p10305s1").val("");
+						$("#p10305s1").bloquearTexto();
 						$("#radp10305s1").attr("checked",false);
 						$("#radp10305s1").unbind();
 						$("#divCV1").hide();
@@ -268,6 +270,7 @@ function ocultarDivsAdicionales(adiciones){
 			case 2: //Ocultar divCV2
 					if (!$("#divCV2").is(":hidden")){
 						$("#p10306s1a1").val("");
+						$("#p10306s1a1").bloquearTexto();
 						$("#radp10306s1a1").attr("checked",false);
 						$("#divCV2").hide();
 					}
@@ -276,6 +279,7 @@ function ocultarDivsAdicionales(adiciones){
 			case 3: //Ocultar divCV3
 					if (!$("#divCV3").is(":hidden")){
 						$("#p10306s2a1").val("");
+						$("#p10306s2a1").bloquearTexto();
 						$("#radp10306s2a1").attr("checked",false);
 						$("#divCV3").hide();
 					}
@@ -307,6 +311,8 @@ function ocultarDivsAdicionales(adiciones){
 					
 			case 7: //Ocultar divCV7
 					if (!$("#divCV7").is(":hidden")){
+						$("#p5161s1a3c14").bloquearTexto();
+						$("#p5161s1a4c14").bloquearTexto();
 						$("#opcion71").hide(); //Ocultar los divs dentro del div adicional
 						$("#opcion72").hide(); //Ocultar los divs dentro del div adicional						
 						$("#divCV7").hide();
@@ -315,6 +321,8 @@ function ocultarDivsAdicionales(adiciones){
 					
 			case 8: //Ocultar divCV8
 					if (!$("#divCV8").is(":hidden")){
+						$("#p5161s2a3c14").bloquearTexto();
+						$("#p5161s2a4c14").bloquearTexto();
 						$("#opcion81").hide(); //Ocultar los divs dentro del div adicional
 						$("#opcion82").hide(); //Ocultar los divs dentro del div adicional
 						$("#divCV8").hide();
@@ -323,37 +331,44 @@ function ocultarDivsAdicionales(adiciones){
 					
 			case 9: //Ocultar divCV9
 					if (!$("#divCV9").is(":hidden")){
+						$("#p10312s1").val();
+						$("#p10312s1").bloquearTexto();
+						$("#radp10312s1").attr("checked",false);
 						$("#divCV9").hide();
 					}
 					break;
 					
 			case 10: //Ocultar divCV10
 					if (!$("#divCV10").is(":hidden")){
+						$("#p8697s2a1 option[value='1']").prop('selected', true);						
+						$("#p8697s2a1").attr("disabled",true);
 						$("#divCV10").hide();
 					}
 					break;
 					
 			case 11: //Ocultar divCV11
 					if (!$("#divCV11").is(":hidden")){
+						$("#p8697s3a1 option[value='1']").prop('selected', true);						
+						$("#p8697s3a1").attr("disabled",true);
 						$("#divCV11").hide();
 					}
 					break;
 					
 			case 12: //Ocultar divCV12
 					if (!$("#divCV12").is(":hidden")){
+						$("#p8697s4a4").bloquearTexto();
+						$("#p8697s4a5").bloquearTexto();
+						$("#opcion121").hide(); //Ocultar los divs dentro del div adicional
+						$("#opcion122").hide(); //Ocultar los divs dentro del div adicional	
 						$("#divCV12").hide();
 					}
 					break;		
 					
 			case 13: //Ocultar divCV13
 					if (!$("#divCV13").is(":hidden")){
+						$("#p8697s6a1").val("");
+						$("#p8697s6a1").attr("disabled",true);
 						$("#divCV13").hide();
-					}
-					break;
-					
-			case 14: //Ocultar divCV13
-					if (!$("#divCV14").is(":hidden")){
-						$("#divCV14").hide();
 					}
 					break;
 		}		
@@ -385,14 +400,18 @@ function mostrarDivsAdicionales(adiciones){
 					break;
 					
 			case 1: //Mostrar divCV1
+					$("#p10305s1").bloquearTexto();
 					if ($("#divCV1").is(":hidden")){
 						if ($("#p10305s1").is(":disabled")){
+							$("#p10305s1").val("");							
 							$("#p10305s1").attr("disabled",false);
 						}
 						$("#p10305s1").val("");
+						$("#p10305s1").bloquearTexto();
 						$("#radp10305s1").attr("checked",false);
 						$("#radp10305s1").bind("click",function(){
 							$("#p10305s1").val("");
+							$("#p10305s1").bloquearTexto();
 							if ($("#p10305s1").is(":enabled")){
 								$("#p10305s1").attr("disabled",true);
 							}
@@ -402,15 +421,16 @@ function mostrarDivsAdicionales(adiciones){
 					break;
 					
 			case 2: //Mostrar divCV2
+					$("#p10306s1a1").bloquearTexto();
 					if ($("#divCV2").is(":hidden")){
 						if ($("#p10306s1a1").is(":disabled")){
-							$("#p10306s1a1").val("");
+							$("#p10306s1a1").val("");							
 							$("#p10306s1a1").attr("disabled",false);
 						}						
 						$("#radp10306s1a1").attr("checked",false);
 						$("#radp10306s1a1").bind("click",function(){							
 							if ($("#p10306s1a1").is(":enabled")){
-								$("#p10306s1a1").val("");
+								$("#p10306s1a1").val("");								
 								$("#p10306s1a1").attr("disabled",true);
 							}
 						});
@@ -419,15 +439,16 @@ function mostrarDivsAdicionales(adiciones){
 					break;
 					
 			case 3: //Mostrar divCV3
+					$("#p10306s2a1").bloquearTexto();
 					if ($("#divCV3").is(":hidden")){
 						if ($("#p10306s2a1").is(":disabled")){
-							$("#p10306s2a1").val("");
+							$("#p10306s2a1").val("");							
 							$("#p10306s2a1").attr("disabled",false);
 						}						
 						$("#radp10306s2a1").attr("checked",false);
 						$("#radp10306s2a1").bind("click",function(){							
 							if ($("#p10306s2a1").is(":enabled")){
-								$("#p10306s2a1").val("");
+								$("#p10306s2a1").val("");								
 								$("#p10306s2a1").attr("disabled",true);
 							}
 						});
@@ -466,6 +487,7 @@ function mostrarDivsAdicionales(adiciones){
 						
 						//Asociar funcion de abrir detalles al radio "SI" de la opcion ¿Lo recibio en dinero?
 						$("#p5161s1a1c14[name=p5161s1a1c14]").bind("click",function(){
+							$("#p5161s1a3c14").bloquearTexto();
 							if(parseInt($(this).val())==1){								
 								$("#p5161s1a3c14").val("");
 								$("#radp5161s1a3c14").attr("checked",false);
@@ -489,6 +511,7 @@ function mostrarDivsAdicionales(adiciones){
 						
 						//Asociar funcion de abrir detalles al radio "SI" de la opcion ¿Lo recibio en especie?
 						$("#p5161s1a2c14[name=p5161s1a2c14]").bind("click",function(){
+							$("#p5161s1a4c14").bloquearTexto();
 							if (parseInt($(this).val())==1){
 								$("#p5161s1a4c14").val("");
 								$("#radp5161s1a4c14").attr("checked",false);
@@ -514,13 +537,14 @@ function mostrarDivsAdicionales(adiciones){
 					}
 					break;
 					
-			case 8: //Ocultar divCV8
+			case 8: //Mostrar divCV8
 					if ($("#divCV8").is(":hidden")){
 						$("#opcion81").hide(); //Ocultar los divs dentro del div adicional
 						$("#opcion82").hide(); //Ocultar los divs dentro del div adicional
 						
 						//Asociar funcion de abrir detalles al radio "SI" de la opcion ¿Lo recibio en dinero?
 						$("#p5161s2a1c14[name=p5161s2a1c14]").bind("click",function(){
+							$("#p5161s2a3c14").bloquearTexto();
 							if(parseInt($(this).val())==1){								
 								$("#p5161s2a3c14").val("");
 								$("#radp5161s2a3c14").attr("checked",false);
@@ -544,7 +568,9 @@ function mostrarDivsAdicionales(adiciones){
 						
 						//Asociar funcion de abrir detalles al radio "SI" de la opcion ¿Lo recibio en especie?
 						$("#p5161s2a2c14[name=p5161s2a2c14]").bind("click",function(){
+							$("#p5161s2a4c14").bloquearTexto();
 							if (parseInt($(this).val())==1){
+								$("#opcion82").show();
 								$("#p5161s2a4c14").val("");
 								$("#radp5161s2a4c14").attr("checked",false);
 								if ($("#p5161s2a4c14").is(":disabled")){
@@ -553,55 +579,119 @@ function mostrarDivsAdicionales(adiciones){
 								}
 								$("#radp5161s2a4c14").bind("click",function(){
 									$("#p5161s2a4c14").val("");
-									$("#p5161s2a2c14").attr("disabled",true);
+									$("#p5161s2a4c14").attr("disabled",true);
 								});
-								$("#opcion72").show();
+								$("#opcion82").show();								
 							}
-							else{
+							else{								
 								$("#p5161s1a4c14").val("");
 								$("#p5161s1a4c14").attr("disabled",true);
 								$("#radp5161s1a4c14").attr("checked",false);
-								$("#opcion72").hide();
-							}							
+								$("#opcion82").hide();								
+							}																					
 						});						
 						
 						$("#divCV8").show();
 					}
 					break;
 					
-			case 9: //Ocultar divCV9
+			case 9: //Mostrar divCV9					
+					$("#p10312s1").bloquearTexto();
 					if ($("#divCV9").is(":hidden")){
+						if ($("#p10312s1").is(":disabled")){
+							$("#p10312s1").val("");
+							$("#p10312s1").attr("disabled",false);
+						}						
+						$("#radp10312s1").attr("checked",false);
+						$("#radp10312s1").bind("click",function(){							
+							if ($("#p10312s1").is(":enabled")){
+								$("#p10312s1").val("");
+								$("#p10312s1").attr("disabled",true);
+							}
+						});
 						$("#divCV9").show();
 					}
 					break;
 					
-			case 10: //Ocultar divCV10
-					if ($("#divCV10").is(":hidden")){
+			case 10: //Mostrar divCV10
+					if ($("#divCV10").is(":hidden")){						
+						$("#p8697s2a1 option[value='1']").prop('selected', true);
+						$("#p8697s2a1").attr("disabled",false);
 						$("#divCV10").show();
 					}
 					break;
 					
-			case 11: //Ocultar divCV11
+			case 11: //Mostrar divCV11
 					if ($("#divCV11").is(":hidden")){
+						$("#p8697s3a1 option[value='1']").prop('selected', true);
+						$("#p8697s3a1").attr("disabled",false);
 						$("#divCV11").show();
 					}
 					break;
 					
-			case 12: //Ocultar divCV12
+			case 12: //Mostrar divCV12
 					if ($("#divCV12").is(":hidden")){
+						$("#opcion121").hide();
+						$("#opcion122").hide();
+						
+						//Asociar funcion de abrir detalles al radio "SI" de la opcion ¿Lo recibio en dinero?
+						$("#p8697s4a2[name=p8697s4a2]").bind("click",function(){
+							$("#p8697s4a4").bloquearTexto();
+							if(parseInt($(this).val())==1){								
+								$("#p8697s4a4").val("");
+								$("#radp8697s4a4").attr("checked",false);
+								if ($("#p8697s4a4").is(":disabled")){
+									$("#p8697s4a4").val("");
+									$("#p8697s4a4").attr("disabled",false);
+								}
+								$("#radp8697s4a4").bind("click",function(){
+									$("#p8697s4a4").val("");
+									$("#p8697s4a4").attr("disabled",true);
+								});								
+								$("#opcion121").show();																
+							}
+							else{
+								$("#p8697s4a4").val("");
+								$("#p8697s4a4").attr("disabled",true);
+								$("#radp8697s4a4").attr("checked",false);								
+								$("#opcion121").hide();																
+							}							
+						});
+						
+						//Asociar funcion de abrir detalles al radio "SI" de la opcion ¿Lo recibio en especie?
+						$("#p8697s4a3[name=p8697s4a3]").bind("click",function(){
+							$("#p8697s4a5").bloquearTexto();
+							if (parseInt($(this).val())==1){
+								$("#opcion122").show();
+								$("#p8697s4a5").val("");
+								$("#radp8697s4a5").attr("checked",false);
+								if ($("#p8697s4a5").is(":disabled")){
+									$("#p8697s4a5").val("");
+									$("#p8697s4a5").attr("disabled",false);
+								}
+								$("#radp8697s4a5").bind("click",function(){
+									$("#p8697s4a5").val("");
+									$("#p8697s4a5").attr("disabled",true);
+								});
+								$("#opcion122").show();								
+							}
+							else{								
+								$("#p8697s4a5").val("");
+								$("#p8697s4a5").attr("disabled",true);
+								$("#radp8697s4a5").attr("checked",false);
+								$("#opcion122").hide();	
+								
+							}																					
+						});
 						$("#divCV12").show();
 					}
 					break;		
 					
-			case 13: //Ocultar divCV13
+			case 13: //Mostrar divCV13
 					if ($("#divCV13").is(":hidden")){
+						$("#p8697s6a1").val("");
+						$("#p8697s6a1").attr("disabled",false);						
 						$("#divCV13").show();
-					}
-					break;
-					
-			case 14: //Ocultar divCV13
-					if ($("#divCV14").is(":hidden")){
-						$("#divCV14").show();
 					}
 					break;
 		}

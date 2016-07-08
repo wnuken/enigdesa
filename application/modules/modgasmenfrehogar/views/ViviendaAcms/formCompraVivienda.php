@@ -228,10 +228,10 @@
 	        		<label>&iquest; Lo recibi&oacute; en especie?</label>
 	        	</div>        	
 	        	<div class="col-md-1 radio">
-	        		<label><input type="radio" id="p5161s2a2c14" name="p5161s2a2c14" value=""/>S&iacute;</label>
+	        		<label><input type="radio" id="p5161s2a2c14" name="p5161s2a2c14" value="1"/>S&iacute;</label>
 	        	</div>
 	        	<div class="col-md-1 radio">
-	        		<label><input type="radio" id="p5161s2a2c14" name="p5161s2a2c14" value=""/>No</label>
+	        		<label><input type="radio" id="p5161s2a2c14" name="p5161s2a2c14" value="2"/>No</label>
 	        	</div>
 			</div>			
 		</div>
@@ -262,10 +262,10 @@
 	</div>
 	<div class="col-md-12">
 		<div class="radio">
-        	<label><input type="radio" id="p10312_1" name="p10312" value="1"/>S&iacute;</label>
+        	<label><input type="radio" id="p10312" name="p10312" value="1"/>S&iacute;</label>
         </div>
         <div class="radio">
-        	<label><input type="radio" id="p10312_2" name="p10312" value="2"/>No</label>
+        	<label><input type="radio" id="p10312" name="p10312" value="2"/>No</label>
         </div>        
 	</div>	
 	<div id="divCV9" class="col-md-12 jumbotron" style="padding: 0px;">		
@@ -273,7 +273,7 @@
 			<label>&iquest;Cu&aacute;nto fue el valor de esta adecuaci&oacute;n, ampliaci&oacute;n o subdivisi&oacute;n?<input type="text" id="p10312s1" name="p10312s1" value="" placeholder="$" class="form-control" style="width: 50%;"/></label>
 		</div>
 		<div class="radio form-group" style="padding-left: 23px;">
-			<label><input type="radio" id="p10312s1" name="p10312s1" value="99"/>No sabe o no informa</label>
+			<label><input type="radio" id="radp10312s1" name="radp10312s1" value="99"/>No sabe o no informa</label>
 		</div>
 	</div>	
 </div>
@@ -303,16 +303,8 @@
         <div class="radio">
         	<label><input type="radio" id="p8697s6" name="p8697" value="6"/>Otra</label>
         </div>
-	</div>	
-	<div id="divCV10" class="col-md-12 jumbotron" style="padding: 0px;">		
-		<div class="radio form-group">
-			<label>&iquest;Cu&aacute;nto fue el valor de esta adecuaci&oacute;n, ampliaci&oacute;n o subdivisi&oacute;n?<input type="text" id="p10312s1" name="p10312s1" value="" placeholder="$" class="form-control" style="width: 50%;"/></label>
-		</div>
-		<div class="radio form-group" style="padding-left: 23px;">
-			<label><input type="radio" id="p10312s1" name="p10312s1" value="99"/>No sabe o no informa</label>
-		</div>
 	</div>
-	<div id="divCV11" class="col-md-12 jumbotron" style="padding: 0px;">		
+	<div id="divCV10" class="col-md-12 jumbotron" style="padding: 0px;">		
 		<div class="radio form-group">
 			<label>&iquest; A cu&aacute;ntos a&ntilde;os ?
 				<select id="p8697s2a1" name="p8697s2a1" class="form-control">
@@ -323,7 +315,7 @@
 			</label>
 		</div>		
 	</div>
-	<div id="divCV12" class="col-md-12 jumbotron" style="padding: 0px;">		
+	<div id="divCV11" class="col-md-12 jumbotron" style="padding: 0px;">		
 		<div class="radio form-group">
 			<label>&iquest; A cu&aacute;ntos a&ntilde;os ?
 				<select id="p8697s3a1" name="p8697s3a1" class="form-control">
@@ -334,7 +326,7 @@
 			</label>
 		</div>		
 	</div>
-	<div id="divCV13" class="col-md-12 jumbotron" style="padding: 15px;">
+	<div id="divCV12" class="col-md-12 jumbotron" style="padding: 15px;">
 		<div class="col-md-12 form-inline">		
 			<div class="row">
 				<div class="col-md-4 radio">
@@ -352,31 +344,31 @@
 	        		<label>&iquest; Lo recibi&oacute; en especie?</label>
 	        	</div>        	
 	        	<div class="col-md-1 radio">
-	        		<label><input type="radio" id="p8697s4a3" name="p8697s4a3" value=""/>S&iacute;</label>
+	        		<label><input type="radio" id="p8697s4a3" name="p8697s4a3" value="1"/>S&iacute;</label>
 	        	</div>
 	        	<div class="col-md-1 radio">
-	        		<label><input type="radio" id="p8697s4a3" name="p8697s4a3" value=""/>No</label>
+	        		<label><input type="radio" id="p8697s4a3" name="p8697s4a3" value="2"/>No</label>
 	        	</div>
 			</div>			
 		</div>
-		<div class="col-md-12" style="padding: 0px;">		
+		<div id="opcion121" class="col-md-12" style="padding: 0px;">		
 			<div class="radio form-group">
-				<label>&iquest; Cu&aacute;nto recibi&oacute; ?<input type="text" id="" name="" value="" placeholder="$" class="form-control"/></label>
+				<label>&iquest; Cu&aacute;nto recibi&oacute; ?<input type="text" id="p8697s4a4" name="p8697s4a4" value="" placeholder="$" class="form-control"/></label>
 			</div>
 			<div class="radio form-group" style="padding-left: 23px;">
-				<label><input type="radio" id="" name="" value=""/>No sabe o no informa</label>
+				<label><input type="radio" id="radp8697s4a4" name="radp8697s4a4" value=""/>No sabe o no informa</label>
 			</div>
 		</div>
-		<div class="col-md-12" style="padding: 0px;">		
+		<div id="opcion122" class="col-md-12" style="padding: 0px;">		
 			<div class="radio form-group">
-				<label>&iquest; Si tuviera que pagar por lo que recibi&oacute;, &iquest; en cu&aacute;nto estima lo recibido ?<input type="text" id="" name="" value="" placeholder="$" class="form-control" style="width:50%;"/></label>
+				<label>&iquest; Si tuviera que pagar por lo que recibi&oacute;, &iquest; en cu&aacute;nto estima lo recibido ?<input type="text" id="p8697s4a5" name="p8697s4a5" value="" placeholder="$" class="form-control" style="width:50%;"/></label>
 			</div>
 			<div class="radio form-group" style="padding-left: 23px;">
-				<label><input type="radio" id="" name="" value=""/>No sabe o no informa</label>
+				<label><input type="radio" id="radp8697s4a5" name="radp8697s4a5" value=""/>No sabe o no informa</label>
 			</div>
 		</div>
 	</div>
-	<div id="divCV14" class="col-md-12 jumbotron" style="padding: 0px;">		
+	<div id="divCV13" class="col-md-12 jumbotron" style="padding: 0px;">		
 		<div class="radio form-group">
 			<label>&iquest; Cu&aacute;l ?<input type="text" id="p8697s6a1" name="p8697s6a1" value="" placeholder="Especifique" class="form-control" size="70"/></label>
 		</div>		
@@ -386,10 +378,8 @@
 </br>
 
 <div class="row">
-	<div class="col-md-12" style="text-align: right;">
-		<button type="button" id="" name="" class="btn btn-success">Anterior</button>
-		&nbsp;&nbsp;&nbsp;
-        <button type="button" id="" name="" class="btn btn-success">Siguiente</button>
+	<div class="col-md-12" style="text-align: right;">		
+        <button type="button" id="btnCompraVivienda" name="btnCompraVivienda" class="btn btn-success">Siguiente</button>
 	</div>
 </div>
 

@@ -92,8 +92,8 @@ class Modsec3 extends My_model {
 		if($hdd_nro_articulos >0)//verifica q hayan articulos en la tabla
     	{
     		// Inicia transaccion
-			/*$this->db->trans_start();
-			*/
+			$this->db->trans_start();
+			
 			
 			for ($i = 0; $i < $hdd_nro_articulos; $i++) 
 			{
@@ -112,19 +112,49 @@ class Modsec3 extends My_model {
 				$asignacion = "isset(\$sel_frec_".$i.")?( (\$sel_frec_".$i."=='' || \$sel_frec_".$i."=='-')?\$frec=NULL:\$frec=\$sel_frec_".$i." ): \$frec=NULL; ";
 				eval($asignacion);
 				
-				
-				$arrValores["ID_FORMULARIO"]=$ID_FORMULARIO;
+				/*$arrValores["ID_FORMULARIO"]=$ID_FORMULARIO;
 				$arrValores["ID_ARTICULO3"]=$articulo;
 				$arrValores["VALOR_PAGADO"]=$pago;
 				$arrValores["LUGAR_COMPRA"]=$lugar;
 				$arrValores["FRECUENCIA_COMPRA"]=$frec;
 				$res=$this->ejecutar_insert("ENIG_FORM_GMF_COMPRA", $arrValores) ;
-				if(!$res)
-					echo "ERROR: al guardar una artículo";
+				if($res!=1)
+					echo "ERROR: al guardar un artículo";
+				*/	
+				$sql="INSERT INTO ENIG_FORM_GMF_COMPRA (ID_FORMULARIO,ID_ARTICULO3,VALOR_PAGADO,LUGAR_COMPRA,FRECUENCIA_COMPRA) 
+				VALUES ('$ID_FORMULARIO', '$articulo', '$pago', '$lugar', '$frec') ";
 				
+				$query = $this->db->query($sql);
+				if (!$query){
+						echo "ERROR: al guardar un artículo";
+					}	
     		}
-			
-			//isset($sel_medio_pago)?( ($sel_medio_pago=="" || $sel_medio_pago=="-")?$sel_medio_pago=NULL:$sel_medio_pago ): $sel_medio_pago=NULL;
+			// TOTAL PAGADO
+			if ( isset($txt_total) )
+			{
+				
+				$sql = "SELECT ID_VARIABLE_TOTAL_PAGO1
+						FROM ENIG_ADMIN_GMF_SECCIONES 
+						WHERE ID_SECCION3='$hdd_sec' ";        
+				$nom_var="";
+				$query = $this->db->query($sql);
+				if ($query->num_rows()>0){
+						$row=$query->row();
+						$nom_var=$row->ID_VARIABLE_TOTAL_PAGO1;
+					
+					$sql2="INSERT INTO ENIG_FORM_GMF_VARIABLES (ID_FORMULARIO,ID_VARIABLE,VALOR_VARIABLE) 
+					VALUES ('$ID_FORMULARIO', '$nom_var', '$txt_total') ";
+					$query = $this->db->query($sql2);
+					if (!$query){
+						echo "ERROR: al guardar una variable";
+					}	
+					
+				}else
+				{
+					echo "ERROR: No existe la variable";
+				}
+			}
+			//MEDIO DE PAGO
 			if ( isset($sel_medio_pago) && ($sel_medio_pago!="" && $sel_medio_pago!="-"))
 			{
 				
@@ -137,20 +167,31 @@ class Modsec3 extends My_model {
 						$row=$query->row();
 						$nom_var=$row->ID_VARIABLE_MEDIO_PAGO;
 					
+					/*
 					//Inserta valor 	
 					$arrVal1["ID_FORMULARIO"]=$ID_FORMULARIO;
 					$arrVal1["ID_VARIABLE"]=$nom_var;
 					$arrVal1["VALOR_VARIABLE"]=$sel_medio_pago;	
 					
 					$res=$this->ejecutar_insert("ENIG_FORM_GMF_VARIABLES", $arrVal1) ;
+					if($res!=1)
+					echo "ERROR: al guardar una variable";
+					*/
+					$sql2="INSERT INTO ENIG_FORM_GMF_VARIABLES (ID_FORMULARIO,ID_VARIABLE,VALOR_VARIABLE) 
+					VALUES ('$ID_FORMULARIO', '$nom_var', '$sel_medio_pago') ";
+					$query = $this->db->query($sql2);
+					if (!$query){
+						echo "ERROR: al guardar una variable";
+					}	
+					
 				}else
 				{
-					echo "ERROR: existe una variable";
+					echo "ERROR: No existe la variable";
 				}
 			}
 			
-			
-			if ( isset($txt_otro_medio_pago) && ($txt_otro_medio_pago!="" && $txt_otro_medio_pago!="-"))
+			//CUAL OTRO MEDIO DE PAGO
+			if ( isset($txt_otro_medio_pago) )
 			{
 				
 				$sql = "SELECT ID_VARIABLE_OTRO_PAGO
@@ -162,19 +203,29 @@ class Modsec3 extends My_model {
 						$row=$query->row();
 						$nom_var=$row->ID_VARIABLE_OTRO_PAGO;
 					
+					/*
 					//Inserta valor 	
 					$arrVal2["ID_FORMULARIO"]=$ID_FORMULARIO;
 					$arrVal2["ID_VARIABLE"]=$nom_var;
 					$arrVal2["VALOR_VARIABLE"]=$txt_otro_medio_pago;	
 					
 					$res=$this->ejecutar_insert("ENIG_FORM_GMF_VARIABLES", $arrVal2) ;
+					if($res!=1)
+					echo "ERROR: al guardar una variable";
+					*/
+					$sql2="INSERT INTO ENIG_FORM_GMF_VARIABLES (ID_FORMULARIO,ID_VARIABLE,VALOR_VARIABLE) 
+					VALUES ('$ID_FORMULARIO', '$nom_var', '$txt_otro_medio_pago') ";
+					$query = $this->db->query($sql2);
+					if (!$query){
+						echo "ERROR: al guardar una variable";
+					}
 				}else
 				{
-					echo "ERROR: existe una variable";
+					echo "ERROR: No existe la variable";
 				}
 			}
 							
-		/*	// Fin de transaccion
+			// Fin de transaccion
 			$this->db->trans_complete();
 			if ($this->db->trans_status() === FALSE)
 			{
@@ -183,13 +234,60 @@ class Modsec3 extends My_model {
 			}
 			else
 			{
-				//echo "-ok-";
 				$result=true;
-			}*/$result=true;//temporal
+			}//$result=true;//temporal
 			
 			
 		}//if
 		return $result;
 	}
+	
+	/**
+     * Actualiza la página en tabla de control
+     * @access Public
+     * @author hhchavezv
+	 * @param  $id_form: id del formulario
+	 * @param  $id_seccion: submódulo que está diligenciando (ej: C1 )
+	 * @param  $pagina: número de página siguiente para diligenciar
+     * @return Bool =1 dependiendo de si se realizo correctamente la operación o no
+     */
+    public function actualizaPaginaControl($id_form, $id_seccion,$pagina) 
+	{               
+		$arrValores["PAG_SECCION3"]=$pagina;
+		
+		$arrWhere["ID_FORMULARIO"]=$id_form;
+		$arrWhere["ID_SECCION3"]=$id_seccion;
+		
+		$res=$this->ejecutar_update("ENIG_ADMIN_GMF_CONTROL", $arrValores, $arrWhere);
+		if(!$res)
+			echo "ERROR al actualizar página en Control.";	
+		return $res;
+	}
+	
+	/**
+     * consulta si la sección tiene la variable de medio de pago
+     * @access Public
+     * @author hhchavezv
+	 * @param  $id_seccion: submódulo que está diligenciando (ej: C1 )
+	 * @return Bool =1 dependiendo de si se realizo correctamente la operación o no
+     */
+    public function habilitaPreguntaMedioPago($id_seccion) 
+	{               
+		$sql = "SELECT ID_VARIABLE_MEDIO_PAGO
+				FROM ENIG_ADMIN_GMF_SECCIONES 
+				WHERE ID_SECCION3='$id_seccion' ";        
+		$existe=false;
+		$query = $this->db->query($sql);
+		if ($query->num_rows()>0){
+			$row=$query->row();
+			$nom_var=$row->ID_VARIABLE_MEDIO_PAGO;
+			//echo "nom=".$nom_var;
+			if( $nom_var === NULL )
+				$existe=false;
+			else
+				$existe=true;
+		}
+		return $existe;
+	}	
 }
 //EOC

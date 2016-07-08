@@ -60,6 +60,7 @@
 			echo "<td>Valor estimado</td>";
 			echo "<td>No sabe el valor estimado</td>";
 			echo "</tr>";
+			$j = 1;
 			foreach ( $preg['var'] as $v3 ) {
 				echo "<tr>";
 				echo "<td colspan='2'>(" . $v3['ID_ARTICULO3'] . ") " . $v3['ETIQUETA'];
@@ -68,19 +69,26 @@
 
 
 				foreach ( $preg['variables'] as $v4 ) {
-					$TEXTO = "";
+					$input_atr = "class='valor_" . $j . "_input'";
 					$forma_obt = array("recibido_pago", "regalo", "intercambio", "producido", "negocio_propio", "otra");
 					if( ($i == 1 && $v3['RECIBIDO_PAGO'] == "1") || ($i == 2 && $v3['REGALO'] == "1") || ($i == 3 && $v3['INTERCAMBIO'] == "1") || 
 						($i == 4 && $v3['PRODUCIDO'] == "1") || ($i == 5 && $v3['NEGOCIO_PROPIO'] == "1") || ($i == 6 && $v3['OTRA'] == "1")  ){
-						$TEXTO = "disabled";
+						$input_atr = "disabled";
+						echo "<td>";//.$v4['ID_VARIABLE'];
 					}
-					echo "<td>";//.$v4['ID_VARIABLE'];
-					echo "<input $TEXTO type='text' name='" . $v3['ID_ARTICULO3'] . "[" . $forma_obt[$i-1] . "]' value='" . $v4['ID_VARIABLE'] . "' id='art_". $v3['ID_ARTICULO3'] ."_1' class='ops_" . $i . "' />";
-					echo "(" . $TEXTO . ")</td>";
+					else {
+						echo "<td class='activo'>";//.$v4['ID_VARIABLE'];
+						$j++;
+					}
+					//echo "<td>";//.$v4['ID_VARIABLE'];
+					echo "<input $input_atr type='text' name='" . $v3['ID_ARTICULO3'] . "[" . $forma_obt[$i-1] . "]' value='' id='art_". $v3['ID_ARTICULO3'] ."_1' />";
+					echo "</td>";
+					$input_atr = str_replace("_input", "", $input_atr);
 					echo "<td>(99) ";
-					echo "<input $TEXTO type='checkbox' name='" . $v3['ID_ARTICULO3'] . "[" . $forma_obt[$i-1] . "]' value='" . $v4['ID_VARIABLE'] . "' id='art_". $v3['ID_ARTICULO3'] ."_1' class='ops_" . $i . "' />";
+					echo "<input $input_atr type='checkbox' name='" . $v3['ID_ARTICULO3'] . "[" . $forma_obt[$i-1] . "]' value='' id='art_". $v3['ID_ARTICULO3'] ."_1' />";
 					echo "</td>";
 					$i++;
+					
 				}
 				echo "</tr>";
 			}
@@ -200,7 +208,7 @@
 	// mayandarl - incorpora los botones de anterior y siguiente 
 	//if ($secc['SIGUIENTE'] == 'SI') {
 		//if ($secc['ACCION'] == 'CONTINUAR')
-			echo "	<button  class='btn btn-success' id='ENV_2_2'>Guardar y Continuar <span class='glyphicon glyphicon-chevron-right' aria-hidden='true' title='Continuar'></span></button>\n";
+			echo "	<button disabled  class='btn btn-success' id='ENV_2_2'>Guardar y Continuar <span class='glyphicon glyphicon-chevron-right' aria-hidden='true' title='Continuar'></span></button>\n";
 		//elseif ($secc['ACCION'] == 'FINALIZAR')
 		//	echo "	<button class='btn btn-success' id='ENV_". $secc['ID_SECCION'] .'_'. $secc['PAGINA'] ."'>Guardar y Finalizar <span class='glyphicon glyphicon-chevron-right' aria-hidden='true' title='Fin'></span></button>\n";
 	//}
@@ -210,10 +218,52 @@
 <script>
 
 $(function() {
+	$( "input[type=text]" ).bloquearTexto();
+
 	$( "input[type=checkbox]" ).on( "change", function(){
-		var articulos = $( ".articulo" ).length;
-		var cont  = 0;
-		for(var i=0; i < articulos; i++) {
+		//var articulos = $( ".articulo" ).length;
+		//var cont  = 0;
+		var claseInput = $(this).attr("class") + "_input";
+		if($(this).prop("checked")) {
+			$("."+claseInput).prop("disabled",true);
+			$("."+claseInput).val("99");
+		}
+		else {
+			$("."+claseInput).prop("disabled",false);
+			$("."+claseInput).val("");
+		}
+		
+		var inputs = $(".activo").length, condicion = 1;
+
+		for(var i = 1; i <= inputs; i++) {
+		//while($(".valor_"+i+"_input")) {
+			if($(".valor_"+i+"_input").val() || $(".valor_"+i+"_input").prop("checked") )
+				condicion++;
+		}
+
+		if(condicion == i)
+			$("#ENV_2_2").prop('disabled', false);
+		else $("#ENV_2_2").prop('disabled', true);
+		
+	});
+
+	$( "input[type=text]" ).on( "blur", function(){
+		//var articulos = $( ".articulo" ).length;
+		//var cont  = 0;
+		//var claseInput = $(this).attr("class") + "_input";
+
+		var inputs = $(".activo").length, condicion = 1;
+
+		for(var i = 1; i <= inputs; i++) {
+		//while($(".valor_"+i+"_input")) {
+			if($(".valor_"+i+"_input").val() || $(".valor_"+i+"_input").prop("checked") )
+				condicion++;
+		}
+
+		if(condicion == i)
+			$("#ENV_2_2").prop('disabled', false);
+		else $("#ENV_2_2").prop('disabled', true);
+		/*for(var i=0; i < articulos; i++) {
 			var sel = $(":input.ops_" + (i+1) + ":checked").length;
 			if(sel > 0) 
 				cont++;
@@ -221,7 +271,7 @@ $(function() {
 
 		if(articulos == cont)
 			$("#ENV_2_2").prop('disabled', false);
-		else $("#ENV_2_2").prop('disabled', true);
+		else $("#ENV_2_2").prop('disabled', true);*/
 		
 	});
 

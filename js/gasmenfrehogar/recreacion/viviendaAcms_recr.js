@@ -3,8 +3,101 @@
  * @author hhchavezv	
  * @since  2016jul06
  */
+
+
+ $(function() {
+
+ 	// formulario 1
+ 	if($( "#form_1" )) {
+		$( "input[type=checkbox]" ).on( "change", function(){
+			var checked = $( "input:checked" ).length;
+			//activar o desactivar boton
+			if(checked>0)
+				$("#ENV_2_2").prop('disabled', false);
+			else $("#ENV_2_2").prop('disabled', true);
+
+			// Activar o desactivar inputs según la selección
+			if($(this).attr("id") == "99999999" && $(this).prop("checked")){
+				
+				$( "input[type=checkbox]" ).each(function(){
+					if($(this).attr("id") != "99999999")
+						$(this).prop("disabled",true);
+				});
+			}
+			else if ($(this).attr("id") == "99999999" && !$(this).prop("checked")){
+				$( "input[type=checkbox]" ).each(function(){
+					if($(this).attr("id") != "99999999")
+						$(this).prop("disabled",false);
+				});
+			}
+			else if ($(this).attr("id") != "99999999" && $(this).prop("checked")){
+				$("#99999999").prop("disabled",true);
+			}
+			else if ($(this).attr("id") != "99999999" && !$(this).prop("checked")){
+				var checkedElems = 0;
+				$( "input[type=checkbox]" ).each(function(){
+					if($(this).attr("id") != "99999999" && $(this).prop("checked"))
+						checkedElems++;
+				});
+				if(checkedElems == 0)
+					$("#99999999").prop("disabled",false);
+			}
+		});
+	}
+
+
+	// valida formulario 2
+	if($( "#form_2" )) {
+		$( "input[type=checkbox]" ).on( "change", function(){
+			var articulos = $( ".articulo" ).length;
+			var cont  = 0;
+			for(var i=0; i < articulos; i++) {
+				var sel = $(":input.ops_" + (i+1) + ":checked").length;
+				if(sel > 0) 
+					cont++;
+			}
+
+			if(articulos == cont)
+				$("#ENV_2_2").prop('disabled', false);
+			else $("#ENV_2_2").prop('disabled', true);
+			
+		});
+	}
+
+	// boton enviar
+	$(".btn-success").on("click",function(){
+		var myf = $('#form_1');
+		var args = myf.serialize().replace(/(%0D%0A|%0D|%0A|%22|%5C|')/g, " ");
+		$(this).attr('disabled', true);
+		$.ajax({
+			type: 'POST',
+			url: '<?=site_url("modgasmenfrehogar/Recreacion/guardar/")?>',
+			cache: false,
+			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+			data: args,
+			beforeSend: function (objeto) {
+				$('#mensaje_').html('<div class="alert alert-info" role="alert"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Enviando m&oacute;dulo</div>');
+				//$('#CHK_'+ capitulo).removeClass();
+				//$('#CHK_'+ capitulo).addClass('ui-icon ui-icon-clock');
+			},
+			success: function (respuesta) {
+				$('#mensaje_').html('<div class="alert alert-success" role="alert"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> '+ respuesta +'</div>');
+				//$('#CHK_'+ capitulo).removeClass();
+				//$('#CHK_'+ capitulo).addClass('ui-icon ui-icon-check');
+				//$('.nav-tabs > .active').next('li').find('a').trigger('click');
+				//$('#btn_seguir').html('<span id="btn_seguir"><span> <button type="button" name="btnReminder" class="btn btn-success" onClick="location.reload();">Continuar</button>');
+				setTimeout(function(){location.reload()}, 2000);
+			},
+			error: function (respuesta) {
+				$('#mensaje_').html('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Error guardando m&oacute;dulo</div>');
+				//$('#CHK_'+ capitulo).removeClass();
+				//$('#CHK_'+ capitulo).addClass('ui-icon ui-icon-cancel');
+			}
+		});
+	});
+});
  
-	$(function(){
+	/*$(function(){
 	$("#div_otro_pago").hide();
 	//$("#txt_total").numerico().largo(15);
 	
@@ -86,10 +179,10 @@
 					});
 			}		
 		}//if			
-		/*else
-		{
-			alert("El formulario tiene errores. Revise y corrija.");
-		}*/
+		//else
+		//{
+		//	alert("El formulario tiene errores. Revise y corrija.");
+		//}
 	});
 	
 	
@@ -107,10 +200,10 @@
 		}
 	});
 		
-});//EOC
+});*///EOC
 
 // Construye las validaciones de la tabla de articulos
-function pag3_valida_articulos_pagados()
+/*function pag3_valida_articulos_pagados()
 {	
 	var nro_articulos=parseInt ($("#hdd_nro_articulos").val() );
 	
@@ -201,4 +294,4 @@ function pag3_deshabilita_pago(fila)
         else{
       	  return true;
         }
-    },"");
+    },"");*/

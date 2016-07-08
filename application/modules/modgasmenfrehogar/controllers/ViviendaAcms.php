@@ -33,21 +33,20 @@ class ViviendaAcms extends MX_Controller {
         // Se consulta el estado de la seccion, si esta finalizado se redirige al menu del modulo
         $arrParam = array('id' => $this->idSeccion);
  
- /* OK - se quita temporal mientras modifican Modgmfh
-		$arrSA = $this->Modgmfh->listar_secciones_avances($arrParam);
+ 		$arrSA = $this->Modgmfh->listar_secciones_avances($arrParam);
         if (count($arrSA) > 0) {
             if($arrSA["0"]["ID_ESTADO_SEC"] == 2) {
                 redirect(base_url($this->module));
                 return false;
             }
-        }*/
+        }
 		$data['secc'] = $this->Modgmfh->listar_secciones(array("id" => $this->idSeccion ));
 
         //pr($data['secc']); 
-        //if(!empty($arrSA["0"]["PAG_SECCION3"])) {
-		if(1==1) {
-            //switch ($arrSA["0"]["PAG_SECCION3"]) {
-			switch (3) {
+        if(!empty($arrSA["0"]["PAG_SECCION3"])) {
+		//if(1==1) {
+            switch ($arrSA["0"]["PAG_SECCION3"]) {
+			//switch (3) {
                 case 1:
                     $this->mostrarListaArticulos($data);
                     break;
@@ -107,9 +106,12 @@ class ViviendaAcms extends MX_Controller {
 		$data["arrArticulos"]= $this->Modsec3->listar_articulos_comprados($data['id_formulario'], $data['secc'][0]['ID_SECCION3']); 
 		
 		// nota: verificar si consultamos nombres de variables medios de pago desde BD
-		$data["medio_pago"]["requiere"]=1;
+		/*$data["medio_pago"]["requiere"]=1;
 		$data["medio_pago"]["nom_var"]="P438C11";
 		$data["medio_pago"]["nom_otro"]="P438S1C11";
+		*/
+		$data["habilita_medio_pago"]=$this->Modsec3->habilitaPreguntaMedioPago($data['secc'][0]['ID_SECCION3']); 
+		
 		$data["arrMediosPago"]=$this->Modsec3->listar_medios_pago(); 
 		
 		// Se consulta la lista de los lugares de compra
@@ -132,11 +134,28 @@ class ViviendaAcms extends MX_Controller {
     public function guardaGrillaCompra() {
         
 		$this->load->model("Modsec3");
-		$result=false;//;$this->Modsec3->guardaForm3($_POST);		
-		if($result)
+		foreach($_POST as $nombre_campo => $valor){
+	    	
+	  			$asignacion = "\$" . $nombre_campo . "='" . $valor . "';";
+	   			eval($asignacion);
+			}
+			
+		$result=$this->Modsec3->guardaForm3($_POST);	
+		if($result)		
 			echo "-ok-";
 		else
+			echo "ERROR";
+		
+		/*if($result){
+			$result2=$this->Modsec3->actualizaPaginaControl($ID_FORMULARIO, $hdd_sec,4); 
+			if($result2)	
+				echo "-ok-";
+			else
+				echo "ERROR";
+		}	
+		else
 			echo "ERROR";	
+			*/
     }
 	
     
