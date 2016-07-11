@@ -225,6 +225,51 @@ class Ropaaccesorios extends MX_Controller {
    }
 
 
+   public function getelements(){
+        $params = $this->input->get(NULL, TRUE);
+        $elements = $this->Maccesorios->getElements($params);
+
+       //  var_dump($elements);
+        foreach ($elements as $key => $value) {
+           $active = FALSE;
+            if(isset($value['ar2']))
+                $active = TRUE;
+
+            $result[] = array(
+                'name' => $value['ETIQUETA'],
+                'id' =>  $value['ID_ARTICULO3'],
+                'value' => $active);
+        }
+        $response = json_encode($result);
+        print $response;
+   }
+
+   public function savesetarticulos(){
+        $result = FALSE;
+        $params = $this->input->get(NULL, TRUE);
+                    var_dump($params);
+        foreach ($params as $key => $value) {
+
+            if(is_numeric($key)){
+                $paramsElement['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
+                $paramsElement['ID_ARTICULO3'] = $value;
+                $result = $this->Maccesorios->setArticulos($paramsElement);
+            }
+        }
+
+        $dataElement['ID_SECCION3'] =  $this->idSubModulo . '1';
+        $dataElement['PAG_SECCION3'] = 2;
+        $resultControl = $this->Maccesorios->updateGmfControl($dataElement);
+
+        $responseArray = array(
+                'result' => $result,
+                'control' => $resultControl);
+
+        $response = json_encode($responseArray);
+
+        echo $response;
+    }
+
 
     /**
      * @author oagarzond

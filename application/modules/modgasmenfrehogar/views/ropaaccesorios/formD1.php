@@ -93,44 +93,45 @@
 						<div class="form-group has-feedback" id="div-03120102">
 							<div class="col-sm-12">
 							<div class="col-sm-12">
-								<label><h5 class="control-label" for="03120102">{{ rhom.name }}</h5></label>
+								<label><h3 class="control-label" for="03120102">{{ rhom.name }}</h3></label>
 								<br>
-								<label><h5 class="control-label" for="03120102">¿Cómo lo obtuvieron?</h5></label>
+								<label>¿Cómo lo obtuvieron?</label>
 								</div>
 								<div class="col-sm-2"></div>
 								<div class="col-sm-10">
 								<div class="form-input">
-								<input type="checkbox" name="adquiere" ng-init="03120102" id="03120102" ng-model="FormulariorHombre.compra1[$index].value" ng-change="validateBtnS1($index)">
-								<label><h5 class="control-label" for="03120102">Compra o pago</h5></label>
+								<input type="{{rhom.id}}" name="{{rhom.id}}" ng-model="elid[rhom.id]" required>
+								<input type="checkbox" name="adquiere" name="compra{{rhom.id}}" id="compra{{rhom.id}}" ng-model="FormulariorHombre.compra[rhom.id]" ng-change="validateBtnS2(rhom.id)">
+								<label><h5 class="control-label" for="555">Compra o pago</h5></label>
 								</div>
 
 								<div class="form-input">
-								<input type="checkbox" name="adquiere" ng-init="03120102" id="03120102" ng-model="FormulariorHombre.compra2[$index].value" ng-change="validateBtnS1($index)">
+								<input type="checkbox" name="adquiere" name="recibo{{rhom.id}}" id="recibo{{rhom.id}}" ng-model="FormulariorHombre.recibo[rhom.id]" ng-change="validateBtnS2(rhom.id)">
 								<label><h5 class="control-label" for="03120102">Recibido por trabajo</h5></label>
 								</div>
 
 								<div class="form-input">
-								<input type="checkbox" name="adquiere" ng-init="03120102" id="03120102" ng-model="FormulariorHombre.compra3[$index].value" ng-change="validateBtnS1($index)">
+								<input type="checkbox" name="adquiere" name="regalo{{rhom.id}}" id="regalo{{rhom.id}}" ng-model="FormulariorHombre.regalo[rhom.id]" ng-change="validateBtnS2(rhom.id)">
 								<label><h5 class="control-label" for="03120102">Regalo o donación</h5></label>
 								</div>
 
 								<div class="form-input">
-								<input type="checkbox" name="adquiere" ng-init="03120102" id="03120102" ng-model="FormulariorHombre.compra4[$index].value" ng-change="validateBtnS1($index)">
+								<input type="checkbox" name="adquiere" name="intercambio{{rhom.id}}" id="intercambio{{rhom.id}}" ng-model="FormulariorHombre.intercambio[rhom.id]" ng-change="validateBtnS2(rhom.id)">
 								<label><h5 class="control-label" for="03120102">Intercambio</h5></label>
 								</div>
 
 								<div class="form-input">
-								<input type="checkbox" name="adquiere" ng-init="03120102" id="03120102" ng-model="FormulariorHombre.compra5[$index].value" ng-change="validateBtnS1($index)">
+								<input type="checkbox" name="adquiere" name="producido{{rhom.id}}" id="producido{{rhom.id}}" ng-model="FormulariorHombre.producido[rhom.id]" ng-change="validateBtnS2(rhom.id)">
 								<label><h5 class="control-label" for="03120102">Producido por el hogar</h5></label>
 								</div>
 
 								<div class="form-input">
-								<input type="checkbox" name="adquiere" ng-init="03120102" id="03120102" ng-model="FormulariorHombre.compra6[$index].value" ng-change="validateBtnS1($index)">
+								<input type="checkbox" name="adquiere" name="propio{{rhom.id}}" id="propio{{rhom.id}}" ng-model="FormulariorHombre.propio[rhom.id]" ng-change="validateBtnS2(rhom.id)">
 								<label><h5 class="control-label" for="03120102">Tomado de un negocio propio</h5></label>
 								</div>
 
 								<div class="form-input">
-								<input type="checkbox" name="adquiere" ng-init="03120102" id="03120102" ng-model="FormulariorHombre.compra7[$index].value" ng-change="validateBtnS1($index)">
+								<input type="checkbox" name="adquiere" name="otra{{rhom.id}}" id="otra{{rhom.id}}" ng-model="FormulariorHombre.otra[rhom.id]" ng-change="validateBtnS2(rhom.id)">
 								<label><h5 class="control-label" for="03120102">Otra forma</h5></label>
 								</div>
 
@@ -147,7 +148,7 @@
 					</div>
 				</form>
 				<div class="row text-center">
-					<button class="btn btn-success" ng-disabled="!activeBtnS1" ng-click="validateForm2(2)" id="ENV_2_2">Guardar y Continuar <span class="glyphicon glyphicon-chevron-right" aria-hidden="true" title="Continuar"></span></button>
+					<button class="btn btn-success" ng-disabled="!activeBtnS2" ng-click="validateForm3(3)" id="ENV_2_2">Guardar y Continuar <span class="glyphicon glyphicon-chevron-right" aria-hidden="true" title="Continuar"></span></button>
 				</div>
 			</div>
 		</div>
