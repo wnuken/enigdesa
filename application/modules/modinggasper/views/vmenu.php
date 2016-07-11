@@ -26,7 +26,7 @@ foreach ($personas as $k=>$v) {
 	// 2016-06-22 - mayandarl - Persona responsable de los gastos del hogar...
 	if ($v['P6040'] >= 10) {
 		if ($v['P10250S1C2'] == "1") {
-			echo "  <button type='button' name='btnReminder' onClick='window.location.replace(\"". site_url("modgastoshogar/Gastoshog/index") ."/$k". 
+			echo "  <button type='button' disabled name='btnReminder' onClick='window.location.replace(\"". site_url("modgastoshogar/Gastoshog/index") ."/$k". 
 					"\");' class='btn btn-info'>Gastos diarios hogar</button>&nbsp;&nbsp;\n";
 			echo "  <button type='button' name='btnReminder' onClick='window.location.replace(\"". site_url("modgasmenfrehogar/index") ."/$k". 
 					"\");' class='btn btn-info'>Gastos menos frecuentes</button>\n";

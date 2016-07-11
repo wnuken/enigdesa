@@ -42,7 +42,7 @@ class ViviendaAcms extends MX_Controller {
         }
 		$data['secc'] = $this->Modgmfh->listar_secciones(array("id" => $this->idSeccion ));
 
-        //pr($data['secc']); 
+        //pr($arrSA); 
         if(!empty($arrSA["0"]["PAG_SECCION3"])) {
 		//if(1==1) {
             switch ($arrSA["0"]["PAG_SECCION3"]) {
@@ -94,7 +94,7 @@ class ViviendaAcms extends MX_Controller {
         $this->load->view("layout", $data);
     }
     
-    /**
+    /** Carga vista de página 3 - - artículo o servicio COMPRADO o PAGADO
      * @author hhchavezv
      * @param   array $data: array con parametros a enviar a vista
      * @since 2016-07-01
@@ -105,11 +105,7 @@ class ViviendaAcms extends MX_Controller {
 		//Lista de articulos pagados, del módulo
 		$data["arrArticulos"]= $this->Modsec3->listar_articulos_comprados($data['id_formulario'], $data['secc'][0]['ID_SECCION3']); 
 		
-		// nota: verificar si consultamos nombres de variables medios de pago desde BD
-		/*$data["medio_pago"]["requiere"]=1;
-		$data["medio_pago"]["nom_var"]="P438C11";
-		$data["medio_pago"]["nom_otro"]="P438S1C11";
-		*/
+		// Verifica si debe habilitar pregunta "medio de pago"
 		$data["habilita_medio_pago"]=$this->Modsec3->habilitaPreguntaMedioPago($data['secc'][0]['ID_SECCION3']); 
 		
 		$data["arrMediosPago"]=$this->Modsec3->listar_medios_pago(); 
@@ -119,16 +115,15 @@ class ViviendaAcms extends MX_Controller {
 		// Se consulta la lista de frecuencia de compra
         $data["arrFrecCompra"]= $this->Modgmfh->consultar_param_general('', 'FRECUENCIA_COMPRA', '', '');
         
-		
+/******* NOTA: Personalizar ruta ****************/		
 		$data["js_dir"] = base_url('js/gasmenfrehogar/viviendaAcms/viviendaAcms.js');
-        //$data["view"] = $this->submodule . '/form3';
-		$data["view"] = 'form3';
+/***********************************************/				
+        $data["view"] = 'form3';
         $this->load->view("layout", $data);
     }
 	
-	/**
+	/** Guarda página 3 - artículo o servicio COMPRADO o PAGADO
      * @author hhchavezv
-     * @param   array $data: array con parametros a enviar a vista
      * @since 2016-07-06
      */
     public function guardaGrillaCompra() {
@@ -142,7 +137,7 @@ class ViviendaAcms extends MX_Controller {
 			
 		$result=$this->Modsec3->guardaForm3($_POST);	
 		if($result)		
-			echo "-ok-";
+			echo "-ok-";// retorna esta cadena a JS, para validar que se guardo correctamente
 		else
 			echo "ERROR";
 		
@@ -182,5 +177,89 @@ class ViviendaAcms extends MX_Controller {
 		$controller = new ViviendaCompra();
 		$controller->index();
     }
+	
+	/** Actuliza tabla control
+      * @author cemedinaa
+    **/
+	private function actualizarEstado() {
+        $this->load->model(array("Modgmfh"));
+        $id_formulario = $this->session->userdata("id_formulario");
+        $arrSA = $this->Modgmfh->listar_secciones_avances(array( "id0" => $this->idSubModulo , "estado" => array(0,1)));
+        
+        $fechahoraactual = $this->Modgmfh->consultar_fecha_hora();
+        $fechaactual = substr($fechahoraactual, 0, 10);
+        if(sizeof($arrSA) > 1) {
+            $this->idSeccion = $arrSA[1]['ID_SECCION3'];
+
+            $formas_obt = $this->Modgmfh->lista_formaObtencion( array("seccion" => $this->idSeccion, "id_formulario" => $id_formulario) );
+
+            $formas_obt_sin_compra = $this->Modgmfh->lista_formaObtencion( array("seccion" => $this->idSeccion, "id_formulario" => $id_formulario, "sincompra" => 1) );
+            $formas_obt_con_compra = $this->Modgmfh->lista_formaObtencion( array("seccion" => $this->idSeccion, "id_formulario" => $id_formulario, "compra" => 1) );
+            $lista_compra = $this->Modgmfh->lista_compra( array("seccion" => $this->idSeccion, "id_formulario" => $id_formulario) );
+            $formas_adqui = $this->Modgmfh->lista_formaAdqui( array("seccion" => $this->idSeccion, "id_formulario" => $id_formulario) );
+            $fin = false;
+
+            if($arrSA[0]['ID_ESTADO_SEC'] ==  0){
+                $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 1), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $arrSA[0]['ID_SECCION3']));
+                $arrSA[0]['ID_ESTADO_SEC'] = 1;
+            }
+
+         
+            if($arrSA[1]['ID_ESTADO_SEC'] ==  0 && $arrSA[1]['PAG_SECCION3'] ==  0){
+                $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 1, "PAG_SECCION3" => 1, "FECHA_INI_SEC" => $fechaactual), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $this->idSeccion));
+                $arrSA[1]['ID_ESTADO_SEC'] = 1;
+                $arrSA[1]['PAG_SECCION3'] = 1;
+            }
+            /*else if($arrSA[1]['ID_ESTADO_SEC'] ==  1 && $arrSA[1]['PAG_SECCION3'] == 1 && count($formas_obt) == 1 && $formas_obt[0]['ID_ARTICULO3'] == "99999999" ) {
+                $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $this->idSeccion));
+            }*/
+            else if($arrSA[1]['ID_ESTADO_SEC'] ==  1 && $arrSA[1]['PAG_SECCION3'] == 1 && count($formas_obt) > 0 ) {
+                $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "PAG_SECCION3" => 2), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $this->idSeccion));
+                $arrSA[1]['PAG_SECCION3'] = 2;
+            }
+            else if($arrSA[1]['ID_ESTADO_SEC'] ==  1 && $arrSA[1]['PAG_SECCION3'] == 2 && count($formas_obt_con_compra) > 0 ) {
+                $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "PAG_SECCION3" => 3), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $this->idSeccion));
+                $arrSA[1]['PAG_SECCION3'] = 3;
+            }
+            else if($arrSA[1]['ID_ESTADO_SEC'] ==  1 && $arrSA[1]['PAG_SECCION3'] == 2 && count($formas_obt_sin_compra ) > 0 ) {
+                $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "PAG_SECCION3" => 4), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $this->idSeccion));
+                $arrSA[1]['PAG_SECCION3'] = 4;
+            }
+            else if($arrSA[1]['ID_ESTADO_SEC'] ==  1 && $arrSA[1]['PAG_SECCION3'] == 3 && count($lista_compra) > 0 && count($formas_obt_sin_compra) > 0) {
+                $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "PAG_SECCION3" => 4), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $this->idSeccion));
+                $arrSA[1]['PAG_SECCION3'] = 4;
+            }
+            else if($arrSA[1]['ID_ESTADO_SEC'] ==  1 && $arrSA[1]['PAG_SECCION3'] == 3 && count($lista_compra) > 0 && count($formas_obt_sin_compra) == 0) {
+                $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $this->idSeccion));
+                $arrSA[1]['ID_ESTADO_SEC'] = 2;
+                $fin = true;
+            }
+            else if($arrSA[1]['ID_ESTADO_SEC'] ==  1 && $arrSA[1]['PAG_SECCION3'] == 4 && count($formas_adqui) > 0 ) {
+                $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $this->idSeccion));
+                $arrSA[1]['ID_ESTADO_SEC'] = 2;
+                $fin = true;
+            }
+
+            
+            if($fin && sizeof($arrSA) > 2 && $arrSA[2]['ID_ESTADO_SEC'] ==  0 && $arrSA[2]['PAG_SECCION3'] ==  0) {
+                $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 1, "PAG_SECCION3" => 1, "FECHA_INI_SEC" => $fechaactual), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $arrSA[2]['ID_SECCION3']));
+                $arrSA[2]['ID_ESTADO_SEC'] = 1;
+                $arrSA[2]['PAG_SECCION3'] = 1;
+            }
+            else if($fin && sizeof($arrSA) == 2) {
+                $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual ), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $arrSA[0]['ID_SECCION3']));
+                $arrSA[0]['ID_ESTADO_SEC'] = 2;
+            }
+
+
+
+        }
+        //else {
+        //    $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual ), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $arrSA[0]['ID_SECCION3']));
+        //}
+
+        return $arrSA;
+    }
+	
 }
 //EOC

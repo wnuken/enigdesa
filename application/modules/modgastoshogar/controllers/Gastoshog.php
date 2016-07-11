@@ -21,48 +21,42 @@ class Gastoshog extends MX_Controller {
 		$this->load->model (array ("formulario/Mformulario", "control/Modmenu"));
 		$data["id_formulario"] = $this->session->userdata("id_formulario");
 		$data["id_persona"] = $id_persona;
-		pr($data);
 		if (empty ($data["id_formulario"])) {
 			redirect('/');
 		}
 		else {
-			$data['secc'] = $this->Modmenu->obtenerSeccPagActual($data["id_formulario"], '');
+			$data['secc'] = $this->Modmenu->obtenerSeccPagActual($data["id_formulario"], 'GDHOGAR');
 			$data['secc']['ENCABEZADO'] = $this->Mformulario->asignarFechasEtiqueta($data['secc']['ENCABEZADO'], $data["id_formulario"]);
 			if (empty($data['secc']['ID_SECCION']) || empty($data['secc']['PAGINA'])) {
-				redirect('control/Menu');
+				redirect('modinggasper/Personas');
 			}
 			else {
 				// Seccion Inicial - Frecuencias
 				if ($data['secc']['ID_SECCION'] == '00FRECUENCIAS' && $data['secc']['PAGINA'] == '1') {
-					$this->Modmenu->guardarAvanceFormulario($data['id_formulario'], $data['secc']['ID_SECCION'], $data['secc']['PAGINA'], 'SI');
-					$arrFechasModulo = $this->Modmenu->consultarFechasxModulo($data['id_formulario'], 'GDHOGAR');
-					$data['inicio'] = $arrFechasModulo["FECHAHORA_INI"];
-					$data['fin'] = $arrFechasModulo["FECHAHORA_FIN"];
-					$data["view"] = "vgdhfrecuencias"; 
+					$data['preg']["var"] = $this->Mformulario->listarVariables($data['secc']['ID_SECCION'], $data['secc']['PAGINA'], $data["id_formulario"]);
+					$data['preg']["opc"] = $this->Mformulario->listarOpciones($data['secc']['ID_SECCION'], $data['secc']['PAGINA'], $data["id_formulario"]);
+					$data['preg']["dep"] = $this->Mformulario->listarDependencias($data['secc']['ID_SECCION'], $data['secc']['PAGINA']);
+					$data['resp'] = $this->Mformulario->listarValores($data['preg']["var"], $data["id_formulario"], 'ENIG_FORM_GDH_FRECUENCIA');
+					$data["view"] = "vgdhfrecuencias";
 					$this->load->view("layout", $data);
 				}
 				// Secciones de Gastos diarios del hogar
 				else {
-					if ($data['secc']['ID_SECCION'] == '1VIVIENDA')
-						$tabla = 'ENIG_FORM_VIVIENDAS';
-					elseif ($data['secc']['ID_SECCION'] == '2HOGAR')
-						$tabla = 'ENIG_FORM_HOGARES';
-					$data["vardep"] = $this->Mformulario->variablesDependientes($data['secc']['ID_SECCION'], $data['secc']['PAGINA'], $data["id_formulario"], $tabla);
-					//pr($data['vardep']); exit;
-					$data['preg']["grv"] = $this->Mformulario->listarGruposVariables($data['secc']['ID_SECCION'], $data['secc']['PAGINA']);
-					$data['preg']["var"] = $this->Mformulario->listarVariables($data['secc']['ID_SECCION'], $data['secc']['PAGINA'], $data["id_formulario"]);
-					$data['preg']["opc"] = $this->Mformulario->listarOpciones($data['secc']['ID_SECCION'], $data['secc']['PAGINA'], $data["id_formulario"]);
-					$arrVarPers = array("P6006S1_1", "P1648S1A1", "P1648S1A2", "P1648S2A1", "P1648S2A2", "P1648S3A1", "P1648S3A2", "P1648S4A1", "P1648S4A2", "P1648S5A1", "P1648S5A2", "P1648S6A1", "P1648S6A2");
+					$data['dia'] = 'dia';
+					$data['preg_art']["var"] = $this->Mformulario->listarVariables('GDHARTICULOS', '1', $data["id_formulario"]);
+					$data['preg_art']["opc"] = $this->Mformulario->listarOpciones('GDHARTICULOS', '1', $data["id_formulario"]);
+					/*$arrVarPers = array("P6006S1_1", "P1648S1A1", "P1648S1A2", "P1648S2A1", "P1648S2A2", "P1648S3A1", "P1648S3A2", "P1648S4A1", "P1648S4A2", "P1648S5A1", "P1648S5A2", "P1648S6A1", "P1648S6A2");
 					foreach ($data['preg']["var"] as $v)
 						if (in_array($v["ID_VARIABLE"], $arrVarPers))
 							$data['preg']["opc"] = array_merge($data['preg']["opc"], $this->Mformulario->listarPersonas($data["id_formulario"], $v["ID_VARIABLE"], ">=10"));
-					$data['preg']["reg"] = $this->Mformulario->listarConsistencias($data['secc']['ID_SECCION'], $data['secc']['PAGINA']);
-					$data['preg']["dep"] = $this->Mformulario->listarDependencias($data['secc']['ID_SECCION'], $data['secc']['PAGINA']);
-					$data['resp'] = $this->Mformulario->listarValores($data['preg']["var"], $data["id_formulario"], $tabla);
-					$data["view"] = "vvivhogar"; 
+					*/
+					$data['preg_art']["reg"] = $this->Mformulario->listarConsistencias('GDHARTICULOS', '1');
+					$data['preg_art']["dep"] = $this->Mformulario->listarDependencias('GDHARTICULOS', '1');
+					$data['resp_art'] = $this->Mformulario->listarValores($data['preg_art']["var"], $data["id_formulario"], 'ENIG_FORM_GDH_ARTICULOS');
+					$data["view"] = "vgdiarioshogar"; 
 					$this->load->view ( "layout", $data );
 				}
-			}*/
+			}
 		}
 	}
 	
@@ -73,7 +67,7 @@ class Gastoshog extends MX_Controller {
 			redirect('/');
 		}
 		else {
-			$secc = $this->Modmenu->obtenerSeccPagAnterior($id_formulario, 'VIVHOGAR');
+			$secc = $this->Modmenu->obtenerSeccPagAnterior($id_formulario, 'GDHOGAR');
 			//pr($secc); exit;
 			$this->Modmenu->guardarAvanceFormulario($id_formulario, $secc['ID_SECCION'], $secc['PAGINA'], 'NO');
 			redirect('modvivhogar/Vivhogar');
@@ -84,28 +78,56 @@ class Gastoshog extends MX_Controller {
 	 * Resultado de guardar el formulario
 	 * @author mayandarl
 	 */
-	public function guardar($seccion = 0, $pagina = 0) {
-		$data = array();
-		if (empty($seccion) || empty($pagina)) {
-			echo "<b>Error guardando Formulario. Seccion, Pagina no definidas</b><br/>";
-		}
-		else {
-			$this->load->model(array ("formulario/Mformulario", "control/Modmenu"));
-			$id_formulario = $this->session->userdata("id_formulario");
-			if ($seccion == '1VIVIENDA')
-				$tabla = 'ENIG_FORM_VIVIENDAS';
-			elseif ($seccion == '2HOGAR')
-				$tabla = 'ENIG_FORM_HOGARES';
-			$resultado = $this->Mformulario->actualizarFormulario($id_formulario, $_POST, $tabla);
-			if ($resultado) {
-				$inicio = $_POST ['_INI_' . $seccion . '_' . $pagina];
-				$fin = date("Y-m-d H:i:s");
-				$this->Modmenu->guardarRegistroFormulario($id_formulario, $seccion, $pagina, $inicio, $fin);
-				$this->Modmenu->guardarAvanceFormulario($id_formulario, $seccion, $pagina, 'SI');
+	public function guardar($tabla) {
+		$this->load->model(array("Modgastoshog", "control/Modmenu"));
+		$resultado = false;
+		$id_formulario = $this->session->userdata("id_formulario");
+		if ($tabla == 'ARTICULOS') {
+			if ($_POST['_ACC_ARTICULOS'] == 'UPDATE') {
+				$resultado = $this->Modgastoshog->actualizarFormularioArticulo($id_formulario, $_POST['_DIA'], $_POST['_ID_ARTICULO'], $_POST);
 			}
-			echo "<b>Formulario guardado exitosamente.</b><br/>";
+			elseif ($_POST['_ACC_ARTICULOS'] == 'INSERT') {
+				$resultado = $this->Modgastoshog->crearFormularioArticulo($id_formulario, $_POST['_DIA'], uniqid(), $_POST);
+				/*if ($resultado) {
+					$inicio = $_POST['_INI_ARTICULOS'];
+					$fin = date("Y-m-d H:i:s");
+					$this->Modmenu->guardarRegistroFormulario($id_formulario, 'FAMILIA', '1', $inicio, $fin);
+				}*/
+			}
 		}
-		// echo "</PRE>"; print_r($resultado); echo "</PRE>";
+		echo "<b>Formulario guardado exitosamente.</b>";
 	}
+
+	/**
+	 * Resultado de listar todas los articulos del formulario
+	 * @author Mario A. Yandar
+	 */
+	public function articulos ($id_formulario, $dia) {
+		$this->load->model("Modgastoshog");
+		$data = $this->Modgastoshog->listadoArticulos($id_formulario, $dia);
+		echo json_encode($data);
+	}
+
+	/**
+	 * Resultado de Guardar en el formulario
+	 * @author Mario A. Yandar
+	 */
+	public function articulo ($id_formulario, $id_articulo) {
+		$this->load->model("Modgastoshog");
+		$data = $this->Modgastoshog->buscarArticulo($id_formulario, $id_articulo);
+		echo json_encode($data);
+	}
+
+	/**
+	 * Resultado de Eliminar en el formulario
+	 * @author Mario A. Yandar
+	 */
+	public function noarticulo ($id_formulario, $id_articulo) {
+		$this->load->model("Modgastoshog");
+		$data = $this->Modgastoshog->eliminarArticulo($id_formulario, $id_articulo);
+		return true;
+	}
+
+	
 }// EOC
 ?>

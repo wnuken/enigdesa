@@ -235,7 +235,7 @@ class Modsec3 extends My_model {
 			else
 			{
 				$result=true;
-			}//$result=true;//temporal
+			}
 			
 			
 		}//if
@@ -269,7 +269,7 @@ class Modsec3 extends My_model {
      * @access Public
      * @author hhchavezv
 	 * @param  $id_seccion: submódulo que está diligenciando (ej: C1 )
-	 * @return Bool =1 dependiendo de si se realizo correctamente la operación o no
+	 * @return Bool =true dependiendo de si se realizo correctamente la operación o no
      */
     public function habilitaPreguntaMedioPago($id_seccion) 
 	{               

@@ -158,17 +158,15 @@ class Recreacion extends MX_Controller {
      */
     private function mostrarListaArticulos() {
         // Aca va el codigo
-        $data["js_dir"] = base_url('js/' . $this->module . '/' . $this->submodule . '/archivo.js');
-        //echo "mmm";
-        //$data["view"] = $this->submodule . '/form1';
-        
+        //$data["js_dir"] = base_url('js/' . $this->module . '/' . $this->submodule . '/recreacion.js');
+
+        $data["js_dir"] = base_url('js/gasmenfrehogar/' . $this->submodule . '/recreacion.js');        
         $this->load->model(array("formulario/Mformulario", "control/Modmenu", "Modgmfh"));
 
         $this->session->set_userdata('id_seccion', $this->idSeccion);
         $data["id_formulario"] = $this->session->userdata("id_formulario");
 
         $data['secc'] = $this->Modgmfh->listar_secciones(array("id" => $this->idSeccion ));
-        
 
         $data['preg']["var"] = $this->Modgmfh->listar_articulos_seccion( array("sec" => $this->idSeccion) );
         $data["view"]="form1";
@@ -188,7 +186,8 @@ class Recreacion extends MX_Controller {
         //$data["view"] = $this->submodule . '/view1';
         //$this->load->view("layout", $data);
 
-        $data["js_dir"] = base_url('js/' . $this->module . '/' . $this->submodule . '/archivo.js');
+        //$data["js_dir"] = base_url('js/' . $this->module . '/' . $this->submodule . '/archivo.js');
+        $data["js_dir"] = base_url('js/gasmenfrehogar/' . $this->submodule . '/archivo.js');
         //echo "mmm";
         //$data["view"] = $this->submodule . '/form1';
         
@@ -282,11 +281,12 @@ class Recreacion extends MX_Controller {
                     $this->Modgmfh->ejecutar_insert('ENIG_FORM_GMF_FORMA_OBTENCION', array( "ID_FORMULARIO" => $id_formulario, "ID_ARTICULO3" => $value));
                     $i++;
                 }
+                else echo "<br><br>no existe articulos=".$articulos[$i];
             }
 
             if($i > 0)
                 echo "Se ha guardado la informaci&oacute;n correctamente!";
-            else echo "Se ha presentado un error por favor intenter de nuevo!";
+            else echo "Se ha presentado un error por favor intentar de nuevo!";
         }
 
         //guarda capitulo 2
@@ -324,7 +324,10 @@ class Recreacion extends MX_Controller {
             }
             echo "Se ha guardado la informaci&oacute;n correctamente!";
         }
-        else echo "<br>no se hace nada!";
+        else {
+            echo "<br>no se hace nada!";
+            //$this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $id_seccion));
+        }
 
    
     }

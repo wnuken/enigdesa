@@ -43,7 +43,11 @@ class My_model extends CI_Model {
                         break;
                     }
                 }
-                if(es_fecha_valida($valor)) {
+				if ($valor == NULL) {
+                        $this->sql .= "NULL";
+                } else if (is_string($valor) && strtolower($valor) == "null") {
+                        $this->sql .= "NULL";
+                }else if(es_fecha_valida($valor)) {
                     $this->sql .= "TO_DATE('" . $valor . "', 'DD/MM/YYYY')";
                 } else if(is_string($valor)) {
                     $this->sql .= "'" . str_replace("'", "''", $valor) . "'";
@@ -53,7 +57,7 @@ class My_model extends CI_Model {
                 $this->sql .= (count($arrValores) != ($i + 1)) ? ", " : ")";
                 $i++;
             }
-            //pr($this->sql); exit;
+           //pr($this->sql); exit;
             //return $this->sql . ";";
             $query = $this->db->query($this->sql);
             $this->db->close();
