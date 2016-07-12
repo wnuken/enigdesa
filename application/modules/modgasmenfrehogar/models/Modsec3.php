@@ -72,11 +72,12 @@ class Modsec3 extends My_model {
 		$data[6]["nombre"]= "Otro";
 		return $data;
 	}
-    
+   
 	/**
      * Guarda formulario de pagina 3 - artículo o servicio COMPRADO o PAGADO
-     * @access Public
      * @author hhchavezv
+	 * @param   array $datos:datos a guardar en BD
+	 * @return bool : true si guarda y realiza commit a transaccion
      */
     public function guardaForm3($datos) 
 	{               
@@ -87,14 +88,13 @@ class Modsec3 extends My_model {
 	   			eval($asignacion);
 			}
 		
-		
 		// Hace barrido en tabla articulos
 		if($hdd_nro_articulos >0)//verifica q hayan articulos en la tabla
     	{
     		// Inicia transaccion
 			$this->db->trans_start();
 			
-			
+
 			for ($i = 0; $i < $hdd_nro_articulos; $i++) 
 			{
     			
@@ -129,17 +129,19 @@ class Modsec3 extends My_model {
 						echo "ERROR: al guardar un artículo";
 					}	
     		}
-			// TOTAL PAGADO
-			if ( isset($txt_total) )
-			{
-				
-				$sql = "SELECT ID_VARIABLE_TOTAL_PAGO1
+
+			//Trae nemotecnia de variables a guardar
+			$sql_vars = "SELECT ID_VARIABLE_TOTAL_PAGO1, ID_VARIABLE_MEDIO_PAGO, ID_VARIABLE_OTRO_PAGO
 						FROM ENIG_ADMIN_GMF_SECCIONES 
 						WHERE ID_SECCION3='$hdd_sec' ";        
+			$query_vars = $this->db->query($sql_vars);
+			
+			// TOTAL PAGADO
+			if ( isset($txt_total) )
+			{        
 				$nom_var="";
-				$query = $this->db->query($sql);
-				if ($query->num_rows()>0){
-						$row=$query->row();
+				if ($query_vars->num_rows()>0){
+						$row=$query_vars->row();
 						$nom_var=$row->ID_VARIABLE_TOTAL_PAGO1;
 					
 					$sql2="INSERT INTO ENIG_FORM_GMF_VARIABLES (ID_FORMULARIO,ID_VARIABLE,VALOR_VARIABLE) 
@@ -156,15 +158,10 @@ class Modsec3 extends My_model {
 			}
 			//MEDIO DE PAGO
 			if ( isset($sel_medio_pago) && ($sel_medio_pago!="" && $sel_medio_pago!="-"))
-			{
-				
-				$sql = "SELECT ID_VARIABLE_MEDIO_PAGO
-						FROM ENIG_ADMIN_GMF_SECCIONES 
-						WHERE ID_SECCION3='$hdd_sec' ";        
+			{	        
 				$nom_var="";
-				$query = $this->db->query($sql);
-				if ($query->num_rows()>0){
-						$row=$query->row();
+				if ($query_vars->num_rows()>0){
+						$row=$query_vars->row();
 						$nom_var=$row->ID_VARIABLE_MEDIO_PAGO;
 					
 					/*
@@ -192,15 +189,10 @@ class Modsec3 extends My_model {
 			
 			//CUAL OTRO MEDIO DE PAGO
 			if ( isset($txt_otro_medio_pago) )
-			{
-				
-				$sql = "SELECT ID_VARIABLE_OTRO_PAGO
-						FROM ENIG_ADMIN_GMF_SECCIONES 
-						WHERE ID_SECCION3='$hdd_sec' ";        
+			{	        
 				$nom_var="";
-				$query = $this->db->query($sql);
-				if ($query->num_rows()>0){
-						$row=$query->row();
+				if ($query_vars->num_rows()>0){
+						$row=$query_vars->row();
 						$nom_var=$row->ID_VARIABLE_OTRO_PAGO;
 					
 					/*
@@ -236,7 +228,6 @@ class Modsec3 extends My_model {
 			{
 				$result=true;
 			}
-			
 			
 		}//if
 		return $result;

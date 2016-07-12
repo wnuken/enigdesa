@@ -5,21 +5,22 @@
      * @since 2016jun30
  **/
 ?>
-<script type="text/javascript" src="<?php echo $js_dir; ?>"></script>
+ <script type="text/javascript" src="<?php echo $js_dir; ?>"></script>
 <div class="row">
-	<div class="col-sm-2"><img title="Icono de Gastos" src="<?php //echo base_url("images/form_icon-gastos.png"); ?>" /></div>
-	<div class="col-sm-8">
-		<h2><?=$secc[0]['DESCR_SECCION'] . "(" . $secc[0]['TEMPORALIDAD'] . ")"; ?></h2>
+	<div class="col-sm-2"><img title="Icono de Gastos" src="<?php //echo base_url("images/form_icon-ingresospersonales.png"); ?>" /></div>
+	<div class="col-sm-10">
+		<h2><?php echo $titulo_ppal; ?></h2>
 		</div>
 </div>
 <div class="row">
 	<div class="col-sm-2">&nbsp;</div>
-	<div class="col-sm-8">
+	<div class="col-sm-10">
+		<h4><?=$secc[0]['DESCR_SECCION'] . "(" . $secc[0]['TEMPORALIDAD'] . ")"; ?></h4>
 		<h4><?php echo $subtitulo; ?></h4>
 		</div>
 </div>
 
-<form id="form_sec3_<? echo $secc[0]['ID_SECCION3']?>" name="form_sec3_<? echo $secc[0]['ID_SECCION3']?>" class="form-horizontal" role="form">
+<form id="form_sec3" name="form_sec3" class="form-horizontal" role="form">
 
 		<input type="hidden" name="ID_FORMULARIO" id="ID_FORMULARIO" value="<?php echo $id_formulario;?>" />
 		<input type="hidden" name="hdd_sec" id="hdd_sec" value="<? echo $secc[0]['ID_SECCION3']?>" />
@@ -140,6 +141,6 @@
 		<div id="pag3_cargando" class="msj_guarda" style="display:none; color: green;">Guardando ... <img src="<?php echo base_url("images/ajax-loader.gif")?>" title="Guardando" /></div>
 		<div id="pag3_error" class="msj_error" style="display:none; color: red;" >Error: Secci&oacute;n no guardada.</div>
 		</div>
-		<div class="col-md-1"> <button id="btn_form3_<? echo $secc[0]['ID_SECCION3']?>" name="btn_form3_<? echo $secc[0]['ID_SECCION3']?>" type="button" class="btn btn-success btn-md pull-right">Siguiente</button> </div>
+		<div class="col-md-1"> <button id="btn_form3" name="btn_form3" type="button" class="btn btn-success btn-md pull-right">Siguiente</button> </div>
 	</div>
 </form>

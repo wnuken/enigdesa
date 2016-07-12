@@ -111,6 +111,7 @@
 		<div class="radio form-group">
 			<label>&iquest; A cu&aacute;ntos a&ntilde;os ?
 				<select id="p10309s2a1" name="p10309s2a1" class="form-control">
+				<option value="-" selected="selected">Seleccione...</option>
 				<?php for ($i=1; $i<=30; $i++){ ?>
 					<option value="<?php echo $i; ?>"><?php echo ($i==1)?"$i a&ntilde;o":"$i a&ntilde;os"; ?></option>	 
 				<?php } ?>
@@ -122,6 +123,7 @@
 		<div class="radio form-group">
 			<label>&iquest; A cu&aacute;ntos a&ntilde;os ?
 				<select id="p10309s3a1" name="p10309s3a1" class="form-control">
+				<option value="-" selected="selected">Seleccione...</option>
 				<?php for ($i=1; $i<=30; $i++){ ?>
 					<option value="<?php echo $i; ?>"><?php echo ($i==1)?"$i a&ntilde;o":"$i a&ntilde;os"; ?></option>	 
 				<?php } ?>
@@ -308,6 +310,7 @@
 		<div class="radio form-group">
 			<label>&iquest; A cu&aacute;ntos a&ntilde;os ?
 				<select id="p8697s2a1" name="p8697s2a1" class="form-control">
+				<option value="-">Seleccione...</option>
 				<?php for ($i=1; $i<=30; $i++){ ?>
 					<option value="<?php echo $i; ?>"><?php echo ($i==1)?"$i a&ntilde;o":"$i a&ntilde;os"; ?></option>	 
 				<?php } ?>
@@ -319,6 +322,7 @@
 		<div class="radio form-group">
 			<label>&iquest; A cu&aacute;ntos a&ntilde;os ?
 				<select id="p8697s3a1" name="p8697s3a1" class="form-control">
+				<option value="-">Seleccione...</option>
 				<?php for ($i=1; $i<=30; $i++){ ?>
 					<option value="<?php echo $i; ?>"><?php echo ($i==1)?"$i a&ntilde;o":"$i a&ntilde;os"; ?></option>	 
 				<?php } ?>

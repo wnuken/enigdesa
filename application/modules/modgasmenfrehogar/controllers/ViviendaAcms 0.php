@@ -19,7 +19,6 @@ class ViviendaAcms extends MX_Controller {
         $this->submodule = $this->uri->segment(2);
         $this->idModulo = 'GMFHOGAR';
         $this->idCapitulo = '';
-		$this->idSubModulo = 'C';
         $this->idSeccion = 'C1';
     }
     
@@ -32,39 +31,22 @@ class ViviendaAcms extends MX_Controller {
             return false;
         }
         // Se consulta el estado de la seccion, si esta finalizado se redirige al menu del modulo
-     //   $arrParam = array('id' => $this->idSeccion);
+        $arrParam = array('id' => $this->idSeccion);
  
- /*ACTUALIZA CONTROL - FUNC CAMILO*/
-		$arrSA = $this->actualizarEstado();
-		//pr($arrSA);
-		
-		if (count($arrSA) == 0) {
-            //if($arrSA["0"]["ID_ESTADO_SEC"] == 2) {
-                redirect(base_url($this->module));
-                return false;
-            //}
-        }
-/**/ 
-
- /* OK - se quita temporal mientras modifican Modgmfh
-		$arrSA = $this->Modgmfh->listar_secciones_avances($arrParam);
+ 		$arrSA = $this->Modgmfh->listar_secciones_avances($arrParam);
         if (count($arrSA) > 0) {
             if($arrSA["0"]["ID_ESTADO_SEC"] == 2) {
                 redirect(base_url($this->module));
                 return false;
             }
-        }*/
-		
-		
-//		$data['secc'] = $this->Modgmfh->listar_secciones(array("id" => $this->idSeccion ));
+        }
+		$data['secc'] = $this->Modgmfh->listar_secciones(array("id" => $this->idSeccion ));
 
-        //pr($data['secc']); 
-        //if(!empty($arrSA["0"]["PAG_SECCION3"])) { //orig
+        //pr($arrSA); 
+        if(!empty($arrSA["0"]["PAG_SECCION3"])) {
 		//if(1==1) {
-		if(!empty($arrSA["1"]["PAG_SECCION3"])) {
-           // switch ($arrSA["0"]["PAG_SECCION3"]) { //orig
-			//switch (7) {
-			switch ($arrSA["1"]["PAG_SECCION3"]) {
+            switch ($arrSA["0"]["PAG_SECCION3"]) {
+			//switch (3) {
                 case 1:
                     $this->mostrarListaArticulos($data);
                     break;
@@ -72,37 +54,15 @@ class ViviendaAcms extends MX_Controller {
                     $this->mostrarListaObtencion($data);
                     break;
                 case 3:
-					$data["titulo_ppal"]="GASTOS DURANTE EL MES PASADO de ______ del 2016";
-					$data["subtitulo"]="ALQUILER DE VIVIENDA, COMBUSTIBLES Y CONEXI&Oacute;N DE SERVICIOS PARA LA VIVIENDA";
-					$data['secc'] = $this->Modgmfh->listar_secciones(array("id" =>"C1"));
-					$data["js_dir"] = base_url('js/gasmenfrehogar/viviendaAcms/viviendaAcms.js');					
+					$data["subtitulo"]="ALQUILER DE VIVIENDA, COMBUSTIBLES Y CONEXI&Oacute;N DE SERVICIOS PARA LA VIVIENDA "; 
                     $this->mostrarGrillaCompra($data);
                     break;
                 case 4:
                     $this->mostrarGrillaNoCompra($data);
                     break;
-				case 5:
-                    $this->mostrarListaArticulos($data);
-                    break;
-                case 6:
-                    $this->mostrarListaObtencion($data);
-                    break;
-                case 7:
-					$data["titulo_ppal"]="GASTOS DURANTE LOS &Uacute;LTIMOS DOCE MESES - de _____ del 2015 a _____ del 2016";
-					$data["subtitulo"]="CONSERVACI&Oacute;N, MANTENIMIENTO, REPARACI&Oacute;N Y CONEXI&Oacute;N DE SERVICIOS PARA LA VIVIENDA"; 
-					$data['secc'] = $this->Modgmfh->listar_secciones(array("id" =>"C2"));		
-					$data["js_dir"] = base_url('js/gasmenfrehogar/viviendaAcms/viviendaAcms.js');					
-                    $this->mostrarGrillaCompra($data);
-                    break;
-                case 8:
-                    $this->mostrarGrillaNoCompra($data);
-                    break;
-				case 9:
-                    $this->mostrarFormServiciosPublicos();
-                    break;
-				case 10:
+				case 6:
                     $this->mostrarFormCompraVivienda();
-                    break;					
+                    break;	
             }
             
         }
@@ -134,7 +94,7 @@ class ViviendaAcms extends MX_Controller {
         $this->load->view("layout", $data);
     }
     
-    /** Abre página 3 -  artículo o servicio COMPRADO o PAGADO
+    /** Carga vista de página 3 - - artículo o servicio COMPRADO o PAGADO
      * @author hhchavezv
      * @param   array $data: array con parametros a enviar a vista
      * @since 2016-07-01
@@ -142,20 +102,22 @@ class ViviendaAcms extends MX_Controller {
     private function mostrarGrillaCompra($data) {
         
 		$this->load->model("Modsec3");
-		
 		//Lista de articulos pagados, del módulo
 		$data["arrArticulos"]= $this->Modsec3->listar_articulos_comprados($data['id_formulario'], $data['secc'][0]['ID_SECCION3']); 
 		
 		// Verifica si debe habilitar pregunta "medio de pago"
-		$data["habilita_medio_pago"]= $this->Modsec3->habilitaPreguntaMedioPago($data['secc'][0]['ID_SECCION3']); 
+		$data["habilita_medio_pago"]=$this->Modsec3->habilitaPreguntaMedioPago($data['secc'][0]['ID_SECCION3']); 
 		
-		// Se consulta la lista de medios de pago
 		$data["arrMediosPago"]=$this->Modsec3->listar_medios_pago(); 
+		
 		// Se consulta la lista de los lugares de compra
         $data["arrLugarCompra"] = $this->Modgmfh->consultar_param_general('', 'LUGAR_COMPRA', '', '');
 		// Se consulta la lista de frecuencia de compra
         $data["arrFrecCompra"]= $this->Modgmfh->consultar_param_general('', 'FRECUENCIA_COMPRA', '', '');
-		
+        
+/******* NOTA: Personalizar ruta ****************/		
+		$data["js_dir"] = base_url('js/gasmenfrehogar/viviendaAcms/viviendaAcms.js');
+/***********************************************/				
         $data["view"] = 'form3';
         $this->load->view("layout", $data);
     }
@@ -163,27 +125,32 @@ class ViviendaAcms extends MX_Controller {
 	/** Guarda página 3 - artículo o servicio COMPRADO o PAGADO
      * @author hhchavezv
      * @since 2016-07-06
-	 * @return echo "-ok-" si guarda correctamente, si no "ERROR"
      */
     public function guardaGrillaCompra() {
         
 		$this->load->model("Modsec3");
-		// Convierte en variables php lo que llega por POST
-		foreach($_POST as $nombre_campo => $valor){	    	
+		foreach($_POST as $nombre_campo => $valor){
+	    	
 	  			$asignacion = "\$" . $nombre_campo . "='" . $valor . "';";
 	   			eval($asignacion);
 			}
 			
-		$result=$this->Modsec3->guardaForm3($_POST);		
-		if($result){
-			//$result2=$this->Modsec3->actualizaPaginaControl($ID_FORMULARIO, $hdd_sec,4); 
-			//if($result2)
-						
-				echo "-ok-";			
-		}	
+		$result=$this->Modsec3->guardaForm3($_POST);	
+		if($result)		
+			echo "-ok-";// retorna esta cadena a JS, para validar que se guardo correctamente
 		else
 			echo "ERROR";
 		
+		/*if($result){
+			$result2=$this->Modsec3->actualizaPaginaControl($ID_FORMULARIO, $hdd_sec,4); 
+			if($result2)	
+				echo "-ok-";
+			else
+				echo "ERROR";
+		}	
+		else
+			echo "ERROR";	
+			*/
     }
 	
     
@@ -211,11 +178,10 @@ class ViviendaAcms extends MX_Controller {
 		$controller->index();
     }
 	
-	/** Actualiza tabla control
-     * @author cemedinaa 
-     * @since 
-     */
-	 private function actualizarEstado() {
+	/** Actuliza tabla control
+      * @author cemedinaa
+    **/
+	private function actualizarEstado() {
         $this->load->model(array("Modgmfh"));
         $id_formulario = $this->session->userdata("id_formulario");
         $arrSA = $this->Modgmfh->listar_secciones_avances(array( "id0" => $this->idSubModulo , "estado" => array(0,1)));

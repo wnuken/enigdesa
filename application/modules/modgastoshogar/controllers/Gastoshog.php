@@ -18,7 +18,7 @@ class Gastoshog extends MX_Controller {
 	 * @author mayandarl
 	 */
 	public function index($id_persona) {
-		$this->load->model (array ("formulario/Mformulario", "control/Modmenu"));
+		$this->load->model (array ("formulario/Mformulario", "control/Modmenu", "Modgastoshog"));
 		$data["id_formulario"] = $this->session->userdata("id_formulario");
 		$data["id_persona"] = $id_persona;
 		if (empty ($data["id_formulario"])) {
@@ -33,16 +33,17 @@ class Gastoshog extends MX_Controller {
 			else {
 				// Seccion Inicial - Frecuencias
 				if ($data['secc']['ID_SECCION'] == '00FRECUENCIAS' && $data['secc']['PAGINA'] == '1') {
+					$data['preg']["grv"] = $this->Mformulario->listarGruposVariables($data['secc']['ID_SECCION'], $data['secc']['PAGINA']);
 					$data['preg']["var"] = $this->Mformulario->listarVariables($data['secc']['ID_SECCION'], $data['secc']['PAGINA'], $data["id_formulario"]);
 					$data['preg']["opc"] = $this->Mformulario->listarOpciones($data['secc']['ID_SECCION'], $data['secc']['PAGINA'], $data["id_formulario"]);
 					$data['preg']["dep"] = $this->Mformulario->listarDependencias($data['secc']['ID_SECCION'], $data['secc']['PAGINA']);
-					$data['resp'] = $this->Mformulario->listarValores($data['preg']["var"], $data["id_formulario"], 'ENIG_FORM_GDH_FRECUENCIA');
+					$data['resp'] = $this->Modgastoshog->listarValoresFrecuencias($data["id_formulario"]);
 					$data["view"] = "vgdhfrecuencias";
 					$this->load->view("layout", $data);
 				}
 				// Secciones de Gastos diarios del hogar
 				else {
-					$data['dia'] = 'dia';
+					$data['dia'] = $this->Modgastoshog->buscarDia($data["id_formulario"], $data['secc']['ID_SECCION']);
 					$data['preg_art']["var"] = $this->Mformulario->listarVariables('GDHARTICULOS', '1', $data["id_formulario"]);
 					$data['preg_art']["opc"] = $this->Mformulario->listarOpciones('GDHARTICULOS', '1', $data["id_formulario"]);
 					/*$arrVarPers = array("P6006S1_1", "P1648S1A1", "P1648S1A2", "P1648S2A1", "P1648S2A2", "P1648S3A1", "P1648S3A2", "P1648S4A1", "P1648S4A2", "P1648S5A1", "P1648S5A2", "P1648S6A1", "P1648S6A2");
@@ -82,7 +83,14 @@ class Gastoshog extends MX_Controller {
 		$this->load->model(array("Modgastoshog", "control/Modmenu"));
 		$resultado = false;
 		$id_formulario = $this->session->userdata("id_formulario");
-		if ($tabla == 'ARTICULOS') {
+		if ($tabla == '00FRECUENCIAS_1') {
+			$resultado = $this->Modgastoshog->actualizarFrecuencias($id_formulario, $_POST);
+			if ($resultado) {
+				$this->Modmenu->guardarAvanceFormulario($id_formulario, '00FRECUENCIAS', '1', 'SI');
+				$this->Modgastoshog->asignar14Dias($id_formulario);
+			}
+		}
+		elseif ($tabla == 'ARTICULOS') {
 			if ($_POST['_ACC_ARTICULOS'] == 'UPDATE') {
 				$resultado = $this->Modgastoshog->actualizarFormularioArticulo($id_formulario, $_POST['_DIA'], $_POST['_ID_ARTICULO'], $_POST);
 			}

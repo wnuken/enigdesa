@@ -105,21 +105,494 @@ $(function(){
 	
 	
 	//Botón para realizar validaciones y envio del formulario
-	$("#btnCompraVivienda").bind("click",function(){
-		validarFormulario();
+	$("#btnCompraVivienda").bind("click",function(){		
+		
+		var preg1 = validarPregunta1();
+		var preg2 = validarPregunta2();
+		var preg3 = validarPregunta3();
+		var preg4 = validarPregunta4();
+		var preg51 = validarPregunta51();
+		var preg52 = validarPregunta52();
+		var preg6 = validarPregunta6();
+		var preg7 = validarPregunta7();
+		
+		if (preg1 && preg2 && preg3 && preg4 && preg51 && preg52 && preg6 && preg7){		
+			enviarFormulario();
+		}
+		else{
+			alert("Debe responder todas las preguntas del formulario.");
+			/***
+			alert("Preg1: " + preg1);
+			alert("Preg2: " + preg2);
+			alert("Preg3: " + preg3);
+			alert("Preg4: " + preg4);
+			alert("Preg51: " + preg51);
+			alert("Preg52: " + preg52);
+			alert("Preg6: " + preg6);
+			alert("Preg7: " + preg7);
+			***/			
+		}		
 	});
 	
 	
 });
 
 
-//Validar las preguntas para realizar el envio del formulario
+//Ejecuta función AJAX y guarda la informacion diligenciada en el formulario
 //@author dmdiazf / @author hhchavez
-//@since  08/07/2016
-function validarFormulario(){
-	var valida = false;
-	var arrayPreg = new Array(true,false,false,false,false,false,false,false);
+//@since  12/07/2016
+function enviarFormulario(){
+	alert("Ejecutar funcion AJAX y guardar la informacion del formulario");
+}
+
+//Validar la pregunta Nro. 1 del formulario para realizar el envío del formulario
+//@author dmdiazf / @author hhchavez
+//@since  11/07/2016
+function validarPregunta1(){	
+	var preg1 = false;
+	$('input[name="p10305"]').each(function() {
+		if ($(this).is(":checked")){				
+			switch(parseInt($(this).val())){				
+				case 1: //p10305s1
+						if ($("#p10305s1").is(":enabled") && $("#p10305s1").val()==""){								
+							preg1 = false;								
+						}
+						else if (!$("#radp10305s1").is(":checked") && $("p10305s1").val()==""){								
+							preg1 = false;								
+						}
+						else{								
+							preg1 = true;								
+						}
+						break;
+				case 2: //p10305s1
+						if ($("#p10305s1").is(":enabled") && $("#p10305s1").val()==""){							
+							preg1 = false;								
+						}
+						else if (!$("#radp10305s1").is(":checked") && $("#p10305s1").val()==""){							
+							preg1 = false;								
+						}
+						else{							
+							preg1 = true;								
+						}							
+						break;
+				case 3: preg1 = true;
+						break;
+				default: 
+						preg1 = false;
+						break;
+			}
+		}			
+	});
+	return preg1;
+}
+
+//Validar la pregunta Nro. 2 del formulario para realizar el envío del formulario
+//@author dmdiazf / @author hhchavez
+//@since  11/07/2016
+function validarPregunta2(){
+	var preg2 = false;
+	$('input[name="p10306s"]').each(function() {
+		if ($(this).is(":checked")){
+			switch(parseInt($(this).val())){
+				case 1: //p10306s1a1
+						if ($("#p10306s1a1").is(":enabled") && $("#p10306s1a1").val()==""){
+							preg2 = false;
+						}
+						else if(!$("#radp10306s1a1").is(":checked") && $("#p10306s1a1").val()==""){
+							preg2 = false;
+						}
+						else{
+							preg2 = true;
+						}
+						break;
+				case 2: //p10306s2a1
+					    if ($("#p10306s2a1").is(":enabled") && $("#p10306s2a1").val()==""){
+					    	preg2 = false;
+					    }
+					    else if(!$("#radp10306s2a1").is(":checked") && $("#p10306s2a1").val()==""){
+					    	preg2 = false;
+					    }
+					    else{
+					    	preg2 = true;
+					    }
+						break;
+				default: 
+						preg2 = false;
+						break;
+			}
+		}
+	});
+	return preg2;
+}
+
+
+//Validar la pregunta Nro. 3 del formulario para realizar el envío del formulario
+//@author dmdiazf / @author hhchavez
+//@since  11/07/2016
+function validarPregunta3(){
+	//Validar que todos los radios se encuentren marcados
+	var preg3 = false;
+	$('input[name="p10307"]').each(function(){
+		if ($(this).is(":checked")){
+			preg3 = true;
+		}
+	});
+	return preg3;
+}
+
+
+//Validar la pregunta Nro. 4 del formulario para realizar el envío del formulario
+//@author dmdiazf / @author hhchavez
+//@since  11/07/2016
+function validarPregunta4(){
+	//Validar que todos los radios se encuentren marcados
+	var preg4 = false;
+	$('input[name="p10309"]').each(function(){
+		if ($(this).is(":checked")){
+			switch(parseInt($(this).val())){
+				case 1:	preg4 = true;
+						break;
+				case 2: //p10309s2a1
+					    if ($("#p10309s2a1").val()=='-'){
+					    	preg4 = false;
+					    }
+					    else{
+					    	preg4 = true;
+					    }
+						break;
+				case 3: if ($("#p10309s3a1").val()=='-'){
+							preg4 = false;
+						}
+						else{
+							preg4 = true;
+						}
+						break;
+				case 4: preg4 = true;
+						break;
+				case 5: preg4 = true;	
+						break;
+				case 6: if ($("#p10309s5a1").val()==""){
+							preg4 = false;
+						}
+						else{
+							preg4 = true;
+						}
+						break;
+				default: 
+						preg4 = false;
+						break;
+			}
+		}
+	});
+	return preg4;
+}
+
+
+//Validar la pregunta Nro. 5 parte 1 del formulario para realizar el envío del formulario
+//@author dmdiazf / @author hhchavez
+//@since  11/07/2016
+function validarPregunta51(){
+	//Validar que todos los radios se encuentren marcados
+	var preg51 = false;
+	var preg511 = false;
+	var preg512 = false;
+	$('input[name="p5161s1c14"]').each(function(){
+		if ($(this).is(":checked")){
+			switch(parseInt($(this).val())){
+				case 1: //Si Recibe del gobierno
+						//Recibio en dinero
+						preg51 = true;
+						$('input[name="p5161s1a1c14"]').each(function(){
+							if ($(this).is(":checked")){
+								switch(parseInt($(this).val())){
+									case 1:  //Si
+											 if ($("#p5161s1a3c14").is(":enabled") && $("#p5161s1a3c14").val()==""){												 
+												 preg511 = false;
+											 }
+											 else if(!$("#radp5161s1a3c14").is(":checked") && $("#p5161s1a3c14").val()==""){												 
+												 preg511 = false;
+											 }
+											 else{												 
+												 preg511 = true;
+											 }
+											 break;
+									case 2:  //No
+											 preg511 = true;
+											 break;
+									default: preg511 = false;
+									         break;
+								}
+							}							
+						});
+						//Recibio en especie
+						$('input[name="p5161s1a2c14"]').each(function(){
+							if ($(this).is(":checked")){
+								switch(parseInt($(this).val())){
+									case 1:  //Si
+											 if ($("#p5161s1a4c14").is(":enabled") && $("#p5161s1a4c14").val()==""){
+												preg512 = false;
+											 }
+											 else if (!$("#radp5161s1a4c14").is(":checked") && $("#p5161s1a4c14").val()==""){
+												preg512 = false;
+											 }
+											 else{
+												preg512 = true;
+											 }
+											 break;
+									case 2:  //No
+											 preg512 = true;
+											 break;
+									default: preg512 = false;
+									         break;
+								}
+							}							
+						});
+						break;
+						
+				case 2: //No Recibe del gobierno
+						preg51 = true;
+						break;
+						
+				default: 
+						preg51 = false;
+						break;
+			}
+		}
+	});
 	
+	if (preg51 && preg511 && preg512){
+		preg51 = true;
+	}
+	else{
+		preg51 = false;
+	}
+	
+	return preg51;
+}
+
+
+//Validar la pregunta Nro. 5 parte 2 del formulario para realizar el envío del formulario
+//@author dmdiazf / @author hhchavez
+//@since  11/07/2016
+function validarPregunta52(){
+	var preg52 = false;
+	var preg521 = false;
+	var preg522 = false;
+	$('input[name="p5161s2c14"]').each(function(){
+		if ($(this).is(":checked")){
+			switch(parseInt($(this).val())){
+				case 1: //Si
+						//Recibio en dinero
+						preg52 = true;
+						$('input[name="p5161s2a1c14"]').each(function(){
+							if ($(this).is(":checked")){
+								switch(parseInt($(this).val())){
+									case 1:  //Si
+											 if ($("#p5161s2a3c14").is(":enabled") && $("#p5161s2a3c14").val()==""){												
+												preg521 = false;
+											 }
+											 else if(!$("#radp5161s2a3c14").is(":checked") && $("#p5161s2a3c14").val()==""){												
+												preg521 = false;
+											 }
+											 else{
+												preg521 = true;
+											 }
+											 break;
+									case 2:  //No
+											 preg521 = true;
+											 break;
+									default: preg521 = false;
+									         break;
+								}
+							}							
+						});
+						//Recibio en especie
+						$('input[name="p5161s2a2c14"]').each(function(){
+							if ($(this).is(":checked")){
+								switch(parseInt($(this).val())){
+									case 1:  //Si
+											 if ($("#p5161s2a4c14").is(":enabled") && $("#p5161s2a4c14").val()==""){
+												preg522 = false;
+											 }
+											 else if (!$("#radp5161s2a4c14").is(":checked") && $("#p5161s2a4c14").val()==""){
+												preg522 = false;
+											 }
+											 else{
+										 		preg522 = true;
+											 }
+											 break;
+									case 2:  //No
+											 preg522 = true;
+											 break;
+									default: preg522 = false;
+											 break;
+								}
+							}							
+						});
+						break;
+						
+				case 2: //No
+						preg52 = true;
+						break;
+						
+				default: 
+						preg52 = false;
+						break;
+			}
+		}
+	});
+	
+	if (preg52 && preg521 && preg522){
+		preg52 = true;
+	}
+	else{
+		preg52 = false;
+	}
+	
+	return preg52;
+}
+
+
+//Validar la pregunta Nro. 6 del formulario para realizar el envío del formulario
+//@author dmdiazf / @author hhchavez
+//@since  11/07/2016
+function validarPregunta6(){
+	var preg6 = false;
+	$('input[name="p10312"]').each(function(){
+		if ($(this).is(":checked")){
+			switch(parseInt($(this).val())){
+				case 1: if ($("#p10312s1").is(":enabled") && $("#p10312s1").val()==""){
+							preg6 = false;
+						}
+						else if (!$("#radp10312s1").is(":checked") && $("#p10312s1").val()==""){
+							preg6 = false;
+						}
+						else{
+							preg6 = true;
+						} 
+						break;
+						
+				case 2: //No
+						preg6 = true;
+						break;
+				
+				default: preg6 = false;
+						 break;
+			}
+		}		
+	});
+	return preg6;
+}
+
+//Validar la pregunta Nro. 7 del formulario para realizar el envío del formulario
+//@author dmdiazf / @author hhchavez
+//@since  11/07/2016
+function validarPregunta7(){
+	var preg7 = false;
+	var preg71 = false;
+	var preg72 = false;
+	$('input[name="p8697"]').each(function(){
+		if ($(this).is(":checked")){
+			switch(parseInt($(this).val())){
+				case 1: //Recursos Propios 
+						preg7 = true;
+						break;
+						
+				case 2: //Prestamo Hipotecario					
+					    if ($("#p8697s2a1").val()=='-'){
+					    	preg7 = false;
+					    }
+					    else{
+					    	preg7 = true;
+					    }						
+						break;
+						
+				case 3: //Prestamo bancario de libre inversion
+					 	if ($("#p8697s3a1").val()=='-'){
+					    	preg7 = false;
+					    }
+					    else{
+					    	preg7 = true;
+					    }
+						break;
+						
+				case 4: //Subsidios
+						//En dinero
+						preg7 = true;
+						$('input[name="p8697s4a2"]').each(function(){
+							if ($(this).is(":checked")){
+								switch(parseInt($(this).val())){
+									case 1:  //Si
+											 if ($("#p8697s4a4").is(":enabled") && $("#p8697s4a4").val()==""){												 
+												 preg71 = false;
+											 }
+											 else if ($("#p8697s4a4").val()=="" && !$("#radp8697s4a4").is(":checked")){												 
+												 preg71 = false;
+											 }
+											 else{												 
+												 preg71 = true;
+											 }
+											 break;
+									case 2:  //No
+											 preg71 = true;
+											 break;
+									default: preg71 = false;
+											 break;
+								}
+							}							
+						});
+						//En Especie	
+						$('input[name="p8697s4a3"]').each(function(){							
+							if ($(this).is(":checked")){								
+								switch(parseInt($(this).val())){
+									case 1:  //Si
+											 if ($("#p8697s4a5").is(":enabled") && $("#p8697s4a5").val()==""){												
+												preg72 = false;
+											 }
+											 else if (!$("#radp8697s4a5").is(":checked") && $("#p8697s4a5").val()==""){												
+												preg72 = false;
+											 }
+											 else{												
+												preg72 = true;
+											 }
+											 break;											
+									case 2:  //No
+											 preg72 = true;
+											 break;
+									default: preg72 = false;
+									 		 break;		
+								}								
+							}							
+						});
+						
+						if (preg7 && preg71 && preg72){
+							preg7 = true;
+						}
+						else{
+							preg7 = false;
+						}
+						break;
+						
+				case 5: //Fondos
+						preg7 = true;
+						break;
+				
+				case 6: //Otra
+						if ($("#p8697s6a1").val()==""){
+							preg7 = false;
+						}
+						else{
+							preg7 = true;
+						}
+					    break;
+					    
+				default: 
+						preg7 = false;
+						break;
+			}
+		}
+	});
+	return preg7;
 }
 
 
@@ -287,7 +760,7 @@ function ocultarDivsAdicionales(adiciones){
 					
 			case 4: //Ocultar divCV4
 					if (!$("#divCV4").is(":hidden")){
-						$("#p10309s2a1 option[value='1']").prop('selected', true);						
+						$("#p10309s2a1 option[value='-']").prop('selected', true);						
 						$("#p10309s2a1").attr("disabled",true);
 						$("#divCV4").hide();
 					}
@@ -295,7 +768,7 @@ function ocultarDivsAdicionales(adiciones){
 					
 			case 5: //Ocultar divCV5
 					if (!$("#divCV5").is(":hidden")){
-						$("#p10309s3a1 option[value='1']").prop('selected', true);
+						$("#p10309s3a1 option[value='-']").prop('selected', true);
 						$("#p10309s3a1").attr("disabled",true);						
 						$("#divCV5").hide();
 					}
@@ -313,6 +786,10 @@ function ocultarDivsAdicionales(adiciones){
 					if (!$("#divCV7").is(":hidden")){
 						$("#p5161s1a3c14").bloquearTexto();
 						$("#p5161s1a4c14").bloquearTexto();
+						$("#p5161s1a3c14").val("");
+						$("#p5161s1a4c14").val("");
+						$("#p5161s1a3c14").attr("disabled",true);
+						$("#p5161s1a4c14").attr("disabled",true);
 						$("#opcion71").hide(); //Ocultar los divs dentro del div adicional
 						$("#opcion72").hide(); //Ocultar los divs dentro del div adicional						
 						$("#divCV7").hide();
@@ -323,6 +800,10 @@ function ocultarDivsAdicionales(adiciones){
 					if (!$("#divCV8").is(":hidden")){
 						$("#p5161s2a3c14").bloquearTexto();
 						$("#p5161s2a4c14").bloquearTexto();
+						$("#p5161s2a3c14").val("");
+						$("#p5161s2a4c14").val("");	
+						$("#p5161s2a3c14").attr("disabled",true);
+						$("#p5161s2a4c14").attr("disabled",true);
 						$("#opcion81").hide(); //Ocultar los divs dentro del div adicional
 						$("#opcion82").hide(); //Ocultar los divs dentro del div adicional
 						$("#divCV8").hide();
@@ -340,7 +821,7 @@ function ocultarDivsAdicionales(adiciones){
 					
 			case 10: //Ocultar divCV10
 					if (!$("#divCV10").is(":hidden")){
-						$("#p8697s2a1 option[value='1']").prop('selected', true);						
+						$("#p8697s2a1 option[value='-']").prop('selected', true);						
 						$("#p8697s2a1").attr("disabled",true);
 						$("#divCV10").hide();
 					}
@@ -348,7 +829,7 @@ function ocultarDivsAdicionales(adiciones){
 					
 			case 11: //Ocultar divCV11
 					if (!$("#divCV11").is(":hidden")){
-						$("#p8697s3a1 option[value='1']").prop('selected', true);						
+						$("#p8697s3a1 option[value='-']").prop('selected', true);						
 						$("#p8697s3a1").attr("disabled",true);
 						$("#divCV11").hide();
 					}
@@ -358,6 +839,10 @@ function ocultarDivsAdicionales(adiciones){
 					if (!$("#divCV12").is(":hidden")){
 						$("#p8697s4a4").bloquearTexto();
 						$("#p8697s4a5").bloquearTexto();
+						$("#p8697s4a4").val("");
+						$("#p8697s4a5").val("");
+						$("#p8697s4a4").attr("disabled",true);
+						$("#p8697s4a5").attr("disabled",true);						
 						$("#opcion121").hide(); //Ocultar los divs dentro del div adicional
 						$("#opcion122").hide(); //Ocultar los divs dentro del div adicional	
 						$("#divCV12").hide();
@@ -458,7 +943,7 @@ function mostrarDivsAdicionales(adiciones){
 					
 			case 4: //Mostrar divCV4
 					if ($("#divCV4").is(":hidden")){
-						$("#p10309s2a1 option[value='1']").prop('selected', true);
+						$("#p10309s2a1 option[value='-']").prop('selected', true);
 						$("#p10309s2a1").attr("disabled",false);
 						$("#divCV4").show();
 					}
@@ -466,7 +951,7 @@ function mostrarDivsAdicionales(adiciones){
 					
 			case 5: //Mostrar divCV5
 					if ($("#divCV5").is(":hidden")){
-						$("#p10309s3a1 option[value='1']").prop('selected', true);
+						$("#p10309s3a1 option[value='-']").prop('selected', true);
 						$("#p10309s3a1").attr("disabled",false);
 						$("#divCV5").show();
 					}
@@ -558,11 +1043,11 @@ function mostrarDivsAdicionales(adiciones){
 								});								
 								$("#opcion81").show();								
 							}
-							else{
+							else{								
 								$("#p5161s2a3c14").val("");
 								$("#p5161s2a3c14").attr("disabled",true);
 								$("#radp5161s2a3c14").attr("checked",false);								
-								$("#opcion81").hide();								
+								$("#opcion81").hide();																
 							}
 						});
 						
@@ -584,9 +1069,9 @@ function mostrarDivsAdicionales(adiciones){
 								$("#opcion82").show();								
 							}
 							else{								
-								$("#p5161s1a4c14").val("");
-								$("#p5161s1a4c14").attr("disabled",true);
-								$("#radp5161s1a4c14").attr("checked",false);
+								$("#p5161s2a4c14").val("");
+								$("#p5161s2a4c14").attr("disabled",true);
+								$("#radp5161s2a4c14").attr("checked",false);
 								$("#opcion82").hide();								
 							}																					
 						});						
@@ -615,7 +1100,7 @@ function mostrarDivsAdicionales(adiciones){
 					
 			case 10: //Mostrar divCV10
 					if ($("#divCV10").is(":hidden")){						
-						$("#p8697s2a1 option[value='1']").prop('selected', true);
+						$("#p8697s2a1 option[value='-']").prop('selected', true);
 						$("#p8697s2a1").attr("disabled",false);
 						$("#divCV10").show();
 					}
@@ -623,7 +1108,7 @@ function mostrarDivsAdicionales(adiciones){
 					
 			case 11: //Mostrar divCV11
 					if ($("#divCV11").is(":hidden")){
-						$("#p8697s3a1 option[value='1']").prop('selected', true);
+						$("#p8697s3a1 option[value='-']").prop('selected', true);
 						$("#p8697s3a1").attr("disabled",false);
 						$("#divCV11").show();
 					}

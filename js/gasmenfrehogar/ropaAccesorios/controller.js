@@ -59,38 +59,6 @@ this.getElements = function(params, callbackFunc) {
 });
 
 
-fuenteApp.directive("fieldValidate", function() {
-	return {
-		require: "ngModel",
-		scope: {
-			compra: '@compra',
-			recibo: '@recibo',
-			regalo: '@regalo',
-			intercambio: '@intercambio',
-			producido: '@producido',
-			propio: '@propio',
-			otra: '@otra',
-			elid: '=elid'
-		},
-		link: function(scope, element, attrs, ctrl) {
-			scope.$watch(function() {
-				if (typeof scope.compra && scope.compra == true ||  
-					typeof scope.recibo && scope.recibo == true ||
-					typeof scope.regalo && scope.regalo == true ||
-					typeof scope.intercambio && scope.intercambio == true ||
-					typeof scope.producido && scope.producido == true ||
-					typeof scope.propio && scope.propio == true ||
-					typeof scope.otra && scope.otra == true ||) {
-					scope.elid = true;
-				}else{
-					scope.elid = false;
-				};
-			});
-		}
-	};
-});
-
-
 appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageService', function($scope, dataService, localStorageService) {
 	
 	$scope.FormulariorHombre = {};
@@ -235,7 +203,7 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 		});
 
 
-
+		
 
 		//console.log($scope.elid);
 	};

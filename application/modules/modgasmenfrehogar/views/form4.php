@@ -11,10 +11,8 @@
 	if (!empty($secc[0]['ENCABEZADO']))
 		echo "			<blockquote>". $secc[0]['ENCABEZADO'] ."</blockquote>\n";
 ?>
-			<form id="form_" name="form_<?echo $secc[0]['ID_SECCION3'] /*.'_'. $secc['PAGINA']*/?>" class="form-horizontal" role="form">
+			<form id="form_4" name="form_4" class="form-horizontal" role="form">
 				<input type="hidden" name="ID_FORMULARIO" id="ID_FORMULARIO" value="<?=$id_formulario?>" />
-				<input type="hidden" name="_INI_<?echo "prueba"//$secc['ID_SECCION'] .'_'. $secc['PAGINA']?>" id="_INI_<?="prueba"//echo $secc['ID_SECCION'] .'_'. $secc['PAGINA']?>"/>
-				<input type="hidden" id="P6040" value="<?="prueba"//echo $persona['P6040']; ?>" />
 				<div>
 					<div>
 						<br />
@@ -218,6 +216,57 @@
 <script>
 
 $(function() {
+	$("#form_4").validate({
+		//Reglas de Validacion
+		/*rules : {
+			txt_total    		: {	required        :  true, expresion: '$("#hdd_nro_articulos").val() ==0' },
+			sel_medio_pago    	: {	comboBox        :  '-'},
+			txt_otro_medio_pago : {	required        :  true, maxlength: 100}
+					
+		},
+		//Mensajes de validacion
+		messages : {
+			txt_total    		: {	required        :  "Verifique el subtotal.", expresion :  "No hay artículos o servicios comprados o pagados."},
+			sel_medio_pago    	: {	comboBox        :  "Seleccione una opci&oacute;n."},
+			txt_otro_medio_pago : {	required        :  "Diligencie c&uacute;al otro medio de pago. ", maxlength		:  "Máximo 100 caracteres"},
+			
+						
+		},*/
+		//Mensajes de error
+		errorPlacement: function(error, element) {
+			element.after(error);		        
+			error.css('display','inline');
+			error.css('margin-left','10px');				
+			error.css('color',"#FF0000");
+			
+		//$(element).focus();//si se coloca no muestra todos los errores, va mostrando de uno en uno
+		},
+		submitHandler: function(form) {
+			return true;
+			
+		}
+	});
+	//*****************************************************************************************************************
+	//** Compara y valida que el valor de una caja de texto sea menor o igual que el valor que se recibe por parametro
+	//*****************************************************************************************************************
+	$.validator.addMethod("menorIgualQue",function(value, element, param){
+		var comp = convertirOperacion(param); 
+		var valor = parseInt($(element).val());
+        if (valor <= comp){			                            	  
+      	  return false;
+        }
+        else{
+      	  return true;
+        }
+    },"");
+    $( "input[type=checkbox]" ).on("focus", function(){
+    	alert("clic");
+    });
+
+	$( "#art_02110100_1" ).rules("add", { required   :   true,  menorIgualQue:500,
+					 messages: { required   :  "Digite un valor.", menorIgualQue:"Digite un valor mayor de 500"}
+					});
+
 	$( "input[type=text]" ).bloquearTexto();
 
 	$( "input[type=checkbox]" ).on( "change", function(){

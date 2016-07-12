@@ -28,7 +28,7 @@ function chk_cons(id, regla) {
 		if (eval(regla[id + '__' + i][0])) { //  && regla[id +'__'+ i][3] == 0
 			// "(" + id + ": " + regla[id + '__' + i][2] + ") " + // mostrar Campo y Tipo de error
 			msj_consistencia += regla[id + '__' + i][1] + " ";
-			console.log(id +"= "+ regla[id + '__' + i][0]);
+			//console.log(id +"= "+ regla[id + '__' + i][0]);
 			if (regla[id + '__' + i][2] == "Corrija") {
 				color = "FF0000";
 				// Estado en tipo_error corrija es regla no superada (0)
@@ -326,21 +326,13 @@ $(function ()
 					data: args,
 					beforeSend: function (objeto) {
 						$('#mensaje_' + capitulo).html('<div class="alert alert-info" role="alert"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Enviando m&oacute;dulo</div>');
-						//$('#CHK_'+ capitulo).removeClass();
-						//$('#CHK_'+ capitulo).addClass('ui-icon ui-icon-clock');
 					},
 					success: function (respuesta) {
 						$('#mensaje_' + capitulo).html('<div class="alert alert-success" role="alert"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> '+ respuesta +'</div>');
-						//$('#CHK_'+ capitulo).removeClass();
-						//$('#CHK_'+ capitulo).addClass('ui-icon ui-icon-check');
-						//$('.nav-tabs > .active').next('li').find('a').trigger('click');
-						//$('#btn_seguir').html('<span id="btn_seguir"><span> <button type="button" name="btnReminder" class="btn btn-success" onClick="location.reload();">Continuar</button>');
-						location.reload();
+						//location.reload();
 					},
 					error: function (respuesta) {
 						$('#mensaje_' + capitulo).html('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Error guardando m&oacute;dulo</div>');
-						//$('#CHK_'+ capitulo).removeClass();
-						//$('#CHK_'+ capitulo).addClass('ui-icon ui-icon-cancel');
 					}
 				});
 				$(this).attr('disabled', false);

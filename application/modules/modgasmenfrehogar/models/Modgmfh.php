@@ -401,7 +401,7 @@ class Modgmfh extends My_model {
         $i = 0;
 
         if (array_key_exists("id", $arrDatos)) {
-            if (is_string($arrDatos["articulo"])) {
+            if (is_string($arrDatos["id"])) {
                 $cond .= " AND V.ID_VARIABLE = '" . $arrDatos["id"] . "'";
             } else if (is_array($arrDatos["articulo"])) {
                 $cond .= " AND V.ID_VARIABLE IN (" . implode(",", $arrDatos["id"]) . ")";

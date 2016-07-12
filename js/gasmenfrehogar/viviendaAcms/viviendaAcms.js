@@ -8,17 +8,17 @@
 	$("#div_otro_pago").hide();
 	//$("#txt_total").numerico().largo(15);
 	
-	$("#form_sec3_C1").validate({
+	$("#form_sec3").validate({
 		//Reglas de Validacion
 		rules : {
-			txt_total    		: {	required        :  true},
+			txt_total    		: {	required        :  true, expresion: '$("#hdd_nro_articulos").val() ==0' },
 			sel_medio_pago    	: {	comboBox        :  '-'},
 			txt_otro_medio_pago : {	required        :  true, maxlength: 100}
 					
 		},
 		//Mensajes de validacion
 		messages : {
-			txt_total    		: {	required        :  "Verifique el subtotal."},
+			txt_total    		: {	required        :  "Verifique el subtotal.", expresion :  "No hay artículos o servicios comprados o pagados."},
 			sel_medio_pago    	: {	comboBox        :  "Seleccione una opci&oacute;n."},
 			txt_otro_medio_pago : {	required        :  "Diligencie c&uacute;al otro medio de pago. ", maxlength		:  "Máximo 100 caracteres"},
 			
@@ -41,13 +41,13 @@
 	
 	// VAlidaciones de la tabla de articulos
 	pag3_valida_articulos_pagados();
-	var nom_boton_form3="btn_form3_C1";
+	var nom_boton_form3="btn_form3";
 	$("#"+nom_boton_form3).click(function()
 	{
 		// Vuelve a realizar suma total de pago de tabla articulos
 		pag3_suma_articulos();
 		
-		if ($("#form_sec3_C1").valid() == true){
+		if ($("#form_sec3").valid() == true){
 		
 			if(window.confirm('Haga clic en Aceptar si realmente quiere guardar y continuar a la siguiente secci\u00f3n.'))
 			{
@@ -59,7 +59,7 @@
 					url: base_url + "modgasmenfrehogar/ViviendaAcms/guardaGrillaCompra",
 					type: "POST",
 					dataType: "html",
-					data: $("#form_sec3_C1").serialize(),
+					data: $("#form_sec3").serialize(),
 					success: function(data){
 						if(data ==="-ok-")
 						{	

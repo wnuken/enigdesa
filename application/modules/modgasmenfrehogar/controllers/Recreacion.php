@@ -92,9 +92,6 @@ class Recreacion extends MX_Controller {
                 $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual ), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $arrSA[0]['ID_SECCION3']));
                 $arrSA[0]['ID_ESTADO_SEC'] = 2;
             }
-
-
-
         }
         //else {
         //    $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual ), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $arrSA[0]['ID_SECCION3']));
@@ -160,7 +157,7 @@ class Recreacion extends MX_Controller {
         // Aca va el codigo
         //$data["js_dir"] = base_url('js/' . $this->module . '/' . $this->submodule . '/recreacion.js');
 
-        $data["js_dir"] = base_url('js/gasmenfrehogar/' . $this->submodule . '/recreacion.js');        
+        $data["js_dir"] = base_url('js/gasmenfrehogar/' . $this->submodule . '/recreacion.js');
         $this->load->model(array("formulario/Mformulario", "control/Modmenu", "Modgmfh"));
 
         $this->session->set_userdata('id_seccion', $this->idSeccion);
@@ -168,6 +165,10 @@ class Recreacion extends MX_Controller {
 
         $data['secc'] = $this->Modgmfh->listar_secciones(array("id" => $this->idSeccion ));
 
+        if($data['secc'][0]['ID_VARIABLE_USO'] != "") {
+            $data['var_uso'] = $this->Modgmfh->lista_variables_param(array("id" => $data['secc'][0]['ID_VARIABLE_USO']));
+        }
+        $data['var'] = $this->Modgmfh->lista_variables_param(array( "seccion" => $this->idSeccion, "pagina" => 1));
         $data['preg']["var"] = $this->Modgmfh->listar_articulos_seccion( array("sec" => $this->idSeccion) );
         $data["view"]="form1";
         $this->load->view("layout", $data);
@@ -187,7 +188,7 @@ class Recreacion extends MX_Controller {
         //$this->load->view("layout", $data);
 
         //$data["js_dir"] = base_url('js/' . $this->module . '/' . $this->submodule . '/archivo.js');
-        $data["js_dir"] = base_url('js/gasmenfrehogar/' . $this->submodule . '/archivo.js');
+        $data["js_dir"] = base_url('js/gasmenfrehogar/' . $this->submodule . '/recreacion.js');
         //echo "mmm";
         //$data["view"] = $this->submodule . '/form1';
         
@@ -258,32 +259,36 @@ class Recreacion extends MX_Controller {
         $formas_obt = $this->Modgmfh->lista_formaObtencion( array("seccion" => $id_seccion, "id_formulario" => $id_formulario) );
         $cant_formas_obt = count($formas_obt);
         
-        
         $articulos = isset($_POST['articulos'])?$_POST['articulos']:"";
 
         //guarda capitulo 1
-        if(is_array($articulos) && $cant_formas_obt == 0){
-            // si selecciona niguna de las anteriores
-            
-            if(count($articulos) == 1 && $articulos[0] == "99999999") {
+        if($cant_formas_obt == 0 && ( is_array($articulos) || (isset($_POST['variable_uso']) && $_POST['variable_uso'] == 2) ) ){
+            $i = 0;
+            // si selecciona niguna de las anteriores o que no ha utilizado ninguno de los productos en el último lapso de tiempo preguntado
+            if(is_array($articulos) && count($articulos) == 1 && $articulos[0] == "99999999") {
                 $fechahoraactual = $this->Modgmfh->consultar_fecha_hora();
                 $fechaactual = substr($fechahoraactual, 0, 10);
                 $this->Modgmfh->ejecutar_insert('ENIG_FORM_GMF_FORMA_OBTENCION', array( "ID_FORMULARIO" => $id_formulario, "ID_ARTICULO3" => "99999999".$id_seccion));
                 $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $id_seccion));
+                $i = 1;
             }
+            else if(!is_array($articulos) && $_POST['variable_uso'] == "2" )  {
+                $fechahoraactual = $this->Modgmfh->consultar_fecha_hora();
+                $fechaactual = substr($fechahoraactual, 0, 10);
+                $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $id_seccion));
+                $i = 1;
+            }
+            else {                
+                foreach ($articulos as $key => $value) {
+                    $forma_obt = $this->Modgmfh->listar_articulos_seccion( array("id" => $value, "id_formulario" => $id_formulario) );
 
-            $i = 0;
-            
-            foreach ($articulos as $key => $value) {
-                $forma_obt = $this->Modgmfh->listar_articulos_seccion( array("id" => $value, "id_formulario" => $id_formulario) );
-
-                if(count($forma_obt) == 1 && $articulos[0] != "99999999") {
-                    $this->Modgmfh->ejecutar_insert('ENIG_FORM_GMF_FORMA_OBTENCION', array( "ID_FORMULARIO" => $id_formulario, "ID_ARTICULO3" => $value));
-                    $i++;
+                    if(count($forma_obt) == 1 && $articulos[0] != "99999999") {
+                        $this->Modgmfh->ejecutar_insert('ENIG_FORM_GMF_FORMA_OBTENCION', array( "ID_FORMULARIO" => $id_formulario, "ID_ARTICULO3" => $value));
+                        $i++;
+                    }
+                    else echo "<br><br>no existe articulos=".$articulos[$i];
                 }
-                else echo "<br><br>no existe articulos=".$articulos[$i];
             }
-
             if($i > 0)
                 echo "Se ha guardado la informaci&oacute;n correctamente!";
             else echo "Se ha presentado un error por favor intentar de nuevo!";
@@ -300,36 +305,22 @@ class Recreacion extends MX_Controller {
             }
             //var_dump($formas_obt);
 
-            foreach ($formas_obt as $key => $value) {
-                /*$compra = 0;$trabajo = 0;$regalo = 0;$cambio = 0;$hogar = 0;$negocio = 0;$otra = 0;
-                if(isset($value['ID_ARTICULO3']['compra']))
-                    $compra = 1;
-                if(isset($value['ID_ARTICULO3']['recibido_pago']))
-                    $trabajo = 1;
-                if(isset($value['ID_ARTICULO3']['regalo']))
-                    $regalo = 1;
-                if(isset($value['ID_ARTICULO3']['intercambio']))
-                    $cambio = 1;
-                if(isset($value['ID_ARTICULO3']['producido']))
-                    $hogar = 1;
-                if(isset($value['ID_ARTICULO3']['negocio_propio']))
-                    $negocio = 1;
-                if(isset($value['ID_ARTICULO3']['otra']))
-                    $otra = 0;*/
-                    
+            foreach ($formas_obt as $key => $value) {                    
                 $codigos = array_keys($_POST[$value['ID_ARTICULO3']]);
                 $arrACT = array_fill_keys($codigos, 1);
+                $cols  = array( "compra" => 0, "recibido_pago" => 0, "regalo" => 0, "intercambio" => 0, "producido" => 0, "negocio_propio" => 0, "otra" => 0);
 
-                $this->Modgmfh->ejecutar_update('ENIG_FORM_GMF_FORMA_OBTENCION', $arrACT, array( "ID_FORMULARIO" => $id_formulario, "ID_ARTICULO3" => $value['ID_ARTICULO3']));
+                $arrUPD = array_merge( $cols, $arrACT);
+
+                $this->Modgmfh->ejecutar_update('ENIG_FORM_GMF_FORMA_OBTENCION', $arrUPD, array( "ID_FORMULARIO" => $id_formulario, "ID_ARTICULO3" => $value['ID_ARTICULO3']));
             }
             echo "Se ha guardado la informaci&oacute;n correctamente!";
         }
         else {
             echo "<br>no se hace nada!";
-            //$this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $id_seccion));
-        }
-
-   
+        }   
     }
+
+
 }
 //EOC

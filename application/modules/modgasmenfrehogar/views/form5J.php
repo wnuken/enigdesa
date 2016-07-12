@@ -20,13 +20,9 @@
 		<div>
 			<div>
 				<br />
-
-		<div class='form-group has-feedback' id='div-variable_uso'>
-			<h5 class='control-label' for='99999999'  >De los artÃ­culos y servicios previamente elegidos, responda la siguiente informaci&oacute;n:</h5>
-		</div>
 <?php
-	$i = 1;
-	foreach ( $preg['var'] as $v3 ):
+	//$i = 1;
+	//foreach ( $preg['var'] as $v3 ):
 ?>
 			</div>
 		</div>			
@@ -38,36 +34,116 @@
 				<table>
 					<tr>
 						<td>
-							<h5 class='control-label' for='art_<?=$v3['ID_ARTICULO3']?>'>Â¿Como lo obtuvieron?"</h5>
+							<h5 class='control-label' for=''>P10395</h5>
+						</td>
+						<td>
+							<h5 class='control-label' for=''>¿De P10303 del 2015 a P10303S1 del 2016 usted o alg&uacute;n miembro del hogar realizó viajes a destinos nacionales e internacionales?</h5>
 						</td>
 					</tr>
 					<tr>
 						<td></td>
 						<td>
-							<h5 class='control-label' for='compra_<?=$v3['ID_ARTICULO3']?>'>Compra o pago</h5>
+							<h5 class='control-label' for='P10395S1'>Nacional</h5>
 						</td>
 						<td>
-							<input type='checkbox' name='<?=$v3['ID_ARTICULO3']?>[compra]' value='<?=$v3['ID_ARTICULO3']?>_1' id='art_<?=$v3['ID_ARTICULO3']?>_1' class='ops_<?=$i?>'/>
+							<input type='checkbox' name='P10396S1[Nacional]' value='P10395S1' id='art_P10395S1' class='ops_1'/>
 						</td>		
 					</tr>			
 					<tr>
 						<td></td>
 						<td>
-							<h5 class='control-label' for='<?=$v3['ID_ARTICULO3']?>'>Recibido por trabajo</h5>
+							<h5 class='control-label' for='P10395S2'>Internacional</h5>
 						</td>
 						<td>
-							<input type='checkbox' name='<?=$v3['ID_ARTICULO3']?>[recibido_pago]' value='<?=$v3['ID_ARTICULO3']?>_2' id='articulo_<?=$v3['ID_ARTICULO3']?>_2' class='ops_<?=$i?>'/>
+							<input type='checkbox' name='P10395S2[Nacional]' value='P10395S2' id='art_P10395S2' class='ops_2'/>
+						</td>		
+					</tr>	
+					<tr>
+						<td></td>
+						<td>
+							<h5 class='control-label' for='99999999'>No viaj&oacute;</h5>
+						</td>
+						<td>
+							<input type='checkbox' name='99999999' value='99999999' id='art_99999999' class='ops_3'/>
+						</td>
+					</tr>
+					
+					
+					<tr>
+						<td>
+							<h5 class='control-label' for=''>P10396</h5>
+						</td>
+						<td>
+							<h5 class='control-label' for=''>¿Para realizar el &uacute;timo viaje adquiri&oacute; paquete tur&iacute;stico completo? (Incluye tiquetes, alojamiento, alimentaci&oacute;n y otros) </h5>
 						</td>
 					</tr>
 					<tr>
 						<td></td>
 						<td>
-							<h5 class='control-label' for='<?=$v3['ID_ARTICULO3']?>'>Regalo o donaci&oacute;n</h5>
+							<h5 class='control-label' for=''>Si</h5>
 						</td>
 						<td>
-							<input type='checkbox' name='<?=$v3['ID_ARTICULO3']?>[regalo]' value='<?=$v3['ID_ARTICULO3']?>_3' id='articulo_<?=$v3['ID_ARTICULO3']?>_3' class='ops_<?=$i?>'/>
+							<input type='checkbox' name='Si' value='Si' id='Si' class='ops_1'/>
+						</td>		
+					</tr>			
+					<tr>
+						<td></td>
+						<td>
+							<h5 class='control-label' for=''>No</h5>
+						</td>
+						<td>
+							<input type='checkbox' name='No' value='No' id='No' class='ops_2'/>
+						</td>		
+					</tr>	
+					
+					
+				<tr>
+						<td>
+							<h5 class='control-label' for=''></h5>
+						</td>
+						<td>
+							<h5 class='control-label' for=''>¿Cuáles alojamientos empleó para pernoctar durante el último viaje?</h5>
 						</td>
 					</tr>
+					<tr>
+						<td></td>
+						<td>
+							<h5 class='control-label' for='P10397S1'>Hotel, hostal, centro vacacional</h5>
+						</td>
+						<td>
+							<input type='checkbox' name='P10397S1[]' value='P10397S1' id='art_P10397S1' class='ops_1'/>
+						</td>		
+					</tr>			
+					<tr>
+						<td></td>
+						<td>
+							<h5 class='control-label' for='P10397S3'>Campamento o camping</h5>
+						</td>
+						<td>
+							<input type='checkbox' name='P10397S3[]' value='P10397S3' id='art_P10397S3' class='ops_2'/>
+						</td>		
+					</tr>	
+					<tr>
+						<td></td>
+						<td>
+							<h5 class='control-label' for='P10397S4'>Alojamiento rural</h5>
+						</td>
+						<td>
+							<input type='checkbox' name='P10397S4[]' value='P10397S4' id='art_P10397S4' class='ops_3'/>
+						</td>		
+					</tr>
+					<tr>
+						<td></td>
+						<td>
+							<h5 class='control-label' for='P10397S5'>Casa, apartamento, finca, en propiedad, de familiares o amigos</h5>
+						</td>
+						<td>
+							<input type='checkbox' name='P10397S5[]' value='P10397S5' id='art_P10397S5' class='ops_3'/>
+						</td>		
+					</tr>	
+					
+					
+					
 					<tr>
 						<td></td>
 						<td>
@@ -107,8 +183,8 @@
 				</table>
 <hr>		
 <?php 
-	$i++;
-	endforeach;
+	//$i++;
+	//endforeach;
 ?>
 			</div>
 		</div>
@@ -119,5 +195,3 @@
 	<div class="row text-center">
 		<button disabled  class='btn btn-success' id='env_form_2'>Guardar y Continuar <span class='glyphicon glyphicon-chevron-right' aria-hidden='true' title='Continuar'></span></button>
 	</div>
-
-<script src="<?=$js_dir?>"></script>

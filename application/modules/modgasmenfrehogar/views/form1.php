@@ -5,7 +5,7 @@
 			<h2><?=$secc[0]['DESCR_SECCION'] . "(" . $secc[0]['TEMPORALIDAD'] . ")"; ?></h2>
 			<h4><?//echo $persona['P521A'] ." ". $persona['P521C'] ." (". $persona['P6040'] .")"; ?></h4>
 		</div>
-	</div><?=site_url("modgasmenfrehogar/Recreacion/guardar/")?>
+	</div>
 	<br />
 <? 
 	if (!empty($secc[0]['ENCABEZADO']))
@@ -19,7 +19,7 @@
 	if(isset($secc[0]['ID_VARIABLE_USO']) ):
 ?>
 		<div class='form-group has-feedback' id='div-variable_uso'>
-			<h5 class='control-label' for='99999999'  >Ha usado</h5>
+			<h5 class='control-label' for='99999999'  ><?=isset($var_uso[0]['ETIQUETA'])?$var_uso[0]['ETIQUETA']:""?></h5>
 			<input type='radio' name='variable_uso' value='1' id='variable_uso_1'/><lable>Si</lable>
 			<input type='radio' name='variable_uso' value='2' id='variable_uso_2'/><lable>No</lable>
 		</div>
@@ -27,6 +27,9 @@
 	endif;
 ?>
 				<br />
+		<div class='form-group has-feedback' id='div-variable_uso'>
+			<h5 class='control-label' for='99999999'  ><?=isset($var[0]['ETIQUETA'])?$var[0]['ETIQUETA']:""?></h5>
+		</div>
 <?php
 	foreach ( $preg['var'] as $v3 ):
 ?>

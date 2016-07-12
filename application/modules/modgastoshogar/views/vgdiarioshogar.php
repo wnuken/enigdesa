@@ -1,7 +1,8 @@
 	<div class="row">
-		<div class="col-sm-2"><img src="<?php echo base_url("images/form_icon-hogar.png");?>" /></div>
+		<div class="col-sm-2"></div>
 		<div class="col-sm-8">
 			<h1><?echo $secc['DESCR_SECCION']; ?></h1>
+			<h2><?echo $dia; ?></h2>
 		</div>
 	</div>
 	<hr />
