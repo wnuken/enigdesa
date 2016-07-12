@@ -16,13 +16,13 @@ if (count($sec) > 0) {
     $total = count($sec);
     foreach ($sec as $ks => $vs) {
         if ($ks == 0) {
-            echo '<div class="row"><div class="col-md-3"><label>' . substr($vs["ID_SECCION3"], 0, -1) . '.</label><br /><a href="' . $vs["ENLACE"] . '">' . $vs["DESCR_SECCION"] . '</a></div>';
+            echo '<div class="row"><div class="col-md-3"><label>' . substr($vs["ID_SECCION3"], 0, -1) . '.</label><br /><a href="' . $vs["ENLACE"] . '">' . $vs["TITULO2"] . '</a></div>';
         } else if (($ks + 1) % 4 == 0 && ($ks + 1) == $total) {
-            echo '<div class="col-md-3"><label>' . substr($vs["ID_SECCION3"], 0, -1) . '.</label><br /><a href="' . $vs["ENLACE"] . '">' . $vs["DESCR_SECCION"] . '</a></div></div>';
+            echo '<div class="col-md-3"><label>' . substr($vs["ID_SECCION3"], 0, -1) . '.</label><br /><a href="' . $vs["ENLACE"] . '">' . $vs["TITULO2"] . '</a></div></div>';
         } else if (($ks + 1) % 4 == 0) {
-            echo '<div class="col-md-3"><label>' . substr($vs["ID_SECCION3"], 0, -1) . '.</label><br /><a href="' . $vs["ENLACE"] . '">' . $vs["DESCR_SECCION"] . '</a></div></div><div class="row">';
+            echo '<div class="col-md-3"><label>' . substr($vs["ID_SECCION3"], 0, -1) . '.</label><br /><a href="' . $vs["ENLACE"] . '">' . $vs["TITULO2"] . '</a></div></div><div class="row">';
         } else if (($ks + 1) % 4 != 0) {
-            echo '<div class="col-md-3"><label>' . substr($vs["ID_SECCION3"], 0, -1) . '.</label><br /><a href="' . $vs["ENLACE"] . '">' . $vs["DESCR_SECCION"] . '</a></div>';
+            echo '<div class="col-md-3"><label>' . substr($vs["ID_SECCION3"], 0, -1) . '.</label><br /><a href="' . $vs["ENLACE"] . '">' . $vs["TITULO2"] . '</a></div>';
         }
     }
 }

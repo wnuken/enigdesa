@@ -33,6 +33,7 @@
 <script src="<?php echo base_url("/js/jquery.validator/jquery.validate.min.js"); ?>"></script>
 <script src="<?php echo base_url("/js/bootstrap/ie-emulation-modes-warning.js"); ?>" rel="stylesheet"></script>
 <script src="<?php echo base_url("/js/bootstrap/ie10-viewport-bug-workaround.js"); ?>" rel="stylesheet"></script>
+<script src="<?php echo base_url("/js/select2/js/select2.min.js"); ?>"></script>
 <script src="https://www.google.com/recaptcha/api.js?hl=es"></script>
 <script src="<?php echo base_url("/js/danevalidator.js"); ?>"></script>
 <script src="<?php echo base_url("/js/formulario.js"); ?>"></script>

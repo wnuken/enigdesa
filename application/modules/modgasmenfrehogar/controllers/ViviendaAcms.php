@@ -72,11 +72,13 @@ class ViviendaAcms extends MX_Controller {
                     $this->mostrarListaObtencion($data);
                     break;
                 case 3:
-					$data["titulo_ppal"]="GASTOS DURANTE EL MES PASADO de ______ del 2016";
-					$data["subtitulo"]="ALQUILER DE VIVIENDA, COMBUSTIBLES Y CONEXI&Oacute;N DE SERVICIOS PARA LA VIVIENDA";
 					$data['secc'] = $this->Modgmfh->listar_secciones(array("id" =>"C1"));
-					$data["js_dir"] = base_url('js/gasmenfrehogar/viviendaAcms/viviendaAcms.js');					
-                    $this->mostrarGrillaCompra($data);
+					$data["titulo_1"]=$data['secc'][0]['TITULO1'];//"de ______ del 2016";
+					$data["subtitulo_2"]=$data['secc'][0]['TITULO2'];
+					$data["subtitulo_3"]=$data['secc'][0]['TITULO3'];
+					//$data["js_dir"] = base_url('js/modgasmenfrehogar/viviendaAcms/viviendaAcms.js');					
+                    $data["js_dir"] = base_url('js/modgasmenfrehogar/form3.js');					
+					$this->mostrarGrillaCompra($data);
                     break;
                 case 4:
                     $this->mostrarGrillaNoCompra($data);
@@ -88,10 +90,11 @@ class ViviendaAcms extends MX_Controller {
                     $this->mostrarListaObtencion($data);
                     break;
                 case 7:
-					$data["titulo_ppal"]="GASTOS DURANTE LOS &Uacute;LTIMOS DOCE MESES - de _____ del 2015 a _____ del 2016";
-					$data["subtitulo"]="CONSERVACI&Oacute;N, MANTENIMIENTO, REPARACI&Oacute;N Y CONEXI&Oacute;N DE SERVICIOS PARA LA VIVIENDA"; 
-					$data['secc'] = $this->Modgmfh->listar_secciones(array("id" =>"C2"));		
-					$data["js_dir"] = base_url('js/gasmenfrehogar/viviendaAcms/viviendaAcms.js');					
+					$data['secc'] = $this->Modgmfh->listar_secciones(array("id" =>"C2"));
+					$data["titulo_1"]=$data['secc'][0]['TITULO1'];//" - de P10260C12 del 2015 a P10260S1C12 del 2016";
+					$data["subtitulo_2"]=$data['secc'][0]['TITULO2'];
+					$data["subtitulo_3"]=$data['secc'][0]['TITULO3'];							
+					$data["js_dir"] = base_url('js/modgasmenfrehogar/form3.js');					
                     $this->mostrarGrillaCompra($data);
                     break;
                 case 8:

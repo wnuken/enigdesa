@@ -329,7 +329,7 @@ $(function ()
 					},
 					success: function (respuesta) {
 						$('#mensaje_' + capitulo).html('<div class="alert alert-success" role="alert"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> '+ respuesta +'</div>');
-						//location.reload();
+						location.reload();
 					},
 					error: function (respuesta) {
 						$('#mensaje_' + capitulo).html('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Error guardando m&oacute;dulo</div>');

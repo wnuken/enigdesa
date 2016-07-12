@@ -44,17 +44,12 @@ class Recreacion extends MX_Controller {
             if($arrSA[0]['ID_ESTADO_SEC'] ==  0){
                 $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 1), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $arrSA[0]['ID_SECCION3']));
                 $arrSA[0]['ID_ESTADO_SEC'] = 1;
-            }
-
-         
+            }         
             if($arrSA[1]['ID_ESTADO_SEC'] ==  0 && $arrSA[1]['PAG_SECCION3'] ==  0){
                 $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 1, "PAG_SECCION3" => 1, "FECHA_INI_SEC" => $fechaactual), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $this->idSeccion));
                 $arrSA[1]['ID_ESTADO_SEC'] = 1;
                 $arrSA[1]['PAG_SECCION3'] = 1;
             }
-            /*else if($arrSA[1]['ID_ESTADO_SEC'] ==  1 && $arrSA[1]['PAG_SECCION3'] == 1 && count($formas_obt) == 1 && $formas_obt[0]['ID_ARTICULO3'] == "99999999" ) {
-                $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $this->idSeccion));
-            }*/
             else if($arrSA[1]['ID_ESTADO_SEC'] ==  1 && $arrSA[1]['PAG_SECCION3'] == 1 && count($formas_obt) > 0 ) {
                 $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "PAG_SECCION3" => 2), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $this->idSeccion));
                 $arrSA[1]['PAG_SECCION3'] = 2;
@@ -80,9 +75,7 @@ class Recreacion extends MX_Controller {
                 $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $this->idSeccion));
                 $arrSA[1]['ID_ESTADO_SEC'] = 2;
                 $fin = true;
-            }
-
-            
+            }            
             if($fin && sizeof($arrSA) > 2 && $arrSA[2]['ID_ESTADO_SEC'] ==  0 && $arrSA[2]['PAG_SECCION3'] ==  0) {
                 $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 1, "PAG_SECCION3" => 1, "FECHA_INI_SEC" => $fechaactual), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $arrSA[2]['ID_SECCION3']));
                 $arrSA[2]['ID_ESTADO_SEC'] = 1;
@@ -93,10 +86,6 @@ class Recreacion extends MX_Controller {
                 $arrSA[0]['ID_ESTADO_SEC'] = 2;
             }
         }
-        //else {
-        //    $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual ), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $arrSA[0]['ID_SECCION3']));
-        //}
-
         return $arrSA;
     }
     
@@ -155,9 +144,7 @@ class Recreacion extends MX_Controller {
      */
     private function mostrarListaArticulos() {
         // Aca va el codigo
-        //$data["js_dir"] = base_url('js/' . $this->module . '/' . $this->submodule . '/recreacion.js');
-
-        $data["js_dir"] = base_url('js/gasmenfrehogar/' . $this->submodule . '/recreacion.js');
+        $data["js_dir"] = base_url('js/' . $this->module . '/form1.js');
         $this->load->model(array("formulario/Mformulario", "control/Modmenu", "Modgmfh"));
 
         $this->session->set_userdata('id_seccion', $this->idSeccion);
@@ -181,16 +168,7 @@ class Recreacion extends MX_Controller {
      */
     private function mostrarListaObtencion() {
         // Aca va el codigo
-        // Se consulta la lista de forma de obtencion
-        //$arrFO = $this->Modgmfh->consultar_param_general('', 'FORMAS_ADQUI', '', '');
-        //$data["js_dir"] = base_url('js/' . $this->module . '/' . $this->submodule . '/archivo.js');
-        //$data["view"] = $this->submodule . '/view1';
-        //$this->load->view("layout", $data);
-
-        //$data["js_dir"] = base_url('js/' . $this->module . '/' . $this->submodule . '/archivo.js');
-        $data["js_dir"] = base_url('js/gasmenfrehogar/' . $this->submodule . '/recreacion.js');
-        //echo "mmm";
-        //$data["view"] = $this->submodule . '/form1';
+        $data["js_dir"] = base_url('js/' . $this->module . '/form2.js');
         
         $this->load->model(array("formulario/Mformulario", "control/Modmenu", "Modgmfh"));
         $this->session->set_userdata('id_seccion', $this->idSeccion);
@@ -200,8 +178,7 @@ class Recreacion extends MX_Controller {
         
         $data['preg']["var"] = $this->Modgmfh->lista_formaObtencion( array("seccion" => $this->idSeccion, "id_formulario" => $data["id_formulario"]) );
         
-        $data["view"]="form2";
-        
+        $data["view"]="form2";        
 
         $this->load->view("layout", $data);
     }
@@ -252,7 +229,7 @@ class Recreacion extends MX_Controller {
      * @author cemedinaa
      * @since 2016-06-30
      */
-    public function guardar() {
+    public function guardar_form1() {
         $this->load->model(array("Modgmfh"));
         $id_formulario = $this->session->userdata("id_formulario");
         $id_seccion = $this->session->userdata("id_seccion");
@@ -261,8 +238,7 @@ class Recreacion extends MX_Controller {
         
         $articulos = isset($_POST['articulos'])?$_POST['articulos']:"";
 
-        //guarda capitulo 1
-        if($cant_formas_obt == 0 && ( is_array($articulos) || (isset($_POST['variable_uso']) && $_POST['variable_uso'] == 2) ) ){
+        if($cant_formas_obt == 0 && ( is_array($articulos) || (isset($_POST['variable_uso']) && $_POST['variable_uso'] == 2) ) ) {
             $i = 0;
             // si selecciona niguna de las anteriores o que no ha utilizado ninguno de los productos en el último lapso de tiempo preguntado
             if(is_array($articulos) && count($articulos) == 1 && $articulos[0] == "99999999") {
@@ -291,11 +267,25 @@ class Recreacion extends MX_Controller {
             }
             if($i > 0)
                 echo "Se ha guardado la informaci&oacute;n correctamente!";
-            else echo "Se ha presentado un error por favor intentar de nuevo!";
+            else echo "<br>ERROR al guardar la secci&oacute;n. Intente nuevamente o recargue la p&aacute;gina.";
         }
+        else {
+            echo "<br>ERROR al guardar la secci&oacute;n. Intente nuevamente o recargue la p&aacute;gina.";
+        }   
+    }
 
-        //guarda capitulo 2
-        else if($cant_formas_obt > 0) {
+    /**
+     * @author cemedinaa
+     * @since 2016-07-12
+     */
+    public function guardar_form2() {
+        $this->load->model(array("Modgmfh"));
+        $id_formulario = $this->session->userdata("id_formulario");
+        $id_seccion = $this->session->userdata("id_seccion");
+        $formas_obt = $this->Modgmfh->lista_formaObtencion( array("seccion" => $id_seccion, "id_formulario" => $id_formulario) );
+        $cant_formas_obt = count($formas_obt);
+
+        if($cant_formas_obt > 0) {
             foreach ($formas_obt as $key => $value) {
                 //if(!array_key_exists($value['ID_ARTICULO3'], $_POST))
                 if(!isset($_POST[$value['ID_ARTICULO3']]['compra']) && !isset($_POST[$value['ID_ARTICULO3']]['recibido_pago']) && !isset($_POST[$value['ID_ARTICULO3']]['regalo']) && 
@@ -303,7 +293,6 @@ class Recreacion extends MX_Controller {
                    !isset($_POST[$value['ID_ARTICULO3']]['otra']) )
                     die("Debe escoger por lo menos una opci&oacute;n en cada uno de los productos!");
             }
-            //var_dump($formas_obt);
 
             foreach ($formas_obt as $key => $value) {                    
                 $codigos = array_keys($_POST[$value['ID_ARTICULO3']]);
@@ -317,7 +306,7 @@ class Recreacion extends MX_Controller {
             echo "Se ha guardado la informaci&oacute;n correctamente!";
         }
         else {
-            echo "<br>no se hace nada!";
+            echo "<br>ERROR al guardar la secci&oacute;n. Intente nuevamente o recargue la p&aacute;gina.";
         }   
     }
 

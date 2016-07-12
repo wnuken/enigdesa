@@ -1,17 +1,33 @@
+<div id="formulario">
+  <ul>
+	<li><a href="#dia1">Día 1</a></li>
+	<li><a href="#">Día 2</a></li>
+	<li><a href="#">Día 3</a></li>
+	<li><a href="#">Día 4</a></li>
+	<li><a href="#">Día 5</a></li>
+	<li><a href="#">Día 6</a></li>
+	<li><a href="#">Día 7</a></li>
+	<li><a href="#">Día 8</a></li>
+	<li><a href="#">Día 9</a></li>
+	<li><a href="#">Día 10</a></li>
+	<li><a href="#">Día 11</a></li>
+	<li><a href="#">Día 12</a></li>
+	<li><a href="#">Día 13</a></li>
+	<li><a href="#">Día 14</a></li>
+  </ul>
+  <div id="dia1">
 	<div class="row">
 		<div class="col-sm-2"></div>
 		<div class="col-sm-8">
-			<h1><?echo $secc['DESCR_SECCION']; ?></h1>
-			<h2><?echo $dia; ?></h2>
+			<h3>Día 1 - <?echo $fecha; ?></h3>
 		</div>
 	</div>
-	<hr />
 	<h3>Registre sus gastos de hoy:</h3>
-	<blockquote>Registre  los gastos diarios del hogar en alimentos y bebidas adquiridos y las LAS MESADAS ENTREGADAS durante el día de hoy <a href='#'>(?)</a>. 
-	Además incluya los gastos 
-	personales y adquisiciones realizadas por NOM_SIMP y los miembros del hogar menores de 10 años y con limitaciones cognitivas en  servicios en pasajes en bus, colectivo,
-	entre otros; pago de parqueadero; llamadas locales desde cabinas telefónicas, teléfonos monederos, teléfonos públicos y llamadas por minutos desde celular a cualquier 
-	destino; gastos en juegos electrónicos, de azar y de mesa; café internet; bebidas alchohólicas, estupefacientes, entre otros.</blockquote>
+	<blockquote>Registre  los gastos diarios del hogar en alimentos y bebidas adquiridos y las LAS MESADAS ENTREGADAS durante el día de hoy <a href='#' data-toggle='tooltip' title='Para el registro de sus gastos de hoy tenga en cuenta: *El diligenciamientos de sus gastos personales debe hacerlo solo durante 7 días.  *El registro de las mesadas entregadas debe hacerce el mismo día en que efectúe la entrega.  *Incluir los artículos y servicios que sin ser comprados los obtuvo de un negocio propio, como regalo, intercambio o como pago por su trabajo. '>(?)</a>. 
+	Además incluya los gastos personales y adquisiciones realizadas por <i><? echo $persona['P521A'] ." ". $persona['P521C']; ?></i> y los miembros del hogar menores 
+	de 10 años y con limitaciones cognitivas en  servicios en pasajes en bus, colectivo, entre otros; pago de parqueadero; llamadas locales desde cabinas 
+	telefónicas, teléfonos monederos, teléfonos públicos y llamadas por minutos desde celular a cualquier destino; gastos en juegos electrónicos, de azar y 
+	de mesa; café internet; bebidas alchohólicas, estupefacientes, entre otros.</blockquote>
 	<table class="table table-striped table-bordered table-reflow">
 		<thead>
 			<tr>
@@ -37,8 +53,8 @@
 		<div class="col-sm-1"></div><div class="col-sm-1" id="mensaje_ARTICULOS"></div></div>
 	<hr />
 	<h3>Registre los gastos y adquisiciones realizadas el día de hoy en comidas preparadas fuera del hogar:</h3>
-	<blockquote>Registre los gastos del hogar y personales de NOM_SIMP en comidas preparadas fuera del hogar como en restaurantes, tiendas, 
-	fondas ruralres y al aire libre. <a href='#'>(?)</a></blockquote>
+	<blockquote>Registre los gastos del hogar y personales de <i><? echo $persona['P521A'] ." ". $persona['P521C']; ?></i> en comidas preparadas fuera del hogar como en restaurantes, tiendas, 
+	fondas ruralres y al aire libre. <a href='#' data-toggle='tooltip' title='Tenga en cuenta el conjunto de alimentos y bebidas no alcohólicas que son adquiridos para usted y los miembros del hogar menores de 10 años en los principales momentos de alimentación (desayuno, almuerzo, comida, merienda), incluyendo aquellos que se piden para llevar o a domicilio. Por ejemplo: Si compró para usted o su familia una pizza en un restaurante o si pidió a domicilio hamburguesas para almorzar en su lugar de trabajo.'>(?)</a></blockquote>
 	<table class="table table-striped table-bordered table-reflow">
 		<thead>
 			<tr>
@@ -65,11 +81,11 @@
 	<form id="form_<?echo $secc['ID_SECCION'] .'_'. $secc['PAGINA']?>" name="form_<?echo $secc['ID_SECCION'] .'_'. $secc['PAGINA']?>" class="form-horizontal" role="form">
 		<input type="hidden" name="ID_FORMULARIO" id="ID_FORMULARIO" value="<?echo $id_formulario; ?>" />
 		<input type="hidden" name="_INI_<?echo $secc['ID_SECCION'] .'_'. $secc['PAGINA']?>" id="_INI_<?echo $secc['ID_SECCION'] .'_'. $secc['PAGINA']?>"/>
-		
 	</form>
 	<div class="row">
 		<div class="col-sm-12" id="mensaje_<?echo $secc['ID_SECCION'] .'_'. $secc['PAGINA']?>"></div>
 	</div>
+<!--
 	<div class="row text-center">
 <?php
 	if ($secc['ANTERIOR'] == 'SI') {
@@ -84,6 +100,7 @@
 	}
 ?>
 	</div>
+-->
 	<div id="GDH_ARTICULOS" title="Gastos de Hoy">
 		<form id="form_ARTICULOS" name="form_ARTICULOS" class="form-horizontal" role="form">
 			<input type="hidden" name="ID_FORMULARIO" id="ID_FORMULARIO" value="<?echo $id_formulario; ?>" />
@@ -172,6 +189,13 @@
 			</div>
 		</form>
 	</div>
+  </div>
+</div>
+<select class="form-control input-sm" id="js-data-example-ajax">
+  <option value="3620194" selected="selected">OO</option>
+</select>
+
+<div id="formulario_confirm" title="Confirmar Cambiar">Desea cambiar de D&iacute;a?</div>
 <script>
 <?php
 	echo "\t var regla_art = new Array();\n";
@@ -243,14 +267,105 @@
     }
 
 $(function() {
+	$("#formulario").tabs({
+		disabled: [1,2,3,4,5,6,7,8,9,10,11,12,13],
+		beforeLoad: function( event, ui ) {
+			ui.jqXHR.fail(function() {
+				ui.panel.html("Opción no disponible por el momento.");
+			});
+		},
+		beforeActivate: function(event, ui) {
+			if (!$("#formulario_confirm").data("confirmed")) {
+				event.preventDefault();
+				$("#formulario_confirm").dialog("open").data("ui", ui);
+			}
+		},
+		activate: function(event, ui) {
+			$("#formulario_confirm").data("confirmed", false);
+		}
+	});
+	$("#formulario_confirm").dialog({
+		autoOpen: false,
+		modal: true,
+		buttons: {
+			Yes: function() {
+				var ui = $(this).data("ui");
+				$(this).dialog('close').data("confirmed", true);
+				$("#formulario").tabs("option", "active", ui.newTab.index());
+			},
+			No: function() {
+				$(this).dialog('close').data("confirmed", false);
+			}
+		}
+	});
+	$("#js-data-example-ajax").select2({
+		ajax: {
+			url: "https://api.github.com/search/repositories",
+			dataType: 'json',
+			data: function (params) {
+			return {
+					q: params.term, // search term
+					page: params.page
+				};
+			},
+			processResults: function (data, params) {
+				params.page = params.page || 1;
+				return {
+					results: data.items,
+					pagination: {
+						more: (params.page * 30) < data.total_count
+					}
+				};
+			},
+			cache: true
+		},
+		escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+		minimumInputLength: 1
+		//templateResult: formatRepo, // omitted for brevity, see the source of this page
+		//templateSelection: formatRepoSelection // omitted for brevity, see the source of this page
+	});
 	$("#GDH_ARTICULOS").dialog({
 		autoOpen: false,
 		resizable: true,
-		width:800,
+		width:850,
 		height:500,
 		modal: true,
 		buttons: {
 			"Guardar": function() {
+				var estado = 1;
+				var txt = "";
+				var id;
+				for (var id_i in regla_art) {
+					id = id_i.split('__');
+					chk_cons(id[0], regla_art);
+					estado = estado * regla_art[id_i][3];
+					txt += id_i + ":" + regla_art[id_i][3] + " | \n";
+				}
+				if (estado) {
+					var myf = $('#form_ARTICULOS');
+					var args = myf.serialize().replace(/(%0D%0A|%0D|%0A|%22|%5C|')/g, " ");
+					//$(this).attr('disabled', true);
+					$.ajax({
+						type: 'POST',
+						url: '<?php echo site_url("modgastoshogar/Gastoshog/guardar/ARTICULOS") ?>',
+						cache: false,
+						contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+						data: args,
+						beforeSend: function (objeto) {
+							$('#mensaje_ARTICULOS').html('<div class="alert alert-info" role="alert"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Enviando m&oacute;dulo</div>');
+						},
+						success: function (respuesta) {
+							$('#mensaje_ARTICULOS').html('<div class="alert alert-success" role="alert"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> '+ respuesta +'<span id="btn_seguir"><span></div>');
+							recargatablaArt();
+						},
+						error: function (respuesta) {
+							$('#mensaje_ARTICULOS').html('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Error guardando m&oacute;dulo</div>');
+						}
+					});
+					$(this).attr('disabled', false);
+				} else {
+					$('#mensaje_ARTICULOS').html('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> Hay campos que requieren correcciones, por favor verifique e intente nuevamente</div>');
+				}
 				$( this ).dialog( "close" );
 			}
 		}
@@ -259,40 +374,6 @@ $(function() {
 	$('[data-toggle="popover"]').popover();
 	recargatablaArt();
 	$("#ENV_ARTICULOS").click(function () {
-		var estado = 1;
-		var txt = "";
-		var id;
-		for (var id_i in regla_art) {
-			id = id_i.split('__');
-			chk_cons(id[0], regla_art);
-			estado = estado * regla_art[id_i][3];
-			txt += id_i + ":" + regla_art[id_i][3] + " | \n";
-		}
-		if (estado) {
-			var myf = $('#form_ARTICULOS');
-			var args = myf.serialize().replace(/(%0D%0A|%0D|%0A|%22|%5C|')/g, " ");
-			//$(this).attr('disabled', true);
-			$.ajax({
-				type: 'POST',
-				url: '<?php echo site_url("modgastoshogar/Gastoshog/guardar/ARTICULOS") ?>',
-				cache: false,
-				contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-				data: args,
-				beforeSend: function (objeto) {
-					$('#mensaje_ARTICULOS').html('<div class="alert alert-info" role="alert"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Enviando m&oacute;dulo</div>');
-				},
-				success: function (respuesta) {
-					$('#mensaje_ARTICULOS').html('<div class="alert alert-success" role="alert"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> '+ respuesta +'<span id="btn_seguir"><span></div>');
-					recargatablaArt();
-				},
-				error: function (respuesta) {
-					$('#mensaje_ARTICULOS').html('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Error guardando m&oacute;dulo</div>');
-				}
-			});
-			$(this).attr('disabled', false);
-		} else {
-			$('#mensaje_ARTICULOS').html('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span> Hay campos que requieren correcciones, por favor verifique e intente nuevamente</div>');
-		}
 	});
 	// control de las fechas de jquery
 	// Envio del formulario.

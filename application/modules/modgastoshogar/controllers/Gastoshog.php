@@ -44,6 +44,8 @@ class Gastoshog extends MX_Controller {
 				// Secciones de Gastos diarios del hogar
 				else {
 					$data['dia'] = $this->Modgastoshog->buscarDia($data["id_formulario"], $data['secc']['ID_SECCION']);
+					$data['fecha'] = $this->Modgastoshog->fecha2texto($data['dia']);
+					$data['persona'] = $this->Mformulario->obtenerPersona($data["id_formulario"], $id_persona);
 					$data['preg_art']["var"] = $this->Mformulario->listarVariables('GDHARTICULOS', '1', $data["id_formulario"]);
 					$data['preg_art']["opc"] = $this->Mformulario->listarOpciones('GDHARTICULOS', '1', $data["id_formulario"]);
 					/*$arrVarPers = array("P6006S1_1", "P1648S1A1", "P1648S1A2", "P1648S2A1", "P1648S2A2", "P1648S3A1", "P1648S3A2", "P1648S4A1", "P1648S4A2", "P1648S5A1", "P1648S5A2", "P1648S6A1", "P1648S6A2");

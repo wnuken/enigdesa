@@ -9,14 +9,14 @@
 <div class="row">
 	<div class="col-sm-2"><img title="Icono de Gastos" src="<?php //echo base_url("images/form_icon-ingresospersonales.png"); ?>" /></div>
 	<div class="col-sm-10">
-		<h2><?php echo $titulo_ppal; ?></h2>
+		<h2><?php echo $titulo_1; ?></h2>
 		</div>
 </div>
 <div class="row">
 	<div class="col-sm-2">&nbsp;</div>
 	<div class="col-sm-10">
-		<h4><?=$secc[0]['DESCR_SECCION'] . "(" . $secc[0]['TEMPORALIDAD'] . ")"; ?></h4>
-		<h4><?php echo $subtitulo; ?></h4>
+		<h3><?=$subtitulo_2;// . "(" . $secc[0]['TEMPORALIDAD'] . ")"; ?></h3>
+		<h4><?php echo $subtitulo_3; ?></h4>
 		</div>
 </div>
 

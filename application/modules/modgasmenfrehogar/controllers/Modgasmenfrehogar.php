@@ -27,7 +27,7 @@ class Modgasmenfrehogar extends MX_Controller {
         $data["sec"] = $this->Modgmfh->listar_secciones($arrParam);
         foreach ($data["sec"] as $ks => $vs) {
             $data["sec"][$ks]["BLOQ"] = 'NO';            
-            $data["sec"][$ks]["ENLACE"] = base_url($this->module . '/' .  $data["sec"][$ks]["ENCABEZADO"]);
+            $data["sec"][$ks]["ENLACE"] = base_url($this->module . '/' .  $data["sec"][$ks]["TITULO3"]);
             // oagarzond - Se consulta el avance para redirecionarlo en que pagina va
             $arrParam = array(
                 'id' => $vs["ID_SECCION3"],

@@ -140,7 +140,7 @@ class Modgastoshog extends CI_Model {
 		$dia = '';
 		if ($query->num_rows() > 0) {
 			foreach ($query->result() as $row)
-				$dia = $this->fecha2texto($row->DIA);
+				$dia = $row->DIA;
 		}
 		$this->db->close();
 		return $dia;
@@ -148,7 +148,7 @@ class Modgastoshog extends CI_Model {
 	
 	// Funcion de conversion de fecha a texto.
 	// @author oagarzond
-	private function fecha2texto($fecha) {
+	public function fecha2texto($fecha) {
 		$fechatexto = "";
 		$unixMark = strtotime($fecha);
 		$mes = intval(date("m", $unixMark));

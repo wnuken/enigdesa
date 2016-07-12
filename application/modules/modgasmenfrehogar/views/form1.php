@@ -2,8 +2,10 @@
 	<div class="row">
 		<div class="col-sm-2"><img src="<?php echo base_url("images/form_icon-ingresospersonales.png"); ?>" /></div>
 		<div class="col-sm-8">
-			<h2><?=$secc[0]['DESCR_SECCION'] . "(" . $secc[0]['TEMPORALIDAD'] . ")"; ?></h2>
-			<h4><?//echo $persona['P521A'] ." ". $persona['P521C'] ." (". $persona['P6040'] .")"; ?></h4>
+			<h4><?=$secc[0]['TITULO1']?></h4>
+			<h2><?=$secc[0]['TITULO2']?></h2>
+			<h3><?=$secc[0]['TITULO3']?></h3>
+			
 		</div>
 	</div>
 	<br />

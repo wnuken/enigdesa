@@ -450,3 +450,29 @@
 		}
 	});
 	
+	//**************************************************************************************************
+	//** Funciones adicionales utilizadas por las reglas de validacion adicionales del jQuery Validator
+	//**************************************************************************************************
+	
+	//1) Evalua una cadena de texto recibida como parametro y retorna el resultado 
+	function convertirOperacion(cadena){
+		var result = 0;
+		if ((typeof cadena)=='string')
+			result = eval(cadena);	
+		else if((typeof cadena)=='number')
+			result = cadena;
+		return parseInt(result);
+	}
+	//*****************************************************************************************************************
+	//** Compara y valida que el valor de una caja de texto sea menor o igual que el valor que se recibe por parametro
+	//*****************************************************************************************************************
+	$.validator.addMethod("menorIgualQue",function(value, element, param){
+		var comp = convertirOperacion(param); 
+		var valor = parseInt($(element).val());
+        if (valor <= comp){			                            	  
+      	  return false;
+        }
+        else{
+      	  return true;
+        }
+    },"");
