@@ -46,6 +46,7 @@ this.getElements = function(params, callbackFunc) {
 		method: 'GET',
 		url: params.path,
 		params: params.elements,
+		headers: {'Content-Type': 'application/json'},
         /// headers: {'Authorization': 'Token token=xxxxYYYYZzzz'}
     }).success(function(response){
     	callbackFunc(response);
@@ -53,16 +54,13 @@ this.getElements = function(params, callbackFunc) {
     	console.log("error");
     });
 };
-
-
-
 });
 
 
 appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageService', function($scope, dataService, localStorageService) {
 	
 	$scope.FormulariorHombre = {};
-	$scope.elid = [];
+	$scope.validateGroup = [];
 
 	var gg = {
 		"ID_SECCION3": "D1"
@@ -88,13 +86,14 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 				"ID_FORMULARIO": $scope.FormulariorHombre.idFormulario,
 				"ID_VARIABLE": $scope.FormulariorHombre.idVariable,
 				"VALOR_VARIABLE": $scope.FormulariorHombre.valorVariable,
+				"ID_SECCION3": $scope.FormulariorHombre.idSection
 			},				
-			"path": "validateinitsection"
+			"path": "ropaaccesorios/validateinitsection"
 		};
 
 		dataService.saveSection(paramssec0, function(dataResponse){
 			if($scope.FormulariorHombre.valorVariable == '1' && dataResponse.status == true){
-				$scope.pagesection = params;
+				// $scope.pagesection = params;
 			}else{
 				console.log('va al home');
 			}
@@ -107,31 +106,48 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 	};
 
 	$scope.validateForm2 = function(params){
-		///console.log($scope.FormulariorHombre.rh);
-
 		var paramssec1 = {
-				"ID_FORMULARIO": $scope.FormulariorHombre.idFormulario,
+			"ID_FORMULARIO": $scope.FormulariorHombre.idFormulario,
+			"ID_SECCION3": $scope.FormulariorHombre.idSection,
 			"path": "ropaaccesorios/savesetarticulos"
 		};
 
 		angular.forEach($scope.FormulariorHombre.rh, function(element, key){
 			if(element.value == true){
-				 paramssec1[key] = element.id;
-				}
+				paramssec1[key] = element.id;
+			}
+		});
+		dataService.saveElements(paramssec1, function(dataResponse){
+			if(dataResponse.result == true && dataResponse.control == true){
+				$scope.pagesection = params;
+			}else{
+				console.log(dataResponse);
+			}
+		});
+		
+	};
+
+	$scope.validateForm3 = function(params){
+		var paramssec2 = {
+			"ID_FORMULARIO": $scope.FormulariorHombre.idFormulario,
+			"ID_SECCION3": $scope.FormulariorHombre.idSection,
+			"path": "ropaaccesorios/updatearticulos"
+		};
+
+		angular.forEach($scope.FormulariorHombre.rh, function(element, key){
+			if(element.value == true){
+				paramssec2[element.id] = element.ot;
+			}
 		});
 
-		console.log(paramssec1);	
+		dataService.saveElements(paramssec2, function(dataResponse){
+			if(dataResponse.result == true){
+				$scope.pagesection = params;
+			}else{
+				console.log(dataResponse);
+			}
+		});
 
-
-		dataService.saveElements(paramssec1, function(dataResponse){
-						 console.log(dataResponse);
-				});
-
-		
-		
-		$scope.pagesection = params;
-
-		
 	};
 
 	$scope.validateBtnS1 = function(index){
@@ -145,65 +161,14 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 		console.log($scope.activeBtnS1);
 	};
 
-	$scope.validateBtnS2 = function(idelement){
-		console.log(idelement);
-		console.log($scope.FormulariorHombre.compra);
-		angular.forEach($scope.FormulariorHombre.compra, function(element, key){
+	$scope.validateBtnS2 = function(index){
+		console.log($scope.FormulariorHombre);
+		$scope.validateGroup[index] = '';
+		angular.forEach($scope.FormulariorHombre.rh[index].ot, function(element, key){
 			console.log(element);
-			if(element == true){
-				$scope.elid[idelement] = true;
-			}else{
-				$scope.elid[idelement] = false;
-			}
+			if(element == true)
+				$scope.validateGroup[index] = true;
 		});
-
-		angular.forEach($scope.FormulariorHombre.recibo, function(element, key){
-			console.log(element);
-			if(element == true){
-				$scope.elid[idelement] = true;
-			}else{
-				$scope.elid[idelement] = false;
-			}
-		});
-
-		angular.forEach($scope.FormulariorHombre.regalo, function(element, key){
-			console.log(element);
-			if(element == true){
-				$scope.elid[idelement] = true;
-			}else{
-				$scope.elid[idelement] = false;
-			}
-		});
-
-		angular.forEach($scope.FormulariorHombre.intercambio, function(element, key){
-			console.log(element);
-			if(element == true){
-				$scope.elid[idelement] = true;
-			}else{
-				$scope.elid[idelement] = false;
-			}
-		});
-
-		angular.forEach($scope.FormulariorHombre.propio, function(element, key){
-			console.log(element);
-			if(element == true){
-				$scope.elid[idelement] = true;
-			}else{
-				$scope.elid[idelement] = false;
-			}
-		});
-
-		angular.forEach($scope.FormulariorHombre.otro, function(element, key){
-			console.log(element);
-			if(element == true){
-				$scope.elid[idelement] = true;
-			}else{
-				$scope.elid[idelement] = false;
-			}
-		});
-
-
-		
 
 		//console.log($scope.elid);
 	};

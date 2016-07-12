@@ -14,19 +14,20 @@ class Modelropaaccesorios extends My_model {
         parent::__construct();
     }
 
-    public function getGmfVariable($params){
-        $this->db->select('ID_FORMULARIO, VALOR_VARIABLE');
-        $this->db->where('ID_VARIABLE',$params['ID_VARIABLE']);
-        $this->db->limit(1);
-        $query = $this->db->get('ENIG_FORM_GMF_VARIABLES');
-        $result = $query->row_array();
-        return $result['VALOR_VARIABLE'];
-    }
-
     public function setGmfVariable($params){
-    	$resultInsert = $this->db->insert('ENIG_FORM_GMF_VARIABLES', $params);
-
-       if($resultInsert === TRUE){
+        $this->db->where('ID_FORMULARIO',$params['ID_FORMULARIO']);
+        $this->db->where('ID_VARIABLE',$params['ID_VARIABLE']); 
+        $q = $this->db->get('ENIG_FORM_GMF_VARIABLES');  
+        
+        if ( $q->num_rows() > 0 ){
+            $this->db->where('ID_FORMULARIO',$params['ID_FORMULARIO']);
+            $this->db->where('ID_VARIABLE',$params['ID_VARIABLE']); 
+            $resultInsert = $this->db->update('ENIG_FORM_GMF_VARIABLES',$params);
+        }else{
+            $resultInsert = $this->db->insert('ENIG_FORM_GMF_VARIABLES', $params);
+        }
+        
+        if($resultInsert === TRUE){
             $result = $resultInsert;
         }else{
             $result = FALSE;
@@ -35,21 +36,11 @@ class Modelropaaccesorios extends My_model {
         return $result;
     }
 
-    public function updateGmfVariable($params){
-        $this->db->where('ID_VARIABLE', $params['ID_VARIABLE']);
-        $resultUpdate = $this->db->update('ENIG_FORM_GMF_VARIABLES', $params);
 
-       if($resultUpdate === TRUE){
-            $result = $resultUpdate;
-        }else{
-            $result = FALSE;
-        }
-
-        return $result;
-    }
 
 
     public function updateGmfControl($params){
+        $this->db->where('ID_FORMULARIO', $params['ID_FORMULARIO']);
         $this->db->where('ID_SECCION3', $params['ID_SECCION3']);
         $resultUpdate = $this->db->update('ENIG_ADMIN_GMF_CONTROL', $params);
 
@@ -75,11 +66,12 @@ class Modelropaaccesorios extends My_model {
     }
 
     public function setArticulos($params){
-
+        $this->db->where('ID_FORMULARIO',$params['ID_FORMULARIO']);
         $this->db->where('ID_ARTICULO3',$params['ID_ARTICULO3']); 
         $q = $this->db->get('ENIG_FORM_GMF_FORMA_OBTENCION');  
         
         if ( $q->num_rows() > 0 ){
+            $this->db->where('ID_FORMULARIO',$params['ID_FORMULARIO']);
             $this->db->where('ID_ARTICULO3',$params['ID_ARTICULO3']); 
             $resultInsert = $this->db->update('ENIG_FORM_GMF_FORMA_OBTENCION',$params);
         }else{

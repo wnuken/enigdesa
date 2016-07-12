@@ -25,64 +25,6 @@ class Ropaaccesorios extends MX_Controller {
         $this->load->model("/ropaaccesorios/Modelropaaccesorios", "Maccesorios");
     }
 
-    private function actualizarEstado() {
-        $this->load->model(array("Modgmfh"));
-        $id_formulario = $this->session->userdata("id_formulario");
-        $arrSA = $this->Modgmfh->listar_secciones_avances(array( "id0" => $this->idSubModulo , "estado" => array(0,1)));
-        
-        $fechahoraactual = $this->Modgmfh->consultar_fecha_hora();
-        $fechaactual = substr($fechahoraactual, 0, 10);
-        if(sizeof($arrSA) > 1) {
-            $this->idSeccion = $arrSA[1]['ID_SECCION3'];
-
-            $formas_obt = $this->Modgmfh->lista_formaObtencion( array("seccion" => $this->idSeccion, "id_formulario" => $id_formulario) );
-
-            $formas_obt_sin_compra = $this->Modgmfh->lista_formaObtencion( array("seccion" => $this->idSeccion, "id_formulario" => $id_formulario, "sincompra" => 1) );
-            $formas_obt_con_compra = $this->Modgmfh->lista_formaObtencion( array("seccion" => $this->idSeccion, "id_formulario" => $id_formulario, "compra" => 1) );
-            $lista_compra = $this->Modgmfh->lista_compra( array("seccion" => $this->idSeccion, "id_formulario" => $id_formulario) );
-            $formas_adqui = $this->Modgmfh->lista_formaAdqui( array("seccion" => $this->idSeccion, "id_formulario" => $id_formulario) );
-
-            if($arrSA[0]['ID_ESTADO_SEC'] ==  0){
-                $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 1), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $arrSA[0]['ID_SECCION3']));
-            }
-
-
-            if($arrSA[1]['ID_ESTADO_SEC'] ==  0 && $arrSA[1]['PAG_SECCION3'] ==  0){
-                $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 1, "PAG_SECCION3" => 1, "FECHA_INI_SEC" => $fechaactual), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $this->idSeccion));
-            }
-            /*else if($arrSA[1]['ID_ESTADO_SEC'] ==  1 && $arrSA[1]['PAG_SECCION3'] == 1 && count($formas_obt) == 1 && $formas_obt[0]['ID_ARTICULO3'] == "99999999" ) {
-                $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $this->idSeccion));
-            }*/
-            else if($arrSA[1]['ID_ESTADO_SEC'] ==  1 && $arrSA[1]['PAG_SECCION3'] == 1 && count($formas_obt) > 0 ) {
-                $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "PAG_SECCION3" => 2), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $this->idSeccion));
-            }
-            else if($arrSA[1]['ID_ESTADO_SEC'] ==  1 && $arrSA[1]['PAG_SECCION3'] == 2 && count($formas_obt_con_compra) > 0 ) {
-                $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "PAG_SECCION3" => 3), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $this->idSeccion));
-            }
-            else if($arrSA[1]['ID_ESTADO_SEC'] ==  1 && $arrSA[1]['PAG_SECCION3'] == 2 && count($formas_obt_sin_compra ) > 0 ) {
-                $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "PAG_SECCION3" => 4), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $this->idSeccion));
-            }
-            else if($arrSA[1]['ID_ESTADO_SEC'] ==  1 && $arrSA[1]['PAG_SECCION3'] == 3 && count($lista_compra) > 0 && count($formas_obt_sin_compra) > 0) {
-                $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "PAG_SECCION3" => 4), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $this->idSeccion));    
-            }
-            else if($arrSA[1]['ID_ESTADO_SEC'] ==  1 && $arrSA[1]['PAG_SECCION3'] == 3 && count($lista_compra) > 0 && count($formas_obt_sin_compra) == 0) {
-                $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $this->idSeccion));    
-            }
-            else if($arrSA[1]['ID_ESTADO_SEC'] ==  1 && $arrSA[1]['PAG_SECCION3'] == 4 && count($formas_adqui) > 0 ) {
-                $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $this->idSeccion));
-            }  
-
-
-        }
-        else {
-            $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual ), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $arrSA[0]['ID_SECCION3']));
-        }
-        
-        $arrSA = $this->Modgmfh->listar_secciones_avances(array( "id0" => $this->idSubModulo , "estado" => array(0,1)));
-
-        return $arrSA;
-    }
-    
     public function index() {
         $dataElement["id_formulario"] = $this->session->userdata("id_formulario");
         if (empty($dataElement["id_formulario"])) {
@@ -91,13 +33,6 @@ class Ropaaccesorios extends MX_Controller {
         }
 
         $initControl = $this->getControlSection();
-
-        // $paramsToUpdate['id_formulario'] = $this->session->userdata("id_formulario");
-        // $formas_obt = $this->Modgmfh->lista_formaObtencion( array("seccion" => $this->idSeccion, "id_formulario" => $dataElement['id_formulario']) );
-       /* print('<pre>');
-        print_r($arrSA);
-        print('</pre>');*/
-        
 
         if(is_array($initControl) && $initControl[0]['ID_ESTADO_SEC'] < 2){
 
@@ -121,7 +56,6 @@ class Ropaaccesorios extends MX_Controller {
                     if($section['ID_ESTADO_SEC'] < 2 && $section['ID_SECCION3'] != ($this->idSubModulo . '0')){
                         $data['pageSection'] = $section['PAG_SECCION3'];
                         $data['idSection'] = $section['ID_SECCION3'];
-                        $data['idFormulario'] = $dataElement["id_formulario"];
                         $data["view"]="ropaaccesorios/form1";
                         $this->load->view("layout", $data);
                         return false;
@@ -136,47 +70,6 @@ class Ropaaccesorios extends MX_Controller {
             return false;
         }
 
-        
-
-        /*
-        
-        $arrSA = $this->actualizarEstado();
-        
-        
-        // Se consulta el estado de la seccion, si esta finalizado se redirige al menu del modulo
-       // $arrParam = array('id' => $this->idSeccion);
-        //$arrSA = $this->Modgmfh->listar_secciones_avances($arrParam);
-        if (count($arrSA) == 0) {
-            //if($arrSA["0"]["ID_ESTADO_SEC"] == 2) {
-                redirect(base_url($this->module));
-                return false;
-            //}
-        }
-        
-        //die("<BR><BR>seccion:".$this->idSeccion." - pagina:".$arrSA["1"]["PAG_SECCION3"]);
-        //var_dump($arrSA);
-        //echo "mmm".$arrSA["0"]["PAG_SECCION3"];
-        //Esto va temporalmente aquí, mientras resuelven lo de la tabla control
-        //$this->mostrarListaArticulos($data);
-        //pr($data); exit;
-        if(!empty($arrSA["1"]["PAG_SECCION3"])) {
-        	//echo "nnn";
-            switch ($arrSA["1"]["PAG_SECCION3"]) {
-                case 1:
-                    $this->mostrarListaArticulos($data);
-                    break;
-                case 2:
-                    $this->mostrarListaObtencion($data);
-                    break;
-                case 3:
-                    $this->mostrarGrillaCompra($data);
-                    break;
-                case 4:
-                    $this->mostrarGrillaNoCompra($data);
-                    break;
-            }
-            
-        }*/
     }
 
     private function getControlSection(){
@@ -197,57 +90,56 @@ class Ropaaccesorios extends MX_Controller {
     }
 
     public function validateinitsection(){
-       $params = $this->input->get(NULL, TRUE);
-       $result = FALSE;
+     $params = $this->input->get(NULL, TRUE);
+     $result = FALSE;
 
-       $existElment = $this->Maccesorios->getGmfVariable($params);
-      if($existElment == NULL){
-            $result = $this->Maccesorios->setGmfVariable($params);
-       }else{
-            $result = $this->Maccesorios->updateGmfVariable($params);
-       }
+     $paramsGmf['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
+     $paramsGmf['ID_VARIABLE'] = $params['ID_VARIABLE'];
+     $paramsGmf['VALOR_VARIABLE'] = $params['VALOR_VARIABLE'];
 
-        $dataElement['ID_SECCION3'] =  $this->idSubModulo . '1';
-        $dataElement['PAG_SECCION3'] = 1;
-        $resultControl = $this->Maccesorios->updateGmfControl($dataElement);
+      // var_dump($paramsGmf);
 
-       
-       $resposeArray = array(
+     $result = $this->Maccesorios->setGmfVariable($paramsGmf);
+
+     $dataElement['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
+     $dataElement['ID_SECCION3'] =  $params['ID_SECCION3'];
+     $dataElement['PAG_SECCION3'] = 1;
+     $resultControl = $this->Maccesorios->updateGmfControl($dataElement);
+
+
+     $resposeArray = array(
         'status' => $result,
         'mesage' => 'OK',
         'resultControl' => $resultControl,
-        'element' => $existElment
-
-
+        'paramsGmf' => $paramsGmf
         );
-       $response = json_encode($resposeArray);
-       echo $response;
-   }
+     $response = json_encode($resposeArray);
+     echo $response;
+ }
 
 
-   public function getelements(){
+     public function getelements(){
         $params = $this->input->get(NULL, TRUE);
         $elements = $this->Maccesorios->getElements($params);
 
-       //  var_dump($elements);
+           //  var_dump($elements);
         foreach ($elements as $key => $value) {
            $active = FALSE;
-            if(isset($value['ar2']))
-                $active = TRUE;
+           if(isset($value['ar2']))
+            $active = TRUE;
 
-            $result[] = array(
-                'name' => $value['ETIQUETA'],
-                'id' =>  $value['ID_ARTICULO3'],
-                'value' => $active);
-        }
-        $response = json_encode($result);
-        print $response;
-   }
+        $result[] = array(
+            'name' => $value['ETIQUETA'],
+            'id' =>  $value['ID_ARTICULO3'],
+            'value' => $active);
+    }
+    $response = json_encode($result);
+    print $response;
+    }
 
-   public function savesetarticulos(){
+    public function savesetarticulos(){
         $result = FALSE;
         $params = $this->input->get(NULL, TRUE);
-                    var_dump($params);
         foreach ($params as $key => $value) {
 
             if(is_numeric($key)){
@@ -257,18 +149,53 @@ class Ropaaccesorios extends MX_Controller {
             }
         }
 
-        $dataElement['ID_SECCION3'] =  $this->idSubModulo . '1';
+        $dataElement['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
+        $dataElement['ID_SECCION3'] = $params['ID_SECCION3'];
         $dataElement['PAG_SECCION3'] = 2;
         $resultControl = $this->Maccesorios->updateGmfControl($dataElement);
 
         $responseArray = array(
-                'result' => $result,
-                'control' => $resultControl);
+            'result' => $result,
+            'control' => $resultControl);
 
         $response = json_encode($responseArray);
 
         echo $response;
     }
+
+
+    public function updatearticulos(){
+
+        $params = $this->input->get(NULL, TRUE);
+        
+
+        $paramsElement['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
+
+
+        foreach ($params as $key => $value) {
+
+            if(is_numeric($key)){
+                $paramsElement['ID_ARTICULO3'] = $key;
+
+                $jArray = json_decode($value);
+
+                foreach ($jArray as $key => $value) {
+                    if($value == true)
+                        $paramsElement[$key] = 1;
+                }
+
+                    $result = $this->Maccesorios->setArticulos($paramsElement);
+            }
+        }
+
+        $responseArray = array(
+            'result' => $result);
+
+        $response = json_encode($responseArray);
+
+        echo $response;
+    }
+
 
 
     /**
