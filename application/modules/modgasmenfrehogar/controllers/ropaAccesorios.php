@@ -154,6 +154,8 @@ class Ropaaccesorios extends MX_Controller {
             'name' => $value['ETIQUETA'],
             'id' =>  $value['ID_ARTICULO3'],
             'value' => $active,
+            'DEFINE_LUGAR_COMPRA' => $value['DEFINE_LUGAR_COMPRA'],
+            'DEFINE_FRECU_COMPRA' => $value['DEFINE_FRECU_COMPRA'],
             'ot' => array(
                 'COMPRA' => $COMPRA, 
                 'RECIBIDO_PAGO' => $RECIBIDO_PAGO,
@@ -202,12 +204,9 @@ class Ropaaccesorios extends MX_Controller {
 
 
     public function updatearticulos(){
-
         $params = $this->input->get(NULL, TRUE);
         
-
         $paramsElement['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
-
 
         foreach ($params as $key => $value) {
 
@@ -238,6 +237,60 @@ class Ropaaccesorios extends MX_Controller {
         $response = json_encode($responseArray);
 
         echo $response;
+    }
+
+
+    public function updatecompra(){
+        $params = $this->input->get(NULL, TRUE);
+
+        $paramsElement['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
+
+        foreach ($params as $key => $value) {
+
+            if(is_numeric($key)){
+                $paramsElement['ID_ARTICULO3'] = $key;
+
+                $jArray = json_decode($value);
+
+                foreach ($jArray as $key => $value) {
+                    if($value == true)
+                        $paramsElement[$key] = $value;
+                }
+                    if(isset($paramsElement['VALOR_PAGADO1'])){
+                        $paramsElement['VALOR_PAGADO'] = 99;
+                        unset($paramsElement['VALOR_PAGADO1']);
+                    }
+                    
+                   $result = $this->Maccesorios->setCompra($paramsElement);
+            }
+        }
+
+        $dataElement['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
+        $dataElement['ID_SECCION3'] = $params['ID_SECCION3'];
+        $dataElement['PAG_SECCION3'] = 4;
+        $resultControl = $this->Maccesorios->updateGmfControl($dataElement);
+
+        $responseArray = array(
+            'result' => $result,
+            'control' => $resultControl
+            );
+
+        $response = json_encode($responseArray);
+
+        echo $response;
+
+
+    }
+
+    public function updateotros(){
+            $params = $this->input->get(NULL, TRUE);
+
+        $dataElement['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
+        $dataElement['ID_SECCION3'] = $params['ID_SECCION3'];
+        $dataElement['ID_ESTADO_SEC'] = 2;
+        $resultControl = $this->Maccesorios->updateGmfControl($dataElement);
+
+
     }
 
 

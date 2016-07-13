@@ -151,6 +151,67 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 
 	};
 
+	$scope.validateForm4 = function(params){
+		$scope.errorVcomprado = false;
+		angular.forEach($scope.FormulariorHombre.rh, function(element, key){
+			if( typeof element.pa != 'undefined' && !isNaN(element.pa.VALOR_PAGADO)){
+				vapagado = parseInt(element.pa.VALOR_PAGADO);
+				if(!isNaN(vapagado) && vapagado < 500){
+					$scope.errorVcomprado = true;
+				}
+			}
+		});
+
+		if($scope.errorVcomprado == true){
+			console.log('mensaje de error');
+		}else{
+			$scope.errorVcomprado = false;
+			console.log('se valida');
+
+			var paramssec3 = {
+				"ID_FORMULARIO": $scope.FormulariorHombre.idFormulario,
+				"ID_SECCION3": $scope.FormulariorHombre.idSection,
+				"path": "ropaaccesorios/updatecompra"
+			};
+
+			angular.forEach($scope.FormulariorHombre.rh, function(element, key){
+				if(element.value == true){
+					paramssec3[element.id] = element.pa;
+				}
+			});
+
+			dataService.saveElements(paramssec3, function(dataResponse){
+				console.log(dataResponse);
+			if(dataResponse.result == true){
+				$scope.pagesection = params;
+			}else{
+				console.log(dataResponse);
+			};
+		});
+
+
+		}
+
+	};
+
+	$scope.validateForm5 = function(params){
+
+			var paramssec4 = {
+				"ID_FORMULARIO": $scope.FormulariorHombre.idFormulario,
+				"ID_SECCION3": $scope.FormulariorHombre.idSection,
+				"path": "ropaaccesorios/updateotros"
+			};
+
+			dataService.saveElements(paramssec4, function(dataResponse){
+				console.log(dataResponse);
+			/*if(dataResponse.result == true){
+				$scope.pagesection = params;
+			}else{
+				console.log(dataResponse);
+			};*/
+			});
+	};
+
 	$scope.validateBtnS1 = function(index){
 		console.log($scope.FormulariorHombre);
 		$scope.activeBtnS1 = false;
@@ -163,7 +224,7 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 	};
 
 	$scope.validateBtnS2 = function(index){
-		console.log($scope.FormulariorHombre);
+		
 		$scope.validateGroup[index] = '';
 		angular.forEach($scope.FormulariorHombre.rh[index].ot, function(element, key){
 			console.log(element);
@@ -175,6 +236,7 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 	};
 
 	$scope.sumValor = function(index){
+		console.log($scope.FormulariorHombre);
 		var subt = 0;
 		var vapagado = 0; 
 		angular.forEach($scope.FormulariorHombre.rh, function(element, key){
@@ -186,6 +248,18 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 		});
 		$scope.subtotal = subt;
 	};
+
+	$scope.resValor = function(index){
+		if($scope.FormulariorHombre.rh[index].pa.VALOR_PAGADO1 == true && !isNaN($scope.FormulariorHombre.rh[index].pa.VALOR_PAGADO)){
+			var pagado = parseInt($scope.FormulariorHombre.rh[index].pa.VALOR_PAGADO);
+			var subtotal = parseInt($scope.subtotal);
+			if(subtotal >= pagado){
+				$scope.subtotal = subtotal - pagado;
+			}
+			$scope.FormulariorHombre.rh[index].pa.VALOR_PAGADO = '';
+			
+		}
+	}
 
 
 }]);

@@ -55,7 +55,7 @@ class Modelropaaccesorios extends My_model {
 
 
     public function getElements($params){
-        $this->db->select('ar.ID_ARTICULO3, ar.ETIQUETA, fo.ID_ARTICULO3 AS ar2, fo.COMPRA, fo.RECIBIDO_PAGO, fo.REGALO, fo.INTERCAMBIO, fo.PRODUCIDO, fo.NEGOCIO_PROPIO, fo.OTRA');
+        $this->db->select('ar.ID_ARTICULO3, ar.ETIQUETA, ar.DEFINE_LUGAR_COMPRA, ar.DEFINE_FRECU_COMPRA, fo.ID_ARTICULO3 AS ar2, fo.COMPRA, fo.RECIBIDO_PAGO, fo.REGALO, fo.INTERCAMBIO, fo.PRODUCIDO, fo.NEGOCIO_PROPIO, fo.OTRA');
         $this->db->from('ENIG_PARAM_GMF_ARTICULOS ar');
         $this->db->where('ID_SECCION3',$params['ID_SECCION3']);
         $this->db->join('ENIG_FORM_GMF_FORMA_OBTENCION fo', 'ar.ID_ARTICULO3 = fo.ID_ARTICULO3', 'left');
@@ -86,6 +86,32 @@ class Modelropaaccesorios extends My_model {
 
         return $result;
     }
+
+
+    public function setCompra($params){
+        $this->db->where('ID_FORMULARIO',$params['ID_FORMULARIO']);
+        $this->db->where('ID_ARTICULO3',$params['ID_ARTICULO3']); 
+        $q = $this->db->get('ENIG_FORM_GMF_COMPRA');  
+        
+        if ( $q->num_rows() > 0 ){
+            $this->db->where('ID_FORMULARIO',$params['ID_FORMULARIO']);
+            $this->db->where('ID_ARTICULO3',$params['ID_ARTICULO3']); 
+            $resultInsert = $this->db->update('ENIG_FORM_GMF_COMPRA',$params);
+        }else{
+            $resultInsert = $this->db->insert('ENIG_FORM_GMF_COMPRA', $params);
+        }
+        
+        if($resultInsert === TRUE){
+            $result = $resultInsert;
+        }else{
+            $result = FALSE;
+        }
+
+        return $result;
+    }
+
+
+    
 
 
 }
