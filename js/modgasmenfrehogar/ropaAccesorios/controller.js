@@ -61,6 +61,7 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 	
 	$scope.FormulariorHombre = {};
 	$scope.validateGroup = [];
+	$scope.subtotal = 0;
 
 	var gg = {
 		"ID_SECCION3": "D1"
@@ -171,6 +172,19 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 		});
 
 		//console.log($scope.elid);
+	};
+
+	$scope.sumValor = function(index){
+		var subt = 0;
+		var vapagado = 0; 
+		angular.forEach($scope.FormulariorHombre.rh, function(element, key){
+			if( typeof element.pa != 'undefined' && !isNaN(element.pa.VALOR_PAGADO)){
+				vapagado = parseInt(element.pa.VALOR_PAGADO);
+				if(!isNaN(vapagado))
+					subt = subt + vapagado;
+			}
+		});
+		$scope.subtotal = subt;
 	};
 
 

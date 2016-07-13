@@ -55,7 +55,7 @@ class Modelropaaccesorios extends My_model {
 
 
     public function getElements($params){
-        $this->db->select('ar.ID_ARTICULO3, ar.ETIQUETA, fo.ID_ARTICULO3 AS ar2');
+        $this->db->select('ar.ID_ARTICULO3, ar.ETIQUETA, fo.ID_ARTICULO3 AS ar2, fo.COMPRA, fo.RECIBIDO_PAGO, fo.REGALO, fo.INTERCAMBIO, fo.PRODUCIDO, fo.NEGOCIO_PROPIO, fo.OTRA');
         $this->db->from('ENIG_PARAM_GMF_ARTICULOS ar');
         $this->db->where('ID_SECCION3',$params['ID_SECCION3']);
         $this->db->join('ENIG_FORM_GMF_FORMA_OBTENCION fo', 'ar.ID_ARTICULO3 = fo.ID_ARTICULO3', 'left');

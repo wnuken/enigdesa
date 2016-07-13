@@ -54,17 +54,17 @@
 				<form class="form-enph" id="rHombre1" name="rHombre1" class="rHombre1">
 					<div class="row">
 						<div ng-repeat="rhom in FormulariorHombre.rh">
-						<div class="form-group has-feedback" id="div-{{rhom.id}}">
-							<div class="col-sm-12">
-								<input type="checkbox" name="{{rhom.id}}" id="{{rhom.id}}" ng-model="FormulariorHombre.rh[$index].value" ng-change="validateBtnS1($index)">
-								<label><h5 class="control-label" for="{{rhom.id}}">{{ rhom.name }}</h5></label>
-							</div>
-							<div class="col-sm-12">
-								<div class="col-sm-8" id="RESP_02110100" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
-									<hr>
+							<div class="form-group has-feedback" id="div-{{rhom.id}}">
+								<div class="col-sm-12">
+									<input type="checkbox" name="{{rhom.id}}" id="{{rhom.id}}" ng-model="FormulariorHombre.rh[$index].value" ng-change="validateBtnS1($index)">
+									<label><h5 class="control-label" for="{{rhom.id}}">{{ rhom.name }}</h5></label>
+								</div>
+								<div class="col-sm-12">
+									<div class="col-sm-8" id="RESP_02110100" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
+										<hr>
+									</div>
 								</div>
 							</div>
-						</div>
 						</div>
 					</div>
 				</form>
@@ -77,7 +77,7 @@
 	<div ng-if="pagesection == 2">
 		
 
-	<div class="row">
+		<div class="row">
 			<hr>
 			<div class="col-sm-2">
 				<img src="http://192.168.1.200/dimpe/enigdesa/images/form_icon-ingresospersonales.png">
@@ -91,68 +91,68 @@
 				<form class="form-enph" id="rHombre2" name="rHombre2" class="rHombre2">
 					<div class="row">
 						<div ng-repeat="rhom in FormulariorHombre.rh">
-						<div ng-if="rhom.value == true">
-						<div class="form-group has-feedback" id="div-03120102">
-							<div class="col-sm-12">
-							<div class="col-sm-12">
-								<label><h3 class="control-label" for="03120102">{{ rhom.name }}</h3></label>
-								<br>
-								<label>¿Cómo lo obtuvieron?</label>
-								</div>
-								<div class="col-sm-2"></div>
-								<div class="col-sm-10">
-								<div class="form-input">
-								<input type="hidden" name="{{rhom.id}}" id="{{rhom.id}}" ng-model="validateGroup[$index]" required>
-								<input type="checkbox" name="compra{{rhom.id}}" id="compra{{rhom.id}}" 
-								ng-model="FormulariorHombre.rh[$index].ot.COMPRA" ng-change="validateBtnS2($index)">
-								<label><h5 class="control-label" for="555">Compra o pago</h5></label>
-								</div>
+							<div ng-if="rhom.value == true">
+								<div class="form-group has-feedback" id="div-03120102">
+									<div class="col-sm-12">
+										<div class="col-sm-12">
+											<label><h3 class="control-label" for="03120102">{{ rhom.name }}</h3></label>
+											<br>
+											<label>¿Cómo lo obtuvieron?</label>
+										</div>
+										<div class="col-sm-2"></div>
+										<div class="col-sm-10">
+											<div class="form-input">
+												<input type="hidden" name="{{rhom.id}}" id="{{rhom.id}}" ng-model="validateGroup[$index]" required>
+												<input type="checkbox" name="compra{{rhom.id}}" id="compra{{rhom.id}}" 
+												ng-model="FormulariorHombre.rh[$index].ot.COMPRA" ng-change="validateBtnS2($index)">
+												<label><h5 class="control-label" for="555">Compra o pago</h5></label>
+											</div>
 
-								<div class="form-input">
-								<input type="checkbox" name="recibo{{rhom.id}}" id="recibo{{rhom.id}}" 
-								ng-model="FormulariorHombre.rh[$index].ot.RECIBIDO_PAGO" ng-change="validateBtnS2($index)">
-								<label><h5 class="control-label" for="03120102">Recibido por trabajo</h5></label>
-								</div>
+											<div class="form-input">
+												<input type="checkbox" name="recibo{{rhom.id}}" id="recibo{{rhom.id}}" 
+												ng-model="FormulariorHombre.rh[$index].ot.RECIBIDO_PAGO" ng-change="validateBtnS2($index)">
+												<label><h5 class="control-label" for="03120102">Recibido por trabajo</h5></label>
+											</div>
 
-								<div class="form-input">
-								<input type="checkbox" name="regalo{{rhom.id}}" id="regalo{{rhom.id}}" 
-								ng-model="FormulariorHombre.rh[$index].ot.REGALO" ng-change="validateBtnS2($index)">
-								<label><h5 class="control-label" for="03120102">Regalo o donación</h5></label>
-								</div>
+											<div class="form-input">
+												<input type="checkbox" name="regalo{{rhom.id}}" id="regalo{{rhom.id}}" 
+												ng-model="FormulariorHombre.rh[$index].ot.REGALO" ng-change="validateBtnS2($index)">
+												<label><h5 class="control-label" for="03120102">Regalo o donación</h5></label>
+											</div>
 
-								<div class="form-input">
-								<input type="checkbox" name="intercambio{{rhom.id}}" id="intercambio{{rhom.id}}" 
-								ng-model="FormulariorHombre.rh[$index].ot.INTERCAMBIO" ng-change="validateBtnS2($index)">
-								<label><h5 class="control-label" for="03120102">Intercambio</h5></label>
-								</div>
+											<div class="form-input">
+												<input type="checkbox" name="intercambio{{rhom.id}}" id="intercambio{{rhom.id}}" 
+												ng-model="FormulariorHombre.rh[$index].ot.INTERCAMBIO" ng-change="validateBtnS2($index)">
+												<label><h5 class="control-label" for="03120102">Intercambio</h5></label>
+											</div>
 
-								<div class="form-input">
-								<input type="checkbox" name="producido{{rhom.id}}" id="producido{{rhom.id}}" 
-								ng-model="FormulariorHombre.rh[$index].ot.PRODUCIDO" ng-change="validateBtnS2($index)">
-								<label><h5 class="control-label" for="03120102">Producido por el hogar</h5></label>
-								</div>
+											<div class="form-input">
+												<input type="checkbox" name="producido{{rhom.id}}" id="producido{{rhom.id}}" 
+												ng-model="FormulariorHombre.rh[$index].ot.PRODUCIDO" ng-change="validateBtnS2($index)">
+												<label><h5 class="control-label" for="03120102">Producido por el hogar</h5></label>
+											</div>
 
-								<div class="form-input">
-								<input type="checkbox" name="propio{{rhom.id}}" id="propio{{rhom.id}}" 
-								ng-model="FormulariorHombre.rh[$index].ot.NEGOCIO_PROPIO" ng-change="validateBtnS2($index)">
-								<label><h5 class="control-label" for="03120102">Tomado de un negocio propio</h5></label>
-								</div>
+											<div class="form-input">
+												<input type="checkbox" name="propio{{rhom.id}}" id="propio{{rhom.id}}" 
+												ng-model="FormulariorHombre.rh[$index].ot.NEGOCIO_PROPIO" ng-change="validateBtnS2($index)">
+												<label><h5 class="control-label" for="03120102">Tomado de un negocio propio</h5></label>
+											</div>
 
-								<div class="form-input">
-								<input type="checkbox" name="otra{{rhom.id}}" id="otra{{rhom.id}}" 
-								ng-model="FormulariorHombre.rh[$index].ot.OTRA" ng-change="validateBtnS2($index)">
-								<label><h5 class="control-label" for="03120102">Otra forma</h5></label>
-								</div>
+											<div class="form-input">
+												<input type="checkbox" name="otra{{rhom.id}}" id="otra{{rhom.id}}" 
+												ng-model="FormulariorHombre.rh[$index].ot.OTRA" ng-change="validateBtnS2($index)">
+												<label><h5 class="control-label" for="03120102">Otra forma</h5></label>
+											</div>
 
+										</div>
+									</div>
+									<div class="col-sm-12">
+										<div class="col-sm-8" id="RESP_02110100" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
+											<hr>
+										</div>
+									</div>
 								</div>
 							</div>
-							<div class="col-sm-12">
-								<div class="col-sm-8" id="RESP_02110100" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
-									<hr>
-								</div>
-							</div>
-						</div>
-</div>
 						</div>
 					</div>
 				</form>
@@ -164,88 +164,91 @@
 
 
 
-	
+
 	</div>
 	<div ng-if="pagesection == 3">
-	
 
 
 
+		<form class="form-enph" id="rHombre3" name="rHombre3" class="rHombre3">
 		<table class="table table-hover table-bordered">
-    <thead>
-        <tr class="warning">
-            <th style="text-align:center;" rowspan="2" width="28%">Nombre del artículo o servicio COMPRADO o PAGADO</th>
-            <th style="text-align:center;" colspan="2" width="32%">¿Cuánto fue el valor TOTAL pagado por el artículo o servicio?</th>
-            <th style="text-align:center;" rowspan="2" width="20%">¿En qué LUGAR compró o pagó el artículo o servicio?</th>
-            <th style="text-align:center;" rowspan="2" width="20%">¿Con qué FRECUENCIA compra o paga HABITUALMENTE el artículo o servicio?</th>
-        </tr>
-		<tr class="warning" align="center">
-            <th style="text-align:center;">Valor Pagado</th>
-            <th style="text-align:center;" width="12%">Compró o pagó el artículo o servicio pero no recuerda el valor</th>
-            
-        </tr>
-    </thead>
-    <tbody>
-	
-		        <tr align="center">
-            <td align="left">Arriendo por viviendas para uso del hogar diferentes a la que habita			<input type="hidden" id="hdd_articulo_0" name="hdd_articulo_0" value="04120100">
-			</td>
-            <td> <input class="form-control" onblur="pag3_suma_articulos();" type="text" name="txt_valor_0" id="txt_valor_0" aria-required="true">  </td>
-            <td> <input name="chk_no_recuerda_0" id="chk_no_recuerda_0" value="1" type="checkbox" onclick="pag3_deshabilita_pago(0)"> </td>
-            <td>
-				<select name="sel_lugar_0" id="sel_lugar_0" class="form-control" disabled="disabled">
-				<option value="-">...</option>
-				<option value="1">Almacenes, supermercado de cadena, tiendas por departamento o hipermercados</option><option value="4">Supermercados de cajas de compesanción, cooperativas, fondos de empleados y comisariatos</option><option value="6">Supermercado de barrio, tiendas de barrio, cigarrerías, salsamentarias y delicatessen</option><option value="7">Misceláneas de barrio y cacharrerías</option><option value="10">Plazas de mercado, galerías, mercados móviles, central mayorista de abastecimiento y graneros</option><option value="13">Vendedores ambulantes</option><option value="14">Sanandrecitos, bodegas y fábricas</option><option value="16">Establecimiento especializado en la venta del artículo o la prestación del servicio</option><option value="17">Farmacias y droguerías</option><option value="20">Persona particular</option><option value="21"> Ferias especializada: artesanal, del libro , del hogar, de computadores, etc.</option><option value="22">A través de Internet</option><option value="23">Televentas y ventas por catálogo</option><option value="24">Otro</option><option value="26">En el exterior (fuera del país)</option>				</select>
-			</td>
-			 <td>
-				<select name="sel_frec_0" id="sel_frec_0" class="form-control error" aria-invalid="true">
-				<option value="-">...</option>
-				<option value="3">Semanal</option><option value="4">Quincenal
-</option><option value="5">Mensual</option><option value="6">Bimestral</option><option value="7">Trimestral</option><option value="8">Anual</option><option value="9">Esporádica</option><option value="10">Semestral</option>				</select><label id="sel_frec_0-error" class="error" for="sel_frec_0" style="display: inline; margin-left: 10px; color: rgb(255, 0, 0);">seleccione una opción.</label>
-			</td>
-		</tr>
-		        <tr align="center">
-            <td align="left">Cuotas de amortización de vivienda para uso del hogar diferentes a la que habita 			<input type="hidden" id="hdd_articulo_1" name="hdd_articulo_1" value="12610107">
-			</td>
-            <td> <input class="form-control" onblur="pag3_suma_articulos();" type="text" name="txt_valor_1" id="txt_valor_1" aria-required="true">  </td>
-            <td> <input name="chk_no_recuerda_1" id="chk_no_recuerda_1" value="1" type="checkbox" onclick="pag3_deshabilita_pago(1)"> </td>
-            <td>
-				<select name="sel_lugar_1" id="sel_lugar_1" class="form-control" disabled="disabled">
-				<option value="-">...</option>
-				<option value="1">Almacenes, supermercado de cadena, tiendas por departamento o hipermercados</option><option value="4">Supermercados de cajas de compesanción, cooperativas, fondos de empleados y comisariatos</option><option value="6">Supermercado de barrio, tiendas de barrio, cigarrerías, salsamentarias y delicatessen</option><option value="7">Misceláneas de barrio y cacharrerías</option><option value="10">Plazas de mercado, galerías, mercados móviles, central mayorista de abastecimiento y graneros</option><option value="13">Vendedores ambulantes</option><option value="14">Sanandrecitos, bodegas y fábricas</option><option value="16">Establecimiento especializado en la venta del artículo o la prestación del servicio</option><option value="17">Farmacias y droguerías</option><option value="20">Persona particular</option><option value="21"> Ferias especializada: artesanal, del libro , del hogar, de computadores, etc.</option><option value="22">A través de Internet</option><option value="23">Televentas y ventas por catálogo</option><option value="24">Otro</option><option value="26">En el exterior (fuera del país)</option>				</select>
-			</td>
-			 <td>
-				<select name="sel_frec_1" id="sel_frec_1" class="form-control error" aria-invalid="true">
-				<option value="-">...</option>
-				<option value="3">Semanal</option><option value="4">Quincenal
-</option><option value="5">Mensual</option><option value="6">Bimestral</option><option value="7">Trimestral</option><option value="8">Anual</option><option value="9">Esporádica</option><option value="10">Semestral</option>				</select><label id="sel_frec_1-error" class="error" for="sel_frec_1" style="display: inline; margin-left: 10px; color: rgb(255, 0, 0);">seleccione una opción.</label>
-			</td>
-		</tr>
-		        <tr align="center">
-            <td align="left">Enchufes, interruptores, dimmers, cables eléctricos, rosetas, cinta aislante y de teflón,  timbres, alarmas, estabilizadores			<input type="hidden" id="hdd_articulo_2" name="hdd_articulo_2" value="05520302">
-			</td>
-            <td> <input class="form-control" onblur="pag3_suma_articulos();" type="text" name="txt_valor_2" id="txt_valor_2" aria-required="true">  </td>
-            <td> <input name="chk_no_recuerda_2" id="chk_no_recuerda_2" value="1" type="checkbox" onclick="pag3_deshabilita_pago(2)"> </td>
-            <td>
-				<select name="sel_lugar_2" id="sel_lugar_2" class="form-control error" aria-invalid="true">
-				<option value="-">...</option>
-				<option value="1">Almacenes, supermercado de cadena, tiendas por departamento o hipermercados</option><option value="4">Supermercados de cajas de compesanción, cooperativas, fondos de empleados y comisariatos</option><option value="6">Supermercado de barrio, tiendas de barrio, cigarrerías, salsamentarias y delicatessen</option><option value="7">Misceláneas de barrio y cacharrerías</option><option value="10">Plazas de mercado, galerías, mercados móviles, central mayorista de abastecimiento y graneros</option><option value="13">Vendedores ambulantes</option><option value="14">Sanandrecitos, bodegas y fábricas</option><option value="16">Establecimiento especializado en la venta del artículo o la prestación del servicio</option><option value="17">Farmacias y droguerías</option><option value="20">Persona particular</option><option value="21"> Ferias especializada: artesanal, del libro , del hogar, de computadores, etc.</option><option value="22">A través de Internet</option><option value="23">Televentas y ventas por catálogo</option><option value="24">Otro</option><option value="26">En el exterior (fuera del país)</option>				</select><label id="sel_lugar_2-error" class="error" for="sel_lugar_2" style="display: inline; margin-left: 10px; color: rgb(255, 0, 0);">seleccione una opción.</label>
-			</td>
-			 <td>
-				<select name="sel_frec_2" id="sel_frec_2" class="form-control error" aria-invalid="true">
-				<option value="-">...</option>
-				<option value="3">Semanal</option><option value="4">Quincenal
-</option><option value="5">Mensual</option><option value="6">Bimestral</option><option value="7">Trimestral</option><option value="8">Anual</option><option value="9">Esporádica</option><option value="10">Semestral</option>				</select><label id="sel_frec_2-error" class="error" for="sel_frec_2" style="display: inline; margin-left: 10px; color: rgb(255, 0, 0);">seleccione una opción.</label>
-			</td>
-		</tr>
-				 <tr align="center" class="active">
-            <td><b>SUBTOTAL</b></td>
-			<td> <input class="form-control" readonly="readonly" type="text" name="txt_total" id="txt_total" value="0">  </td>
-			<td colspan="3">&nbsp;</td>
-		</tr>	
-	
-    </tbody>
-	</table>
+			<thead>
+				<tr class="warning">
+					<th style="text-align:center;" rowspan="2" width="28%">Nombre del artículo o servicio COMPRADO o PAGADO</th>
+					<th style="text-align:center;" colspan="2" width="32%">¿Cuánto fue el valor TOTAL pagado por el artículo o servicio?</th>
+					<th style="text-align:center;" rowspan="2" width="20%">¿En qué LUGAR compró o pagó el artículo o servicio?</th>
+					<th style="text-align:center;" rowspan="2" width="20%">¿Con qué FRECUENCIA compra o paga HABITUALMENTE el artículo o servicio?</th>
+				</tr>
+				<tr class="warning" align="center">
+					<th style="text-align:center;">Valor Pagado</th>
+					<th style="text-align:center;" width="12%">Compró o pagó el artículo o servicio pero no recuerda el valor</th>
+
+				</tr>
+			</thead>
+			<tbody>
+
+				<tr align="center" ng-repeat="rhom in FormulariorHombre.rh" ng-if="rhom.ot.COMPRA === true && rhom.value === true">
+					
+					<td align="left">
+						{{rhom.name}}
+					</td>
+					<td> 
+						<div class="form-group">
+							<input class="form-control isnumeric" type="text" name="pagado{{rhom.id}}" id="pagado{{rhom.id}}" ng-model="FormulariorHombre.rh[$index].pa.VALOR_PAGADO" ng-disabled="FormulariorHombre.rh[$index].pa.VALOR_PAGADO1" ng-change="sumValor($index)">
+						</div>
+					</td>
+					<td> 
+						<div class="form-group">
+							<input name="pagado{{rhom.id}}1" id="pagado{{rhom.id}}1" type="checkbox" ng-model="FormulariorHombre.rh[$index].pa.VALOR_PAGADO1"> 
+						</div>
+					</td>
+					<td>
+						<select name="sel_lugar_0" id="sel_lugar_0" class="form-control" ng-model="FormulariorHombre.rh[$index].pa.LUGAR_COMPRA">
+							<option value="" disabled>Seleccione...</option>
+							<option value="1">Almacenes, supermercado de cadena, tiendas por departamento o hipermercados</option>
+							<option value="4">Supermercados de cajas de compesanción, cooperativas, fondos de empleados y comisariatos</option>
+							<option value="6">Supermercado de barrio, tiendas de barrio, cigarrerías, salsamentarias y delicatessen</option>
+							<option value="7">Misceláneas de barrio y cacharrerías</option>
+							<option value="10">Plazas de mercado, galerías, mercados móviles, central mayorista de abastecimiento y graneros</option>
+							<option value="13">Vendedores ambulantes</option>
+							<option value="14">Sanandrecitos, bodegas y fábricas</option>
+							<option value="16">Establecimiento especializado en la venta del artículo o la prestación del servicio</option>
+							<option value="17">Farmacias y droguerías</option>
+							<option value="20">Persona particular</option>
+							<option value="21"> Ferias especializada: artesanal, del libro , del hogar, de computadores, etc.</option>
+							<option value="22">A través de Internet</option>
+							<option value="23">Televentas y ventas por catálogo</option>
+							<option value="24">Otro</option>
+							<option value="26">En el exterior (fuera del país)</option>
+						</select>
+					</td>
+					<td>
+						<select name="sel_frec_0" id="sel_frec_0" class="form-control error" ng-model="FormulariorHombre.rh[$index].pa.FRECUENCIA_COMPRA">
+							<option value="" disabled>Seleccione...</option>
+							<option value="3">Semanal</option>
+							<option value="4">Quincenal</option>
+							<option value="5">Mensual</option>
+							<option value="6">Bimestral</option>
+							<option value="7">Trimestral</option>
+							<option value="8">Anual</option>
+							<option value="9">Esporádica</option>
+							<option value="10">Semestral</option>
+						</select>
+						<label style="display: inline; margin-left: 10px; color: rgb(255, 0, 0);">seleccione una opción.</label>
+					</td>
+
+
+				</tr> <!-- ng-repeat -->
+
+				<tr align="center" class="active">
+					<td><b>SUBTOTAL</b></td>
+					<td> <input class="form-control" readonly="readonly" type="text" name="txt_total" id="txt_total" ng-model="subtotal">  </td>
+					<td colspan="3">&nbsp;</td>
+				</tr>	
+
+			</tbody>
+		</table>
+		</form>
 
 
 	</div>

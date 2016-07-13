@@ -121,17 +121,53 @@ class Ropaaccesorios extends MX_Controller {
      public function getelements(){
         $params = $this->input->get(NULL, TRUE);
         $elements = $this->Maccesorios->getElements($params);
+        $COMPRA = FALSE; $RECIBIDO_PAGO = FALSE; $REGALO = FALSE; $INTERCAMBIO = FALSE;
+        $PRODUCIDO = FALSE; $NEGOCIO_PROPIO = FALSE; $OTRA = FALSE;
 
-           //  var_dump($elements);
         foreach ($elements as $key => $value) {
            $active = FALSE;
            if(isset($value['ar2']))
-            $active = TRUE;
+                $active = TRUE;
 
-        $result[] = array(
+            if(isset($value['COMPRA']) && $value['COMPRA'] == 1)
+                $COMPRA = TRUE;
+            
+            if(isset($value['RECIBIDO_PAGO']) && $value['RECIBIDO_PAGO'] == 1)
+                $RECIBIDO_PAGO = TRUE;
+            
+            if(isset($value['REGALO']) && $value['REGALO'] == 1)
+                $REGALO = TRUE;
+
+            if(isset($value['INTERCAMBIO']) && $value['INTERCAMBIO'] == 1)
+                $INTERCAMBIO = TRUE;
+
+            if(isset($value['PRODUCIDO']) && $value['PRODUCIDO'] == 1)
+                $PRODUCIDO = TRUE;
+
+            if(isset($value['NEGOCIO_PROPIO']) && $value['NEGOCIO_PROPIO'] == 1)
+                $NEGOCIO_PROPIO = TRUE;
+
+            if(isset($value['OTRA']) && $value['OTRA'] == 1)
+                $OTRA = TRUE;
+
+        $result[$key] = array(
             'name' => $value['ETIQUETA'],
             'id' =>  $value['ID_ARTICULO3'],
-            'value' => $active);
+            'value' => $active,
+            'ot' => array(
+                'COMPRA' => $COMPRA, 
+                'RECIBIDO_PAGO' => $RECIBIDO_PAGO,
+                'REGALO' => $REGALO,
+                'INTERCAMBIO' => $INTERCAMBIO,
+                'PRODUCIDO' => $PRODUCIDO,
+                'NEGOCIO_PROPIO' => $NEGOCIO_PROPIO,
+                'OTRA' => $OTRA
+                )
+            );
+
+        if($value['COMPRA'] == 1)
+            $result[$key]['ot']['COMPRA'] = true;
+
     }
     $response = json_encode($result);
     print $response;
@@ -156,7 +192,8 @@ class Ropaaccesorios extends MX_Controller {
 
         $responseArray = array(
             'result' => $result,
-            'control' => $resultControl);
+            'control' => $resultControl
+            );
 
         $response = json_encode($responseArray);
 
@@ -188,8 +225,15 @@ class Ropaaccesorios extends MX_Controller {
             }
         }
 
+        $dataElement['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
+        $dataElement['ID_SECCION3'] = $params['ID_SECCION3'];
+        $dataElement['PAG_SECCION3'] = 3;
+        $resultControl = $this->Maccesorios->updateGmfControl($dataElement);
+
         $responseArray = array(
-            'result' => $result);
+            'result' => $result,
+            'control' => $resultControl
+            );
 
         $response = json_encode($responseArray);
 
