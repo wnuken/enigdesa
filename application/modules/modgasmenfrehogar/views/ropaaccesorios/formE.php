@@ -265,7 +265,7 @@
 							<div ng-if="rhom.DEFINE_FRECU_COMPRA == 1">
 								<select name="selfre{{rhom.id}}" id="selfre{{rhom.id}}" class="form-control error" 
 								ng-model="FormulariorHombre.rh[$index].pa.FRECUENCIA_COMPRA" required>
-								<option value="" selected>Seleccione...</option>
+								<option value="" disabled>Seleccione...</option>
 								<option value="3">Semanal</option>
 								<option value="4">Quincenal</option>
 								<option value="5">Mensual</option>
@@ -290,7 +290,27 @@
 				<tr align="center" class="active">
 					<td><b>SUBTOTAL</b></td>
 					<td> <input class="form-control" readonly="readonly" type="text" name="txt_total" id="txt_total" ng-model="subtotal">  </td>
-					<td colspan="3">&nbsp;</td>
+					<td colspan="3">
+						<div class="form-group">
+							<label class="f">El medio de pago usado PRINCIPALMENTE para comprar los articulos y servicios enunciados en este módulo fue:</label>
+						
+						<select name="mediopago" id="mediopago}" class="form-control" 
+								ng-model="FormulariorHombre.MEDIO_PAGO" required>
+								<option value="" disabled>Seleccione...</option>
+								<option value="1">Tarjeta débito</option>
+								<option value="2">Tarjeta crédito</option>
+								<option value="3">Efectivo</option>
+								<option value="4">Bonos</option>
+								<option value="5">Cheques</option>
+								<option value="6">Otro</option>
+							</select>
+							</div>
+
+							<div class="form-group" ng-if="FormulariorHombre.MEDIO_PAGO == 6">
+							<label class="f">¿Cual?</label>
+								<input class="form-control" name="cual" id="cual" type="text" ng-model="FormulariorHombre.MEDIO_CUAL" required>
+							</div>
+					</td>
 				</tr>	
 
 			</tbody>
