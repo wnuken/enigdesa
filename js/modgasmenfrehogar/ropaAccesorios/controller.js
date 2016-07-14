@@ -56,6 +56,7 @@ this.getElements = function(params, callbackFunc) {
 };
 });
 
+$idSection = $("input#idSection");
 
 appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageService', function($scope, dataService, localStorageService) {
 	
@@ -64,12 +65,14 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 	$scope.subtotal = 0;
 
 	var gg = {
-		"ID_SECCION3": "D1"
+		"ID_SECCION3": $idSection.val()
 	};
+
+
 
 	var paramsInit = {
 		"elements" : {
-			"ID_SECCION3": "D1"
+			"ID_SECCION3": $idSection.val()
 		},				
 		"path": "ropaaccesorios/getelements"
 	};
@@ -195,7 +198,7 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 	};
 
 	$scope.validateForm5 = function(params){
-
+		console.log('mensaje de error');
 			var paramssec4 = {
 				"ID_FORMULARIO": $scope.FormulariorHombre.idFormulario,
 				"ID_SECCION3": $scope.FormulariorHombre.idSection,

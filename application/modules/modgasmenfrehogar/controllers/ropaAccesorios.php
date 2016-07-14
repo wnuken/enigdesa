@@ -51,11 +51,19 @@ class Ropaaccesorios extends MX_Controller {
 
             $validateControl = $this->getControlSection();
 
+           /* echo '<pre>';
+            print_r($validateControl);
+            echo "</pre>";*/
+
             if(is_array($validateControl)){
                 foreach ($validateControl as $key => $section) {
                     if($section['ID_ESTADO_SEC'] < 2 && $section['ID_SECCION3'] != ($this->idSubModulo . '0')){
                         $data['pageSection'] = $section['PAG_SECCION3'];
                         $data['idSection'] = $section['ID_SECCION3'];
+                        $data['TITULO2'] = $section['TITULO2'];
+                        $data['TITULO3'] = $section['TITULO3'];
+                        $data['idVariable'] = $section['ID_VARIABLE_VP'];
+                        $data['LOGO'] = $section['LOGO'];
                         $data["view"]="ropaaccesorios/form1";
                         $this->load->view("layout", $data);
                         return false;
