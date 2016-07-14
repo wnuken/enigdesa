@@ -5,8 +5,7 @@ if(!isset($idFormulario))
 
 
 // $data['pagesection'] = $pagesection;
-// $this->load->view('ropaaccesorios/formD1' . $idSection);
-$this->load->view('ropaaccesorios/formD1');
+ $this->load->view('ropaaccesorios/form' . $section);
 ?>
 </div>
 
