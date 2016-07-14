@@ -58,7 +58,7 @@ this.getElements = function(params, callbackFunc) {
 
 $idSection = $("input#idSection");
 
-appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageService', function($scope, dataService, localStorageService) {
+appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageService', '$window', function($scope, dataService, localStorageService, $window) {
 	
 	$scope.FormulariorHombre = {};
 	$scope.validateGroup = [];
@@ -67,8 +67,6 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 	var gg = {
 		"ID_SECCION3": $idSection.val()
 	};
-
-
 
 	var paramsInit = {
 		"elements" : {
@@ -80,7 +78,6 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 	dataService.getElements(paramsInit, function(dataResponse){
 		$scope.FormulariorHombre.rh = dataResponse;
 	});
-
 
 	$scope.pagesection = '';
 
@@ -97,16 +94,12 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 
 		dataService.saveSection(paramssec0, function(dataResponse){
 			if($scope.FormulariorHombre.valorVariable == '1' && dataResponse.status == true){
-				// $scope.pagesection = params;
+				$scope.pagesection = params;
 			}else{
-				console.log('va al home');
+				console.log('regarga pagina');
+				$window.location.reload();
 			}
-
-
-		});
-
-		
-		
+		});	
 	};
 
 	$scope.validateForm2 = function(params){
@@ -198,7 +191,7 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 	};
 
 	$scope.validateForm5 = function(params){
-		console.log('mensaje de error');
+		
 			var paramssec4 = {
 				"ID_FORMULARIO": $scope.FormulariorHombre.idFormulario,
 				"ID_SECCION3": $scope.FormulariorHombre.idSection,
@@ -207,6 +200,8 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 
 			dataService.saveElements(paramssec4, function(dataResponse){
 				console.log(dataResponse);
+				console.log('Se guarda control');
+				$window.location.reload();
 			/*if(dataResponse.result == true){
 				$scope.pagesection = params;
 			}else{
