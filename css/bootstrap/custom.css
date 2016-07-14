@@ -850,3 +850,24 @@ left: 5px;
 .tooltip{
 	color:red !important;
 }
+
+.menuC3 {
+    border: 10px #FFF solid;
+    color: rgb(255,255,255);
+    cursor: pointer;
+    height: 150px;
+    padding: 10px;
+    text-align: center;
+}
+
+.menuC3 label {
+    color: rgb(255,255,255);
+}
+
+.menuC3 a {
+    color: rgb(255,255,255);
+}
+
+.menuC3 a:active, .menuC3 a:focus, .menuC3 a:hover {
+    color: rgb(255,255,255);
+}

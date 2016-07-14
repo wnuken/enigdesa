@@ -189,8 +189,8 @@
 	echo "\t regla_". $secc['ID_SECCION']."_". $secc['PAGINA'] ."['NC2_CC_P4_S2__2']= new Array('$(\"[name=NC2_CC_P4_A2]:checked\").val()==1 && $(\"#NC2_CC_P4_S2\").val().length != 0 && !($(\"#NC2_CC_P4_S2\").val() >500 || $(\"#NC2_CC_P4_S2\").val()==99)','Por favor, verifique su respuesta. El valor que registró no es válido.','Corrija',0);\n";
 	echo "\t regla_". $secc['ID_SECCION']."_". $secc['PAGINA'] ."['NC2_CC_P4_S3__1']= new Array('$(\"[name=NC2_CC_P4_A3]:checked\").val()==1 && $(\"#NC2_CC_P4_S3\").val().length==0','Respuesta obligatoria. Por favor, digite un valor o seleccione una opción para continuar.','Corrija',0);\n";
 	echo "\t regla_". $secc['ID_SECCION']."_". $secc['PAGINA'] ."['NC2_CC_P4_S3__2']= new Array('$(\"[name=NC2_CC_P4_A3]:checked\").val()==1 && $(\"#NC2_CC_P4_S3\").val().length != 0 && !($(\"#NC2_CC_P4_S3\").val() >500 || $(\"#NC2_CC_P4_S3\").val()==99)','Por favor, verifique su respuesta. El valor que registró no es válido.','Corrija',0);\n";
-	//echo "\t regla_". $secc['ID_SECCION']."_". $secc['PAGINA'] ."['NC2_CC_P4_S4__1']= new Array('$(\"#NC2_CC_P4_S4\").val().length==0','Respuesta obligatoria. Por favor, digite un valor o seleccione una opción para continuar.','Corrija',0);\n";
-	//echo "\t regla_". $secc['ID_SECCION']."_". $secc['PAGINA'] ."['NC2_CC_P4_S4__2']= new Array('$(\"#NC2_CC_P4_S4\").val().length != 0 && !($(\"#NC2_CC_P4_S4\").val() >500 || $(\"#NC2_CC_P4_S4\").val()==99)','Por favor, verifique su respuesta. El valor que registró no es válido.','Corrija',0);\n";
+	echo "\t regla_". $secc['ID_SECCION']."_". $secc['PAGINA'] ."['NC2_CC_P4_S4__1']= new Array('$(\"#NC2_CC_P4_S4\").val().length==0','Respuesta obligatoria. Por favor, digite un valor o seleccione una opción para continuar.','Corrija',0);\n";
+	echo "\t regla_". $secc['ID_SECCION']."_". $secc['PAGINA'] ."['NC2_CC_P4_S4__2']= new Array('$(\"#NC2_CC_P4_S4\").val().length != 0 && !($(\"#NC2_CC_P4_S4\").val() >500 || $(\"#NC2_CC_P4_S4\").val()==99)','Por favor, verifique su respuesta. El valor que registró no es válido.','Corrija',0);\n";
 ?>
 
 $(function() {

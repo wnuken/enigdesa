@@ -23,6 +23,10 @@ class Recreacion extends MX_Controller {
         $this->idSeccion = '';
     }
 
+    /**
+     * @author cemedinaa
+     * @since 2016-07-14
+     */
     private function actualizarEstado() {
         $this->load->model(array("Modgmfh"));
         $id_formulario = $this->session->userdata("id_formulario");
@@ -86,6 +90,10 @@ class Recreacion extends MX_Controller {
                 $arrSA[0]['ID_ESTADO_SEC'] = 2;
             }
         }
+        else {
+            $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual ), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $arrSA[0]['ID_SECCION3']));
+            $arrSA[0]['ID_ESTADO_SEC'] = 2;
+        }
         return $arrSA;
     }
     
@@ -100,23 +108,11 @@ class Recreacion extends MX_Controller {
         
         $arrSA = $this->actualizarEstado();
         
-        
-        // Se consulta el estado de la seccion, si esta finalizado se redirige al menu del modulo
-       // $arrParam = array('id' => $this->idSeccion);
-        //$arrSA = $this->Modgmfh->listar_secciones_avances($arrParam);
         if (count($arrSA) == 0) {
-            //if($arrSA["0"]["ID_ESTADO_SEC"] == 2) {
-                redirect(base_url($this->module));
-                return false;
-            //}
+            redirect(base_url($this->module));
+            return false;
         }
         
-        //die("<BR><BR>seccion:".$this->idSeccion." - pagina:".$arrSA["1"]["PAG_SECCION3"]);
-        //var_dump($arrSA);
-        //echo "mmm".$arrSA["0"]["PAG_SECCION3"];
-        //Esto va temporalmente aquí, mientras resuelven lo de la tabla control
-        //$this->mostrarListaArticulos($data);
-        //pr($data); exit;
         if(!empty($arrSA["1"]["PAG_SECCION3"])) {
         	//echo "nnn";
             switch ($arrSA["1"]["PAG_SECCION3"]) {
@@ -176,6 +172,7 @@ class Recreacion extends MX_Controller {
         $data["id_formulario"] = $this->session->userdata("id_formulario");
         $data['secc'] = $this->Modgmfh->listar_secciones(array("id" => $this->idSeccion ));
         
+        $data['var'] = $this->Modgmfh->lista_variables_param(array( "seccion" => $this->idSeccion, "pagina" => 2));
         $data['preg']["var"] = $this->Modgmfh->lista_formaObtencion( array("seccion" => $this->idSeccion, "id_formulario" => $data["id_formulario"]) );
         
         $data["view"]="form2";        
@@ -262,15 +259,14 @@ class Recreacion extends MX_Controller {
                         $this->Modgmfh->ejecutar_insert('ENIG_FORM_GMF_FORMA_OBTENCION', array( "ID_FORMULARIO" => $id_formulario, "ID_ARTICULO3" => $value));
                         $i++;
                     }
-                    else echo "<br><br>no existe articulos=".$articulos[$i];
                 }
             }
             if($i > 0)
-                echo "Se ha guardado la informaci&oacute;n correctamente!";
-            else echo "<br>ERROR al guardar la secci&oacute;n. Intente nuevamente o recargue la p&aacute;gina.";
+                echo "S:Se ha guardado la informaci&oacute;n correctamente!";
+            else echo "E:ERROR al guardar la secci&oacute;n. Intente nuevamente o recargue la p&aacute;gina.";
         }
         else {
-            echo "<br>ERROR al guardar la secci&oacute;n. Intente nuevamente o recargue la p&aacute;gina.";
+            echo "E:ERROR al guardar la secci&oacute;n. Intente nuevamente o recargue la p&aacute;gina.";
         }   
     }
 
@@ -287,11 +283,10 @@ class Recreacion extends MX_Controller {
 
         if($cant_formas_obt > 0) {
             foreach ($formas_obt as $key => $value) {
-                //if(!array_key_exists($value['ID_ARTICULO3'], $_POST))
                 if(!isset($_POST[$value['ID_ARTICULO3']]['compra']) && !isset($_POST[$value['ID_ARTICULO3']]['recibido_pago']) && !isset($_POST[$value['ID_ARTICULO3']]['regalo']) && 
                    !isset($_POST[$value['ID_ARTICULO3']]['intercambio']) && !isset($_POST[$value['ID_ARTICULO3']]['producido']) && !isset($_POST[$value['ID_ARTICULO3']]['negocio_propio']) &&
                    !isset($_POST[$value['ID_ARTICULO3']]['otra']) )
-                    die("Debe escoger por lo menos una opci&oacute;n en cada uno de los productos!");
+                    die("W:Debe escoger por lo menos una opci&oacute;n en cada uno de los productos!");
             }
 
             foreach ($formas_obt as $key => $value) {                    
@@ -303,10 +298,10 @@ class Recreacion extends MX_Controller {
 
                 $this->Modgmfh->ejecutar_update('ENIG_FORM_GMF_FORMA_OBTENCION', $arrUPD, array( "ID_FORMULARIO" => $id_formulario, "ID_ARTICULO3" => $value['ID_ARTICULO3']));
             }
-            echo "Se ha guardado la informaci&oacute;n correctamente!";
+            echo "S:Se ha guardado la informaci&oacute;n correctamente!";
         }
         else {
-            echo "<br>ERROR al guardar la secci&oacute;n. Intente nuevamente o recargue la p&aacute;gina.";
+            echo "E:ERROR al guardar la secci&oacute;n. Intente nuevamente o recargue la p&aacute;gina.";
         }   
     }
 

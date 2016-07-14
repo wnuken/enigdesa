@@ -28,6 +28,8 @@ class Modgasmenfrehogar extends MX_Controller {
         foreach ($data["sec"] as $ks => $vs) {
             $data["sec"][$ks]["BLOQ"] = 'NO';            
             $data["sec"][$ks]["ENLACE"] = base_url($this->module . '/' .  $data["sec"][$ks]["TITULO3"]);
+            $data["sec"][$ks]["IMG"] = base_url_images('ico_gmf_' . $data["sec"][$ks]["LOGO"] . '.png');
+            $data["sec"][$ks]["COLOR"] = $data["sec"][$ks]["TITULO1"];
             // oagarzond - Se consulta el avance para redirecionarlo en que pagina va
             $arrParam = array(
                 'id' => $vs["ID_SECCION3"],
@@ -56,9 +58,12 @@ class Modgasmenfrehogar extends MX_Controller {
                 }
                 if($arrSA[0]["ID_ESTADO_SEC"] == 2) {
                     $data["sec"][$ks]["BLOQ"] = 'SI';
+                    $data["sec"][$ks]["IMG"] = base_url_images('ico_gmf_off_' . $data["sec"][$ks]["LOGO"] . '.png');
+                    $data["sec"][$ks]["LOGO"] .= '-off';
                 }
             }
         }
+        $data["js_dir"] = base_url('js/modgasmenfrehogar/menu.js');
         $data["view"] = 'menu';
         //pr($data); exit;
         $this->load->view("layout", $data);
