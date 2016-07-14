@@ -99,8 +99,8 @@ h5 {
 h7 {
 	font-family: 'Open Sans', Arial, Helvetica, sans-serif;
 	font-size: 13px;
-	font-weight:bold;
-	color:rgb(241,155,0);
+	font-weight: bold;
+	color: rgb(241,155,0);
 }
 h8 {
 	font-size: 20px;
@@ -180,6 +180,7 @@ label {
 	padding: 10px 0px 10px;
 	position: relative;/*top: 50px;*/
 }
+
 .ml, .tw, .fb, .yt, .hm, .go {
 	margin: 10px 5px 10px;
 	float: right;
@@ -198,29 +199,11 @@ label {
 .tw {
 	background: url("../../images/twitter.png") no-repeat;
 }
-.fb {
-	background: url("../../images/facebook.png") no-repeat;
+.redes2 {
+	margin-top: 15px;
 }
-.yt {
-	background: url("../../images/youtube.png") no-repeat;
-}
-.hm:active, .hm:hover, .hm:focus {
-	background: url("../../images/home_ov.png") no-repeat;
-}
-.go:active, .go:hover, .go:focus {
-	background: url("../../images/salir_ov.png") no-repeat;
-}
-.ml:active, .ml:hover, .ml:focus {
-	background: url("../../images/mail_hv.png") no-repeat;
-}
-.tw:active, .tw:hover, .tw:focus {
-	background: url("../../images/twitter_hv.png") no-repeat;
-}
-.fb:active, .fb:hover, .fb:focus {
-	background: url("../../images/facebook_hv.png") no-repeat;
-}
-.yt:active, .yt:hover, .yt:focus {
-	background: url("../../images/youtube_hv.png") no-repeat;
+.redes a, .redes2 a {
+	margin-right: 5px;
 }
 /* ___________ Colorbar ____________________ */
 .colorBg {
@@ -570,10 +553,10 @@ footer a:active, footer a:focus, footer a:hover {
 	padding-right: 30px;
 }
 .form-horizontal .control-label {
-    text-align: left;
+	text-align: left;
 }
 .fixed {
-left: 0px;
+	left: 0px;
 }
 }
 
@@ -622,7 +605,7 @@ left: 0px;
 	font-size: 15px
 }
 .bullet {
-	background-image: url(../../images/bullet.png);
+	background-image: url(../img/bullet.png);
 	background-repeat: no-repeat;
 	background-position: 0 50%;
 	padding-left: 30px;
@@ -721,11 +704,11 @@ left: 0px;
 	text-align: left;
 }
 .dropdown-toggle {
-    text-align: left;
+	text-align: left;
 }
 .dropdown-toggle .caret {
-    float: right;
-    margin-top: -10px;
+	float: right;
+	margin-top: -10px;
 }
 .alert-warning {
 	background-color: rgba(241,155,0,0.1);
@@ -809,22 +792,16 @@ blockquote {
 	color: #666;
 	background-color: #f5f5f5;
 }
-#radioBtn .notActive {
-	color: #666;
-	background-color: #f5f5f5;
-	background-image: none;
-	text-shadow: 0 0px 0;
-	border-color: #ccc;
+.themeHead {
+	top: 150px;
 }
-#radioBtn .notActive .btn-default :hover {
-	color: #666;
-	background-color: #f5f5f5;
-	background-image: none;
-	text-shadow: 0 0px 0;
-	border-color: #ccc;
+.themeHead h4 {
+	margin-top: 43px;
 }
-.themeHead{
-	top:150px;
+.themeHead img {
+	width: 25%;
+	margin-top: 20px;
+	float:right;
 }
 .scrollable-menu {
 	height: auto;
@@ -832,42 +809,21 @@ blockquote {
 	overflow-x: hidden;
 }
 .btn-default:active, .btn-primary:active, .btn-success:active, .btn-info:active, .btn-warning:active, .btn-danger:active, .btn-default.active, .btn-primary.active, .btn-success.active, .btn-info.active, .btn-warning.active, .btn-danger.active {
-    -webkit-box-shadow: none;
-    box-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
 }
 .fixed {
-    position: fixed;
-top: 60px;
-background-color: #fff;
-z-index: 999;
-width: 100%;
-border-bottom:1px solid #dedede;
-left: 5px;
+	position: fixed;
+	top: 55px;
+	background-color: #fff;
+	z-index: 999;
+	width: 100%;
+	border-bottom: 1px solid #dedede;
+	left: 5px;
 }
-.TopContent{
+.TopContent {
 	margin-top: 270px;
 }
-.tooltip{
-	color:red !important;
-}
-
-.menuC3 {
-    border: 10px #FFF solid;
-    color: rgb(255,255,255);
-    cursor: pointer;
-    height: 150px;
-    padding: 10px;
-    text-align: center;
-}
-
-.menuC3 label {
-    color: rgb(255,255,255);
-}
-
-.menuC3 a {
-    color: rgb(255,255,255);
-}
-
-.menuC3 a:active, .menuC3 a:focus, .menuC3 a:hover {
-    color: rgb(255,255,255);
+.tooltip {
+	color: red !important;
 }

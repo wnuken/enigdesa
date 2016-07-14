@@ -304,7 +304,5 @@ class Recreacion extends MX_Controller {
             echo "E:ERROR al guardar la secci&oacute;n. Intente nuevamente o recargue la p&aacute;gina.";
         }   
     }
-
-
 }
 //EOC

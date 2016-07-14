@@ -1,3 +1,4 @@
+<link rel="stylesheet" href="<?=  base_url('css/bootstrap/customC3.css')?>" />
 <div class="row secondHead">
     <div class="col-md-2 hidden-xs" style="text-align: right;">
         <img src="<?=base_url_images('icoMenosFrecMini.png') ?>" alt="Imagen sección Vivienda" height="80" width="90" /></div>
