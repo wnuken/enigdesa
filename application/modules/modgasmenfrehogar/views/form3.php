@@ -6,16 +6,18 @@
  **/
 ?>
  <script type="text/javascript" src="<?php echo $js_dir; ?>"></script>
+<!--  <link rel="stylesheet" href="<?php //echo  base_url('css/bootstrap/customC3.css')?>" /> -->
 <div class="row">
-	<div class="col-sm-2"><img title="Icono de Gastos" src="<?php //echo base_url("images/form_icon-ingresospersonales.png"); ?>" /></div>
+	<?php $logo=$secc[0]['LOGO']; ?>
+	<div class="col-sm-2"><img title="Icono de Gastos" src="<?php echo base_url("images/$logo"); ?>" /></div>
 	<div class="col-sm-10">
 		<h2><?php echo $titulo_1; ?></h2>
+		<h4><?=$subtitulo_2;// . "(" . $secc[0]['TEMPORALIDAD'] . ")"; ?></h4>
 		</div>
 </div>
 <div class="row">
 	<div class="col-sm-2">&nbsp;</div>
-	<div class="col-sm-10">
-		<h4><?=$subtitulo_2;// . "(" . $secc[0]['TEMPORALIDAD'] . ")"; ?></h4>
+	<div class="col-sm-10">		
 		<h5><?php echo $subtitulo_3; ?></h5>
 		</div>
 </div>
@@ -45,15 +47,16 @@
 		
 	<div class="table-responsive">
 	<input type="hidden" id="hdd_nro_articulos" name="hdd_nro_articulos" value="<?php echo count($arrArticulos);?>" />
-	<table class="table table-hover table-bordered">
+	<!--<table class="table table-hover table-bordered">-->
+	<table class="table table-hover">
     <thead>
-        <tr class="warning">
+        <tr class="active">
             <th style="text-align:center;" rowspan="2" width="28%">Nombre del artículo o servicio COMPRADO o PAGADO</th>
             <th style="text-align:center;" colspan="2" width="32%">¿Cuánto fue el valor TOTAL pagado por el artículo o servicio?</th>
             <th style="text-align:center;" rowspan="2" width="20%" >¿En qué LUGAR compró o pagó el artículo o servicio?</th>
             <th style="text-align:center;" rowspan="2" width="20%">¿Con qué FRECUENCIA compra o paga HABITUALMENTE el artículo o servicio?</th>
         </tr>
-		<tr class="warning" align="center">
+		<tr class="active" align="center">
             <th style="text-align:center;">Valor Pagado</th>
             <th style="text-align:center;" width="12%">Compró o pagó el artículo o servicio pero no recuerda el valor</th>
             
@@ -98,7 +101,7 @@
 		<?php 
 		$i++;
 		}?>
-		 <tr align="center" class="active">
+		 <tr align="center" class="">
             <td><b>SUBTOTAL</b></td>
 			<td> <input class="form-control" readonly="readonly" type="text" name="txt_total" id="txt_total" />  </td>
 			<td colspan="3">&nbsp;</td>
@@ -140,6 +143,7 @@
 		<div class="col-md-11" align="right">
 		<div id="pag3_cargando" class="msj_guarda" style="display:none; color: green;">Guardando ... <img src="<?php echo base_url("images/ajax-loader.gif")?>" title="Guardando" /></div>
 		<div id="pag3_error" class="msj_error" style="display:none; color: red;" >Error: Secci&oacute;n no guardada.</div>
+		<!--<div id="reslogin" class="alert alert-danger" role="alert"> <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> <span class="sr-only">Error: Secci&oacute;n no guardada.</div>-->
 		</div>
 		<div class="col-md-1"> <button id="btn_form3" name="btn_form3" type="button" class="btn btn-success btn-md pull-right">Siguiente</button> </div>
 	</div>

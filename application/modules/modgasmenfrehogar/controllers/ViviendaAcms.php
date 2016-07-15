@@ -36,9 +36,10 @@ class ViviendaAcms extends MX_Controller {
  
 	/*ACTUALIZA CONTROL - FUNC CAMILO*/
 		$arrSA = $this->actualizarEstado();
+		$this->idSeccion = count($arrSA) > 1 ? $arrSA[1]['ID_SECCION3'] : "";
 		//pr($arrSA);
 		
-		if (count($arrSA) == 0) {
+		if (count($arrSA) == 0 || (count($arrSA) > 0 && $arrSA[0]['ID_ESTADO_SEC'] == 2) ) {
             //if($arrSA["0"]["ID_ESTADO_SEC"] == 2) {
                 redirect(base_url($this->module));
                 return false;
@@ -183,7 +184,7 @@ class ViviendaAcms extends MX_Controller {
         $this->load->view("layout", $data);
     }
     
-    /** Abre página 3 -  artículo o servicio COMPRADO o PAGADO
+    /** Abre pï¿½gina 3 -  artï¿½culo o servicio COMPRADO o PAGADO
      * @author hhchavezv
      * @param   array $data: array con parametros a enviar a vista
      * @since 2016-07-01
@@ -192,7 +193,7 @@ class ViviendaAcms extends MX_Controller {
         
 		$this->load->model("Modsec3");
 		
-		//Lista de articulos pagados, del módulo
+		//Lista de articulos pagados, del mï¿½dulo
 		$data["arrArticulos"]= $this->Modsec3->listar_articulos_comprados($data['id_formulario'], $data['secc'][0]['ID_SECCION3']); 
 		
 		// Verifica si debe habilitar pregunta "medio de pago"
@@ -209,7 +210,7 @@ class ViviendaAcms extends MX_Controller {
         $this->load->view("layout", $data);
     }
 	
-	/** Guarda página 3 - artículo o servicio COMPRADO o PAGADO
+	/** Guarda pï¿½gina 3 - artï¿½culo o servicio COMPRADO o PAGADO
      * @author hhchavezv
      * @since 2016-07-06
 	 * @return echo "-ok-" si guarda correctamente, si no "ERROR"
@@ -281,8 +282,8 @@ class ViviendaAcms extends MX_Controller {
             $lista_compra = $this->Modgmfh->lista_compra( array("seccion" => $this->idSeccion, "id_formulario" => $id_formulario) );
             $formas_adqui = $this->Modgmfh->lista_formaAdqui( array("seccion" => $this->idSeccion, "id_formulario" => $id_formulario) );
             $fin = false;
-echo "secc=".$this->idSeccion;			
-pr($formas_adqui);
+            //echo "secc=".$this->idSeccion;
+            //pr($formas_adqui);
             if($arrSA[0]['ID_ESTADO_SEC'] ==  0){
                 $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 1), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $arrSA[0]['ID_SECCION3']));
                 $arrSA[0]['ID_ESTADO_SEC'] = 1;
@@ -340,11 +341,11 @@ pr($formas_adqui);
 
 
         }
-        //else {
-        //    $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual ), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $arrSA[0]['ID_SECCION3']));
-        //}
+        
+		$arrSA = $this->Modgmfh->listar_secciones_avances(array( "id0" => $this->idSubModulo , "estado" => array(0,1)));
+        
 		
-		//hhchavezv - Valido si está en seccion 2, para que seleccione en switch de control de 5 a 8
+		//hhchavezv - Valido si estï¿½ en seccion 2, para que seleccione en switch de control de 5 a 8
 		$arrSA[0]['PAGINA_CONTROL']="";
 		if ($this->idSeccion =="C1"){
 			$arrSA[0]['PAGINA_CONTROL']=$arrSA["1"]["PAG_SECCION3"];
@@ -356,9 +357,9 @@ pr($formas_adqui);
 			$arrSA[0]['PAGINA_CONTROL']=$arrSA["1"]["PAG_SECCION3"]+9;
 		}
 				
-		pr($arrSA);
+		//pr($arrSA);
 		
-        return $arrSA;
+		return $arrSA;
     }
 
     /**
@@ -377,7 +378,7 @@ pr($formas_adqui);
         if($cant_formas_obt == 0 && ( is_array($articulos) || (isset($_POST['variable_uso']) && $_POST['variable_uso'] == 2) ) ) {
             $i = 0;
             $var_independiente = $this->Modgmfh->lista_variables_param(array( "seccion" => $id_seccion, "pagina" => 1));
-            // si selecciona niguna de las anteriores o que no ha utilizado ninguno de los productos en el último lapso de tiempo preguntado
+            // si selecciona niguna de las anteriores o que no ha utilizado ninguno de los productos en el ï¿½ltimo lapso de tiempo preguntado
             if(is_array($articulos) && count($articulos) == 1 && $articulos[0] == "99999999") {
                 $fechahoraactual = $this->Modgmfh->consultar_fecha_hora();
                 $fechaactual = substr($fechahoraactual, 0, 10);

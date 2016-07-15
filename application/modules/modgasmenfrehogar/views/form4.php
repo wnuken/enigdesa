@@ -1,12 +1,25 @@
+
 <hr />
-		<div class="row">
-			<div class="col-sm-2"><img src="<?php echo base_url("images/form_icon-ingresospersonales.png"); ?>" /></div>
-			<div class="col-sm-8">
-				<h2><?=$secc[0]['DESCR_SECCION'] . "(" . $secc[0]['TEMPORALIDAD'] . ")"; ?></h2>
-				<h4><?//echo $persona['P521A'] ." ". $persona['P521C'] ." (". $persona['P6040'] .")"; ?></h4>
-			</div>
-		</div>
-		<br />
+<div class="row secondHead themeHead">
+    <div class="col-sm-2 hidden-xs"><img src="<?php echo base_url("images/form_icon-ingresospersonales.png"); ?>" alt="Imagen sección hogar"></div>
+    <!--<div class="col-sm-4 col-md-3 col-lg-2 col-xs-12">
+        
+    </div>-->
+    <!--<div class="col-sm-5 ">-->
+    <h2><?= $secc[0]['TITULO1'] ?></h2>
+    <h4><?= $secc[0]['TITULO2'] ?></h4>
+    <h5><?= $secc[0]['TITULO3'] ?></h5>
+    <!--</div>-->
+</div>
+<!--<div class="row">
+    <div class="col-sm-2"><img src="<?php echo base_url("images/form_icon-ingresospersonales.png"); ?>" /></div>
+    <div class="col-sm-8">
+        <h2><?= $secc[0]['TITULO1'] ?></h2>
+        <h4><?= $secc[0]['TITULO2'] ?></h4>
+        <h5><?= $secc[0]['TITULO3'] ?></h5>
+
+    </div>
+</div>-->
 <?php
 	if (!empty($secc[0]['ENCABEZADO']))
 		echo "			<blockquote>". $secc[0]['ENCABEZADO'] ."</blockquote>\n";
@@ -22,250 +35,104 @@
 	$i = 1;
 	//foreach ( $preg['var'] as $v3 ) {
 		//if ($v3['GRUPO'] != $nuevogrupo) {
-			echo "					</div>\n";
-			echo "				</div>\n";
-			// Inicio Grupo de preguntas...
+?>
+				</div>
+			</div>
 			
-			echo "<table border=1>";
-			echo "<tr>";
-			echo "<td border=0><td>";
-			echo "<td colspan='12' align='center'>Si lo hubiera tenido que comprar, ¿cuánto habría pagado por el bien o servicio</td>";
-			echo "</tr>";
-			echo "<tr>";
-			echo "<td rowspan='2'>";
-			//echo "<h5 class='control-label' for='art_" . $v3['ID_ARTICULO3'] . "'  >Nombre del artículo o servicio ADQUIRIDO por otras formas diferentes a la compra";
-			echo "<h5 class='control-label' for='art_'  >Nombre del artículo o servicio ADQUIRIDO por otras formas diferentes a la compra";
-			echo "</h5>\n";
-			echo "</td><td></td>";
-			echo "<td colspan='2'>adquirido como pago por TRABAJO?</td>";
-			echo "<td colspan='2'>adquirido como REGALO o DONACIÓN?</td>";
-			echo "<td colspan='2'>adquirido como INTERCAMBIO?</td>";
-			echo "<td colspan='2'>PRODUCIDO por el HOGAR?</td>";
-			echo "<td colspan='2'>tomado de un NEGOCIO PROPIO?</td>";
-			echo "<td colspan='2'>adquirido de OTRA FORMA?</td>";
-			echo "</tr><tr>";
-			echo "<td></td>";
-			echo "<td>Valor estimado</td>";
-			echo "<td>No sabe el valor estimado</td>";
-			echo "<td>Valor estimado</td>";
-			echo "<td>No sabe el valor estimado</td>";
-			echo "<td>Valor estimado</td>";
-			echo "<td>No sabe el valor estimado</td>";
-			echo "<td>Valor estimado</td>";
-			echo "<td>No sabe el valor estimado</td>";
-			echo "<td>Valor estimado</td>";
-			echo "<td>No sabe el valor estimado</td>";
-			echo "<td>Valor estimado</td>";
-			echo "<td>No sabe el valor estimado</td>";
-			echo "</tr>";
+			
+			<table border=1>
+				<tr>
+					<td border=0><td>
+					<td colspan='12' align='center'>Si lo hubiera tenido que comprar, ¿cuánto habría pagado por el bien o servicio</td>
+				</tr>
+				<tr>
+					<td rowspan='2'>
+						<h5 class='control-label' for='art_'  >Nombre del artículo o servicio ADQUIRIDO por otras formas diferentes a la compra</h5>
+			</td><td></td>
+			<td colspan='2'>adquirido como pago por TRABAJO?</td>
+			<td colspan='2'>adquirido como REGALO o DONACIÓN?</td>
+			<td colspan='2'>adquirido como INTERCAMBIO?</td>
+			<td colspan='2'>PRODUCIDO por el HOGAR?</td>
+			<td colspan='2'>tomado de un NEGOCIO PROPIO?</td>
+			<td colspan='2'>adquirido de OTRA FORMA?</td>
+			</tr><tr>
+			<td></td>
+			<td>Valor estimado</td>
+			<td>No sabe el valor estimado</td>
+			<td>Valor estimado</td>
+			<td>No sabe el valor estimado</td>
+			<td>Valor estimado</td>
+			<td>No sabe el valor estimado</td>
+			<td>Valor estimado</td>
+			<td>No sabe el valor estimado</td>
+			<td>Valor estimado</td>
+			<td>No sabe el valor estimado</td>
+			<td>Valor estimado</td>
+			<td>No sabe el valor estimado</td>
+			</tr>
+<?php
 			$j = 1;
-			foreach ( $preg['var'] as $v3 ) {
-				echo "<tr>";
-				echo "<td colspan='2'>(" . $v3['ID_ARTICULO3'] . ") " . $v3['ETIQUETA'];
-					echo "</td>";
-				$i = 1;
+			foreach ( $preg['var'] as $v3 ):
+?>
+				<tr>
+				<td colspan='2'>(<?=$v3['ID_ARTICULO3']?>) <?=$v3['ETIQUETA']?>
+					</td>
 
-
-				foreach ( $preg['variables'] as $v4 ) {
+<?php
+				$i = 1;pr($v3);
+				foreach ( $preg['variables'] as $v4 ):
 					$input_atr = "class='valor_" . $j . "_input'";
 					$forma_obt = array("recibido_pago", "regalo", "intercambio", "producido", "negocio_propio", "otra");
-					if( ($i == 1 && $v3['RECIBIDO_PAGO'] == "1") || ($i == 2 && $v3['REGALO'] == "1") || ($i == 3 && $v3['INTERCAMBIO'] == "1") || 
-						($i == 4 && $v3['PRODUCIDO'] == "1") || ($i == 5 && $v3['NEGOCIO_PROPIO'] == "1") || ($i == 6 && $v3['OTRA'] == "1")  ){
+
+					if( ($i == 1 && $v3['RECIBIDO_PAGO'] != "1") || ($i == 2 && $v3['REGALO'] != "1") || ($i == 3 && $v3['INTERCAMBIO'] != "1") || 
+						($i == 4 && $v3['PRODUCIDO'] != "1") || ($i == 5 && $v3['NEGOCIO_PROPIO'] != "1") || ($i == 6 && $v3['OTRA'] != "1")  ):
 						$input_atr = "disabled";
-						echo "<td>";//.$v4['ID_VARIABLE'];
-					}
-					else {
-						echo "<td class='activo'>";//.$v4['ID_VARIABLE'];
+						?>
+						<td>
+					<?php
+					else:
+					?>
+						<td class='activo'>
+					<?php
 						$j++;
-					}
-					//echo "<td>";//.$v4['ID_VARIABLE'];
-					echo "<input $input_atr type='text' name='" . $v3['ID_ARTICULO3'] . "[" . $forma_obt[$i-1] . "]' value='' id='art_". $v3['ID_ARTICULO3'] ."_1' />";
-					echo "</td>";
+					endif;
+?>
+					<input <?=$input_atr?> type='text' name='val_<?=$v3['ID_ARTICULO3']?>[<?=$forma_obt[$i-1]?>]' value='' id='art_<?=$v3['ID_ARTICULO3']?>_1' />
+					</td>
+					<?php
 					$input_atr = str_replace("_input", "", $input_atr);
-					echo "<td>(99) ";
-					echo "<input $input_atr type='checkbox' name='" . $v3['ID_ARTICULO3'] . "[" . $forma_obt[$i-1] . "]' value='' id='art_". $v3['ID_ARTICULO3'] ."_1' />";
-					echo "</td>";
+					?>
+					<td>(99) 
+					<input <?=$input_atr?> type='checkbox' name='chb_<?=$v3['ID_ARTICULO3']?>[<?=$forma_obt[$i-1]?>]' value='' id='art_<?=$v3['ID_ARTICULO3'] ?>_1' />
+					</td>
+<?php
 					$i++;
+					endforeach;
+?>
 					
-				}
-				echo "</tr>";
-			}
-			echo "</table>";
-			
-			//echo "</tr>";
-			
-				/*echo "				<div class='form-group has-feedback' id='div-". $v3['ID_ARTICULO3'] ."'>\n";
-			//echo "<input type='checkbox' name='articulos[]' value='" . $v3['ID_ARTICULO3'] . "' id='articulo_". $v3['ID_ARTICULO3'] ."' />";
-			
-			// mayandarl - Texto de la pregunta.
-			echo "<h5 class='control-label articulo' for='" . $v3['ID_ARTICULO3'] . "'  >(". $v3['ID_ARTICULO3'] .") " . $v3['ETIQUETA'];
-			// mayandarl - Ayuda asociada a la pregunta.
-			//if (!empty($v3['AYUDA']))
-			//	echo "&nbsp;<a href='#' data-toggle='tooltip' title='". $v3['AYUDA'] ."'>(?)</a>";
-			echo "</h5>\n";
-			// mayandarl - Asigna ID para la seccion de opciones de respuesta. Se utiliza en la verificacion de consistencias.
-			echo "					<div class='col-sm-8' id='RESP_". $v3['ID_ARTICULO3'] ."' data-toggle='popover' data-placement='top' data-trigger='hover' data-content=''>\n";
 
-			echo "<table>";
-			echo "<tr>";
-			echo "<td>";
-			echo "<h5 class='control-label' for='art_" . $v3['ID_ARTICULO3'] . "'  >¿Como lo obtuvieron?";
-			echo "</h5>\n";
-			echo "</td>";
-			echo "</tr>";
-
-			echo "<tr>";
-			echo "<td></td><td>";
-			echo "<h5 class='control-label' for='compra_" . $v3['ID_ARTICULO3'] . "'  >Compra o pago";
-			echo "</h5>\n";
-			echo "</td>";
-			echo "<td>";
-			echo "<input type='checkbox' name='" . $v3['ID_ARTICULO3'] . "[compra]' value='" . $v3['ID_ARTICULO3'] . "_1' id='art_". $v3['ID_ARTICULO3'] ."_1' class='ops_" . $i . "' />";
-			echo "</td>";
+				</tr>
+<?php
+			endforeach;
+?>
+			</table>
 			
-			echo "</tr>";
-			
-			echo "<tr>";
-			echo "<td></td><td>";
-			echo "<h5 class='control-label' for='" . $v3['ID_ARTICULO3'] . "'  >Recibido por trabajo";
-			echo "</h5>\n";
-			echo "</td>";
-			echo "<td>";
-			echo "<input type='checkbox' name='" . $v3['ID_ARTICULO3'] . "[recibido_pago]' value=' value='" . $v3['ID_ARTICULO3'] . "_2' id='articulo_". $v3['ID_ARTICULO3'] ."_2' class='ops_" . $i . "' />";
-			echo "</td>";
-			echo "</tr>";
-
-			echo "<tr>";
-			echo "<td></td><td>";
-			echo "<h5 class='control-label' for='" . $v3['ID_ARTICULO3'] . "'  >Regalo o donaci&oacute;n";
-			echo "</h5>\n";
-			echo "</td>";
-			echo "<td>";
-			echo "<input type='checkbox' name='" . $v3['ID_ARTICULO3'] . "[regalo]' value='" . $v3['ID_ARTICULO3'] . "_3' id='articulo_". $v3['ID_ARTICULO3'] ."_3' class='ops_" . $i . "' />";
-			echo "</td>";			
-			echo "</tr>";
-
-			echo "<tr>";
-			echo "<td></td><td>";
-			echo "<h5 class='control-label' for='" . $v3['ID_ARTICULO3'] . "'  >Intercambio";
-			echo "</h5>\n";
-			echo "</td>";
-			echo "<td>";
-			echo "<input type='checkbox' name='" . $v3['ID_ARTICULO3'] . "[intercambio]' value='" . $v3['ID_ARTICULO3'] . "_4' id='articulo_". $v3['ID_ARTICULO3'] ."_4' class='ops_" . $i . "' />";
-			echo "</td>";
-			
-			echo "</tr>";
-			echo "<tr>";
-			echo "<td></td><td>";
-			echo "<h5 class='control-label' for='" . $v3['ID_ARTICULO3'] . "'  >Producido por el hogar";
-			echo "</h5>\n";
-			echo "</td>";
-			echo "<td>";
-			echo "<input type='checkbox' name='" . $v3['ID_ARTICULO3'] . "[producido]' value='" . $v3['ID_ARTICULO3'] . "_5' id='articulo_". $v3['ID_ARTICULO3'] ."_5' class='ops_" . $i . "' />";
-			echo "</td>";
-			
-			echo "</tr>";
-			echo "<tr>";
-			echo "<td></td><td>";
-			echo "<h5 class='control-label' for='" . $v3['ID_ARTICULO3'] . "'  >Tomado de un negocio propio";
-			echo "</h5>\n";
-			echo "</td>";
-			echo "<td>";
-			echo "<input type='checkbox' name='" . $v3['ID_ARTICULO3'] . "[negocio_propio]' value='" . $v3['ID_ARTICULO3'] . "_6' id='articulo_". $v3['ID_ARTICULO3'] ."_6' class='ops_" . $i . "' />";
-			echo "</td>";
-			
-			echo "</tr>";
-			echo "<tr>";
-			echo "<td></td><td>";
-			echo "<h5 class='control-label' for='" . $v3['ID_ARTICULO3'] . "'  >Otra forma";
-			echo "</h5>\n";
-			echo "</td>";
-			echo "<td>";
-			echo "<input type='checkbox' name='" . $v3['ID_ARTICULO3'] . "[otra]' value='" . $v3['ID_ARTICULO3'] . "_7' id='articulo_". $v3['ID_ARTICULO3'] ."_7' class='ops_" . $i . "' />";
-			echo "</td>";			
-			echo "</tr>";
-
-			echo "</table>";
-
-			echo "<hr>\n";*/
-
+	<?php
 		$i++;
-	//}
 ?>
 					</div>
 				</div>
+				<div class="row">
+                            <div class="col-sm-12" id="mensaje_"></div>
+                        </div>
+                        <div class="row text-center">
+                            <button disabled class='btn btn-success' id='env_form_4'>Guardar y Continuar <span class='glyphicon glyphicon-chevron-right' aria-hidden='true' title='Continuar'></span></button>
+                        </div>
 			</form>
-		<div class="row">
-			<div class="col-sm-12" id="mensaje_<?//echo $secc['ID_SECCION'] .'_'. $secc['PAGINA']?>"></div>
-		</div>
-		<div class="row text-center">
-<?php
-	//if ($secc['ANTERIOR'] == 'SI') {
-	//	echo "		<button class='btn btn-info' onClick='window.location.replace(\"". site_url("modinggasper/Personas/antgenerales") ."\");'><span class='glyphicon glyphicon-chevron-left' aria-hidden='true' title='Volver'></span>Regresar y Modificar</button>\n";
-	//}
-	// mayandarl - incorpora los botones de anterior y siguiente 
-	//if ($secc['SIGUIENTE'] == 'SI') {
-		//if ($secc['ACCION'] == 'CONTINUAR')
-			echo "	<button disabled  class='btn btn-success' id='ENV_2_2'>Guardar y Continuar <span class='glyphicon glyphicon-chevron-right' aria-hidden='true' title='Continuar'></span></button>\n";
-		//elseif ($secc['ACCION'] == 'FINALIZAR')
-		//	echo "	<button class='btn btn-success' id='ENV_". $secc['ID_SECCION'] .'_'. $secc['PAGINA'] ."'>Guardar y Finalizar <span class='glyphicon glyphicon-chevron-right' aria-hidden='true' title='Fin'></span></button>\n";
-	//}
-?>
-
-		</div>
 <script>
 
 $(function() {
-	$("#form_4").validate({
-		//Reglas de Validacion
-		/*rules : {
-			txt_total    		: {	required        :  true, expresion: '$("#hdd_nro_articulos").val() ==0' },
-			sel_medio_pago    	: {	comboBox        :  '-'},
-			txt_otro_medio_pago : {	required        :  true, maxlength: 100}
-					
-		},
-		//Mensajes de validacion
-		messages : {
-			txt_total    		: {	required        :  "Verifique el subtotal.", expresion :  "No hay artículos o servicios comprados o pagados."},
-			sel_medio_pago    	: {	comboBox        :  "Seleccione una opci&oacute;n."},
-			txt_otro_medio_pago : {	required        :  "Diligencie c&uacute;al otro medio de pago. ", maxlength		:  "Máximo 100 caracteres"},
-			
-						
-		},*/
-		//Mensajes de error
-		errorPlacement: function(error, element) {
-			element.after(error);		        
-			error.css('display','inline');
-			error.css('margin-left','10px');				
-			error.css('color',"#FF0000");
-			
-		//$(element).focus();//si se coloca no muestra todos los errores, va mostrando de uno en uno
-		},
-		submitHandler: function(form) {
-			return true;
-			
-		}
-	});
-	//*****************************************************************************************************************
-	//** Compara y valida que el valor de una caja de texto sea menor o igual que el valor que se recibe por parametro
-	//*****************************************************************************************************************
-	$.validator.addMethod("menorIgualQue",function(value, element, param){
-		var comp = convertirOperacion(param); 
-		var valor = parseInt($(element).val());
-        if (valor <= comp){			                            	  
-      	  return false;
-        }
-        else{
-      	  return true;
-        }
-    },"");
-    $( "input[type=checkbox]" ).on("focus", function(){
-    	alert("clic");
-    });
-
-	$( "#art_02110100_1" ).rules("add", { required   :   true,  menorIgualQue:500,
-					 messages: { required   :  "Digite un valor.", menorIgualQue:"Digite un valor mayor de 500"}
-					});
+	
 
 	$( "input[type=text]" ).bloquearTexto();
 
@@ -274,11 +141,11 @@ $(function() {
 		//var cont  = 0;
 		var claseInput = $(this).attr("class") + "_input";
 		if($(this).prop("checked")) {
-			$("."+claseInput).prop("disabled",true);
+			$("."+claseInput).prop("readonly",true);
 			$("."+claseInput).val("99");
 		}
 		else {
-			$("."+claseInput).prop("disabled",false);
+			$("."+claseInput).prop("readonly",false);
 			$("."+claseInput).val("");
 		}
 		
@@ -291,8 +158,8 @@ $(function() {
 		}
 
 		if(condicion == i)
-			$("#ENV_2_2").prop('disabled', false);
-		else $("#ENV_2_2").prop('disabled', true);
+			$("#env_form_4").prop('disabled', false);
+		else $("#env_form_4").prop('disabled', true);
 		
 	});
 
@@ -310,8 +177,8 @@ $(function() {
 		}
 
 		if(condicion == i)
-			$("#ENV_2_2").prop('disabled', false);
-		else $("#ENV_2_2").prop('disabled', true);
+			$("#env_form_4").prop('disabled', false);
+		else $("#env_form_4").prop('disabled', true);
 		/*for(var i=0; i < articulos; i++) {
 			var sel = $(":input.ops_" + (i+1) + ":checked").length;
 			if(sel > 0) 
@@ -324,36 +191,48 @@ $(function() {
 		
 	});
 
-	$(".btn-success").on("click",function(){
-		var myf = $('#form_');
-		var args = myf.serialize().replace(/(%0D%0A|%0D|%0A|%22|%5C|')/g, " ");
-		$(this).attr('disabled', true);
-		$.ajax({
-			type: 'POST',
-			url: '<?=site_url("modgasmenfrehogar/Recreacion/guardar/")?>',
-			cache: false,
-			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
-			data: args,
-			beforeSend: function (objeto) {
-				$('#mensaje_').html('<div class="alert alert-info" role="alert"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Enviando m&oacute;dulo</div>');
-				//$('#CHK_'+ capitulo).removeClass();
-				//$('#CHK_'+ capitulo).addClass('ui-icon ui-icon-clock');
-			},
-			success: function (respuesta) {
-				$('#mensaje_').html('<div class="alert alert-success" role="alert"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> '+ respuesta +'</div>');
-				//$('#CHK_'+ capitulo).removeClass();
-				//$('#CHK_'+ capitulo).addClass('ui-icon ui-icon-check');
-				//$('.nav-tabs > .active').next('li').find('a').trigger('click');
-				//$('#btn_seguir').html('<span id="btn_seguir"><span> <button type="button" name="btnReminder" class="btn btn-success" onClick="location.reload();">Continuar</button>');
-				setTimeout(function(){location.reload()}, 3000);
-			},
-			error: function (respuesta) {
-				$('#mensaje_').html('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Error guardando m&oacute;dulo</div>');
-				//$('#CHK_'+ capitulo).removeClass();
-				//$('#CHK_'+ capitulo).addClass('ui-icon ui-icon-cancel');
-			}
-		});
-	});
+	$("#form_4").submit(function(e){
+        e.preventDefault();
+    });
+
+	// boton enviar
+    $("#env_form_4").on("click", function () {
+        var myf = $('#form_4');
+        var args = myf.serialize().replace(/(%0D%0A|%0D|%0A|%22|%5C|')/g, " ");
+        $(this).attr('disabled', true);
+        $.ajax({
+            type: 'POST',
+            url: location.href + '/guardar_form4',
+            cache: false,
+            contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+            data: args,
+            beforeSend: function (objeto) {
+                $('#mensaje_').html('<div class="alert alert-info" role="alert"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> Enviando informaci&oacute;n</div>');
+            },
+            success: function (respuesta) {
+                /*var arrRespuesta = respuesta.split(":");
+                if(arrRespuesta[0] == 'S') {
+                    $('#mensaje_').html('<div class="alert alert-success" role="alert"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>' + arrRespuesta[1] + '</div>');
+                    setTimeout(function () {
+                        location.href = location.href
+                    }, 2000);
+                }
+                else if(arrRespuesta[0] == 'W') {
+                    $('#mensaje_').html('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>' + arrRespuesta[1] + '</div>');
+                }
+                else if(arrRespuesta[0] == 'E') {
+                    $('#mensaje_').html('<div id="reslogin" class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><span class="sr-only">Error:</span> ' + arrRespuesta[1] + '</div>');
+                }*/
+                $('#mensaje_').html('<div class="alert alert-success" role="alert"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>' + respuesta + '</div>');
+                
+            },
+            error: function (respuesta) {
+                $('#mensaje_').html('<div id="reslogin" class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span><span class="sr-only">Error:</span> Error guardando informaci&oacute;n</div>');
+ 
+            }
+        });
+    });
+
 });
 /*
 $(function() {

@@ -20,8 +20,17 @@
 Recuerde que una vez acepte la información NO podrá ser modificada.</div>
 <script>
 	$("#formulario").tabs({
-		disabled: [1,2,3,4,5,6,7,8,9,10,11,12,13],
-		beforeLoad: function( event, ui ) {
+<?
+	$ds = "";
+	foreach ($dias as $k=>$v) {
+		if ($v == "HOY") 
+			echo "		active: $k,\n";
+		if ($v == "OFF")
+			$ds .= "$k,";
+	}
+	echo "		disabled: [". substr($ds, 0, -1) ."]\n";
+?>
+/*		beforeLoad: function( event, ui ) {
 			ui.jqXHR.fail(function() {
 				ui.panel.html("Opción no disponible por el momento.");
 			});
@@ -34,7 +43,7 @@ Recuerde que una vez acepte la información NO podrá ser modificada.</div>
 		},
 		activate: function(event, ui) {
 			$("#formulario_confirm").data("confirmed", false);
-		}
+		}*/
 	});
 	$("#formulario_confirm").dialog({
 		autoOpen: false,

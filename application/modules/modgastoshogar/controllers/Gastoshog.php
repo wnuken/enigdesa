@@ -43,9 +43,20 @@ class Gastoshog extends MX_Controller {
 				}
 				// Secciones de Gastos diarios del hogar
 				else {
-					$data['hoy'] = date("Y-m-d");
-					$data['aye'] = date("Y-m-d", strtotime("-1 day", strtotime($data['hoy'])));
-					$data['aay'] = date("Y-m-d", strtotime("-2 day", strtotime($data['hoy'])));
+					$dia = $this->Modgastoshog->obtenerSeccDias($data["id_formulario"]);
+					$hoy = date("Y-m-d");
+					$i = 0;
+					foreach ($dia as $k=>$v) {
+						if ($v == $hoy)
+							$data['dias'][$i] = "HOY";
+						elseif ($v == date("Y-m-d", strtotime("-1 day", strtotime($hoy))))
+							$data['dias'][$i] = "ON";
+						elseif ($v == date("Y-m-d", strtotime("-2 day", strtotime($hoy))))
+							$data['dias'][$i] = "ON";
+						else 
+							$data['dias'][$i] = "OFF";
+						$i++;
+					}
 					$data["view"] = "vgdhmenu";
 					$this->load->view("layout", $data);
 				}
@@ -141,6 +152,22 @@ class Gastoshog extends MX_Controller {
 			$this->Modmenu->guardarRegistroFormulario($id_formulario, 'FAMILIA', '1', $inicio, $fin);
 		}*/
 		echo "<b>Formulario guardado exitosamente.</b>";
+	}
+	
+		/**
+	 * Resultado de guardar el formulario
+	 * @author mayandarl
+	 */
+	public function findia($secc) {
+		$this->load->model(array("Modgastoshog", "control/Modmenu"));
+		$id_formulario = $this->session->userdata("id_formulario");
+		if (!empty($secc)) {
+			$resultado = $this->Modgastoshog->actualizarFrecuencias($id_formulario, $_POST);
+			if ($resultado) {
+				$this->Modmenu->guardarAvanceFormulario($id_formulario, '00FRECUENCIAS', '1', 'SI');
+				$this->Modgastoshog->asignar14Dias($id_formulario);
+			}
+		}
 	}
 
 	/**

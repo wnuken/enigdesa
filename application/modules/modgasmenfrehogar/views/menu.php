@@ -68,4 +68,8 @@ if (count($sec) > 0) {
     echo $html;
 }
 ?>
+<div>
+    <input type="radio" name="prueba" value="1" /> 1
+    <input type="radio" name="prueba" value="2" /> 2
+</div>
 <script src="<?= $js_dir ?>"></script>

@@ -22,9 +22,9 @@
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="<?php echo base_url("css/bootstrap/bootstrap.min.css"); ?>">
 <!-- Optional theme -->
-<link rel="stylesheet" href="<?php echo base_url("css/bootstrap/bootstrap-theme.min.css"); ?>">
+<link rel="stylesheet" href="<?php echo base_url("css/bootstrap/bootstrap-theme.css"); ?>">
 <link rel="stylesheet" href="<?php echo base_url("css/bootstrap/custom.css"); ?>">
-<link href="<?php echo base_url("css/jqueryui/jquery-ui.css"); ?>" rel="stylesheet"/>
+<link rel="stylesheet" href="<?php echo base_url("css/jqueryui/jquery-ui.css"); ?>" />
 <!-- Latest compiled and minified JavaScript -->
 <script src="<?php echo base_url("/js/bootstrap/jquery-1.11.3.min.js"); ?>"></script>
 <script src="<?php echo base_url("/js/bootstrap/bootstrap.min.js"); ?>"></script>

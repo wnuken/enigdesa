@@ -19,6 +19,10 @@ $(function () {
 
     });
 
+    $("#form_2").submit(function(e){
+        e.preventDefault();
+    });
+    
     // boton enviar
     $("#env_form_2").on("click", function () {
         var myf = $('#form_2');
@@ -26,7 +30,7 @@ $(function () {
         $(this).attr('disabled', true);
         $.ajax({
             type: 'POST',
-            url: 'Recreacion/guardar_form2',
+            url: location.href + '/guardar_form2',
             cache: false,
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             data: args,

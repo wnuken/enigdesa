@@ -102,10 +102,11 @@ class Financieros extends MX_Controller {
                 $arrSA[0]['ID_ESTADO_SEC'] = 2;
             }
         }
-        else {
+        else if(sizeof($arrSA) == 1) {
             $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual ), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $arrSA[0]['ID_SECCION3']));
             $arrSA[0]['ID_ESTADO_SEC'] = 2;
         }
+        $arrSA = $this->Modgmfh->listar_secciones_avances(array( "id0" => $this->idSubModulo , "estado" => array(0,1)));
         return $arrSA;
     }
     
@@ -119,8 +120,10 @@ class Financieros extends MX_Controller {
 
         
         $arrSA = $this->actualizarEstado();
+        $this->idSeccion = count($arrSA) > 1 ? $arrSA[1]['ID_SECCION3'] : "";
+
         
-        if (count($arrSA) == 0) {
+        if (count($arrSA) == 0 || (count($arrSA) > 0 && $arrSA[0]['ID_ESTADO_SEC'] == 2) ) {
             redirect(base_url($this->module));
             return false;
         }
@@ -135,6 +138,13 @@ class Financieros extends MX_Controller {
                     $this->mostrarListaObtencion($data);
                     break;
                 case 3:
+                    //$this->mostrarGrillaCompra($data);
+                    $data['secc'] = $this->Modgmfh->listar_secciones(array("id" => $this->idSeccion));
+                    $data["titulo_1"]=$data['secc'][0]['TITULO1'];//"de ______ del 2016";
+                    $data["subtitulo_2"]=$data['secc'][0]['TITULO2'];
+                    $data["subtitulo_3"]=$data['secc'][0]['TITULO3'];
+                    //$data["js_dir"] = base_url('js/modgasmenfrehogar/viviendaAcms/viviendaAcms.js');                  
+                    $data["js_dir"] = base_url('js/modgasmenfrehogar/form3.js');                    
                     $this->mostrarGrillaCompra($data);
                     break;
                 case 4:
@@ -150,7 +160,7 @@ class Financieros extends MX_Controller {
      * @param   Int $pagina Numero de pagina que debe mostrar
      * @since 2016-06-21
      */
-    private function mostrarListaArticulos() {
+    private function mostrarListaArticulos($data) {
         // Aca va el codigo
         $data["js_dir"] = base_url('js/' . $this->module . '/form1.js');
         $this->load->model(array("formulario/Mformulario", "control/Modmenu", "Modgmfh"));
@@ -175,7 +185,7 @@ class Financieros extends MX_Controller {
      * @param   Int $pagina Numero de pagina que debe mostrar
      * @since 2016-06-21
      */
-    private function mostrarListaObtencion() {
+    private function mostrarListaObtencion($data) {
         // Aca va el codigo
         $data["js_dir"] = base_url('js/' . $this->module . '/form2.js');
         
@@ -198,7 +208,7 @@ class Financieros extends MX_Controller {
      * @param   Int $pagina Numero de pagina que debe mostrar
      * @since 2016-06-21
      */
-    private function mostrarGrillaCompra() {
+    /*private function mostrarGrillaCompra() {
         // Aca va el codigo
         // Se consulta la lista de los lugares de compra
         $arrLC = $this->Modgmfh->consultar_param_general('', 'LUGAR_COMPRA', '', '');
@@ -207,6 +217,58 @@ class Financieros extends MX_Controller {
         $data["js_dir"] = base_url('js/' . $this->module . '/' . $this->submodule . '/archivo.js');
         $data["view"] = $this->submodule . '/view1';
         $this->load->view("layout", $data);
+    }*/
+
+    /** Abre p�gina 3 -  art�culo o servicio COMPRADO o PAGADO
+     * @author hhchavezv
+     * @param   array $data: array con parametros a enviar a vista
+     * @since 2016-07-01
+     */
+    private function mostrarGrillaCompra($data) {
+        
+        $this->load->model("Modsec3");
+        
+        //Lista de articulos pagados, del m�dulo
+        $data["arrArticulos"]= $this->Modsec3->listar_articulos_comprados($data['id_formulario'], $data['secc'][0]['ID_SECCION3']); 
+        
+        // Verifica si debe habilitar pregunta "medio de pago"
+        $data["habilita_medio_pago"]= $this->Modsec3->habilitaPreguntaMedioPago($data['secc'][0]['ID_SECCION3']); 
+        
+        // Se consulta la lista de medios de pago
+        $data["arrMediosPago"]=$this->Modsec3->listar_medios_pago(); 
+        // Se consulta la lista de los lugares de compra
+        $data["arrLugarCompra"] = $this->Modgmfh->consultar_param_general('', 'LUGAR_COMPRA', '', '');
+        // Se consulta la lista de frecuencia de compra
+        $data["arrFrecCompra"]= $this->Modgmfh->consultar_param_general('', 'FRECUENCIA_COMPRA', '', '');
+        
+        $data["view"] = 'form3';
+        $this->load->view("layout", $data);
+    }
+    
+    /** Guarda p�gina 3 - art�culo o servicio COMPRADO o PAGADO
+     * @author hhchavezv
+     * @since 2016-07-06
+     * @return echo "-ok-" si guarda correctamente, si no "ERROR"
+     */
+    public function guardaGrillaCompra() {
+        
+        $this->load->model("Modsec3");
+        // Convierte en variables php lo que llega por POST
+        foreach($_POST as $nombre_campo => $valor){         
+                $asignacion = "\$" . $nombre_campo . "='" . $valor . "';";
+                eval($asignacion);
+            }
+            
+        $result=$this->Modsec3->guardaForm3($_POST);        
+        if($result){
+            //$result2=$this->Modsec3->actualizaPaginaControl($ID_FORMULARIO, $hdd_sec,4); 
+            //if($result2)
+                        
+                echo "-ok-";            
+        }   
+        else
+            echo "ERROR";
+        
     }
     
     /**

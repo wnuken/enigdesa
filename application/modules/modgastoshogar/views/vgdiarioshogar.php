@@ -143,6 +143,13 @@
 	</div>
 <?
 	}
+	else {
+?>
+	<div class="row text-center">
+		<div class="col-sm-12"><button class='btn btn-success' id='ENV_DIA'>Guardar <span class='glyphicon glyphicon-chevron-right' aria-hidden='true' title='Guardar'></span></button></div>
+	</div>
+<?
+	}
 ?>
 	<div id="GDH_ARTICULOS" title="Gastos de Hoy">
 		<form id="form_ARTICULOS" name="form_ARTICULOS" class="form-horizontal" role="form">
@@ -328,6 +335,8 @@
 			</div>
 		</form>
 	</div><!-- comidas -->
+	<div id="DIA_confirm" title="Confirmación">¿Está seguro(a) que ha registrado TODOS los gastos durante este día?. 
+	Recuerde que una vez acepte la información NO podrá ser modificada.</div>
 <script>
 <?php
 	echo "\t var regla_art = new Array();\n";
@@ -649,6 +658,39 @@ $(function() {
 			}
 		}
 	});
+	$("#DIA_confirm").dialog({
+		autoOpen: false,
+		resizable: true,
+		width:100,
+		height:40,
+		modal: true,
+		buttons: {
+			Aceptar: function() {
+				//var myf = $('#form_COMIDAS');
+				//var args = myf.serialize().replace(/(%0D%0A|%0D|%0A|%22|%5C|')/g, " ");
+				//$(this).attr('disabled', true);
+				$.ajax({
+					type: 'POST',
+					url: '<?php echo site_url("modgastoshogar/Gastoshog/findia") ."/". $secc; ?>',
+					cache: false,
+					contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+					success: function (respuesta) {
+						$('#mensaje_COMIDAS').html('<div class="alert alert-success" role="alert"><span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span> Gracias. <span id="btn_seguir"><span></div>');
+						window.location = '<?php echo site_url("modgastoshogar/Gastoshog/index") ."/". $id_persona; ?>';
+					},
+					error: function (respuesta) {
+						$('#mensaje_COMIDAS').html('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Error guardando Dia.</div>');
+					}
+				});
+				$( this ).dialog( "close" );
+			},
+			Cancelar: function() {
+				$(this).dialog('close').data("confirmed", false);
+			}
+		}
+	});
+	
+
 	$('[data-toggle="tooltip"]').tooltip();
 	$('[data-toggle="popover"]').popover();
 	recargatablaArt();

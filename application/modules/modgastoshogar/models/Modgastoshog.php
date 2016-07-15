@@ -131,7 +131,7 @@ class Modgastoshog extends CI_Model {
 	}
 
     /**
-     * Funcion para consultar los dias 
+     * Funcion para consultar los dias de un formulario
      * @author Mario A. Yandar
      */
     public function buscarDia($id_formulario, $seccion) {
@@ -145,6 +145,22 @@ class Modgastoshog extends CI_Model {
 		$this->db->close();
 		return $dia;
     }
+	
+    /**
+     * Funcion para obtener todos las secciones y dias de un formulario
+     * @author Mario A. Yandar
+     */
+	public function obtenerSeccDias($id_formulario) {
+		$data = array();
+		$sql = "SELECT ID_SECCION, TO_CHAR(DIA, 'YYYY-MM-DD') AS DIA FROM ENIG_FORM_GDH_DIAS WHERE ID_FORMULARIO='". $id_formulario . "' ORDER BY ID_SECCION";
+		$query = $this->db->query($sql);
+		if ($query->num_rows() > 0) {
+			foreach ($query->result() as $row)
+				$data[$row->ID_SECCION] = $row->DIA;
+		}
+		$this->db->close();
+		return $data;
+	}
 	
 	// Funcion de conversion de fecha a texto.
 	// @author oagarzond

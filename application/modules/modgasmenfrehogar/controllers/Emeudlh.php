@@ -90,10 +90,11 @@ class Emeudlh extends MX_Controller {
                 $arrSA[0]['ID_ESTADO_SEC'] = 2;
             }
         }
-        else {
+        else if(sizeof($arrSA) == 1) {
             $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual ), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $arrSA[0]['ID_SECCION3']));
             $arrSA[0]['ID_ESTADO_SEC'] = 2;
         }
+        $arrSA = $this->Modgmfh->listar_secciones_avances(array( "id0" => $this->idSubModulo , "estado" => array(0,1)));
         return $arrSA;
     }
     
@@ -107,8 +108,9 @@ class Emeudlh extends MX_Controller {
 
         
         $arrSA = $this->actualizarEstado();
+        $this->idSeccion = count($arrSA) > 1 ? $arrSA[1]['ID_SECCION3'] : "";
         
-        if (count($arrSA) == 0) {
+        if (count($arrSA) == 0 || (count($arrSA) > 0 && $arrSA[0]['ID_ESTADO_SEC'] == 2) ) {
             redirect(base_url($this->module));
             return false;
         }
@@ -123,6 +125,13 @@ class Emeudlh extends MX_Controller {
                     $this->mostrarListaObtencion($data);
                     break;
                 case 3:
+                    //$this->mostrarGrillaCompra($data);
+                    $data['secc'] = $this->Modgmfh->listar_secciones(array("id" => $this->idSeccion));
+                    $data["titulo_1"]=$data['secc'][0]['TITULO1'];//"de ______ del 2016";
+                    $data["subtitulo_2"]=$data['secc'][0]['TITULO2'];
+                    $data["subtitulo_3"]=$data['secc'][0]['TITULO3'];
+                    //$data["js_dir"] = base_url('js/modgasmenfrehogar/viviendaAcms/viviendaAcms.js');                  
+                    $data["js_dir"] = base_url('js/modgasmenfrehogar/form3.js');                    
                     $this->mostrarGrillaCompra($data);
                     break;
                 case 4:
@@ -138,7 +147,7 @@ class Emeudlh extends MX_Controller {
      * @param   Int $pagina Numero de pagina que debe mostrar
      * @since 2016-06-21
      */
-    private function mostrarListaArticulos() {
+    private function mostrarListaArticulos($data) {
         // Aca va el codigo
         $data["js_dir"] = base_url('js/' . $this->module . '/form1.js');
         $this->load->model(array("formulario/Mformulario", "control/Modmenu", "Modgmfh"));
@@ -163,7 +172,7 @@ class Emeudlh extends MX_Controller {
      * @param   Int $pagina Numero de pagina que debe mostrar
      * @since 2016-06-21
      */
-    private function mostrarListaObtencion() {
+    private function mostrarListaObtencion($data) {
         // Aca va el codigo
         $data["js_dir"] = base_url('js/' . $this->module . '/form2.js');
         
@@ -186,7 +195,7 @@ class Emeudlh extends MX_Controller {
      * @param   Int $pagina Numero de pagina que debe mostrar
      * @since 2016-06-21
      */
-    private function mostrarGrillaCompra() {
+    /*private function mostrarGrillaCompra() {
         // Aca va el codigo
         // Se consulta la lista de los lugares de compra
         $arrLC = $this->Modgmfh->consultar_param_general('', 'LUGAR_COMPRA', '', '');
@@ -195,6 +204,58 @@ class Emeudlh extends MX_Controller {
         $data["js_dir"] = base_url('js/' . $this->module . '/' . $this->submodule . '/archivo.js');
         $data["view"] = $this->submodule . '/view1';
         $this->load->view("layout", $data);
+    }*/
+
+    /** Abre p�gina 3 -  art�culo o servicio COMPRADO o PAGADO
+     * @author hhchavezv
+     * @param   array $data: array con parametros a enviar a vista
+     * @since 2016-07-01
+     */
+    private function mostrarGrillaCompra($data) {
+        
+        $this->load->model("Modsec3");
+        
+        //Lista de articulos pagados, del m�dulo
+        $data["arrArticulos"]= $this->Modsec3->listar_articulos_comprados($data['id_formulario'], $data['secc'][0]['ID_SECCION3']); 
+        
+        // Verifica si debe habilitar pregunta "medio de pago"
+        $data["habilita_medio_pago"]= $this->Modsec3->habilitaPreguntaMedioPago($data['secc'][0]['ID_SECCION3']); 
+        
+        // Se consulta la lista de medios de pago
+        $data["arrMediosPago"]=$this->Modsec3->listar_medios_pago(); 
+        // Se consulta la lista de los lugares de compra
+        $data["arrLugarCompra"] = $this->Modgmfh->consultar_param_general('', 'LUGAR_COMPRA', '', '');
+        // Se consulta la lista de frecuencia de compra
+        $data["arrFrecCompra"]= $this->Modgmfh->consultar_param_general('', 'FRECUENCIA_COMPRA', '', '');
+        
+        $data["view"] = 'form3';
+        $this->load->view("layout", $data);
+    }
+    
+    /** Guarda p�gina 3 - art�culo o servicio COMPRADO o PAGADO
+     * @author hhchavezv
+     * @since 2016-07-06
+     * @return echo "-ok-" si guarda correctamente, si no "ERROR"
+     */
+    public function guardaGrillaCompra() {
+        
+        $this->load->model("Modsec3");
+        // Convierte en variables php lo que llega por POST
+        foreach($_POST as $nombre_campo => $valor){         
+                $asignacion = "\$" . $nombre_campo . "='" . $valor . "';";
+                eval($asignacion);
+            }
+            
+        $result=$this->Modsec3->guardaForm3($_POST);        
+        if($result){
+            //$result2=$this->Modsec3->actualizaPaginaControl($ID_FORMULARIO, $hdd_sec,4); 
+            //if($result2)
+                        
+                echo "-ok-";            
+        }   
+        else
+            echo "ERROR";
+        
     }
     
     /**
@@ -203,9 +264,22 @@ class Emeudlh extends MX_Controller {
      * @since 2016-06-21
      */
     private function mostrarGrillaNoCompra() {
+
         // Aca va el codigo
         $data["js_dir"] = base_url('js/' . $this->module . '/' . $this->submodule . '/archivo.js');
-        $data["view"] = $this->submodule . '/view1';
+
+        $this->load->model(array("formulario/Mformulario", "control/Modmenu", "Modgmfh"));
+
+        $this->session->set_userdata('id_seccion', $this->idSeccion);
+        $data["id_formulario"] = $this->session->userdata("id_formulario");
+
+        $data['secc'] = $this->Modgmfh->listar_secciones(array("id" => $this->idSeccion));
+
+        $data['preg']["var"] = $this->Modgmfh->lista_formaObtencion(array("seccion" => $this->idSeccion, "id_formulario" => $data["id_formulario"]));
+        $data['preg']["variables"] = $this->Modgmfh->lista_variables_param(array("seccion" => $this->idSeccion, "pagina" => "4"));
+
+        //$data["view"] = $this->submodule . '/form4';
+        $data["view"] = 'form4';
         $this->load->view("layout", $data);
     }
 
@@ -214,7 +288,6 @@ class Emeudlh extends MX_Controller {
      * @since 2016-06-30
      */
     public function guardar_form1() {
-        die("llega");
         $this->load->model(array("Modgmfh"));
         $id_formulario = $this->session->userdata("id_formulario");
         $id_seccion = $this->session->userdata("id_seccion");
@@ -284,7 +357,7 @@ class Emeudlh extends MX_Controller {
                     die("W:Debe escoger por lo menos una opci&oacute;n en cada uno de los productos!");
             }
 
-            foreach ($formas_obt as $key => $value) {                    
+            foreach ($formas_obt as $key => $value) {
                 $codigos = array_keys($_POST[$value['ID_ARTICULO3']]);
                 $arrACT = array_fill_keys($codigos, 1);
                 $cols  = array( "compra" => 0, "recibido_pago" => 0, "regalo" => 0, "intercambio" => 0, "producido" => 0, "negocio_propio" => 0, "otra" => 0);
@@ -297,7 +370,35 @@ class Emeudlh extends MX_Controller {
         }
         else {
             echo "E:ERROR al guardar la secci&oacute;n. Intente nuevamente o recargue la p&aacute;gina.";
-        }   
+        }
+    }
+
+    /**
+     * @author cemedinaa
+     * @since 2016-07-15
+     */
+    public function guardar_form4() {
+        echo "guarda " . pr($_POST);
+        $this->load->model(array("Modgmfh"));
+        $id_formulario = $this->session->userdata("id_formulario");
+        $id_seccion = $this->session->userdata("id_seccion");
+        $formas_obt = $this->Modgmfh->lista_formaObtencion( array("seccion" => $id_seccion, "id_formulario" => $id_formulario) );
+        $cant_formas_obt = count($formas_obt);
+
+        if($cant_formas_obt > 0) {
+            $i = 0;
+            foreach ($formas_obt as $key => $value) {
+                echo "<br><br>$i) articulo:" . $value['ID_ARTICULO3'];
+                $i++;
+                /*$valor = trim($_POST["val" . $value['ID_ARTICULO3']]);
+                $valor = stripslashes($valor);
+                $valor = htmlspecialchars($valor);*/
+                if( is_int($valor) &&  $valor > 500 && $valor < 1000) {
+
+                }
+                else $error = 1;
+            }
+        }
     }
 }
 //EOC

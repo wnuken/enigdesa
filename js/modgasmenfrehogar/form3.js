@@ -6,7 +6,7 @@
  
 	$(function(){
 	$("#div_otro_pago").hide();
-	//$("#txt_total").numerico().largo(15);
+	$("#txt_total").numerico().largo(15);
 	
 	$("#form_sec3").validate({
 		//Reglas de Validacion

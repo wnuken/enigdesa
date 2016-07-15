@@ -48,7 +48,10 @@ $(function () {
                 $("#99999999").prop("disabled", false);
         }
     });
-
+    
+    $("#form_1").submit(function(e){
+        e.preventDefault();
+    });
     // boton enviar
     $("#env_form_1").on("click", function () {
         var myf = $('#form_1');
@@ -56,7 +59,7 @@ $(function () {
         $(this).attr('disabled', true);
         $.ajax({
             type: 'POST',
-            url: 'Recreacion/guardar_form1',
+            url: location.href + '/guardar_form1',
             cache: false,
             contentType: "application/x-www-form-urlencoded; charset=UTF-8",
             data: args,
