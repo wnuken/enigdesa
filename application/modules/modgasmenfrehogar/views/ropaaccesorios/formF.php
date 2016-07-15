@@ -14,12 +14,12 @@
 				<img src="<?php echo base_url('images/' . $LOGO); ?>" alt="logo">
 			</div>
 			<div class="col-sm-8">
-				<h2><?php echo $TITULO2; ?> {{ FormulariorHombre.idSection }}</h2>
+				<h2><?php echo $TITULO1; ?> {{ FormulariorHombre.idSection }}</h2>
 
 				<blockquote>
-				<small><?php echo $TITULO1; ?></small>
-      <?php echo $TITULO3; ?>
-      </blockquote>
+					<small><?php echo $TITULO2; ?></small>
+					<?php echo $TITULO3; ?>
+				</blockquote>
 			</div>
 
 
@@ -37,15 +37,15 @@
 									<label class="control-label">¿usted o algún miembro del hogar compró, adquirió o le regalaron prendas de vestir o calzado para <?php echo $TEMPORALIDAD; ?>?</label>
 								</div>
 								<div class="col-sm-12">
-								<div>
-      								<input type="radio" name="inititalvalue" value="1" id="inititalvalue1" ng-model="FormulariorHombre.valorVariable" required>
-									<span></span><label>Si</label>
+									<div>
+										<input type="radio" name="inititalvalue" value="1" id="inititalvalue1" ng-model="FormulariorHombre.valorVariable" required>
+										<span></span><label>Si</label>
 									</div>
 
 									<br>
 									<div>
-									<input type="radio" name="inititalvalue" value="2" id="inititalvalue2" ng-model="FormulariorHombre.valorVariable">
-									<label><span></span>No</label>
+										<input type="radio" name="inititalvalue" value="2" id="inititalvalue2" ng-model="FormulariorHombre.valorVariable">
+										<label><span></span>No</label>
 									</div>
 								</div>
 							</div>
@@ -81,27 +81,27 @@
 						</div>
 						<div class="select-nada">
 							<div class="col-sm-12">
-									<input type="checkbox" name="novalida" id="novalida" ng-model="FormulariorHombre.Novalida" ng-disabled="activeBtnS1">
-									<label><h5 class="control-label" for="novalida">Ninguna de las anteriores</h5></label>
+								<input type="checkbox" name="novalida" id="novalida" ng-model="FormulariorHombre.Novalida" ng-disabled="activeBtnS1">
+								<label><h5 class="control-label" for="novalida">Ninguna de las anteriores</h5></label>
+							</div>
+							<div class="col-sm-12">
+								<div class="col-sm-8" id="RESP_02110100" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
+									<hr>
 								</div>
-								<div class="col-sm-12">
-									<div class="col-sm-8" id="RESP_02110100" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
-										<hr>
-									</div>
-								</div>
+							</div>
 						</div>
 					</div>
 				</form>
 				<div ng-if="!FormulariorHombre.Novalida">
-				<div class="row text-center">
-					<button class="btn btn-success" ng-disabled="!activeBtnS1" ng-click="validateForm2(2)" id="ENV_2_2">Guardar y Continuar <span class="glyphicon glyphicon-chevron-right" aria-hidden="true" title="Continuar"></span></button>
-				</div>
+					<div class="row text-center">
+						<button class="btn btn-success" ng-disabled="!activeBtnS1" ng-click="validateForm2(2)" id="ENV_2_2">Guardar y Continuar <span class="glyphicon glyphicon-chevron-right" aria-hidden="true" title="Continuar"></span></button>
+					</div>
 				</div>
 
 				<div ng-if="FormulariorHombre.Novalida">
-				<div class="row text-center">
-					<button class="btn btn-success" ng-click="validateForm5(5)" id="ENV_2_2">Guardar y Continuar <span class="glyphicon glyphicon-chevron-right" aria-hidden="true" title="Continuar"></span></button>
-				</div>
+					<div class="row text-center">
+						<button class="btn btn-success" ng-click="validateForm5(5)" id="ENV_2_2">Guardar y Continuar <span class="glyphicon glyphicon-chevron-right" aria-hidden="true" title="Continuar"></span></button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -190,15 +190,15 @@
 	<div ng-if="pagesection == 3">
 
 		<form class="form-enph" id="rHombre3" name="rHombre3" class="rHombre3">
-			<table class="table table-hover table-bordered">
+			<table class="table table-hover">
 				<thead>
-					<tr class="warning">
+					<tr class="active">
 						<th style="text-align:center;" rowspan="2" width="28%">Nombre del artículo o servicio COMPRADO o PAGADO</th>
 						<th style="text-align:center;" colspan="2" width="32%">¿Cuánto fue el valor TOTAL pagado por el artículo o servicio?</th>
 						<th style="text-align:center;" rowspan="2" width="20%">¿En qué LUGAR compró o pagó el artículo o servicio?</th>
 						<th style="text-align:center;" rowspan="2" width="20%">¿Con qué FRECUENCIA compra o paga HABITUALMENTE el artículo o servicio?</th>
 					</tr>
-					<tr class="warning" align="center">
+					<tr class="active" align="center">
 						<th style="text-align:center;">Valor Pagado</th>
 						<th style="text-align:center;" width="12%">Compró o pagó el artículo o servicio pero no recuerda el valor</th>
 
@@ -207,11 +207,10 @@
 				<tbody>
 
 					<tr align="center" ng-repeat="rhom in FormulariorHombre.rh" ng-if="rhom.ot.COMPRA === true && rhom.value === true">
-
 						<td align="left">
 							{{rhom.name}}
 						</td>
-						<td> 
+						<td>
 							<div class="form-group">
 								<div ng-if="!FormulariorHombre.rh[$index].pa.VALOR_PAGADO1">
 									<input class="form-control isnumeric" type="text" name="pagado{{rhom.id}}" id="pagado{{rhom.id}}" ng-model="FormulariorHombre.rh[$index].pa.VALOR_PAGADO" 
@@ -227,7 +226,7 @@
 								
 							</div>
 						</td>
-						<td> 
+						<td>
 							<div class="form-group">
 								<input name="pagado{{rhom.id}}1" id="pagado{{rhom.id}}1" type="checkbox" 
 								ng-model="FormulariorHombre.rh[$index].pa.VALOR_PAGADO1"
@@ -277,76 +276,121 @@
 							</select>
 							<!-- !generalForm.PREDENUPA{{idupa}}{{idpredio}}.$pristine && generalForm.PREDENUPA{{idupa}}{{idpredio}}.$error.required -->
 						</div>
-						<div ng-if="rhom.DEFINE_FRECU_COMPRA != 1">
-							<div class="form-group">
-								<input class="form-control" name="selfre{{rhom.id}}" id="selfre{{rhom.id}}" type="text" disabled>
-							</div>
-						</div>
 					</td>
+				</tr>
 
 
-				</tr> <!-- ng-repeat -->
-
-				<tr align="center" class="active">
+				<tr align="center" class="">
 					<td><b>SUBTOTAL</b></td>
 					<td> <input class="form-control" readonly="readonly" type="text" name="txt_total" id="txt_total" ng-model="subtotal">  </td>
-					<td colspan="3">
-						<div class="col-sm-12">
-						<label class="f">El medio de pago usado PRINCIPALMENTE para comprar los articulos y servicios enunciados en este módulo fue:</label>
-					</div>
-					<div class="col-sm-6">
+					<td colspan="3">&nbsp;</td>
+				</tr>
+
+				<tr align="center" class="">
+					<td colspan="2">El medio de pago usado PRINCIPALMENTE para comprar los articulos y servicios enunciados en este módulo fue:</td>
+					<td colspan="2"> 
 						<div class="form-group">
 							
-						
-						<select name="mediopago" id="mediopago}" class="form-control" 
-								ng-model="FormulariorHombre.MEDIO_PAGO" required>
-								<option value="" disabled>Seleccione...</option>
-								<option value="1">Tarjeta débito</option>
-								<option value="2">Tarjeta crédito</option>
-								<option value="3">Efectivo</option>
-								<option value="4">Bonos</option>
-								<option value="5">Cheques</option>
-								<option value="6">Otro</option>
-							</select>
-							</div>
-							</div>
+
+							<select name="mediopago" id="mediopago}" class="form-control" 
+							ng-model="FormulariorHombre.MEDIO_PAGO" required>
+							<option value="" disabled>Seleccione...</option>
+							<option value="1">Tarjeta débito</option>
+							<option value="2">Tarjeta crédito</option>
+							<option value="3">Efectivo</option>
+							<option value="4">Bonos</option>
+							<option value="5">Cheques</option>
+							<option value="6">Otro</option>
+						</select>
+					</div>
+				</td>
+				<td ><div class="form-group" ng-if="FormulariorHombre.MEDIO_PAGO == 6">
+					<input class="form-control" name="cual" id="cual" type="text" placeholder="¿Cual?" ng-model="FormulariorHombre.MEDIO_CUAL" required>
+				</div></td>
+			</tr>
+
+			<tr align="center">
+				<td colspan="5">
+					<div ng-if="FormulariorHombre.idSection == 'F1'">
+						<div class="col-sm-6">
+							En P10260F11 del 2016, ¿alguno de los miembros de este hogar solicitó a la EPSS o IPSS el reintegro del valor pagado por uno o más de los anteriores medicamentos (de venta libre OTC)?
+						</div>
+						<div class="col-sm-3">
 							<div class="col-sm-6">
-							<div class="form-group" ng-if="FormulariorHombre.MEDIO_PAGO == 6">
-								<input class="form-control" name="cual" id="cual" type="text" placeholder="¿Cual?" ng-model="FormulariorHombre.MEDIO_CUAL" required>
+								<input type="radio" name="EPSS" value="1" id="EPSS1" ng-model="FormulariorHombre.EPSS" required>
+								<span></span><label>Si</label>
 							</div>
+
+							<div class="col-sm-6">
+								<input type="radio" name="EPSS" value="2" id="EPSS2" ng-model="FormulariorHombre.EPSS">
+								<label><span></span>No</label>
 							</div>
+						</div>
+						<div class="col-sm-3">
+							<div class="form-group" ng-if="FormulariorHombre.EPSS == 1">
 
 
-					</td>
-				</tr>	
+								<input class="form-control" name="cual" id="cual" type="text" placeholder="¿Cual?" ng-model="FormulariorHombre.EPSS_CUAL" required>
+							</div>
+						</div>
 
-			</tbody>
-		</table>
-	</form>
-	<div class="row text-center">
+					</div>
+				</td>
 
-		<div ng-show="errorVcomprado" class="alert alert-danger alert-dismissible fade in" role="alert">
-			los campos <strong>Valor Pagado</strong> deben ser iguales o mayores a<strong> 500!</strong> </div>
+				<td ></td>
 
-
-			<button class="btn btn-success" ng-disabled="!rHombre3.$valid" ng-click="validateForm4(4)" id="ENV_2_2">
-				Guardar y Continuar
-				<span class="glyphicon glyphicon-chevron-right" aria-hidden="true" title="Continuar"></span>
-			</button>
+			</tr>
 		</div>
 
+	</tbody>
+</table>
+</form>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="row text-center">
+
+	<div ng-show="errorVcomprado" class="alert alert-danger alert-dismissible fade in" role="alert">
+		los campos <strong>Valor Pagado</strong> deben ser iguales o mayores a<strong> 500!</strong> </div>
+
+
+		<button class="btn btn-success" ng-disabled="!rHombre3.$valid" ng-click="validateForm4(4)" id="ENV_2_2">
+			Guardar y Continuar
+			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true" title="Continuar"></span>
+		</button>
 	</div>
 
-	<div ng-if="pagesection == 4">
 
-		<div class="col-sm-12">
+</div>
 
-			<button class="btn btn-success" ng-click="validateForm5(5)" id="ENV_2_2">
-				Guardar y Continuar
-				<span class="glyphicon glyphicon-chevron-right" aria-hidden="true" title="Continuar"></span>
-			</button>
-		</div>
+<div ng-if="pagesection == 4">
+
+	<div class="col-sm-12">
+
+		<button class="btn btn-success" ng-click="validateForm5(5)" id="ENV_2_2">
+			Guardar y Continuar
+			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true" title="Continuar"></span>
+		</button>
 	</div>
+</div>
 
 </div>

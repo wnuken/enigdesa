@@ -14,10 +14,10 @@
 				<img src="<?php echo base_url('images/' . $LOGO); ?>" alt="logo">
 			</div>
 			<div class="col-sm-8">
-				<h2><?php echo $TITULO2; ?> {{ FormulariorHombre.idSection }}</h2>
+				<h2><?php echo $TITULO1; ?> {{ FormulariorHombre.idSection }}</h2>
 
 				<blockquote>
-				<small><?php echo $TITULO1; ?></small>
+				<small><?php echo $TITULO2; ?></small>
       <?php echo $TITULO3; ?>
       </blockquote>
 			</div>
@@ -171,29 +171,28 @@
 	<div ng-if="pagesection == 3">
 
 		<form class="form-enph" id="rHombre3" name="rHombre3" class="rHombre3">
-			<table class="table table-hover table-bordered">
-				<thead>
-					<tr class="warning">
-						<th style="text-align:center;" rowspan="2" width="28%">Nombre del artículo o servicio COMPRADO o PAGADO</th>
-						<th style="text-align:center;" colspan="2" width="32%">¿Cuánto fue el valor TOTAL pagado por el artículo o servicio?</th>
-						<th style="text-align:center;" rowspan="2" width="20%">¿En qué LUGAR compró o pagó el artículo o servicio?</th>
-						<th style="text-align:center;" rowspan="2" width="20%">¿Con qué FRECUENCIA compra o paga HABITUALMENTE el artículo o servicio?</th>
-					</tr>
-					<tr class="warning" align="center">
-						<th style="text-align:center;">Valor Pagado</th>
-						<th style="text-align:center;" width="12%">Compró o pagó el artículo o servicio pero no recuerda el valor</th>
+			<table class="table table-hover">
+		<thead>
+			<tr class="active">
+				<th style="text-align:center;" rowspan="2" width="28%">Nombre del artículo o servicio COMPRADO o PAGADO</th>
+				<th style="text-align:center;" colspan="2" width="32%">¿Cuánto fue el valor TOTAL pagado por el artículo o servicio?</th>
+				<th style="text-align:center;" rowspan="2" width="20%">¿En qué LUGAR compró o pagó el artículo o servicio?</th>
+				<th style="text-align:center;" rowspan="2" width="20%">¿Con qué FRECUENCIA compra o paga HABITUALMENTE el artículo o servicio?</th>
+			</tr>
+			<tr class="active" align="center">
+				<th style="text-align:center;">Valor Pagado</th>
+				<th style="text-align:center;" width="12%">Compró o pagó el artículo o servicio pero no recuerda el valor</th>
 
-					</tr>
-				</thead>
-				<tbody>
+			</tr>
+		</thead>
+		<tbody>
 
-					<tr align="center" ng-repeat="rhom in FormulariorHombre.rh" ng-if="rhom.ot.COMPRA === true && rhom.value === true">
-
-						<td align="left">
-							{{rhom.name}}
-						</td>
-						<td> 
-							<div class="form-group">
+			<tr align="center" ng-repeat="rhom in FormulariorHombre.rh" ng-if="rhom.ot.COMPRA === true && rhom.value === true">
+				<td align="left">
+					{{rhom.name}}
+				</td>
+				<td>
+				<div class="form-group">
 								<div ng-if="!FormulariorHombre.rh[$index].pa.VALOR_PAGADO1">
 									<input class="form-control isnumeric" type="text" name="pagado{{rhom.id}}" id="pagado{{rhom.id}}" ng-model="FormulariorHombre.rh[$index].pa.VALOR_PAGADO" 
 									ng-disabled="FormulariorHombre.rh[$index].pa.VALOR_PAGADO1" 
@@ -207,16 +206,16 @@
 								</div>
 								
 							</div>
-						</td>
-						<td> 
-							<div class="form-group">
+				</td>
+				<td>
+				<div class="form-group">
 								<input name="pagado{{rhom.id}}1" id="pagado{{rhom.id}}1" type="checkbox" 
 								ng-model="FormulariorHombre.rh[$index].pa.VALOR_PAGADO1"
 								ng-change="resValor($index)"> 
 							</div>
-						</td>
-						<td>
-							<div ng-if="rhom.DEFINE_LUGAR_COMPRA == 1">
+				</td>
+				<td>
+					<div ng-if="rhom.DEFINE_LUGAR_COMPRA == 1">
 								<select name="sellugar{{rhom.id}}" id="sellugar{{rhom.id}}" class="form-control" ng-model="FormulariorHombre.rh[$index].pa.LUGAR_COMPRA" required>
 									<option value="" disabled>Seleccione...</option>
 									<option value="1">Almacenes, supermercado de cadena, tiendas por departamento o hipermercados</option>
@@ -241,10 +240,10 @@
 									<input class="form-control" name="sellugar{{rhom.id}}" id="sellugar{{rhom.id}}" type="text" disabled>
 								</div>
 							</div>
-						</td>
-						<td>
-							<div ng-if="rhom.DEFINE_FRECU_COMPRA == 1">
-								<select name="selfre{{rhom.id}}" id="selfre{{rhom.id}}" class="form-control error" 
+					</td>
+					<td>
+						<div ng-if="rhom.DEFINE_FRECU_COMPRA == 1">
+								<select name="selfre{{rhom.id}}" id="selfre{{rhom.id}}" class="form-control" 
 								ng-model="FormulariorHombre.rh[$index].pa.FRECUENCIA_COMPRA" required>
 								<option value="" disabled>Seleccione...</option>
 								<option value="3">Semanal</option>
@@ -258,24 +257,19 @@
 							</select>
 							<!-- !generalForm.PREDENUPA{{idupa}}{{idpredio}}.$pristine && generalForm.PREDENUPA{{idupa}}{{idpredio}}.$error.required -->
 						</div>
-						<div ng-if="rhom.DEFINE_FRECU_COMPRA != 1">
-							<div class="form-group">
-								<input class="form-control" name="selfre{{rhom.id}}" id="selfre{{rhom.id}}" type="text" disabled>
-							</div>
-						</div>
 					</td>
+				</tr>
 
 
-				</tr> <!-- ng-repeat -->
-
-				<tr align="center" class="active">
+				<tr align="center" class="">
 					<td><b>SUBTOTAL</b></td>
 					<td> <input class="form-control" readonly="readonly" type="text" name="txt_total" id="txt_total" ng-model="subtotal">  </td>
-					<td colspan="3">
-					<div class="col-sm-12">
-						<label class="f">El medio de pago usado PRINCIPALMENTE para comprar los articulos y servicios enunciados en este módulo fue:</label>
-					</div>
-					<div class="col-sm-6">
+					<td colspan="3">&nbsp;</td>
+				</tr>
+
+				<tr align="center" class="">
+					<td colspan="2">El medio de pago usado PRINCIPALMENTE para comprar los articulos y servicios enunciados en este módulo fue:</td>
+					<td colspan="2"> 
 						<div class="form-group">
 							
 						
@@ -290,14 +284,13 @@
 								<option value="6">Otro</option>
 							</select>
 							</div>
-							</div>
-							<div class="col-sm-6">
-							<div class="form-group" ng-if="FormulariorHombre.MEDIO_PAGO == 6">
+					 </td>
+					<td ><div class="form-group" ng-if="FormulariorHombre.MEDIO_PAGO == 6">
 								<input class="form-control" name="cual" id="cual" type="text" placeholder="¿Cual?" ng-model="FormulariorHombre.MEDIO_CUAL" required>
-							</div>
-							</div>
-					</td>
-				</tr>	
+							</div></td>
+				</tr>
+
+				
 
 			</tbody>
 		</table>
