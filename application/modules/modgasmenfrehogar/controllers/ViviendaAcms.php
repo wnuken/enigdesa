@@ -46,6 +46,18 @@ class ViviendaAcms extends MX_Controller {
             //}
         }
 	/*****/ 
+	
+	//hhchavezv - Valido si est� en seccion 2, para que seleccione en switch de control de 5 a 8
+		$arrSA[0]['PAGINA_CONTROL']="";
+		if ($this->idSeccion =="C1"){
+			$arrSA[0]['PAGINA_CONTROL']=$arrSA["1"]["PAG_SECCION3"];
+		} else if ($this->idSeccion =="C2"){
+			$arrSA[0]['PAGINA_CONTROL']=$arrSA["1"]["PAG_SECCION3"]+4;
+		}else if ($this->idSeccion =="C3"){
+			$arrSA[0]['PAGINA_CONTROL']=$arrSA["1"]["PAG_SECCION3"]+8;
+		}else if ($this->idSeccion =="C4"){
+			$arrSA[0]['PAGINA_CONTROL']=$arrSA["1"]["PAG_SECCION3"]+9;
+		}
 
  /* OK - se quita 
 		$arrSA = $this->Modgmfh->listar_secciones_avances($arrParam);
@@ -337,25 +349,14 @@ class ViviendaAcms extends MX_Controller {
 				//echo "fin sec";
 				$arrSA[0]['ID_ESTADO_SEC'] = 2;
             }
-//echo "fin contrl"; 
 
-
+        }else if(sizeof($arrSA) == 1) {
+            $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array("ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual), array("ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $arrSA[0]['ID_SECCION3']));
+            $arrSA[0]['ID_ESTADO_SEC'] = 2;
         }
         
 		$arrSA = $this->Modgmfh->listar_secciones_avances(array( "id0" => $this->idSubModulo , "estado" => array(0,1)));
         
-		
-		//hhchavezv - Valido si est� en seccion 2, para que seleccione en switch de control de 5 a 8
-		$arrSA[0]['PAGINA_CONTROL']="";
-		if ($this->idSeccion =="C1"){
-			$arrSA[0]['PAGINA_CONTROL']=$arrSA["1"]["PAG_SECCION3"];
-		} else if ($this->idSeccion =="C2"){
-			$arrSA[0]['PAGINA_CONTROL']=$arrSA["1"]["PAG_SECCION3"]+4;
-		}else if ($this->idSeccion =="C3"){
-			$arrSA[0]['PAGINA_CONTROL']=$arrSA["1"]["PAG_SECCION3"]+8;
-		}else if ($this->idSeccion =="C4"){
-			$arrSA[0]['PAGINA_CONTROL']=$arrSA["1"]["PAG_SECCION3"]+9;
-		}
 				
 		//pr($arrSA);
 		

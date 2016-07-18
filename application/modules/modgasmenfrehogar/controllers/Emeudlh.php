@@ -263,10 +263,10 @@ class Emeudlh extends MX_Controller {
      * @param   Int $pagina Numero de pagina que debe mostrar
      * @since 2016-06-21
      */
-    private function mostrarGrillaNoCompra() {
+    private function mostrarGrillaNoCompra($data) {
 
         // Aca va el codigo
-        $data["js_dir"] = base_url('js/' . $this->module . '/' . $this->submodule . '/archivo.js');
+        $data["js_dir"] = base_url('js/' . $this->module . '/form4.js');
 
         $this->load->model(array("formulario/Mformulario", "control/Modmenu", "Modgmfh"));
 
@@ -278,7 +278,6 @@ class Emeudlh extends MX_Controller {
         $data['preg']["var"] = $this->Modgmfh->lista_formaObtencion(array("seccion" => $this->idSeccion, "id_formulario" => $data["id_formulario"]));
         $data['preg']["variables"] = $this->Modgmfh->lista_variables_param(array("seccion" => $this->idSeccion, "pagina" => "4"));
 
-        //$data["view"] = $this->submodule . '/form4';
         $data["view"] = 'form4';
         $this->load->view("layout", $data);
     }
@@ -288,6 +287,7 @@ class Emeudlh extends MX_Controller {
      * @since 2016-06-30
      */
     public function guardar_form1() {
+        die("guardar");
         $this->load->model(array("Modgmfh"));
         $id_formulario = $this->session->userdata("id_formulario");
         $id_seccion = $this->session->userdata("id_seccion");
@@ -378,7 +378,6 @@ class Emeudlh extends MX_Controller {
      * @since 2016-07-15
      */
     public function guardar_form4() {
-        echo "guarda " . pr($_POST);
         $this->load->model(array("Modgmfh"));
         $id_formulario = $this->session->userdata("id_formulario");
         $id_seccion = $this->session->userdata("id_seccion");
@@ -386,17 +385,81 @@ class Emeudlh extends MX_Controller {
         $cant_formas_obt = count($formas_obt);
 
         if($cant_formas_obt > 0) {
+            $variables = $this->Modgmfh->lista_variables_param(array("seccion" => $id_seccion, "pagina" => "4"));
             $i = 0;
-            foreach ($formas_obt as $key => $value) {
-                echo "<br><br>$i) articulo:" . $value['ID_ARTICULO3'];
-                $i++;
-                /*$valor = trim($_POST["val" . $value['ID_ARTICULO3']]);
-                $valor = stripslashes($valor);
-                $valor = htmlspecialchars($valor);*/
-                if( is_int($valor) &&  $valor > 500 && $valor < 1000) {
+            
+            $inputs = "";
+            $mensajes = "";
+            foreach ($formas_obt as $k1 => $v1) {
+                //echo "<br><br>$i) articulo:" . $v1['ID_ARTICULO3']."<br>";
+                $cols  = array( "RECIBIDO_PAGO", "REGALO", "INTERCAMBIO", "PRODUCIDO", "NEGOCIO_PROPIO", "OTRA");
+                $rangoMayor = 5000;$rangoMenor = 500;
+                $j = 0;                
+                
+                foreach($cols as $v2) {
+                    
+                    if( ( $v1[$v2] == 1 && !isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) && !isset($_POST['chb_' . $v1['ID_ARTICULO3']][strtolower($v2)]) ) 
+                        || ( $v1[$v2] == 1 && isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) && isset($_POST['chb_' . $v1['ID_ARTICULO3']][strtolower($v2)]) ) ) {
+                        //echo "<br>[" . $v2 . "] = >";
+                        $m = "'ERROR al guardar la secci&oacute;n. Intente nuevamente o recargue la p&aacute;gina.',";
+                        if(substr_count($mensajes, $m) == 0)
+                            $mensajes .= $m;
+                    }
+                    else if( $v1[$v2] == 1 && isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) && $_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)] == ""  ) {
+                        //echo "<br>[" . $v2 . "] = >";
+                        //echo "Los valores son obligatorios";
+                        $m = "'Algunos de los campos no han sido diligenciados',";
+                        $inputs .= "'txt_" . $v1['ID_ARTICULO3'] . "_" . ($j +1) . "',";
+                        if(substr_count($mensajes, $m) == 0)
+                            $mensajes .= $m;
+                    }
+                    else if( $v1[$v2] == 1 && isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) && !preg_match('/^\d+$/', $_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) ) {
+                        //echo "<br><br>e34324____";
+                        //echo isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)])?$_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]."<br><br>":"";
+                        //echo "<br>[" . $v2 . "] = >";
+                        //echo "Los valores deben ser enteros positivos";
+                        $m = "'Los valores deben ser enteros positivos',";
+                        $inputs .= "'txt_" . $v1['ID_ARTICULO3'] . "_" . ($j +1) . "',";
+                        if(substr_count($mensajes, $m) == 0)
+                            $mensajes .= $m;
+                    }
+                    //else if($v1[$v2] == 1 && isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) && 
+                    //    ($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)] < $rangoMenor || $_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)] > $rangoMayor ) ) {
+                    //   echo "<br>[" . $v2 . "] = >";
+                    //    echo "Valor fuera de rango";
+                    //}
+                    //if($v2 == "NEGOCIO_PROPIO" && isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)])) {
+                    //    echo "<br>".intval($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)])."<br>";
+                    //}
+                    if ( $v1[$v2] == 1 && isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) ){
+                        $arrInsert[] = array( "ID_FORMULARIO" => $id_formulario, "ID_ARTICULO3" => $v1['ID_ARTICULO3'], "ID_VARIABLE" => $variables[$j]['ID_VARIABLE'], "VALOR_ESTIMADO" => $_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)] );
 
+                    }
+                    else if ( $v1[$v2] == 1 && isset($_POST['chb_' . $v1['ID_ARTICULO3']][strtolower($v2)]) ){
+                        $arrInsert[] = array( "ID_FORMULARIO" => $id_formulario, "ID_ARTICULO3" => $v1['ID_ARTICULO3'], "ID_VARIABLE" => $variables[$j]['ID_VARIABLE'], "VALOR_ESTIMADO" => 99 );
+                    }
+                    $j++;
                 }
-                else $error = 1;
+                
+                $i++;
+                
+
+            }
+            if($mensajes == "") {
+                // guarda
+                foreach ($arrInsert as $idx => $arrValores) {
+                    $arrpk = $arrValores;                    
+                    $forma_adqui = $this->Modgmfh->lista_formaAdqui(array( "id_formulario" => $arrValores['ID_FORMULARIO'], "articulo" => $arrValores['ID_ARTICULO3'], "variable" => $arrValores['ID_VARIABLE']));
+                    if(count($forma_adqui) == 0) {
+                      $this->Modgmfh->ejecutar_insert('ENIG_FORM_GMF_FORMAS_ADQUI', $arrValores);
+                    }
+                }
+                echo "[[],['Se ha guardado la informaci&oacute;n correctamente!']]";
+            }
+            else {
+                $mensajes = substr( $mensajes, 0, strlen($mensajes) - 1);
+                $inputs = substr( $inputs, 0, strlen($inputs) - 1);
+                echo "[[" . $inputs . "], [" . $mensajes ."]]";
             }
         }
     }

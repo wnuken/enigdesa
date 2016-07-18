@@ -313,21 +313,16 @@ class CuidadoPersonal extends MX_Controller {
                 $arrSA[1]['ID_ESTADO_SEC'] = 2;
                 $fin = true;
             }
-// echo $fin ."&&". sizeof($arrSA) ."> 2 &&". $arrSA[2]['ID_ESTADO_SEC'] ."==  0 &&". $arrSA[2]['PAG_SECCION3'];
             
             if($fin && sizeof($arrSA) > 2 && $arrSA[2]['ID_ESTADO_SEC'] ==  0 && $arrSA[2]['PAG_SECCION3'] ==  0) {
                 $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 1, "PAG_SECCION3" => 1, "FECHA_INI_SEC" => $fechaactual), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $arrSA[2]['ID_SECCION3']));
                 $arrSA[2]['ID_ESTADO_SEC'] = 1;
-				//echo "sigue 2 sec";           
 				$arrSA[2]['PAG_SECCION3'] = 1;
             }
             else if($fin && sizeof($arrSA) == 2) {
                 $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual ), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $arrSA[0]['ID_SECCION3']));
-				//echo "fin sec";
 				$arrSA[0]['ID_ESTADO_SEC'] = 2;
             }
-//echo "fin contrl"; 
-
 
         }else if(sizeof($arrSA) == 1) {
             $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array("ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual), array("ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $arrSA[0]['ID_SECCION3']));

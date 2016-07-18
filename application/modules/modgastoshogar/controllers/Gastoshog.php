@@ -48,15 +48,20 @@ class Gastoshog extends MX_Controller {
 					$i = 0;
 					foreach ($dia as $k=>$v) {
 						if ($v == $hoy)
-							$data['dias'][$i] = "HOY";
+							$data['dias'][$i]['E'] = "HOY";
+						// Habilita el dia de ayer
 						elseif ($v == date("Y-m-d", strtotime("-1 day", strtotime($hoy))))
-							$data['dias'][$i] = "ON";
+							$data['dias'][$i]['E'] = "ON";
+						// Habilita el dia de anteayer
 						elseif ($v == date("Y-m-d", strtotime("-2 day", strtotime($hoy))))
-							$data['dias'][$i] = "ON";
+							$data['dias'][$i]['E'] = "ON";
 						else 
-							$data['dias'][$i] = "OFF";
+							$data['dias'][$i]['E'] = "OFF";
+						$data['dias'][$i]['F'] = $this->Modmenu->consultarEstadoSeccion($data["id_formulario"], $k, '1');
+						$data['dias'][$i]['S'] = $k;
 						$i++;
 					}
+					//pr($data);
 					$data["view"] = "vgdhmenu";
 					$this->load->view("layout", $data);
 				}
@@ -68,7 +73,7 @@ class Gastoshog extends MX_Controller {
 		$this->load->model (array ("formulario/Mformulario", "control/Modmenu", "Modgastoshog"));
 		$data["id_formulario"] = $this->session->userdata("id_formulario");
 		$data["id_persona"] = $id_persona;
-		$data["secc"] = $id_dia;
+		$data["seccion"] = $id_dia;
 		$data['dia'] = $this->Modgastoshog->buscarDia($data["id_formulario"], $id_dia);
 		$data['fecha'] = $this->Modgastoshog->fecha2texto($data['dia']);
 		$data['persona'] = $this->Mformulario->obtenerPersona($data["id_formulario"], $id_persona);
@@ -102,7 +107,7 @@ class Gastoshog extends MX_Controller {
 		$this->load->view("vgdiarioshogar", $data);
 	}
 	
-	public function anterior() {
+/*	public function anterior() {
 		$this->load->model (array ("formulario/Mformulario", "control/Modmenu"));
 		$id_formulario = $this->session->userdata("id_formulario");
 		if (empty ($id_formulario)) {
@@ -114,13 +119,13 @@ class Gastoshog extends MX_Controller {
 			$this->Modmenu->guardarAvanceFormulario($id_formulario, $secc['ID_SECCION'], $secc['PAGINA'], 'NO');
 			redirect('modvivhogar/Vivhogar');
 		}
-	}
+	}*/
 
 	/**
 	 * Resultado de guardar el formulario
 	 * @author mayandarl
 	 */
-	public function guardar($tabla) {
+	public function guardar($tabla, $dia) {
 		$this->load->model(array("Modgastoshog", "control/Modmenu"));
 		$resultado = false;
 		$id_formulario = $this->session->userdata("id_formulario");
@@ -133,18 +138,19 @@ class Gastoshog extends MX_Controller {
 		}
 		elseif ($tabla == 'ARTICULOS') {
 			if ($_POST['_ACC_ARTICULOS'] == 'UPDATE')
-				$resultado = $this->Modgastoshog->actualizarFormularioArticulo($id_formulario, $_POST['_DIA'], $_POST['_ID_ARTICULO'], $_POST);
+				$resultado = $this->Modgastoshog->actualizarFormularioArticulo($id_formulario, $dia, $_POST['_ID_ARTICULO'], $_POST);
 			elseif ($_POST['_ACC_ARTICULOS'] == 'INSERT')
-				$resultado = $this->Modgastoshog->crearFormularioArticulo($id_formulario, $_POST['_DIA'], uniqid(), $_POST);
+				$resultado = $this->Modgastoshog->crearFormularioArticulo($id_formulario, $dia, uniqid(), $_POST);
 		}
 		elseif ($tabla == 'COMIDAS') {
 			if ($_POST['_ACC_COMIDAS'] == 'UPDATE')
-				$resultado = $this->Modgastoshog->actualizarFormularioComida($id_formulario, $_POST['_DIA'], $_POST['_ID_COMIDA'], $_POST);
+				$resultado = $this->Modgastoshog->actualizarFormularioComida($id_formulario, $dia, $_POST['_ID_COMIDA'], $_POST);
 			elseif ($_POST['_ACC_COMIDAS'] == 'INSERT')
-				$resultado = $this->Modgastoshog->crearFormularioComida($id_formulario, $_POST['_DIA'], uniqid(), $_POST);
+				$resultado = $this->Modgastoshog->crearFormularioComida($id_formulario, $dia, uniqid(), $_POST);
 		}
 		elseif ($tabla == '14DIA14') {
 			$resultado = $this->Modgastoshog->actualizarFormularioDia14($id_formulario, $_POST);
+			$this->findia('14DIA14');
 		}
 		/*if ($resultado) {
 			$inicio = $_POST['_INI_ARTICULOS'];
@@ -154,7 +160,7 @@ class Gastoshog extends MX_Controller {
 		echo "<b>Formulario guardado exitosamente.</b>";
 	}
 	
-		/**
+	/**
 	 * Resultado de guardar el formulario
 	 * @author mayandarl
 	 */
@@ -162,11 +168,8 @@ class Gastoshog extends MX_Controller {
 		$this->load->model(array("Modgastoshog", "control/Modmenu"));
 		$id_formulario = $this->session->userdata("id_formulario");
 		if (!empty($secc)) {
-			$resultado = $this->Modgastoshog->actualizarFrecuencias($id_formulario, $_POST);
-			if ($resultado) {
-				$this->Modmenu->guardarAvanceFormulario($id_formulario, '00FRECUENCIAS', '1', 'SI');
-				$this->Modgastoshog->asignar14Dias($id_formulario);
-			}
+			//echo $id_formulario ."/". $secc;
+			$this->Modmenu->guardarAvanceFormulario($id_formulario, $secc, '1', 'SI');
 		}
 	}
 

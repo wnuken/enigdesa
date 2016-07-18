@@ -605,7 +605,7 @@ footer a:active, footer a:focus, footer a:hover {
 	font-size: 15px
 }
 .bullet {
-	background-image: url(../img/bullet.png);
+	background-image: url(../../images/bullet.png);
 	background-repeat: no-repeat;
 	background-position: 0 50%;
 	padding-left: 30px;

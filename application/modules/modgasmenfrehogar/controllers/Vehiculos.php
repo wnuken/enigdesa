@@ -125,13 +125,21 @@ class Vehiculos extends MX_Controller {
                     $this->mostrarListaObtencion($data);
                     break;
                 case 3:
-                    //$this->mostrarGrillaCompra($data);
+                    
                     $data['secc'] = $this->Modgmfh->listar_secciones(array("id" => $this->idSeccion));
                     $data["titulo_1"]=$data['secc'][0]['TITULO1'];//"de ______ del 2016";
                     $data["subtitulo_2"]=$data['secc'][0]['TITULO2'];
                     $data["subtitulo_3"]=$data['secc'][0]['TITULO3'];
-                    //$data["js_dir"] = base_url('js/modgasmenfrehogar/viviendaAcms/viviendaAcms.js');                  
-                    $data["js_dir"] = base_url('js/modgasmenfrehogar/form3.js');                    
+                    //$data["js_dir"] = base_url('js/modgasmenfrehogar/viviendaAcms/viviendaAcms.js');   
+					if($this->idSeccion =="I1")	{		
+						$data["js_dir"] = base_url('js/modgasmenfrehogar/form3.js');                    
+						$data["view"] = 'form3';
+					}else if($this->idSeccion =="I2")	{
+						$data["js_dir"] = base_url('js/modgasmenfrehogar/form3_credito.js');                    
+						$data["view"] = 'form3_credito';
+					}
+					
+					
                     $this->mostrarGrillaCompra($data);
                     break;
                 case 4:
@@ -227,7 +235,7 @@ class Vehiculos extends MX_Controller {
         // Se consulta la lista de frecuencia de compra
         $data["arrFrecCompra"]= $this->Modgmfh->consultar_param_general('', 'FRECUENCIA_COMPRA', '', '');
         
-        $data["view"] = 'form3';
+        //$data["view"] = 'form3'; // nota: viene de switch del index
         $this->load->view("layout", $data);
     }
     

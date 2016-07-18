@@ -371,6 +371,9 @@ class Modgmfh extends My_model {
         if (array_key_exists("id_formulario", $arrDatos)) {
             $cond .= " AND FA.ID_FORMULARIO = '" . $arrDatos["id_formulario"] . "'";
         }
+        if (array_key_exists("variable", $arrDatos)) {
+            $cond .= " AND FA.ID_VARIABLE = '" . $arrDatos["variable"] . "'";
+        }
     
         
         $sql = "SELECT A.*,FA.* 

@@ -383,7 +383,7 @@ class Recreacion extends MX_Controller {
      */
     private function viajeAnual() {
     	// Aca va el codigo
-    	$data["js_dir"] = base_url('js/' . $this->module . '/form2.js');
+    	$data["js_dir"] = base_url('js/' . $this->module . '/recreacion/formj5.js');
     	
     	$this->load->model(array("formulario/Mformulario", "control/Modmenu", "Modgmfh"));
     	$this->session->set_userdata('id_seccion', $this->idSeccion);

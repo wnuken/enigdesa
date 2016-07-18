@@ -43,7 +43,7 @@ class CuidadoVivienda extends MX_Controller {
 		$this->idSeccion = count($arrSA) > 1 ? $arrSA[1]['ID_SECCION3'] : "";
 		//pr($arrSA);
 		
-		if (count($arrSA) == 0) {
+		if (count($arrSA) == 0 || (count($arrSA) > 0 && $arrSA[0]['ID_ESTADO_SEC'] == 2) ) {
             //if($arrSA["0"]["ID_ESTADO_SEC"] == 2) {
                 redirect(base_url($this->module));
                 return false;
@@ -291,9 +291,10 @@ class CuidadoVivienda extends MX_Controller {
                 $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual ), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $arrSA[0]['ID_SECCION3']));
                 $arrSA[0]['ID_ESTADO_SEC'] = 2;
             }
-
-
-
+        }
+		else if(sizeof($arrSA) == 1) {
+            $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array("ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual), array("ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $arrSA[0]['ID_SECCION3']));
+            $arrSA[0]['ID_ESTADO_SEC'] = 2;
         }
         
 		$arrSA = $this->Modgmfh->listar_secciones_avances(array( "id0" => $this->idSubModulo , "estado" => array(0,1)));

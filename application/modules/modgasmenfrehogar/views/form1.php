@@ -1,4 +1,70 @@
+<style type="text/css">
+/***estilos radio botones y chekbox**************/
 
+input[type=checkbox]:not(old), input[type=radio ]:not(old) {
+    width : 2em;
+    margin : 0;
+    padding : 0;
+    font-size : 1em;
+    opacity : 0;
+}
+input[type=checkbox]:not(old) + label, input[type=radio ]:not(old) + label {
+    display : inline-block;
+    margin-left : -2em;
+    line-height : 1.5em;
+    font-weight: normal;
+}
+input[type=checkbox]:not(old) + label > span, input[type=radio ]:not(old) + label > span {
+    display : inline-block;
+    width : 1.5em;
+    height : 1.5em;
+    margin : 0.25em 0.25em 0.25em 0.25em;
+    border : 0.0625em solid rgb(192,192,192);
+    border-radius : 0.25em;
+    background : rgb(224,224,224);
+    background-image : -moz-linear-gradient(rgb(240,240,240), rgb(224,224,224));
+    background-image : -ms-linear-gradient(rgb(240,240,240), rgb(224,224,224));
+    background-image : -o-linear-gradient(rgb(240,240,240), rgb(224,224,224));
+    background-image : -webkit-linear-gradient(rgb(240,240,240), rgb(224,224,224));
+    background-image : linear-gradient(rgb(240,240,240), rgb(224,224,224));
+    vertical-align : bottom;
+    margin-right: 10px;
+}
+input[type=checkbox]:not(old):checked + label > span, input[type=radio ]:not(old):checked + label > span {
+    background-image : -moz-linear-gradient(rgb(224,224,224), rgb(240,240,240));
+    background-image : -ms-linear-gradient(rgb(224,224,224), rgb(240,240,240));
+    background-image : -o-linear-gradient(rgb(224,224,224), rgb(240,240,240));
+    background-image : -webkit-linear-gradient(rgb(224,224,224), rgb(240,240,240));
+    background-image : linear-gradient(rgb(224,224,224), rgb(240,240,240));
+    margin-right: 10px;
+}
+input[type=checkbox]:not(old):checked + label > span:before {
+content: '✓';
+display: block;
+width: 1.4em;
+color: rgba(85,85,85,1.00);
+font-size: 1em;
+line-height: 1em;
+text-align: center;
+text-shadow: 0 0 0.0714em rgb(85,85,85);
+font-weight: bold;
+padding: 2px;
+}
+input[type=radio]:not(old):checked + label > span > span {
+    display : block;
+    width : 1em;
+    height : 1em;
+    margin : 0.2em;
+    border : 0.0625em solid rgb(85,85,85);
+    border-radius : 0.25em;
+    background : rgba(85,85,85,1.00);
+    background-image : -moz-linear-gradient(rgb(85,85,85), rgb(136,136,136));
+    background-image : -ms-linear-gradient(rgb(85,85,85), rgb(136,136,136));
+    background-image : -o-linear-gradient(rgb(85,85,85), rgb(136,136,136));
+    background-image : -webkit-linear-gradient(rgb(85,85,85), rgb(136,136,136));
+    background-image : linear-gradient(rgb(85,85,85), rgb(136,136,136));
+}
+</style>
 <hr />
 <div class="row secondHead themeHead">
     <div class="col-sm-2 hidden-xs"><img src="<?php echo base_url("images/form_icon-ingresospersonales.png"); ?>" alt="Imagen sección hogar"></div>
@@ -69,28 +135,19 @@
                         foreach ($preg['var'] as $v3):
                             ?>
                             <div class='form-group has-feedback cont_articulo' id='div-<?= $v3['ID_ARTICULO3'] ?>' <?= isset($secc[0]['ID_VARIABLE_USO']) ? " style='display:none;'" : "" ?>>
-                                <table>
+
                                     <div class="example">
-                                        <tr>
-                                            <td></td>
-                                            <td> <label class="control-label" for="<?= $v3['ID_ARTICULO3'] ?>"><?= $v3['ID_ARTICULO3'] ?></label></td>
+                                        <div style="position:relative;left:35px">
+                                            <label class="control-label" for="<?= $v3['ID_ARTICULO3'] ?>"><?= $v3['ID_ARTICULO3'] ?></label>
                                                 <div title="" data-original-title="" id="RESP_<?= isset($var[0]['ID_VARIABLE']) ? $var[0]['ID_VARIABLE'] : "" ?>" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
-                                                <small></small>
+                                                    <small></small>
+                                                </div>
                                         </div>
-                                        </tr>
-                                        <tr>
                                         <div>
-                                            <td><input type='checkbox' name='articulos[]' value='<?= $v3['ID_ARTICULO3'] ?>' id='<?= $v3['ID_ARTICULO3'] ?>'></td>
-                                            <!--<td> <label for='<?= $v3['ID_ARTICULO3'] ?>'><span></span><?= $v3['ETIQUETA'] ?></label></td>-->
-                                            <td><div for='<?= $v3['ID_ARTICULO3'] ?>' title="" data-original-title="" id="RESP_<?= $v3['ID_ARTICULO3'] ?>" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
-                                                    <span></span><?= $v3['ETIQUETA'] ?>
-                                                </div></td>
-                                                <!--<div class='col-sm-8' id='RESP_<?= $v3['ID_ARTICULO3'] ?>' data-toggle='popover' data-placement='top' data-trigger='hover' data-content=''>
-                                                </div>-->
+                                            <input type='checkbox' name='articulos[]' value='<?= $v3['ID_ARTICULO3'] ?>' id='<?= $v3['ID_ARTICULO3'] ?>'>
+                                            <label for="<?= $v3['ID_ARTICULO3'] ?>"><span><span></span></span><?= $v3['ETIQUETA'] ?></label>
                                         </div>
-                                        </tr>
                                     </div>
-                                </table>
                                 <hr></hr>
                             </div>
                             <?php
@@ -98,28 +155,19 @@
                         if (!isset($secc[0]['ID_VARIABLE_USO'])):
                             ?>
                             <div class='form-group has-feedback' id='div-99999999'>
-                                <table>
+
                                     <div class="example">
-                                        <tr>
-                                            <td></td>
-                                            <td><label class="control-label" for="99999999">99999999</label></td>
-                                        <div title="" data-original-title="" id="RESP_<?= isset($var[0]['ID_VARIABLE']) ? $var[0]['ID_VARIABLE'] : "" ?>" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
-                                            <small></small>
+                                        <div style="position:relative;left:35px">
+                                            <label class="control-label" for="99999999">99999999</label><!--/td-->
+                                            <div title="" data-original-title="" id="RESP_<?= isset($var[0]['ID_VARIABLE']) ? $var[0]['ID_VARIABLE'] : "" ?>" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
+                                                <small></small>
+                                            </div>
                                         </div>
-                                        </tr>
-                                        <tr>
                                         <div>
-                                            <td><input type='checkbox' name='articulos[]' value='99999999' id='99999999' /></td>
-                                            <!--<td><label for="99999999"><span></span>Ninguna de las anteriores</label></td>-->
-                                            <td><div for='99999999' title="" data-original-title="" id="RESP_99999999" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
-                                                    <span></span>Ninguna de las anteriores
-                                                </div></td>
-                                            <!--<div class='col-sm-8' id='RESP_99999999' data-toggle='popover' data-placement='top' data-trigger='hover' data-content=''>
-                                            </div>-->
+                                            <input type='checkbox' name='articulos[]' value='99999999' id='99999999' />
+                                            <label for="<?= $v3['ID_ARTICULO3'] ?>"><span><span></span></span>Ninguna de las anteriores</label>
                                         </div>
-                                        </tr>
                                     </div>
-                                </table>
                             </div>
 
                             <?php
@@ -129,7 +177,7 @@
                             <div class="col-sm-12" id="mensaje_"></div>
                         </div>
                         <div class="row text-center">
-                            <button disabled class='btn btn-success' id='env_form_1'>Guardar y Continuar <span class='glyphicon glyphicon-chevron-right' aria-hidden='true' title='Continuar'></span></button>
+                            <button class='btn btn-success' id='env_form_1'>Guardar y Continuar <span class='glyphicon glyphicon-chevron-right' aria-hidden='true' title='Continuar'></span></button>
                         </div>
                     </form>                    
                 </fieldset>
