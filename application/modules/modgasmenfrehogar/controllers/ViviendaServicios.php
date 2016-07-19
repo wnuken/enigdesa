@@ -5,7 +5,7 @@
  * @author oagarzond
  * @since 2016-06-20
  */
-class Farmaceuticos extends MX_Controller {
+class ViviendaServicios extends MX_Controller {
 
     private $idModulo;
     private $idCapitulo;
@@ -19,7 +19,7 @@ class Farmaceuticos extends MX_Controller {
         $this->submodule = $this->uri->segment(2);
         $this->idModulo = 'GMFHOGAR';
         $this->idCapitulo = '';
-        $this->idSubModulo = 'F';
+        $this->idSubModulo = 'C';
         $this->idSeccion = '';
         $this->load->model(array("formulario/Mformulario", "control/Modmenu", "Modgmfh"));
         $this->load->model("/ropaaccesorios/Modelropaaccesorios", "Maccesorios");
@@ -65,22 +65,33 @@ class Farmaceuticos extends MX_Controller {
 
             if(is_array($validateControl)){
                 foreach ($validateControl as $key => $section) {
-                    if($section['PAG_SECCION3'] == 0)
-                        $section['PAG_SECCION3'] = 1;
+                   /* if($section['PAG_SECCION3'] == 0)
+                        $section['PAG_SECCION3'] = 1;*/
             
                     if($section['ID_ESTADO_SEC'] < 2 && $section['ID_SECCION3'] != ($this->idSubModulo . '0')){
-                        $data['pageSection'] = $section['PAG_SECCION3'];
-                        $data['idSection'] = $section['ID_SECCION3'];
-                        $data['section'] = $this->idSubModulo;
-                        $data['TITULO1'] = $section['TITULO1'];
-                        $data['TITULO2'] = $section['TITULO2'];
-                        $data['TITULO3'] = $section['TITULO3'];
-                        $data['TEMPORALIDAD'] = $section['TEMPORALIDAD'];
-                        $data['idVariable'] = $section['ID_VARIABLE_VP'];
-                        $data['LOGO'] = $section['LOGO'];
-                        $data["view"]="ropaaccesorios/form1";
-                        $this->load->view("layout", $data);
-                        return false;
+
+                        if($section['ID_SECCION3'] == 'C3'){
+
+                            $paramsVariable['ID_FORMULARIO'] = $dataElement["id_formulario"];
+                            $paramsVariable['ID_VARIABLE'] = $section['ID_VARIABLE_VP'];
+
+                            $valueVariable = $this->Maccesorios->getVariableValue($paramsVariable);
+
+                            $data['pageSection'] = $section['PAG_SECCION3'];
+                            $data['idSection'] = $section['ID_SECCION3'];
+                            $data['section'] = $this->idSubModulo;
+                            $data['TITULO1'] = $section['TITULO1'];
+                            $data['TITULO2'] = $section['TITULO2'];
+                            $data['TITULO3'] = $section['TITULO3'];
+                            $data['TEMPORALIDAD'] = $section['TEMPORALIDAD'];
+                            $data['idVariable'] = $section['ID_VARIABLE_VP'];
+                            $data['variable'] = $valueVariable['VALOR_VARIABLE'];
+                            $data['LOGO'] = $section['LOGO'];
+                            $data["view"]="ropaaccesorios/form1";
+                            $this->load->view("layout", $data);
+                            return false;
+                        }
+                        
                     }
                 }
             }
@@ -94,6 +105,15 @@ class Farmaceuticos extends MX_Controller {
             redirect('modgasmenfrehogar/');
         }
 
+    }
+
+    public function saveseccionc(){
+        $params = $this->input->get(NULL, TRUE);
+        $result = FALSE;
+
+        $result = json_encode($params);
+
+        echo $result;
     }
 
     private function getControlSection(){

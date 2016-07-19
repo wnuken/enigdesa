@@ -34,6 +34,7 @@ this.saveElements = function(params, callbackFunc) {
 		headers: {'Content-Type': 'application/json'},
         /// headers: {'Authorization': 'Token token=xxxxYYYYZzzz'}
     }).success(function(response){
+    	// var res = JSON.parse(fixedResponse);
     	callbackFunc(response);
     }).error(function(){
     	console.log("error");
@@ -167,6 +168,7 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 			var paramssec3 = {
 				"ID_FORMULARIO": $scope.FormulariorHombre.idFormulario,
 				"ID_SECCION3": $scope.FormulariorHombre.idSection,
+				"MEDIO_PAGO": $scope.FormulariorHombre.mp,
 				"path": "ropaaccesorios/updatecompra"
 			};
 
@@ -373,6 +375,7 @@ appGHogar.controller('Educacion', ['$scope', 'dataService', 'localStorageService
 			var paramssec3 = {
 				"ID_FORMULARIO": $scope.FormulariorHombre.idFormulario,
 				"ID_SECCION3": $scope.FormulariorHombre.idSection,
+				"MEDIO_PAGO": $scope.FormulariorHombre.mp,
 				"path": "Educacion/updatecompra"
 			};
 
@@ -481,3 +484,132 @@ appGHogar.controller('Educacion', ['$scope', 'dataService', 'localStorageService
 
 
 }]);
+
+appGHogar.controller('SeecionC', ['$scope', 'dataService', 'localStorageService', '$window', function($scope, dataService, localStorageService, $window) {
+
+	console.log('hola');
+	$scope.meses = [
+		{
+			"id": "97",
+			"value": "Menos de un mes"
+		},
+		{
+			"id": "2",
+			"value": "2"
+		},
+		{
+			"id": "3",
+			"value": "3"
+		}
+		];
+
+		$scope.servicios = [
+		{
+			"id": "P852055",
+			"servicio": "Acueducto"
+		},
+		{
+			"id": "P852054",
+			"servicio": "Recolección de basuras y aseo"
+		},
+		{
+			"id": "P852053",
+			"servicio": "Alcantarillado"
+		},
+		{
+			"id": "P852051",
+			"servicio": "Energía eléctrica"
+		},
+		{
+			"id": "P852052",
+			"servicio": "Gas natural por tubería"
+		},
+		{
+			"id": "P164651",
+			"servicio": "Teléfono residencial (local y larga distancia)"
+		},
+		{
+			"id": "P164653",
+			"servicio": "Internet fijo (banda ancha, acceso inalámbrico)"
+		},
+		{
+			"id": "P164652",
+			"servicio": "Televisión (cable, satelital, digitalizada, IPTV, antena parabólica)"
+		}
+		];
+
+		$scope.alumbrado = [
+			{
+			"id": "P1027255",
+			"servicio": "Alumbrado público"
+			}
+		];
+
+	$scope.Formulario = {};
+	$scope.validateGroup = [];
+	$scope.subtotal = 0;
+
+	var gg = {
+		"ID_SECCION3": $idSection.val()
+	};
+
+	var paramsInit = {
+		"elements" : {
+			"ID_SECCION3": $idSection.val()
+		},				
+		"path": "ropaaccesorios/getelements"
+	};
+
+	dataService.getElements(paramsInit, function(dataResponse){
+		$scope.Formulario.rh = dataResponse;
+	});
+
+
+	$scope.validateForm1 = function(params){
+		var paramssec0 = {
+			"elements" : {
+				"ID_FORMULARIO": $scope.Formulario.idFormulario,
+				"ID_VARIABLE": $scope.Formulario.idVariable,
+				"VALOR_VARIABLE": $scope.Formulario.valorVariable,
+				"ID_SECCION3": $scope.Formulario.idSection
+			},				
+			"path": "ViviendaServicios/validateinitsection"
+		};
+
+		dataService.saveSection(paramssec0, function(dataResponse){
+			if($scope.Formulario.valorVariable == '1' && dataResponse.status == true){
+				$scope.pagesection = params;
+			}else{
+				console.log('regarga pagina');
+				$window.location.reload();
+			}
+		});	
+	};
+
+
+	$scope.validateForm2 = function(params){
+		var paramssec0 = {
+			"elements" : {
+				"form": $scope.Formulario
+			},				
+			"path": "ViviendaServicios/saveseccionc"
+		};
+
+		dataService.saveSection(paramssec0, function(dataResponse){
+			console.log(dataResponse);
+			/*if($scope.Formulario.valorVariable == '1' && dataResponse.status == true){
+				$scope.pagesection = params;
+			}else{
+				console.log('regarga pagina');
+				$window.location.reload();
+			}*/
+		});	
+	};
+
+
+	$scope.activeValor = function(idServicio){
+		$scope.Formulario.servicios[servicio.id][valorotro] = false;
+	};
+
+
+	}]);

@@ -51,9 +51,9 @@ class Ropaaccesorios extends MX_Controller {
 
             $validateControl = $this->getControlSection();
 
-           /*echo '<pre>';
+            /* echo '<pre>';
             print_r($validateControl);
-            echo "</pre>";*/
+            echo "</pre>"; */
 
             if(is_array($validateControl)){
                 foreach ($validateControl as $key => $section) {
@@ -74,6 +74,10 @@ class Ropaaccesorios extends MX_Controller {
                         $data['TITULO3'] = $section['TITULO3'];
                         $data['TEMPORALIDAD'] = $section['TEMPORALIDAD'];
                         $data['idVariable'] = $section['ID_VARIABLE_VP'];
+                        $data['MEDIO_PAGO'] = $section['ID_VARIABLE_MEDIO_PAGO'];
+                        $data['MEDIO_CUAL'] = $section['ID_VARIABLE_OTRO_PAGO'];
+                        $data['EPSS'] = $section['ID_VARIABLE_VP2'];
+                        $data['EPSS_CUAL'] = $section['ID_VARIABLE_LC'];
                         $data['LOGO'] = $section['LOGO'];
                         $data["view"]="ropaaccesorios/form1";
                         $this->load->view("layout", $data);
@@ -282,6 +286,15 @@ public function updatecompra(){
         }
     }
 
+    $madioPago = json_decode($params['MEDIO_PAGO']);
+
+    foreach ($madioPago as $key => $value) {
+        $paramsVariable['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
+        $paramsVariable['ID_VARIABLE'] = $key;
+        $paramsVariable['VALOR_VARIABLE'] = $value;
+        $resultVariables[$key] = $this->Maccesorios->setGmfVariable($paramsVariable);
+    }
+
     $dataElement['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
     $dataElement['ID_SECCION3'] = $params['ID_SECCION3'];
     $dataElement['PAG_SECCION3'] = 4;
@@ -289,6 +302,7 @@ public function updatecompra(){
 
     $responseArray = array(
         'result' => $result,
+        'variables' => $resultVariables,
         'control' => $resultControl
         );
 

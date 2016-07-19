@@ -110,6 +110,17 @@ class Modelropaaccesorios extends My_model {
         return $result;
     }
 
+    public function getVariableValue($params){
+        $this->db->select('ID_VARIABLE, VALOR_VARIABLE');
+        $this->db->where('ID_FORMULARIO',$params['ID_FORMULARIO']);
+        $this->db->where('ID_VARIABLE',$params['ID_VARIABLE']);
+        $this->db->limit(1);
+        $query = $this->db->get('ENIG_FORM_GMF_VARIABLES');
+        $result = $query->row_array();
+        return $result;
+
+    }
+
 
     
 

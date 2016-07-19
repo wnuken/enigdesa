@@ -290,10 +290,8 @@
 					<td colspan="2">El medio de pago usado PRINCIPALMENTE para comprar los articulos y servicios enunciados en este módulo fue:</td>
 					<td colspan="2"> 
 						<div class="form-group">
-							
-
 							<select name="mediopago" id="mediopago}" class="form-control" 
-							ng-model="FormulariorHombre.MEDIO_PAGO" required>
+							ng-model="FormulariorHombre.mp['<?php echo $MEDIO_PAGO; ?>']" required>
 							<option value="" disabled>Seleccione...</option>
 							<option value="1">Tarjeta débito</option>
 							<option value="2">Tarjeta crédito</option>
@@ -304,9 +302,11 @@
 						</select>
 					</div>
 				</td>
-				<td ><div class="form-group" ng-if="FormulariorHombre.MEDIO_PAGO == 6">
-					<input class="form-control" name="cual" id="cual" type="text" placeholder="¿Cual?" ng-model="FormulariorHombre.MEDIO_CUAL" required>
-				</div></td>
+				<td >
+					<div class="form-group" ng-if="FormulariorHombre.mp['<?php echo $MEDIO_PAGO; ?>'] == 6">
+						<input class="form-control" name="cual" id="cual" type="text" placeholder="¿Cual?" ng-model="FormulariorHombre.mp['<?php echo $MEDIO_CUAL; ?>']" required>
+					</div>
+				</td>
 			</tr>
 
 			<tr align="center">
@@ -317,20 +317,20 @@
 						</div>
 						<div class="col-sm-3">
 							<div class="col-sm-6">
-								<input type="radio" name="EPSS" value="1" id="EPSS1" ng-model="FormulariorHombre.EPSS" required>
+								<input type="radio" name="EPSS" value="1" id="EPSS1" ng-model="FormulariorHombre.mp['<?php echo $EPSS; ?>']" required>
 								<span></span><label>Si</label>
 							</div>
 
 							<div class="col-sm-6">
-								<input type="radio" name="EPSS" value="2" id="EPSS2" ng-model="FormulariorHombre.EPSS">
+								<input type="radio" name="EPSS" value="2" id="EPSS2" ng-model="FormulariorHombre.mp['<?php echo $EPSS; ?>']">
 								<label><span></span>No</label>
 							</div>
 						</div>
 						<div class="col-sm-3">
-							<div class="form-group" ng-if="FormulariorHombre.EPSS == 1">
+							<div class="form-group" ng-if="FormulariorHombre.mp['<?php echo $EPSS; ?>'] == 1">
 
 
-								<input class="form-control" name="cual" id="cual" type="text" placeholder="¿Cual?" ng-model="FormulariorHombre.EPSS_CUAL" required>
+								<input class="form-control" name="cual" id="cual" type="text" placeholder="¿Cual?" ng-model="FormulariorHombre.mp['<?php echo $EPSS_CUAL; ?>']" required>
 							</div>
 						</div>
 

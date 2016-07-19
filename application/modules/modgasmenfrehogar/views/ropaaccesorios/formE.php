@@ -290,24 +290,24 @@
 					<td colspan="2">El medio de pago usado PRINCIPALMENTE para comprar los articulos y servicios enunciados en este módulo fue:</td>
 					<td colspan="2"> 
 						<div class="form-group">
-							
-						
-						<select name="mediopago" id="mediopago}" class="form-control" 
-								ng-model="FormulariorHombre.MEDIO_PAGO" required>
-								<option value="" disabled>Seleccione...</option>
-								<option value="1">Tarjeta débito</option>
-								<option value="2">Tarjeta crédito</option>
-								<option value="3">Efectivo</option>
-								<option value="4">Bonos</option>
-								<option value="5">Cheques</option>
-								<option value="6">Otro</option>
-							</select>
-							</div>
-					 </td>
-					<td ><div class="form-group" ng-if="FormulariorHombre.MEDIO_PAGO == 6">
-								<input class="form-control" name="cual" id="cual" type="text" placeholder="¿Cual?" ng-model="FormulariorHombre.MEDIO_CUAL" required>
-							</div></td>
-				</tr>
+							<select name="mediopago" id="mediopago}" class="form-control" 
+							ng-model="FormulariorHombre.mp['<?php echo $MEDIO_PAGO; ?>']" required>
+							<option value="" disabled>Seleccione...</option>
+							<option value="1">Tarjeta débito</option>
+							<option value="2">Tarjeta crédito</option>
+							<option value="3">Efectivo</option>
+							<option value="4">Bonos</option>
+							<option value="5">Cheques</option>
+							<option value="6">Otro</option>
+						</select>
+					</div>
+				</td>
+				<td >
+					<div class="form-group" ng-if="FormulariorHombre.mp['<?php echo $MEDIO_PAGO; ?>'] == 6">
+						<input class="form-control" name="cual" id="cual" type="text" placeholder="¿Cual?" ng-model="FormulariorHombre.mp['<?php echo $MEDIO_CUAL ; ?>']" required>
+					</div>
+				</td>
+			</tr>
 
 				
 
