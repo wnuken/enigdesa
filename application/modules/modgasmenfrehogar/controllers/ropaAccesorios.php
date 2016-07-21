@@ -21,6 +21,7 @@ class Ropaaccesorios extends MX_Controller {
         $this->idCapitulo = '';
         $this->idSubModulo = 'D';
         $this->idSeccion = '';
+        $this->idFormulario = '';
         $this->load->model(array("formulario/Mformulario", "control/Modmenu", "Modgmfh"));
         $this->load->model("/ropaaccesorios/Modelropaaccesorios", "Maccesorios");
     }
@@ -32,6 +33,7 @@ class Ropaaccesorios extends MX_Controller {
             return false;
         }
 
+        $this->idFormulario = $this->session->userdata("id_formulario");
         $initControl = $this->getControlSection();
 
         if(is_array($initControl) && $initControl[0]['ID_ESTADO_SEC'] < 2){
@@ -58,118 +60,122 @@ class Ropaaccesorios extends MX_Controller {
             if(is_array($validateControl)){
                 foreach ($validateControl as $key => $section) {
 
-                     if($section['ID_SECCION3'] == 'D6'){
-                        $this->idSubModulo = 'E';
-                        $section['PAG_SECCION3'] = 1;
-                     }
-                        
-
-
-                    if($section['ID_ESTADO_SEC'] < 2 && $section['ID_SECCION3'] != ($this->idSubModulo . '0')){
-                        $data['pageSection'] = $section['PAG_SECCION3'];
-                        $data['idSection'] = $section['ID_SECCION3'];
-                        $data['section'] = $this->idSubModulo;
-                        $data['TITULO1'] = $section['TITULO1'];
-                        $data['TITULO2'] = $section['TITULO2'];
-                        $data['TITULO3'] = $section['TITULO3'];
-                        $data['TEMPORALIDAD'] = $section['TEMPORALIDAD'];
-                        $data['idVariable'] = $section['ID_VARIABLE_VP'];
-                        $data['MEDIO_PAGO'] = $section['ID_VARIABLE_MEDIO_PAGO'];
-                        $data['MEDIO_CUAL'] = $section['ID_VARIABLE_OTRO_PAGO'];
-                        $data['EPSS'] = $section['ID_VARIABLE_VP2'];
-                        $data['EPSS_CUAL'] = $section['ID_VARIABLE_LC'];
-                        $data['LOGO'] = $section['LOGO'];
-                        $data["view"]="ropaaccesorios/form1";
-                        $this->load->view("layout", $data);
-                        return false;
-                    }
+                 if($section['ID_SECCION3'] == 'D6'){
+                    $this->idSubModulo = 'E';
+                    $section['PAG_SECCION3'] = 1;
                 }
-            }            
-        }else{
-            redirect('modgasmenfrehogar/');
-        }
 
+
+
+                if($section['ID_ESTADO_SEC'] < 2 && $section['ID_SECCION3'] != ($this->idSubModulo . '0')){
+                    $data['pageSection'] = $section['PAG_SECCION3'];
+                    $data['idSection'] = $section['ID_SECCION3'];
+                    $data['section'] = $this->idSubModulo;
+                    $data['TITULO1'] = $section['TITULO1'];
+                    $data['TITULO2'] = $section['TITULO2'];
+                    $data['TITULO3'] = $section['TITULO3'];
+                    $data['TEMPORALIDAD'] = $section['TEMPORALIDAD'];
+                    $data['idVariable'] = $section['ID_VARIABLE_VP'];
+                    $data['MEDIO_PAGO'] = $section['ID_VARIABLE_MEDIO_PAGO'];
+                    $data['MEDIO_CUAL'] = $section['ID_VARIABLE_OTRO_PAGO'];
+                    $data['EPSS'] = $section['ID_VARIABLE_VP2'];
+                    $data['EPSS_CUAL'] = $section['ID_VARIABLE_LC'];
+                    $data['LOGO'] = $section['LOGO'];
+                    $data["view"]="ropaaccesorios/form1";
+                    $this->load->view("layout", $data);
+                    return false;
+                }
+            }
+        }            
+    }else{
+        redirect('modgasmenfrehogar/');
     }
 
-    private function getControlSection(){
-        $result = $this->Modgmfh->listar_secciones_avances(
-            array( "id0" => $this->idSubModulo , 
-                "estado" => array(0,1,2))
-            );
-        return $result;
-    }
+}
 
-    private function updateControlSection($params){
-        $result = $this->Modgmfh->ejecutar_update(
-            'ENIG_ADMIN_GMF_CONTROL', 
-            array( "ID_ESTADO_SEC" => $params['ID_ESTADO_SEC']), 
-            array( "ID_FORMULARIO" => $params['id_formulario'], 
-                "ID_SECCION3" => $params['ID_SECCION3'])
-            );
-    }
+private function getControlSection(){
+    $params['subseccion'] = $this->idSubModulo;
+    $params['ID_FORMULARIO'] = $this->idFormulario;
+    $result = $this->Maccesorios->getSecciones($params);
+    return $result;
+}
 
-    public function validateinitsection(){
-       $params = $this->input->get(NULL, TRUE);
-       $result = FALSE;
+private function updateControlSection($params){
+    $result = $this->Modgmfh->ejecutar_update(
+        'ENIG_ADMIN_GMF_CONTROL', 
+        array( "ID_ESTADO_SEC" => $params['ID_ESTADO_SEC']), 
+        array( "ID_FORMULARIO" => $params['id_formulario'], 
+            "ID_SECCION3" => $params['ID_SECCION3'])
+        );
+}
 
-       $paramsGmf['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
-       $paramsGmf['ID_VARIABLE'] = $params['ID_VARIABLE'];
-       $paramsGmf['VALOR_VARIABLE'] = $params['VALOR_VARIABLE'];
+public function validateinitsection(){
+   $params = $this->input->get(NULL, TRUE);
+   $result = FALSE;
+
+   $paramsGmf['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
+   $paramsGmf['ID_VARIABLE'] = $params['ID_VARIABLE'];
+   $paramsGmf['VALOR_VARIABLE'] = $params['VALOR_VARIABLE'];
 
       // var_dump($paramsGmf);
 
-       $result = $this->Maccesorios->setGmfVariable($paramsGmf);
+   $result = $this->Maccesorios->setGmfVariable($paramsGmf);
 
-       $dataElement['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
-       $dataElement['ID_SECCION3'] =  $params['ID_SECCION3'];
-       $dataElement['PAG_SECCION3'] = 1;
-       if($params['VALOR_VARIABLE'] == 2)
-        $dataElement['ID_ESTADO_SEC'] = 2;
-    $resultControl = $this->Maccesorios->updateGmfControl($dataElement);
+   $dataElement['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
+   $dataElement['ID_SECCION3'] =  $params['ID_SECCION3'];
+   $dataElement['PAG_SECCION3'] = 1;
+   if($params['VALOR_VARIABLE'] == 2)
+    $dataElement['ID_ESTADO_SEC'] = 2;
+$resultControl = $this->Maccesorios->updateGmfControl($dataElement);
 
 
-    $resposeArray = array(
-        'status' => $result,
-        'mesage' => 'OK',
-        'resultControl' => $resultControl,
-        'paramsGmf' => $paramsGmf
-        );
-    $response = json_encode($resposeArray);
-    echo $response;
+$resposeArray = array(
+    'status' => $result,
+    'mesage' => 'OK',
+    'resultControl' => $resultControl,
+    'paramsGmf' => $paramsGmf
+    );
+$response = json_encode($resposeArray);
+echo $response;
 }
 
 
 public function getelements(){
     $params = $this->input->get(NULL, TRUE);
     $elements = $this->Maccesorios->getElements($params);
+    $elementsForm = $this->Maccesorios->getElementsForm($params);
     $COMPRA = FALSE; $RECIBIDO_PAGO = FALSE; $REGALO = FALSE; $INTERCAMBIO = FALSE;
     $PRODUCIDO = FALSE; $NEGOCIO_PROPIO = FALSE; $OTRA = FALSE;
 
     foreach ($elements as $key => $value) {
      $active = FALSE;
-     if(isset($value['ar2']))
-        $active = TRUE;
 
-    if(isset($value['COMPRA']) && $value['COMPRA'] == 1)
-        $COMPRA = TRUE;
+     foreach ($elementsForm as $key1 => $value1) {
+        if($value['ID_ARTICULO3'] == $value1['ID_ARTICULO3']){
+            $active = TRUE;
 
-    if(isset($value['RECIBIDO_PAGO']) && $value['RECIBIDO_PAGO'] == 1)
-        $RECIBIDO_PAGO = TRUE;
+            if(isset($value1['COMPRA']) && $value1['COMPRA'] == 1)
+                $COMPRA = TRUE;
 
-    if(isset($value['REGALO']) && $value['REGALO'] == 1)
-        $REGALO = TRUE;
+            if(isset($value1['RECIBIDO_PAGO']) && $value1['RECIBIDO_PAGO'] == 1)
+                $RECIBIDO_PAGO = TRUE;
 
-    if(isset($value['INTERCAMBIO']) && $value['INTERCAMBIO'] == 1)
-        $INTERCAMBIO = TRUE;
+            if(isset($value1['REGALO']) && $value1['REGALO'] == 1)
+                $REGALO = TRUE;
 
-    if(isset($value['PRODUCIDO']) && $value['PRODUCIDO'] == 1)
-        $PRODUCIDO = TRUE;
+            if(isset($value1['INTERCAMBIO']) && $value1['INTERCAMBIO'] == 1)
+                $INTERCAMBIO = TRUE;
 
-    if(isset($value['NEGOCIO_PROPIO']) && $value['NEGOCIO_PROPIO'] == 1)
-        $NEGOCIO_PROPIO = TRUE;
+            if(isset($value1['PRODUCIDO']) && $value1['PRODUCIDO'] == 1)
+                $PRODUCIDO = TRUE;
 
-    if(isset($value['OTRA']) && $value['OTRA'] == 1)
-        $OTRA = TRUE;
+            if(isset($value1['NEGOCIO_PROPIO']) && $value1['NEGOCIO_PROPIO'] == 1)
+                $NEGOCIO_PROPIO = TRUE;
+
+            if(isset($value1['OTRA']) && $value1['OTRA'] == 1)
+                $OTRA = TRUE;
+        }
+    }
 
     $result[$key] = array(
         'name' => $value['ETIQUETA'],
@@ -188,8 +194,6 @@ public function getelements(){
             )
         );
 
-    if($value['COMPRA'] == 1)
-        $result[$key]['ot']['COMPRA'] = true;
 
 }
 $response = json_encode($result);

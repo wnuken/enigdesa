@@ -1,6 +1,7 @@
 <div ng-controller="SeecionC">
 	<div class="hide">
 		<input type="hidden" name="idSection" id="idSection" value="<?php echo $idSection; ?>">
+		<input type="hidden" name="idFormulario" id="idFormulario" value="<?php echo $this->session->userdata("id_formulario"); ?>">
 		<div ng-init="pagesection = <?php echo $pageSection; ?>"></div>
 		<div ng-init="Formulario.pagesection = <?php echo $pageSection; ?>"></div>
 		<div ng-init="Formulario.idSection = '<?php echo $idSection; ?>'"></div>
@@ -27,7 +28,7 @@
 
 		</div>
 	</div>
-	<div ng-if="pagesection == 0">
+	<div ng-if="pagesection == 1">
 		<div class="row">
 			<div class="col-sm-12 col-md-offset-1">
 				<fieldset>
@@ -57,12 +58,12 @@
 					</form>
 				</fieldset>
 				<div class="row text-center">
-					<button class="btn btn-success" ng-disabled="!FormAlumbrado.$valid" ng-click="validateForm1(1)" id="ENV_2_2">Guardar y Continuar <span class="glyphicon glyphicon-chevron-right" aria-hidden="true" title="Continuar"></span></button>
+					<button class="btn btn-success" ng-disabled="!FormAlumbrado.$valid" ng-click="validateForm1(2)" id="ENV_2_2">Guardar y Continuar <span class="glyphicon glyphicon-chevron-right" aria-hidden="true" title="Continuar"></span></button>
 				</div>
 			</div>
 		</div>
 	</div>
-	<div ng-if="pagesection == 1">
+	<div ng-if="pagesection == 2">
 		<div class="row">
 			<div class="col-sm-12">
 				<form class="form-enph" id="FormServicios" name="FormServicios" class="FormServicios">
@@ -85,42 +86,47 @@
 										<td>
 										<div style="max-width: 900px;">
 											<div class="col-sm-12">
-												<div class="form-group" ng-if="!Formulario.servicios[servicio.id][VALOROTRO]">
+												<div class="form-group" ng-if="!Formulario.valor[servicio.id]">
 												<div class="input-group">
 													<span class="input-group-addon">Valor</span>
-													<input type="text" name="valor{{servicio.id}}" id="valor{{servicio.id}}" required ng-model="Formulario.servicios[servicio.id]['VALOR']" class="form-control">
+													<input type="text" name="valor{{servicio.id}}" id="valor{{servicio.id}}" required 
+													ng-model="Formulario.servicios[servicio.idValor]" class="form-control">
 													</div>
 												</div>
-												<div class="form-group" ng-if="Formulario.servicios[servicio.id][VALOROTRO]">
+												<div class="form-group" ng-if="Formulario.valor[servicio.id]">
 												<div class="input-group">
 													<span class="input-group-addon">Valor</span>
-													<input type="text" name="valor{{servicio.id}}" id="valor{{servicio.id}}" readonly class="form-control" ng-click="activeValor(servicio.id)">
+													<input type="text" name="valor{{servicio.id}}" id="valor{{servicio.id}}" readonly class="form-control" 
+													ng-click="activeValor(servicio.id, servicio.idValor)">
 													</div>
 												</div>
 											</div>
 											<div class="col-sm-3">
-												<label >Nada. Este hogar no paga</label>
+												<label >Nada Este hogar no paga</label>
 												<div class="form-group">
-													<input type="radio" name="valorotro{{servicio.id}}" value="001" ng-model="Formulario.servicios[servicio.id]['VALOROTRO']">
+													<input type="radio" name="valorotro{{servicio.id}}" value="001" 
+													ng-model="Formulario.valor[servicio.id]" ng-click="changeValor(servicio.idValor, '00')">
 												</div>
 											</div>
 											<div class="col-sm-3">
 												<label >No recuerda el valor</label>
 												<div class="form-group">
-													<input type="radio" name="valorotro{{servicio.id}}" value="98" ng-model="Formulario.servicios[servicio.id]['VALOROTRO']">
+													<input type="radio" name="valorotro{{servicio.id}}" value="98" 
+													ng-model="Formulario.valor[servicio.id]" ng-click="changeValor(servicio.idValor, '98')">
 												</div>
 											</div>
 											<div class="col-sm-6">
 												<label >El valor ya fue reportado o incluido en otro servicio o valor</label>
 												<div class="form-group">
-													<input type="radio" name="valorotro{{servicio.id}}" value="99" ng-model="Formulario.servicios[servicio.id]['VALOROTRO']">
+													<input type="radio" name="valorotro{{servicio.id}}" value="99" 
+													ng-model="Formulario.valor[servicio.id]" ng-click="changeValor(servicio.idValor, '99')">
 												</div>
 											</div>
 											</div>
 										</td>
 										<td>
 										<div class="form-group">
-											<select class="form-control" name="meses" id="meses" required ng-model="Formulario.servicios[servicio.id]['MES']">
+											<select class="form-control" name="meses" id="meses" required ng-model="Formulario.servicios[servicio.idMes]">
 												<option value="" selected disabled>Seleccione</option>
 												<option ng-repeat="mes in meses" value="{{mes.id}}">{{mes.value}}</option>
 											</select>
@@ -130,13 +136,15 @@
 											<div class="col-sm-3">
 												<label >Si</label>
 												<div class="form-group">
-													<input type="radio" name="verifica{{servicio.id}}" value="001" ng-model="Formulario.servicios[servicio.id]['MES']" required>
+													<input type="radio" name="verifica{{servicio.id}}" value="1" 
+													ng-model="Formulario.servicios[servicio.idVerifica]" required>
 												</div>
 											</div>
 											<div class="col-sm-3">
 												<label >No</label>
 												<div class="form-group">
-													<input type="radio" name="verifica{{servicio.id}}" value="98" ng-model="Formulario.servicios[servicio.id]['VERIFICA']">
+													<input type="radio" name="verifica{{servicio.id}}" value="2" 
+													ng-model="Formulario.servicios[servicio.idVerifica]">
 												</div>
 											</div>
 										</td>
@@ -146,42 +154,47 @@
 										<td>
 										<div style="max-width: 900px;">
 											<div class="col-sm-12">
-												<div class="form-group" ng-if="!Formulario.valorotro[servicio.id]">
+												<div class="form-group" ng-if="!Formulario.valor[servicio.id]">
 												<div class="input-group">
 													<span class="input-group-addon">Valor</span>
-													<input type="text" name="valor{{servicio.id}}" id="valor{{servicio.id}}" required ng-model="Formulario.valor[servicio.id]" class="form-control">
+													<input type="text" name="valor{{servicio.id}}" id="valor{{servicio.id}}" required 
+													ng-model="Formulario.servicios[servicio.idValor]" class="form-control">
 													</div>
 												</div>
-												<div class="form-group" ng-if="Formulario.valorotro[servicio.id]">
+												<div class="form-group" ng-if="Formulario.valor[servicio.id]">
 												<div class="input-group">
 													<span class="input-group-addon">Valor</span>
-													<input type="text" name="valor{{servicio.id}}" id="valor{{servicio.id}}" readonly class="form-control" ng-click="activeValor(servicio.id)">
+													<input type="text" name="valor{{servicio.id}}" id="valor{{servicio.id}}" readonly class="form-control" 
+													ng-click="activeValor(servicio.id, servicio.idValor)">
 													</div>
 												</div>
 											</div>
 											<div class="col-sm-3">
-												<label >Nada. Este hogar no paga</label>
+												<label >Nada Este hogar no paga</label>
 												<div class="form-group">
-													<input type="radio" name="valorotro{{servicio.id}}" value="001" ng-model="Formulario.valorotro[servicio.id]">
+													<input type="radio" name="valorotro{{servicio.id}}" value="001" 
+													ng-model="Formulario.valor[servicio.id]" ng-click="changeValor(servicio.idValor, '00')">
 												</div>
 											</div>
 											<div class="col-sm-3">
 												<label >No recuerda el valor</label>
 												<div class="form-group">
-													<input type="radio" name="valorotro{{servicio.id}}" value="98" ng-model="Formulario.valorotro[servicio.id]">
+													<input type="radio" name="valorotro{{servicio.id}}" value="98" 
+													ng-model="Formulario.valor[servicio.id]" ng-click="changeValor(servicio.idValor, '98')">
 												</div>
 											</div>
 											<div class="col-sm-6">
 												<label >El valor ya fue reportado o incluido en otro servicio o valor</label>
 												<div class="form-group">
-													<input type="radio" name="valorotro{{servicio.id}}" value="99" ng-model="Formulario.valorotro[servicio.id]">
+													<input type="radio" name="valorotro{{servicio.id}}" value="99" 
+													ng-model="Formulario.valor[servicio.id]" ng-click="changeValor(servicio.idValor, '99')">
 												</div>
 											</div>
 											</div>
 										</td>
 										<td>
 										<div class="form-group">
-											<select class="form-control" name="meses" id="meses" required ng-model="Formulario.meses[servicio.id]">
+											<select class="form-control" name="meses" id="meses" required ng-model="Formulario.servicios[servicio.idMes]">
 												<option value="" selected disabled>Seleccione</option>
 												<option ng-repeat="mes in meses" value="{{mes.id}}">{{mes.value}}</option>
 											</select>
@@ -191,13 +204,15 @@
 											<div class="col-sm-3">
 												<label >Si</label>
 												<div class="form-group">
-													<input type="radio" name="verifica{{servicio.id}}" value="001" ng-model="Formulario.verifica[servicio.id]" required>
+													<input type="radio" name="verifica{{servicio.id}}" value="1" 
+													ng-model="Formulario.servicios[servicio.idVerifica]" required>
 												</div>
 											</div>
 											<div class="col-sm-3">
 												<label >No</label>
 												<div class="form-group">
-													<input type="radio" name="verifica{{servicio.id}}" value="98" ng-model="Formulario.verifica[servicio.id]">
+													<input type="radio" name="verifica{{servicio.id}}" value="2" 
+													ng-model="Formulario.servicios[servicio.idVerifica]">
 												</div>
 											</div>
 										</td>
@@ -208,9 +223,10 @@
 					</div>
 				</form>
 				<div class="row text-center">
-					<button class="btn btn-success" ng-disabled="!FormServicios.$valid" ng-click="validateForm2(2)" id="ENV_2_2">Guardar y Continuar <span class="glyphicon glyphicon-chevron-right" aria-hidden="true" title="Continuar"></span></button>
+					<button class="btn btn-success" ng-disabled="!FormServicios.$valid" ng-click="validateForm2(3)" id="ENV_2_2">Guardar y Continuar <span class="glyphicon glyphicon-chevron-right" aria-hidden="true" title="Continuar"></span></button>
 				</div>
 			</div>
 		</div>
 	</div>
+	<div ng-if="pagesection == 3"></div>
 </div>

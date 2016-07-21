@@ -1,6 +1,7 @@
 <div ng-controller="ropaHombre">
 	<div class="ff">
 		<input type="hidden" name="idSection" id="idSection" value="<?php echo $idSection; ?>">
+		<input type="hidden" name="idFormulario" id="idFormulario" value="<?php echo $this->session->userdata("id_formulario"); ?>">
 		<div ng-init="pagesection = <?php echo $pageSection; ?>"></div>
 		<div ng-init="FormulariorHombre.pagesection = <?php echo $pageSection; ?>"></div>
 		<div ng-init="FormulariorHombre.idSection = '<?php echo $idSection; ?>'"></div>

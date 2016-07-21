@@ -37,6 +37,17 @@ class Modelropaaccesorios extends My_model {
     }
 
 
+    public function getSecciones($params){
+        $keyword = $params['subseccion'];
+        $this->db->select('*');
+        $this->db->from('ENIG_ADMIN_GMF_CONTROL CRT');
+        $this->db->where('CRT.ID_FORMULARIO', $params['ID_FORMULARIO']);
+        $this->db->where("CRT.ID_SECCION3 LIKE '%$keyword%'");
+        $this->db->join('ENIG_ADMIN_GMF_SECCIONES SEC', 'CRT.ID_SECCION3 = SEC.ID_SECCION3', 'left');
+        $query = $this->db->get();
+        $result = $query->result_array();
+        return $result;
+    }
 
 
     public function updateGmfControl($params){
@@ -53,12 +64,23 @@ class Modelropaaccesorios extends My_model {
         return $result;
     }
 
-
     public function getElements($params){
-        $this->db->select('ar.ID_ARTICULO3, ar.ETIQUETA, ar.DEFINE_LUGAR_COMPRA, ar.DEFINE_FRECU_COMPRA, fo.ID_ARTICULO3 AS ar2, fo.COMPRA, fo.RECIBIDO_PAGO, fo.REGALO, fo.INTERCAMBIO, fo.PRODUCIDO, fo.NEGOCIO_PROPIO, fo.OTRA');
-        $this->db->from('ENIG_PARAM_GMF_ARTICULOS ar');
-        $this->db->where('ID_SECCION3',$params['ID_SECCION3']);
-        $this->db->join('ENIG_FORM_GMF_FORMA_OBTENCION fo', 'ar.ID_ARTICULO3 = fo.ID_ARTICULO3', 'left');
+        $this->db->select('ART.ID_ARTICULO3, ART.ETIQUETA, ART.DEFINE_LUGAR_COMPRA, ART.DEFINE_FRECU_COMPRA');
+        $this->db->from('ENIG_PARAM_GMF_ARTICULOS ART');
+        $this->db->where('ART.ID_SECCION3',$params['ID_SECCION3']);
+        // $this->db->join('ENIG_FORM_GMF_FORMA_OBTENCION OBT', 'ART.ID_ARTICULO3 = OBT.ID_ARTICULO3', 'left');
+        $this->db->order_by("ORDEN_VISUAL","asc");
+        $query = $this->db->get();
+        $result = $query->result_array();
+        return $result;
+    }
+
+    public function getElementsForm($params){
+        $this->db->select('OBT.ID_FORMULARIO, OBT.ID_ARTICULO3, OBT.COMPRA, OBT.RECIBIDO_PAGO, OBT.REGALO, OBT.INTERCAMBIO, OBT.PRODUCIDO, OBT.NEGOCIO_PROPIO, OBT.OTRA');
+        $this->db->from('ENIG_PARAM_GMF_ARTICULOS ART');
+        $this->db->where('ART.ID_SECCION3',$params['ID_SECCION3']);
+        $this->db->where('OBT.ID_FORMULARIO',$params['ID_FORMULARIO']);
+        $this->db->join('ENIG_FORM_GMF_FORMA_OBTENCION OBT', 'ART.ID_ARTICULO3 = OBT.ID_ARTICULO3', 'left');
         $this->db->order_by("ORDEN_VISUAL","asc");
         $query = $this->db->get();
         $result = $query->result_array();
@@ -119,6 +141,26 @@ class Modelropaaccesorios extends My_model {
         $result = $query->row_array();
         return $result;
 
+    }
+
+    public function setSeccionC($params){
+        $this->db->where('ID_FORMULARIO',$params['ID_FORMULARIO']);
+        $q = $this->db->get('ENIG_FORM_GMF_SERVICIOS');
+        
+        if ( $q->num_rows() > 0 ){
+            $this->db->where('ID_FORMULARIO',$params['ID_FORMULARIO']);
+            $resultInsert = $this->db->update('ENIG_FORM_GMF_SERVICIOS',$params);
+        }else{
+            $resultInsert = $this->db->insert('ENIG_FORM_GMF_SERVICIOS', $params);
+        }
+        
+        if($resultInsert === TRUE){
+            $result = $resultInsert;
+        }else{
+            $result = FALSE;
+        }
+
+        return $result;
     }
 
 

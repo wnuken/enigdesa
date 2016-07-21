@@ -32,8 +32,8 @@ class Modgasmenfrehogar extends MX_Controller {
             $data["sec"][$ks]["COLOR"] = $data["sec"][$ks]["TITULO1"];
             // oagarzond - Se consulta el avance para redirecionarlo en que pagina va
             $arrParam = array(
-                'id' => $vs["ID_SECCION3"],
-                'estado' => '2');
+                'idForm' => $data["id_formulario"],
+                'id' => $vs["ID_SECCION3"]);
             $arrSA = $this->Modgmfh->listar_secciones_avances($arrParam);
             //pr($arrSA); exit;
             if (count($arrSA) > 0) {
@@ -43,15 +43,15 @@ class Modgasmenfrehogar extends MX_Controller {
                     $fechaactual = substr($fechahoraactual, 0, 10);
                     $secc = $this->Modgmfh->listar_secciones(array('cap' => $data["sec"][$ks]["CAPITULO"]));
                     foreach ($secc as $ks => $vs) {
-                        $arrValAD["ID_FORMULARIO"] = $data["id_formulario"];
-                        $arrValAD["ID_SECCION3"] = $vs["ID_SECCION3"];
                         $arrValAD["ID_ESTADO_SEC"] = 0;
                         $arrValAD["PAG_SECCION3"] = 0;
                         if(substr($vs["ID_SECCION3"], 1) == '0') {
                             $arrValAD["FECHA_INI_SEC"] = $fechaactual;
                         }
-                        if(!$this->Modgmfh->ejecutar_insert('ENIG_ADMIN_GMF_CONTROL', $arrValAD)) {
-                            echo 'No se pudo guardar los avances del capitulo ' . $data["sec"][$ks]["CAPITULO"] . '.<br />';
+                        $arrWhereAD["ID_FORMULARIO"] = $data["id_formulario"];
+                        $arrWhereAD["ID_SECCION3"] = $vs["ID_SECCION3"];
+                        if(!$this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', $arrValAD, $arrWhereAD)) {
+                            echo 'No se pudo actualizar los avances del capitulo ' . $data["sec"][$ks]["CAPITULO"] . '.<br />';
                         }
                         unset($arrValAD);
                     }
@@ -60,6 +60,23 @@ class Modgasmenfrehogar extends MX_Controller {
                     $data["sec"][$ks]["BLOQ"] = 'SI';
                     $data["sec"][$ks]["IMG"] = base_url_images('ico_gmf_off_' . $data["sec"][$ks]["LOGO"] . '.png');
                     $data["sec"][$ks]["LOGO"] .= '-off';
+                }
+            } else {
+                $fechahoraactual = $this->Modgmfh->consultar_fecha_hora();
+                $fechaactual = substr($fechahoraactual, 0, 10);
+                $secc = $this->Modgmfh->listar_secciones(array('cap' => $data["sec"][$ks]["CAPITULO"]));
+                foreach ($secc as $ks => $vs) {
+                    $arrValAD["ID_FORMULARIO"] = $data["id_formulario"];
+                    $arrValAD["ID_SECCION3"] = $vs["ID_SECCION3"];
+                    $arrValAD["ID_ESTADO_SEC"] = 0;
+                    $arrValAD["PAG_SECCION3"] = 0;
+                    if (substr($vs["ID_SECCION3"], 1) == '0') {
+                        $arrValAD["FECHA_INI_SEC"] = $fechaactual;
+                    }
+                    if (!$this->Modgmfh->ejecutar_insert('ENIG_ADMIN_GMF_CONTROL', $arrValAD)) {
+                        echo 'No se pudo guardar los avances del capitulo ' . $data["sec"][$ks]["CAPITULO"] . '.<br />';
+                    }
+                    unset($arrValAD);
                 }
             }
         }

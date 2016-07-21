@@ -58,6 +58,7 @@ this.getElements = function(params, callbackFunc) {
 });
 
 $idSection = $("input#idSection");
+$idFormulario = $("input#idFormulario");
 
 appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageService', '$window', function($scope, dataService, localStorageService, $window) {
 	
@@ -69,9 +70,11 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 		"ID_SECCION3": $idSection.val()
 	};
 
+
 	var paramsInit = {
 		"elements" : {
-			"ID_SECCION3": $idSection.val()
+			"ID_SECCION3": $idSection.val(),
+			"ID_FORMULARIO": $idFormulario.val()
 		},				
 		"path": "ropaaccesorios/getelements"
 	};
@@ -506,42 +509,69 @@ appGHogar.controller('SeecionC', ['$scope', 'dataService', 'localStorageService'
 		$scope.servicios = [
 		{
 			"id": "P852055",
-			"servicio": "Acueducto"
+			"servicio": "Acueducto",
+			'idValor': "P10272S1A1",
+			"idMes": "P10272S1A2_1",
+			"idVerifica": "P10272S1A3_1"
 		},
 		{
 			"id": "P852054",
-			"servicio": "Recolección de basuras y aseo"
+			"servicio": "Recolección de basuras y aseo",
+			'idValor': "P10272S2A1",
+			"idMes": "P10272S1A2_2",
+			"idVerifica": "P10272S1A3_2"
 		},
 		{
 			"id": "P852053",
-			"servicio": "Alcantarillado"
+			"servicio": "Alcantarillado",
+			'idValor': "P10272S3A1",
+			"idMes": "P10272S1A2_3",
+			"idVerifica": "P10272S1A3_3"
 		},
 		{
 			"id": "P852051",
-			"servicio": "Energía eléctrica"
+			"servicio": "Energía eléctrica",
+			'idValor': "P10272S4A1",
+			"idMes": "P10272S1A2_4",
+			"idVerifica": "P10272S1A3_4"
 		},
 		{
 			"id": "P852052",
-			"servicio": "Gas natural por tubería"
+			"servicio": "Gas natural por tubería",
+			'idValor': "P10272S6A1",
+			"idMes": "P10272S1A2_6",
+			"idVerifica": "P10272S1A3_6"
 		},
 		{
 			"id": "P164651",
-			"servicio": "Teléfono residencial (local y larga distancia)"
+			"servicio": "Teléfono residencial (local y larga distancia)",
+			'idValor': "P10272S7A1",
+			"idMes": "P10272S1A2_7",
+			"idVerifica": "P10272S1A3_7"
 		},
 		{
 			"id": "P164653",
-			"servicio": "Internet fijo (banda ancha, acceso inalámbrico)"
+			"servicio": "Internet fijo (banda ancha, acceso inalámbrico)",
+			'idValor': "P10272S8A1",
+			"idMes": "P10272S1A2_8",
+			"idVerifica": "P10272S1A3_8"
 		},
 		{
 			"id": "P164652",
-			"servicio": "Televisión (cable, satelital, digitalizada, IPTV, antena parabólica)"
+			"servicio": "Televisión (cable, satelital, digitalizada, IPTV, antena parabólica)",
+			'idValor': "P10272S9A1",
+			"idMes": "P10272S1A2_9",
+			"idVerifica": "P10272S1A3_9"
 		}
 		];
 
 		$scope.alumbrado = [
 			{
 			"id": "P1027255",
-			"servicio": "Alumbrado público"
+			"servicio": "Alumbrado público",
+			'idValor': "P10272S5A1",
+			"idMes": "P10272S1A2_5",
+			"idVerifica": "P10272S1A3_5"
 			}
 		];
 
@@ -553,16 +583,16 @@ appGHogar.controller('SeecionC', ['$scope', 'dataService', 'localStorageService'
 		"ID_SECCION3": $idSection.val()
 	};
 
-	var paramsInit = {
+	/*var paramsInit = {
 		"elements" : {
-			"ID_SECCION3": $idSection.val()
+			"ID_SECCION3": "D3"
 		},				
-		"path": "ropaaccesorios/getelements"
+		"path": "ViviendaServicios/getelements"
 	};
 
 	dataService.getElements(paramsInit, function(dataResponse){
 		$scope.Formulario.rh = dataResponse;
-	});
+	});*/
 
 
 	$scope.validateForm1 = function(params){
@@ -577,11 +607,12 @@ appGHogar.controller('SeecionC', ['$scope', 'dataService', 'localStorageService'
 		};
 
 		dataService.saveSection(paramssec0, function(dataResponse){
+			console.log(dataResponse);
 			if($scope.Formulario.valorVariable == '1' && dataResponse.status == true){
 				$scope.pagesection = params;
 			}else{
 				console.log('regarga pagina');
-				$window.location.reload();
+				// $window.location.reload();
 			}
 		});	
 	};
@@ -597,19 +628,24 @@ appGHogar.controller('SeecionC', ['$scope', 'dataService', 'localStorageService'
 
 		dataService.saveSection(paramssec0, function(dataResponse){
 			console.log(dataResponse);
-			/*if($scope.Formulario.valorVariable == '1' && dataResponse.status == true){
+			if(dataResponse.status == true){
 				$scope.pagesection = params;
-			}else{
-				console.log('regarga pagina');
 				$window.location.reload();
-			}*/
+			}else{
+				console.log('error');
+			}
 		});	
 	};
 
 
-	$scope.activeValor = function(idServicio){
-		$scope.Formulario.servicios[servicio.id][valorotro] = false;
+	$scope.activeValor = function(idServicio, idValor){
+		$scope.Formulario.valor[idServicio] = false;
+		$scope.Formulario.servicios[idValor] = '';
 	};
+
+	$scope.changeValor = function(idValor, value){
+		$scope.Formulario.servicios[idValor] = value;
+	}
 
 
 	}]);
