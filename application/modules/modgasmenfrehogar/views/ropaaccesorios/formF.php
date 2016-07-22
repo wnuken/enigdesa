@@ -1,6 +1,7 @@
 <div ng-controller="Educacion">
 	<div class="ff">
 		<input type="hidden" name="idSection" id="idSection" value="<?php echo $idSection; ?>">
+		<input type="hidden" name="idFormulario" id="idFormulario" value="<?php echo $this->session->userdata("id_formulario"); ?>">
 		<div ng-init="pagesection = <?php echo $pageSection; ?>"></div>
 		<div ng-init="FormulariorHombre.pagesection = <?php echo $pageSection; ?>"></div>
 		<div ng-init="FormulariorHombre.idSection = '<?php echo $idSection; ?>'"></div>
@@ -385,8 +386,163 @@
 <div ng-if="pagesection == 4">
 
 	<div class="col-sm-12">
+		<form id="Page4" name="Page4">
+			<div class="table-responsive">
+				<table class="table">
+					<tr class="active">
+						<th colspan="13"><div class="text-center">Si lo hubiera tenido que comprar, ¿cuánto habría pagado por el bien o servicio?</div></th>
+					</tr>
+					<tr>
+						<th rowspan="2">Nombre del artículo o servicio ADQUIRIDO por otras formas diferentes a la compra</th>
+						<th colspan="2">adquirido como pago por TRABAJO</th>
+						<th colspan="2">adquirido como REGALO o DONACIÓN</th>
+						<th colspan="2">adquirido como INTERCAMBIO</th>
+						<th colspan="2">PRODUCIDO por el HOGAR</th>
+						<th colspan="2">tomado de un NEGOCIO PROPIO</th>
+						<th colspan="2">adquirido de OTRA FORMA?</th>
+					</tr>
 
-		<button class="btn btn-success" ng-click="validateForm5(5)" id="ENV_2_2">
+					<tr>
+						<th>Valor estimado</th>
+						<th>No sabe el valor estimado</th>
+						<th>Valor estimado</th>
+						<th>No sabe el valor estimado</th>
+						<th>Valor estimado</th>
+						<th>No sabe el valor estimado</th>
+						<th>Valor estimado</th>
+						<th>No sabe el valor estimado</th>
+						<th>Valor estimado</th>
+						<th>No sabe el valor estimado</th>
+						<th>Valor estimado</th>
+						<th>No sabe el valor estimado</th>
+					</tr>
+
+					<tr ng-repeat="rhom in FormulariorHombre.rh" ng-if="rhom.value === true && 
+					(rhom.ot.RECIBIDO_PAGO === true || rhom.ot.REGALO === true || rhom.ot.INTERCAMBIO === true || rhom.ot.PRODUCIDO === true || rhom.ot.NEGOCIO_PROPIO === true || rhom.ot.OTRA === true)">
+						<td>{{rhom.name}}</td>
+						<td>
+							<div class="form-group" ng-if="rhom.ot.RECIBIDO_PAGO && FormulariorHombre.otraforma[rhom.id]['RECIBIDO_PAGO'] !== false">
+								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" 
+								ng-model="FormulariorHombre.otraforma[rhom.id].RECIBIDO_PAGO" required ng-minlength="4"> 
+							</div>
+							<div class="form-group" ng-if="!rhom.ot.RECIBIDO_PAGO || FormulariorHombre.otraforma[rhom.id]['RECIBIDO_PAGO'] === false">
+								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" disabled> 
+							</div>
+						</td>
+						<td>
+							<div class="form-group" ng-if="rhom.ot.RECIBIDO_PAGO">
+								<input name="{{rhom.id}}1" id="{{rhom.id}}1" type="checkbox"
+								value="false" ng-click="changeValueOT(rhom.id, 'RECIBIDO_PAGO')"> 
+							</div>
+							<div class="form-group" ng-if="!rhom.ot.RECIBIDO_PAGO">
+								<input name="value2" id="value2" type="checkbox" disabled> 
+							</div>
+						</td>
+						
+						<td>
+							<div class="form-group" ng-if="rhom.ot.REGALO && FormulariorHombre.otraforma[rhom.id]['REGALO'] !== false">
+								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" 
+								ng-model="FormulariorHombre.otraforma[rhom.id].REGALO" required ng-minlength="4"> 
+							</div>
+							<div class="form-group" ng-if="!rhom.ot.REGALO || FormulariorHombre.otraforma[rhom.id]['REGALO'] === false">
+								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" disabled> 
+							</div>
+						</td>
+						<td>
+							<div class="form-group" ng-if="rhom.ot.REGALO">
+								<input name="{{rhom.id}}1" id="{{rhom.id}}1" type="checkbox"
+								value="false" ng-click="changeValueOT(rhom.id, 'REGALO')"> 
+							</div>
+							<div class="form-group" ng-if="!rhom.ot.REGALO">
+								<input name="value2" id="value2" type="checkbox" disabled> 
+							</div>
+						</td>
+
+						<td>
+							<div class="form-group" ng-if="rhom.ot.INTERCAMBIO && FormulariorHombre.otraforma[rhom.id]['INTERCAMBIO'] !== false">
+								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" 
+								ng-model="FormulariorHombre.otraforma[rhom.id].INTERCAMBIO" required ng-minlength="4"> 
+							</div>
+							<div class="form-group" ng-if="!rhom.ot.INTERCAMBIO || FormulariorHombre.otraforma[rhom.id]['INTERCAMBIO'] === false">
+								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" disabled> 
+							</div>
+						</td>
+						<td>
+							<div class="form-group" ng-if="rhom.ot.INTERCAMBIO">
+								<input name="{{rhom.id}}1" id="{{rhom.id}}1" type="checkbox"
+								value="false" ng-click="changeValueOT(rhom.id, 'INTERCAMBIO')"> 
+							</div>
+							<div class="form-group" ng-if="!rhom.ot.INTERCAMBIO">
+								<input name="value2" id="value2" type="checkbox" disabled> 
+							</div>
+						</td>
+
+						<td>
+							<div class="form-group" ng-if="rhom.ot.PRODUCIDO && FormulariorHombre.otraforma[rhom.id]['PRODUCIDO'] !== false">
+								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" 
+								ng-model="FormulariorHombre.otraforma[rhom.id].PRODUCIDO" required ng-minlength="4"> 
+							</div>
+							<div class="form-group" ng-if="!rhom.ot.PRODUCIDO || FormulariorHombre.otraforma[rhom.id]['PRODUCIDO'] === false">
+								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" disabled> 
+							</div>
+						</td>
+						<td>
+							<div class="form-group" ng-if="rhom.ot.PRODUCIDO">
+								<input name="{{rhom.id}}1" id="{{rhom.id}}1" type="checkbox"
+								value="false" ng-click="changeValueOT(rhom.id, 'PRODUCIDO')"> 
+							</div>
+							<div class="form-group" ng-if="!rhom.ot.PRODUCIDO">
+								<input name="value2" id="value2" type="checkbox" disabled> 
+							</div>
+						</td>
+
+						<td>
+							<div class="form-group" ng-if="rhom.ot.NEGOCIO_PROPIO && FormulariorHombre.otraforma[rhom.id]['NEGOCIO_PROPIO'] !== false">
+								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" 
+								ng-model="FormulariorHombre.otraforma[rhom.id].NEGOCIO_PROPIO" required ng-minlength="4"> 
+							</div>
+							<div class="form-group" ng-if="!rhom.ot.NEGOCIO_PROPIO || FormulariorHombre.otraforma[rhom.id]['NEGOCIO_PROPIO'] === false">
+								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" disabled> 
+							</div>
+						</td>
+						<td>
+							<div class="form-group" ng-if="rhom.ot.NEGOCIO_PROPIO">
+								<input name="{{rhom.id}}1" id="{{rhom.id}}1" type="checkbox"
+								value="false" ng-click="changeValueOT(rhom.id, 'NEGOCIO_PROPIO')"> 
+							</div>
+							<div class="form-group" ng-if="!rhom.ot.NEGOCIO_PROPIO">
+								<input name="value2" id="value2" type="checkbox" disabled> 
+							</div>
+						</td>
+
+						<td>
+							<div class="form-group" ng-if="rhom.ot.OTRA && FormulariorHombre.otraforma[rhom.id]['OTRA'] !== false">
+								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" 
+								ng-model="FormulariorHombre.otraforma[rhom.id].OTRA" required ng-minlength="4"> 
+							</div>
+							<div class="form-group" ng-if="!rhom.ot.OTRA || FormulariorHombre.otraforma[rhom.id]['OTRA'] === false">
+								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" disabled> 
+							</div>
+						</td>
+						<td>
+							<div class="form-group" ng-if="rhom.ot.OTRA">
+								<input name="{{rhom.id}}1" id="{{rhom.id}}1" type="checkbox"
+								value="false" ng-click="changeValueOT(rhom.id, 'OTRA')"> 
+							</div>
+							<div class="form-group" ng-if="!rhom.ot.OTRA">
+								<input name="value2" id="value2" type="checkbox" disabled> 
+							</div>
+						</td>
+
+
+
+					</tr>
+
+				</table>
+				</div>
+		</form>
+
+		<button class="btn btn-success" ng-disabled="!Page4.$valid" ng-click="validateForm5(5)" id="ENV_2_2">
 			Guardar y Continuar
 			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true" title="Continuar"></span>
 		</button>

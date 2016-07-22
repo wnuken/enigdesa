@@ -264,6 +264,25 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 		}
 	}
 
+	$scope.changeValueOT = function(idElement, nameElement){
+		if(typeof $scope.FormulariorHombre.otraforma == 'undefined'){
+			$scope.FormulariorHombre.otraforma = [];
+		};
+
+		if(typeof $scope.FormulariorHombre.otraforma[idElement] == 'undefined'){
+			$scope.FormulariorHombre.otraforma[idElement] = [];
+		};
+
+		if(typeof $scope.FormulariorHombre.otraforma[idElement][nameElement] == 'undefined' || 
+			$scope.FormulariorHombre.otraforma[idElement][nameElement] !== false){
+			$scope.FormulariorHombre.otraforma[idElement][nameElement] = false;
+		}else if($scope.FormulariorHombre.otraforma[idElement][nameElement] === false){
+			$scope.FormulariorHombre.otraforma[idElement][nameElement] = '';
+		};
+		
+		console.log($scope.FormulariorHombre);
+	};
+
 
 }]);
 
@@ -280,7 +299,8 @@ appGHogar.controller('Educacion', ['$scope', 'dataService', 'localStorageService
 
 	var paramsInit = {
 		"elements" : {
-			"ID_SECCION3": $idSection.val()
+			"ID_SECCION3": $idSection.val(),
+			"ID_FORMULARIO": $idFormulario.val()
 		},				
 		"path": "Educacion/getelements"
 	};
@@ -484,6 +504,25 @@ appGHogar.controller('Educacion', ['$scope', 'dataService', 'localStorageService
 			
 		}
 	}
+
+	$scope.changeValueOT = function(idElement, nameElement){
+		if(typeof $scope.FormulariorHombre.otraforma == 'undefined'){
+			$scope.FormulariorHombre.otraforma = [];
+		};
+
+		if(typeof $scope.FormulariorHombre.otraforma[idElement] == 'undefined'){
+			$scope.FormulariorHombre.otraforma[idElement] = [];
+		};
+
+		if(typeof $scope.FormulariorHombre.otraforma[idElement][nameElement] == 'undefined' || 
+			$scope.FormulariorHombre.otraforma[idElement][nameElement] !== false){
+			$scope.FormulariorHombre.otraforma[idElement][nameElement] = false;
+		}else if($scope.FormulariorHombre.otraforma[idElement][nameElement] === false){
+			$scope.FormulariorHombre.otraforma[idElement][nameElement] = '';
+		};
+		
+		console.log($scope.FormulariorHombre);
+	};
 
 
 }]);
