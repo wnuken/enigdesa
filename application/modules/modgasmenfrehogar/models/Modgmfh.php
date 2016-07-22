@@ -85,6 +85,9 @@ class Modgmfh extends My_model {
         else if (array_key_exists("id0", $arrDatos)) {
             $cond .= " AND S.ID_SECCION3 LIKE '" . $arrDatos["id0"] . "%'";   
         }
+        if (array_key_exists("idForm", $arrDatos)) {
+            $cond .= " AND A.ID_FORMULARIO = '" . $arrDatos["idForm"] . "'";
+        }
         if (array_key_exists("cap", $arrDatos)) {
             $cond .= " AND S.CAPITULO = '" . $arrDatos["cap"] . "'";
         }

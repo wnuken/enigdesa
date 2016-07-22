@@ -251,7 +251,7 @@ $(function() {
 	echo "\t\$('#NC2_CC_P4_S3').number(true, 0, ',', '.');\n";
 	echo "\t\$('#NC2_CC_P4_S4').number(true, 0, ',', '.');\n";
 	echo "$('#ENV_". $secc['ID_SECCION']."_". $secc['PAGINA'] ."').verificar_enviar('". $secc['ID_SECCION']."_". $secc['PAGINA'] ."','". 
-		site_url("modgastoshogar/Gastoshog/guardar/". $secc['ID_SECCION']."_". $secc['PAGINA']). "/NA', regla_". $secc['ID_SECCION']."_". $secc['PAGINA'] .");\n";
+		site_url("modgastoshogar/Gastoshog/guardar/". $secc['ID_SECCION']."_". $secc['PAGINA']) ."', regla_". $secc['ID_SECCION']."_". $secc['PAGINA'] .");\n";
 ?>
 });
 </script>

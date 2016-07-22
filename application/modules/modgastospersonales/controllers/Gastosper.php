@@ -7,149 +7,192 @@
  * @since 2016-04-11
  */
 class Gastosper extends MX_Controller {
-	
+
 	public function __construct() {
-		parent::__construct ();
-		$this->config->load ( "sitio" );
-		$this->load->library ( "danecrypt" );
-		date_default_timezone_set ( 'America/Bogota' );
-	}
-	
-	/**
-	 * Ingreso al menu de personas
-	 * @author mayandarl
-	 */
-	public function index() {
-		/*$this->load->model (array ("Mingresos", "control/Modmenu"));
-		$data["id_formulario"] = $this->session->userdata("id_formulario");
-		if (empty ( $data ["id_formulario"] )) {
-			redirect('/');
-		} else {
-			$data['personas'] = $this->Mingresos->listadoPersonasRegistro($data["id_formulario"]);
-			$data["view"] = "vmenu";
-			$this->load->view ( "layout", $data );
-		}*/
-	}
-	
-	public function generales($id_persona) {
-		$this->registrar($id_persona);
-		$data = $this->formulario('PERSONAL');
-		// Adiciona la lista de personas del hogar.
-		$data['preg']["opc"] = array_merge($data['preg']["opc"], $this->Mformulario->listarPersonas($data["id_formulario"], 'P6081S1', "HOMB>". $data['persona']['P6040']));
-		$data['preg']["opc"] = array_merge($data['preg']["opc"], $this->Mformulario->listarPersonas($data["id_formulario"], 'P6083S1', "MUJE>". $data['persona']['P6040']));
-		$data['preg']["opc"] = array_merge($data['preg']["opc"], $this->Mformulario->listarPersonas($data["id_formulario"], 'P6071S1', "EXCL=". $id_persona));
-		$data["view"] = "vpersonas"; 
-		$this->load->view("layout", $data);
-	}
-	
-	public function antgenerales() {
-		$this->load->model (array ("formulario/Mformulario", "control/Modmenu"));
-		$id_formulario = $this->session->userdata("id_formulario");
-		$id_persona = $this->session->userdata("id_persona");
-		if (empty($id_formulario) || empty ($id_persona)) {
-			redirect('/');
-		}
-		else {
-			$secc = $this->Modmenu->obtenerSeccPagAnteriorPersonas($id_formulario, $id_persona, 'PERSONAL');
-			//pr($secc); exit;
-			$this->Modmenu->guardarAvanceFormularioPersonas($id_formulario, $id_persona, $secc['ID_SECCION'], $secc['PAGINA'], 'NO');
-			redirect('modinggasper/Personas/generales/'. $id_persona);
-		}
+		parent::__construct();
+		$this->config->load("sitio");
 	}
 
-	public function ingresos($id_persona) {
-		$this->registrar($id_persona);
-		// Verificar Avance de Personas
-		$data = $this->formulario('INGRESOS');
-		$data["view"] = "vingresos";
-		$this->load->view("layout", $data);
-	}
-
-	public function antingresos() {
-		$this->load->model (array ("formulario/Mformulario", "control/Modmenu"));
-		$id_formulario = $this->session->userdata("id_formulario");
-		$id_persona = $this->session->userdata("id_persona");
-		if (empty($id_formulario) || empty ($id_persona)) {
-			redirect('/');
-		}
-		else {
-			$secc = $this->Modmenu->obtenerSeccPagAnteriorPersonas($id_formulario, $id_persona, 'INGRESOS');
-			//pr($secc); exit;
-			$this->Modmenu->guardarAvanceFormularioPersonas($id_formulario, $id_persona, $secc['ID_SECCION'], $secc['PAGINA'], 'NO');
-			redirect('modinggasper/Personas/ingresos/'. $id_persona);
-		}
-	}
-
-	public function gastos($id_persona) {
-		$this->formulario('GASTOS');
-	}
-
-	public function registrar($id_persona) {
-		$this->load->model (array ("Mingresos"));
-		$sessionData = array("auth" => "OK",
-					 "id_formulario" => $this->session->userdata("id_formulario"),
-					 "id_persona" => $id_persona,
-					 "visita" => date("Y-m-d H:i:s"));
-		$this->session->set_userdata($sessionData);
-		$this->Mingresos->registrarInicioPersonas($id_persona);
-		//redirect('/modinggasper/Personas/siguiente');
-	}
-	
 	/**
 	 * Ingreso de datos del formulario
 	 * @author mayandarl
 	 */
-	private function formulario($capitulo) {
-		$this->load->model (array ("Mingresos", "control/Modmenu", "formulario/Mformulario"));
+	public function index($id_persona) {
+		$this->load->model (array ("formulario/Mformulario", "control/Modmenu", "Modgastosper"));
 		$data["id_formulario"] = $this->session->userdata("id_formulario");
-		$data["id_persona"] = $this->session->userdata("id_persona");
+		$data["id_persona"] = $id_persona;
+		$sessionData = array("auth" => "OK",
+					 "id_formulario" => $data["id_formulario"],
+					 "id_persona" => $data["id_persona"],
+					 "visita" => date("Y-m-d H:i:s"));
+		$this->session->set_userdata($sessionData);
 		if (empty($data["id_formulario"]) || empty ($data["id_persona"])) {
-			redirect('/');
+			redirect('modinggasper/Personas');
 		}
 		else {
-			$data['secc'] = $this->Modmenu->obtenerSeccPagActualPersonas($data["id_formulario"], $data["id_persona"], $capitulo);
-			$data['secc']['ENCABEZADO'] = $this->Mformulario->asignarFechasEtiqueta($data['secc']['ENCABEZADO'], $data["id_formulario"]);
-			$data['persona'] = $this->Mingresos->obtenerPersona($data["id_formulario"], $data["id_persona"]);
-			//$data['lspers'] = $this->Mingresos->listarPersonas($data["id_formulario"]);
-			$data['fechas'] = $this->Modmenu->obtenerFechas($data["id_formulario"]);
-			if (empty($data['secc']['ID_SECCION']) || empty($data['secc']['PAGINA'])) {
-				redirect('/modinggasper/Personas');
+			$this->Modgastosper->asignar7Dias($data["id_formulario"], $data["id_persona"]);
+			$dia = $this->Modgastosper->obtenerSeccDias($data["id_formulario"], $data["id_persona"]);
+			$hoy = date("Y-m-d");
+			$i = 0;
+			foreach ($dia as $k=>$v) {
+				if ($v == $hoy)
+					$data['dias'][$i]['E'] = "HOY";
+				// Habilita el dia de ayer
+				elseif ($v == date("Y-m-d", strtotime("-1 day", strtotime($hoy))))
+					$data['dias'][$i]['E'] = "ON";
+				// Habilita el dia de anteayer
+				elseif ($v == date("Y-m-d", strtotime("-2 day", strtotime($hoy))))
+					$data['dias'][$i]['E'] = "ON";
+				else 
+					$data['dias'][$i]['E'] = "OFF";
+				$data['dias'][$i]['F'] = $this->Modmenu->consultarEstadoSeccionPersonas($data["id_formulario"], $data["id_persona"], $k, '1');
+				$data['dias'][$i]['S'] = $k;
+				$data['dias'][$i]['D'] = $this->Modgastosper->buscarDia($data["id_formulario"], $data["id_persona"], $k);
+				$data['dias'][$i]['C'] = $this->Modgastosper->fecha2texto($data['dias'][$i]['D']);
+				$i++;
 			}
-			else {
-				//$data["vardep"] = $this->Mingresos->variablesDependientes($data['secc']['ID_SECCION'], $data['secc']['PAGINA'], $data["id_formulario"], $data["id_persona"]);
-				$data['preg']["grv"] = $this->Mformulario->listarGruposVariables($data['secc']['ID_SECCION'], $data['secc']['PAGINA']);
-				$data['preg']["var"] = $this->Mingresos->listarVariables($data['secc']['ID_SECCION'], $data['secc']['PAGINA'], $data["id_formulario"], $data["id_persona"]);
-				$data['preg']["opc"] = $this->Mingresos->listarOpciones($data['secc']['ID_SECCION'], $data['secc']['PAGINA'], $data["id_formulario"], $data["id_persona"]);
-				$data['preg']["reg"] = $this->Mformulario->listarConsistencias($data['secc']['ID_SECCION'], $data['secc']['PAGINA']);
-				$data['preg']["dep"] = $this->Mformulario->listarDependencias($data['secc']['ID_SECCION'], $data['secc']['PAGINA']);
-				$data['resp'] = $this->Mingresos->listarValores($data['preg']["var"], $data["id_formulario"], $data['id_persona']);
-			}
+			$data['persona'] = $this->Mformulario->obtenerPersona($data["id_formulario"], $id_persona);
+			$data['preg_art']["var"] = $this->Mformulario->listarVariables('GDPARTICULOS', '1', $data["id_formulario"]);
+			$data['preg_art']["opc"] = $this->Mformulario->listarOpciones('GDPARTICULOS', '1', $data["id_formulario"]);
+			$data['preg_art']["reg"] = $this->Mformulario->listarConsistencias('GDPARTICULOS', '1');
+			$data['preg_art']["dep"] = $this->Mformulario->listarDependencias('GDPARTICULOS', '1');
+			$data['preg_com']["var"] = $this->Mformulario->listarVariables('GDPCOMIDAS', '1', $data["id_formulario"]);
+			$data['preg_com']["opc"] = $this->Mformulario->listarOpciones('GDPCOMIDAS', '1', $data["id_formulario"]);
+			$data['preg_com']["reg"] = $this->Mformulario->listarConsistencias('GDPCOMIDAS', '1');
+			$data['preg_com']["dep"] = $this->Mformulario->listarDependencias('GDPCOMIDAS', '1');
+			//pr($data);
+			$data["view"] = "vgdpdias";
+			$this->load->view("layout", $data);
 		}
-		//pr($data); exit;
-		return $data;
+	}
+
+	/**
+	 * Resultado de guardar el formulario
+	 * @author mayandarl
+	 */
+	public function guardar($tabla) {
+		$this->load->model(array("Modgastosper", "control/Modmenu"));
+		$resultado = false;
+		$id_formulario = $this->session->userdata("id_formulario");
+		$id_persona = $this->session->userdata("id_persona");
+		if ($tabla == 'ARTICULOS') {
+			$dia = $_POST['_DIA_ART'];
+			if ($_POST['_ACC_ARTICULOS'] == 'UPDATE')
+				$resultado = $this->Modgastosper->actualizarFormularioArticulo($id_formulario, $id_persona, $dia, $_POST['_ID_ARTICULO'], $_POST);
+			elseif ($_POST['_ACC_ARTICULOS'] == 'INSERT')
+				$resultado = $this->Modgastosper->crearFormularioArticulo($id_formulario, $id_persona, $dia, uniqid(), $_POST);
+			echo "<b>Art&iacute;culo guardado</b>";
+		}
+		elseif ($tabla == 'COMIDAS') {
+			$dia = $_POST['_DIA_COM'];
+			if ($_POST['_ACC_COMIDAS'] == 'UPDATE')
+				$resultado = $this->Modgastosper->actualizarFormularioComida($id_formulario, $id_persona, $dia, $_POST['_ID_COMIDA'], $_POST);
+			elseif ($_POST['_ACC_COMIDAS'] == 'INSERT')
+				$resultado = $this->Modgastosper->crearFormularioComida($id_formulario, $id_persona, $dia, uniqid(), $_POST);
+			echo "<b>Comida guardada</b>";
+		}
+		/*if ($resultado) {
+			$inicio = $_POST['_INI_ARTICULOS'];
+			$fin = date("Y-m-d H:i:s");
+			$this->Modmenu->guardarRegistroFormulario($id_formulario, 'FAMILIA', '1', $inicio, $fin);
+		}*/
 	}
 	
 	/**
 	 * Resultado de guardar el formulario
 	 * @author mayandarl
-	 * @since 2015-07-21
 	 */
-	public function guardar($seccion, $pagina) {
-		$data = array ();
-		$this->load->model ( array ("Mingresos", "control/Modmenu") );
-		$id_formulario = $this->session->userdata ("id_formulario");
+	public function findia($secc) {
+		$this->load->model(array("Modgastosper", "control/Modmenu"));
+		$id_formulario = $this->session->userdata("id_formulario");
 		$id_persona = $this->session->userdata("id_persona");
-		$resultado = $this->Mingresos->actualizarFormularioPersonas($id_formulario, $id_persona, $_POST);
-		if ($resultado) {
-			$inicio = $_POST['_INI_' . $seccion . '_' . $pagina];
-			$fin = date ("Y-m-d H:i:s");
-			$this->Modmenu->guardarRegistroFormulario($id_formulario, $seccion, $pagina, $inicio, $fin);
-			$this->Modmenu->guardarAvanceFormularioPersonas($id_formulario, $id_persona, $seccion, $pagina, 'SI');
+		if (!empty($secc)) {
+			//echo $id_formulario ."/". $secc;
+			$this->Modmenu->guardarAvanceFormularioPersonas($id_formulario, $id_persona, $secc, '1', 'SI');
 		}
-		// Analizar resultado y remitir a la siguiente Pagina.
-		echo "<b>Formulario guardado exitosamente.</b>";
-		// echo "</PRE>"; print_r($resultado); echo "</PRE>";
+	}
+
+	/**
+	 * Resultado de listar todas los articulos del formulario
+	 * @author Mario A. Yandar
+	 */
+	public function articulos ($dia) {
+		$this->load->model("Modgastosper");
+		$id_formulario = $this->session->userdata("id_formulario");
+		$id_persona = $this->session->userdata("id_persona");
+		$data = $this->Modgastosper->listadoArticulos($id_formulario, $id_persona, $dia);
+		echo json_encode($data);
+	}
+
+	/**
+	 * Resultado de Guardar en el formulario
+	 * @author Mario A. Yandar
+	 */
+	public function articulo ($id_articulo) {
+		$this->load->model("Modgastosper");
+		$id_formulario = $this->session->userdata("id_formulario");
+		$id_persona = $this->session->userdata("id_persona");
+		$data = $this->Modgastosper->buscarArticulo($id_formulario, $id_persona, $id_articulo);
+		echo json_encode($data);
+	}
+
+	/**
+	 * Resultado de Eliminar en el formulario
+	 * @author Mario A. Yandar
+	 */
+	public function noarticulo ($id_articulo) {
+		$this->load->model("Modgastosper");
+		$id_formulario = $this->session->userdata("id_formulario");
+		$id_persona = $this->session->userdata("id_persona");
+		$data = $this->Modgastosper->eliminarArticulo($id_formulario, $id_persona, $id_articulo);
+		return true;
+	}
+
+	/**
+	 * Autocompletar Articulos
+	 * @author Mario A. Yandar
+	 */
+	public function autocart($name) {
+		$this->load->model("Modgastosper");
+		$data = $this->Modgastosper->autocompletarArt(strtoupper($name));
+		echo json_encode($data);
+	}
+
+	/**
+	 * Resultado de listar todas las comidas del formulario
+	 * @author Mario A. Yandar
+	 */
+	public function comidas ($dia) {
+		$this->load->model("Modgastosper");
+		$id_formulario = $this->session->userdata("id_formulario");
+		$id_persona = $this->session->userdata("id_persona");
+		$data = $this->Modgastosper->listadoComidas($id_formulario, $id_persona, $dia);
+		echo json_encode($data);
+	}
+
+	/**
+	 * Resultado de Guardar en el formulario
+	 * @author Mario A. Yandar
+	 */
+	public function comida ($id_comida) {
+		$this->load->model("Modgastosper");
+		$id_formulario = $this->session->userdata("id_formulario");
+		$id_persona = $this->session->userdata("id_persona");
+		$data = $this->Modgastosper->buscarComida($id_formulario, $id_persona, $id_comida);
+		echo json_encode($data);
+	}
+
+	/**
+	 * Resultado de Eliminar en el formulario
+	 * @author Mario A. Yandar
+	 */
+	public function nocomida($id_comida) {
+		$this->load->model("Modgastosper");
+		$id_formulario = $this->session->userdata("id_formulario");
+		$id_persona = $this->session->userdata("id_persona");
+		$data = $this->Modgastosper->eliminarComida($id_formulario, $id_persona, $id_comida);
+		return true;
 	}
 	
-}
+}// EOC
 ?>

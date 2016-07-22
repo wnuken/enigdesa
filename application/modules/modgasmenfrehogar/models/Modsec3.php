@@ -101,11 +101,20 @@ class Modsec3 extends My_model {
     			$asignacion = "\$articulo=\$hdd_articulo_".$i.";";
    				eval($asignacion);
    				   				
-   				$asignacion = "isset(\$txt_valor_".$i.")?\$pago=\$txt_valor_".$i.":\$pago=NULL;";
+   				//Columna valor pagado
+				$asignacion = "isset(\$txt_valor_".$i.")?\$pago=\$txt_valor_".$i.":\$pago=NULL;";
    				eval($asignacion);
 				//Asigna 99 a pago si existe check no recuerda ( es decir esta checkeado)
 				$asignacion = "isset(\$chk_no_recuerda_".$i.")?\$pago=99:'';";
    				eval($asignacion);
+				
+				//Columna valor pagado por CREDITO
+				$asignacion = "isset(\$txt_valor_credito_".$i.")?\$pago_credito=\$txt_valor_credito_".$i.":\$pago_credito=NULL;";
+   				eval($asignacion);
+				//Asigna 99 a pago_credito si existe check_credito no recuerda ( es decir esta checkeado)
+				$asignacion = "isset(\$chk_credito_no_recuerda_".$i.")?\$pago_credito=99:'';";
+   				eval($asignacion);
+				
 				
 				$asignacion = "isset(\$sel_lugar_".$i.")?( (\$sel_lugar_".$i."=='' || \$sel_lugar_".$i."=='-')?\$lugar=NULL:\$lugar=\$sel_lugar_".$i." ): \$lugar=NULL; ";
 				eval($asignacion);
@@ -121,8 +130,8 @@ class Modsec3 extends My_model {
 				if($res!=1)
 					echo "ERROR: al guardar un artículo";
 				*/	
-				$sql="INSERT INTO ENIG_FORM_GMF_COMPRA (ID_FORMULARIO,ID_ARTICULO3,VALOR_PAGADO,LUGAR_COMPRA,FRECUENCIA_COMPRA) 
-				VALUES ('$ID_FORMULARIO', '$articulo', '$pago', '$lugar', '$frec') ";
+				$sql="INSERT INTO ENIG_FORM_GMF_COMPRA (ID_FORMULARIO,ID_ARTICULO3,VALOR_PAGADO,LUGAR_COMPRA,FRECUENCIA_COMPRA,VALOR_PAGADO_CREDITO) 
+				VALUES ('$ID_FORMULARIO', '$articulo', '$pago', '$lugar', '$frec','$pago_credito') ";
 				
 				$query = $this->db->query($sql);
 				if (!$query){
@@ -144,6 +153,31 @@ class Modsec3 extends My_model {
 					
 					$sql2="INSERT INTO ENIG_FORM_GMF_VARIABLES (ID_FORMULARIO,ID_VARIABLE,VALOR_VARIABLE) 
 					VALUES ('$ID_FORMULARIO', '$nom_var', '$txt_total') ";
+					$query = $this->db->query($sql2);
+					if (!$query){
+						echo "ERROR: al guardar una variable";
+					}	
+					
+				}else
+				{
+					echo "ERROR: No existe la variable";
+				}
+			}
+			// TOTAL PAGADO CREDITO
+			if ( isset($txt_total_credito) )
+			{
+				
+				$sql = "SELECT ID_VARIABLE_TOTAL_PAGO2
+						FROM ENIG_ADMIN_GMF_SECCIONES 
+						WHERE ID_SECCION3='$hdd_sec' ";        
+				$nom_var="";
+				$query = $this->db->query($sql);
+				if ($query->num_rows()>0){
+						$row=$query->row();
+						$nom_var=$row->ID_VARIABLE_TOTAL_PAGO2;
+					
+					$sql2="INSERT INTO ENIG_FORM_GMF_VARIABLES (ID_FORMULARIO,ID_VARIABLE,VALOR_VARIABLE) 
+					VALUES ('$ID_FORMULARIO', '$nom_var', '$txt_total_credito') ";
 					$query = $this->db->query($sql2);
 					if (!$query){
 						echo "ERROR: al guardar una variable";
@@ -243,28 +277,6 @@ class Modsec3 extends My_model {
 	}
 	
 	/**
-     * Actualiza la página en tabla de control
-     * @access Public
-     * @author hhchavezv
-	 * @param  $id_form: id del formulario
-	 * @param  $id_seccion: submódulo que está diligenciando (ej: C1 )
-	 * @param  $pagina: número de página siguiente para diligenciar
-     * @return Bool =1 dependiendo de si se realizo correctamente la operación o no
-     */
-    public function actualizaPaginaControl($id_form, $id_seccion,$pagina) 
-	{               
-		$arrValores["PAG_SECCION3"]=$pagina;
-		
-		$arrWhere["ID_FORMULARIO"]=$id_form;
-		$arrWhere["ID_SECCION3"]=$id_seccion;
-		
-		$res=$this->ejecutar_update("ENIG_ADMIN_GMF_CONTROL", $arrValores, $arrWhere);
-		if(!$res)
-			echo "ERROR al actualizar página en Control.";	
-		return $res;
-	}
-	
-	/**
      * consulta si la sección tiene la variable de medio de pago
      * @access Public
      * @author hhchavezv
@@ -289,5 +301,33 @@ class Modsec3 extends My_model {
 		}
 		return $existe;
 	}	
+	
+	/**
+     * consulta si la sección tiene la segunda forma de pago a CREDITO
+     * @access Public
+     * @author hhchavezv
+	 * @param  $id_seccion: submódulo que está diligenciando (ej: C1 )
+	 * @return Bool =true dependiendo de si se realizo correctamente la operación o no
+     */
+    public function habilitaPreguntaCredito($id_seccion) 
+	{               
+		$sql = "SELECT ID_VARIABLE_TOTAL_PAGO2
+				FROM ENIG_ADMIN_GMF_SECCIONES 
+				WHERE ID_SECCION3='$id_seccion' ";        
+		$existe=false;
+		$query = $this->db->query($sql);
+		if ($query->num_rows()>0){
+			$row=$query->row();
+			$nom_var=$row->ID_VARIABLE_TOTAL_PAGO2;
+			if( $nom_var === NULL )
+				$existe=false;
+			else
+				$existe=true;
+		}
+		return $existe;
+	}
+
+	
+
 }
 //EOC

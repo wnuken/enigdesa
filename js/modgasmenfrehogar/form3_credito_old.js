@@ -4,8 +4,7 @@
  * @since  2016jul06
  */
  
-	$(function(){ 
-	
+	$(function(){ alert("prueba pag3 credito");
 	$("#div_otro_pago").hide();
 	$("#txt_total").numerico().largo(15);
 	$("#txt_total_credito").numerico().largo(15);
@@ -111,38 +110,18 @@
 			$("#txt_otro_medio_pago").attr("disabled",true);
 		}
 	});
-	
-	/* nota: se daña validacion al colocarle puntos
-	// Poner punto de miles a los valores estimados
-    $( "input[type=text]" ).on( "keyup blur", function() {
-		// Validaciones
-			var numero = $(this).val().replace(/\./g, '');			
-            var numConMiles = agregarPuntosMiles(numero);
-            $(this).val(numConMiles);
-        
-    });
-	
-	$( "#txt_total , #txt_total_credito" ).on( "keyup blur change", function() {
-		// Validaciones
-			var numero = $(this).val().replace(/\./g, '');			
-            var numConMiles = agregarPuntosMiles(numero);
-            $(this).val(numConMiles);
-        
-    });*/
-	
+		
 });//EOC
 
 // Construye las validaciones de la tabla de articulos
 function pag3_valida_articulos_pagados()
 {	
 	var nro_articulos=parseInt ($("#hdd_nro_articulos").val() );
-	// Mascara para miles
 	
 	//Genera validaciones 
 	
 	for (x=0; x<nro_articulos; x=x+1) 
 	{ 	
-		
 		var valor="#txt_valor_"+x;
 		var no_recuerda="#chk_no_recuerda_"+x;
 		var valor_credito="#txt_valor_credito_"+x;
@@ -151,37 +130,20 @@ function pag3_valida_articulos_pagados()
 		var lugar="#sel_lugar_"+x;
 		var frec="#sel_frec_"+x;
 		
-		var rango_min= parseInt( $("#hdd_rango_min").val(), 10);
-		var rango_max= parseInt( $("#hdd_rango_max").val(), 10);
-		
-		
 		//Formato
-	/*	$(valor).numerico().largo(11);
-		$(valor_credito).numerico().largo(11);
-		*/
-		if(!isNaN(rango_max)) {
-			$( "input[type=text]" ).numerico().largo(agregarPuntosMiles(rango_max).length);
-		}
+		$(valor).numerico().largo(8);
+		$(valor_credito).numerico().largo(8);
 		
 		// Validaciones
-		$(valor).rules("add", { required   :   true,  
-								menorQue:rango_min, 
-								mayorQue:rango_max,
-								esEntero : true, 
-					 messages: { required   :  "Digite un valor.", 
-								 menorQue:"Digite un valor mayor de "+agregarPuntosMiles(rango_min), 
-								 mayorQue:"Digite un valor menor de "+agregarPuntosMiles(rango_max),
-								 esEntero: "Digite solo números."}
+		$(valor).rules("add", { required   :   true,  menorIgualQue:500,
+					 messages: { required   :  "Digite un valor.", menorIgualQue:"Digite un valor mayor de 500"}
 					});
 		/*$(no_recuerda).rules("add", { required   :   true, 
 					 messages: { required   :  "Digite un valor."}
 					});*/
-					
-		if($(valor_credito).length >0){// si existe
-		$(valor_credito).rules("add", { required   :   true,  menorQue:rango_min, mayorQue:rango_max,
-					 messages: { required   :  "Digite un valor.", menorQue:"Digite un valor mayor de "+rango_min, mayorQue:"Digite un valor menor de "+rango_max}
-					});
-		}			
+		$(valor_credito).rules("add", { required   :   true,  menorIgualQue:500,
+					 messages: { required   :  "Digite un valor.", menorIgualQue:"Digite un valor mayor de 500"}
+					});			
 		$(lugar).rules("add", { comboBox   :   '-', 
 					 messages: { comboBox   :  "seleccione una opci\u00f3n."}
 					});
@@ -209,9 +171,9 @@ function pag3_suma_articulos(tipo)
 	}
 	
 	if(tipo ==1)	
-		$("#txt_total").attr("value",agregarPuntosMiles(suma));
+		$("#txt_total").attr("value",suma);
 	else if(tipo ==2)
-		$("#txt_total_credito").attr("value",agregarPuntosMiles(suma));	
+		$("#txt_total_credito").attr("value",suma);	
 	
 }//func
 
@@ -239,8 +201,3 @@ function pag3_deshabilita_pago(fila, tipo)
 	
 	
 }//func
-
-// Mascara para miles
-var agregarPuntosMiles = function(numero){
-        return String(numero).split(/(?=(?:\d{3})+$)/).join(".");// nota: en BD la coma es el separador de miles
-    }

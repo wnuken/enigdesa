@@ -47,32 +47,10 @@
 		
 	<div class="table-responsive">
 	<input type="hidden" id="hdd_nro_articulos" name="hdd_nro_articulos" value="<?php echo count($arrArticulos);?>" />
-	<input type="hidden" id="hdd_rango_min" name="hdd_rango_min" value="<?php echo $rango_min;?>" />
-	<input type="hidden" id="hdd_rango_max" name="hdd_rango_max" value="<?php echo $rango_max;?>" />
 	<!--<table class="table table-hover table-bordered">-->
 	<table class="table table-hover">
     <thead>
-		<?php if($habilita_credito != '') { // se debe habilitar columna crédito ?>
         <tr class="active">
-            <th style="text-align:center;" rowspan="3" width="28%">Nombre del artículo o servicio COMPRADO o PAGADO</th>
-            <th style="text-align:center;" colspan="4" width="42%">¿Cuánto fue el valor TOTAL pagado por el artículo o servicio?</th>
-            <th style="text-align:center;" rowspan="3" width="20%" >¿En qué LUGAR compró o pagó el artículo o servicio?</th>
-            <th style="text-align:center;" rowspan="3" width="10%">¿Con qué FRECUENCIA compra o paga HABITUALMENTE el artículo o servicio?</th>
-        </tr>
-		<tr class="active" align="center">
-            <th style="text-align:center;" colspan="2">Pago de contado</th>
-            <th style="text-align:center;" colspan="2">Pago a cr&eacute;dito</th>
-            
-        </tr>
-		<tr class="active" align="center">
-            <th style="text-align:center;" width="10%">Valor Pagado</th>
-            <th style="text-align:center;" width="10%">Compró o pagó el artículo o servicio pero no recuerda el valor</th>
-			<th style="text-align:center;" width="10%">Valor Pagado</th>
-            <th style="text-align:center;" width="10%">Compró o pagó el artículo o servicio pero no recuerda el valor</th>
-            
-        </tr>		
-		<?php } else {  ?>
-		<tr class="active">
             <th style="text-align:center;" rowspan="2" width="28%">Nombre del artículo o servicio COMPRADO o PAGADO</th>
             <th style="text-align:center;" colspan="2" width="32%">¿Cuánto fue el valor TOTAL pagado por el artículo o servicio?</th>
             <th style="text-align:center;" rowspan="2" width="20%" >¿En qué LUGAR compró o pagó el artículo o servicio?</th>
@@ -83,7 +61,6 @@
             <th style="text-align:center;" width="12%">Compró o pagó el artículo o servicio pero no recuerda el valor</th>
             
         </tr>
-		<?php }?>
     </thead>
     <tbody>
 	
@@ -96,15 +73,9 @@
             <td align="left"><?php echo $articulo["ETIQUETA"];?>
 			<input type="hidden" id="hdd_articulo_<?php echo $i;?>" name="hdd_articulo_<?php echo $i;?>" value="<?php echo $articulo["ID_ARTICULO3"];?>" />
 			</td>
-            <td> <input class="form-control" onBlur="pag3_suma_articulos(1);" type="text" name="txt_valor_<?php echo $i;?>" id="txt_valor_<?php echo $i;?>"  />  </td>
-            <td> <input name="chk_no_recuerda_<?php echo $i;?>" id="chk_no_recuerda_<?php echo $i;?>" value=1 type="checkbox" onClick="pag3_deshabilita_pago(<?php echo $i;?>,1)"> </td>
-			
-			<?php if($habilita_credito != '') { // se debe habilitar columna crédito ?>
-			<td> <input class="form-control" onBlur="pag3_suma_articulos(2);" type="text" name="txt_valor_credito_<?php echo $i;?>" id="txt_valor_credito_<?php echo $i;?>"  />  </td>
-            <td> <input name="chk_credito_no_recuerda_<?php echo $i;?>" id="chk_credito_no_recuerda_<?php echo $i;?>" value=1 type="checkbox" onClick="pag3_deshabilita_pago(<?php echo $i;?>,2)"> </td>
-            <?php }?>
-			
-			<td>
+            <td> <input class="form-control" onBlur="pag3_suma_articulos();" type="text" name="txt_valor_<?php echo $i;?>" id="txt_valor_<?php echo $i;?>"  />  </td>
+            <td> <input name="chk_no_recuerda_<?php echo $i;?>" id="chk_no_recuerda_<?php echo $i;?>" value=1 type="checkbox" onClick="pag3_deshabilita_pago(<?php echo $i;?>)"> </td>
+            <td>
 				<select name="sel_lugar_<?php echo $i;?>" id="sel_lugar_<?php echo $i;?>" class="form-control" <?php echo ($articulo["DEFINE_LUGAR_COMPRA"] !=1)?"disabled=disabled":"";?>  >
 				<option value="-">...</option>
 				<?php 
@@ -131,23 +102,15 @@
 		$i++;
 		}?>
 		 <tr align="center" class="">
-          <?php if($habilita_credito != '') { // se debe habilitar columna crédito ?>
-			<td><b>SUBTOTAL</b></td>
-			<td> <input class="form-control" readonly="readonly" type="text" name="txt_total" id="txt_total" />  </td>
-			<td colspan="1">&nbsp;</td>
-			<td> <input class="form-control" readonly="readonly" type="text" name="txt_total_credito" id="txt_total_credito" />  </td>
-			<td colspan="3">&nbsp;</td>
-		  <?php } else {  ?>	
-			 <td><b>SUBTOTAL</b></td>
+            <td><b>SUBTOTAL</b></td>
 			<td> <input class="form-control" readonly="readonly" type="text" name="txt_total" id="txt_total" />  </td>
 			<td colspan="3">&nbsp;</td>
-		  <?php }?>				
 		</tr>	
 	
     </tbody>
 	</table>
 	</div>
-	<?php if($habilita_medio_pago !=NULL) { // se debe habilitar ?>
+	<?php if($habilita_medio_pago) { // se debe habilitar ?>
 	<br>
 	<div class="row" id="div_medio_pago" name="div_medio_pago">
 		<div class="col-md-6">El medio de pago usado PRINCIPALMENTE para comprar los art&iacute;culos y servicios enunciados en este m&oacute;dulo fue:</div>

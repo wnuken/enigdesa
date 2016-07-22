@@ -34,8 +34,10 @@
 <script src="<?php echo base_url("/js/bootstrap/ie-emulation-modes-warning.js"); ?>" ></script>
 <script src="<?php echo base_url("/js/bootstrap/ie10-viewport-bug-workaround.js"); ?>"></script>
 <script src="https://www.google.com/recaptcha/api.js?hl=es"></script>
+<script src="<?php echo base_url("/js/bootbox.min.js"); ?>" rel="stylesheet"></script>
 <script src="<?php echo base_url("/js/danevalidator.js"); ?>"></script>
 <script src="<?php echo base_url("/js/formulario.js"); ?>"></script>
+
 <!--<script src="ENPH_files/login.js"></script>-->
 <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

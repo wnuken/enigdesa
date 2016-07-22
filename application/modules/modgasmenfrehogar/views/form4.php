@@ -92,6 +92,9 @@ input[type=radio]:not(old):checked + label > span > span {
 ?>
 			<form id="form_4" name="form_4" class="form-horizontal" role="form">
 				<input type="hidden" name="ID_FORMULARIO" id="ID_FORMULARIO" value="<?=$id_formulario?>" />
+				<input type="hidden" name="VALOR_MAXIMO" id="VALOR_MAXIMO" value="<?= $secc[0]['VALOR_MAXIMO'] ?>" />
+				<input type="hidden" name="VALOR_MINIMO" id="VALOR_MINIMO" value="<?= $secc[0]['VALOR_MINIMO'] ?>" />
+				<input type="hidden" name="ID_SECCION3" id="ID_SECCION3" value="<?= $secc[0]['ID_SECCION3'] ?>" />
 				<div>
 					<div>
 						<br />
@@ -123,17 +126,17 @@ input[type=radio]:not(old):checked + label > span > span {
 								</tr>
 								<tr>
 							<th></th>
-							<th>Valor estimado</th>
+							<th>Valor estimado<a title="Registre el valor estimado a precios de mercado que pudo haber pagado si lo hubiera comprado." data-toggle="tooltip" href="#">(?)</a></th>
 							<th>No sabe el valor estimado</th>
-							<th>Valor estimado</th>
+							<th>Valor estimado<a title="Registre el valor estimado a precios de mercado que pudo haber pagado si lo hubiera comprado." data-toggle="tooltip" href="#">(?)</a></th>
 							<th>No sabe el valor estimado</th>
-							<th>Valor estimado</th>
+							<th>Valor estimado<a title="Registre el valor estimado a precios de mercado que pudo haber pagado si lo hubiera comprado." data-toggle="tooltip" href="#">(?)</a></th>
 							<th>No sabe el valor estimado</th>
-							<th>Valor estimado</th>
+							<th>Valor estimado<a title="Registre el valor estimado a precios de mercado que pudo haber pagado si lo hubiera comprado." data-toggle="tooltip" href="#">(?)</a></th>
 							<th>No sabe el valor estimado</th>
-							<th>Valor estimado</th>
+							<th>Valor estimado<a title="Registre el valor estimado a precios de mercado que pudo haber pagado si lo hubiera comprado." data-toggle="tooltip" href="#">(?)</a></th>
 							<th>No sabe el valor estimado</th>
-							<th>Valor estimado</th>
+							<th>Valor estimado<a title="Registre el valor estimado a precios de mercado que pudo haber pagado si lo hubiera comprado." data-toggle="tooltip" href="#">(?)</a></th>
 							<th>No sabe el valor estimado</th>
 						</tr>
 					</thead>
@@ -164,8 +167,8 @@ input[type=radio]:not(old):checked + label > span > span {
 							<?php
 								$j++;
 							endif;
-		?>
-								<input <?=$input_atr?> type='text' name='val_<?=$v3['ID_ARTICULO3']?>[<?=$forma_obt[$i-1]?>]' value='' id='txt_<?=$v3['ID_ARTICULO3']?>_<?=$i?>' style="width:70px" />
+		?>						<input <?=$input_atr?> type='text' name='mask_<?=$v3['ID_ARTICULO3']?>[<?=$forma_obt[$i-1]?>]' value='' id='mask_<?=$v3['ID_ARTICULO3']?>_<?=$i?>' style="width:80px" autocomplete="off"/>
+								<input <?=$input_atr?> type='hidden' name='val_<?=$v3['ID_ARTICULO3']?>[<?=$forma_obt[$i-1]?>]' value='' id='txt_<?=$v3['ID_ARTICULO3']?>_<?=$i?>' />
 							</td>
 							<?php
 							$input_atr = str_replace("_input", "", $input_atr);

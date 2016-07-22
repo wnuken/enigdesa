@@ -33,7 +33,7 @@ class Recreacion extends MX_Controller {
     private function actualizarEstado() {
         $this->load->model(array("Modgmfh"));
         $id_formulario = $this->session->userdata("id_formulario");
-        $arrSA = $this->Modgmfh->listar_secciones_avances(array("id0" => $this->idSubModulo, "estado" => array(0, 1)));
+        $arrSA = $this->Modgmfh->listar_secciones_avances(array( "id0" => $this->idSubModulo , "estado" => array(0,1), "idForm" => $id_formulario));
 
         $fechahoraactual = $this->Modgmfh->consultar_fecha_hora();
         $fechaactual = substr($fechahoraactual, 0, 10);
@@ -94,7 +94,7 @@ class Recreacion extends MX_Controller {
             $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array("ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual), array("ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $arrSA[0]['ID_SECCION3']));
             $arrSA[0]['ID_ESTADO_SEC'] = 2;
         }
-        $arrSA = $this->Modgmfh->listar_secciones_avances(array( "id0" => $this->idSubModulo , "estado" => array(0,1)));
+        $arrSA = $this->Modgmfh->listar_secciones_avances(array( "id0" => $this->idSubModulo , "estado" => array(0,1), "idForm" => $id_formulario));
         return $arrSA;
     }
 
@@ -108,13 +108,15 @@ class Recreacion extends MX_Controller {
 
 
         $arrSA = $this->actualizarEstado();
+        //pr($arrSA);
+        //die("id_seccion=" . $this->idSeccion . " id_formulario=" . $data["id_formulario"]);
         $this->idSeccion = count($arrSA) > 1 ? $arrSA[1]['ID_SECCION3'] : "";
 
         if (count($arrSA) == 0 || (count($arrSA) > 0 && $arrSA[0]['ID_ESTADO_SEC'] == 2) ) {
             redirect(base_url($this->module));
             return false;
         }
-
+        //die("id_seccion=" . $this->idSeccion . " id_formulario=" . $data["id_formulario"]);
         if (!empty($arrSA["1"]["PAG_SECCION3"])) {
             //echo "nnn";
             switch ($arrSA["1"]["PAG_SECCION3"]) {
@@ -130,12 +132,10 @@ class Recreacion extends MX_Controller {
                     $this->mostrarListaObtencion($data);
                     break;
                 case 3:
-                    //$this->mostrarGrillaCompra($data);
                     $data['secc'] = $this->Modgmfh->listar_secciones(array("id" => $this->idSeccion));
                     $data["titulo_1"]=$data['secc'][0]['TITULO1'];//"de ______ del 2016";
                     $data["subtitulo_2"]=$data['secc'][0]['TITULO2'];
                     $data["subtitulo_3"]=$data['secc'][0]['TITULO3'];
-                    //$data["js_dir"] = base_url('js/modgasmenfrehogar/viviendaAcms/viviendaAcms.js');                  
                     $data["js_dir"] = base_url('js/modgasmenfrehogar/form3.js');                    
                     $this->mostrarGrillaCompra($data);
                     break;
@@ -216,25 +216,31 @@ class Recreacion extends MX_Controller {
      * @param   array $data: array con parametros a enviar a vista
      * @since 2016-07-01
      */
-    private function mostrarGrillaCompra($data) {
+     private function mostrarGrillaCompra($data) {
         
-        $this->load->model("Modsec3");
-        
-        //Lista de articulos pagados, del m�dulo
-        $data["arrArticulos"]= $this->Modsec3->listar_articulos_comprados($data['id_formulario'], $data['secc'][0]['ID_SECCION3']); 
-        
-        // Verifica si debe habilitar pregunta "medio de pago"
-        $data["habilita_medio_pago"]= $this->Modsec3->habilitaPreguntaMedioPago($data['secc'][0]['ID_SECCION3']); 
-        
-        // Se consulta la lista de medios de pago
-        $data["arrMediosPago"]=$this->Modsec3->listar_medios_pago(); 
-        // Se consulta la lista de los lugares de compra
+		$this->load->model("Modsec3");
+		
+		//Lista de articulos pagados, del m�dulo
+		$data["arrArticulos"]= $this->Modsec3->listar_articulos_comprados($data['id_formulario'], $data['secc'][0]['ID_SECCION3']); 
+		
+		// Verifica si debe habilitar pregunta "medio de pago"
+		$data["habilita_medio_pago"]= $data['secc'][0]['ID_VARIABLE_MEDIO_PAGO']; 		
+		// Verifica si debe habilitar segunda forma de pago a CREDITO
+		$data["habilita_credito"]= $data['secc'][0]['ID_VARIABLE_TOTAL_PAGO2']; 
+		
+		// Consulta rangos para pago
+		$data["rango_min"]= $data['secc'][0]['VALOR_MINIMO']; 
+		$data["rango_max"]= $data['secc'][0]['VALOR_MAXIMO']; 
+		
+		// Se consulta la lista de medios de pago
+		$data["arrMediosPago"]=$this->Modsec3->listar_medios_pago(); 
+		// Se consulta la lista de los lugares de compra
         $data["arrLugarCompra"] = $this->Modgmfh->consultar_param_general('', 'LUGAR_COMPRA', '', '');
-        // Se consulta la lista de frecuencia de compra
+		// Se consulta la lista de frecuencia de compra
         $data["arrFrecCompra"]= $this->Modgmfh->consultar_param_general('', 'FRECUENCIA_COMPRA', '', '');
-        
+		
         $data["view"] = 'form3';
-        $this->load->view("layout", $data);
+		$this->load->view("layout", $data);
     }
     
     /** Guarda p�gina 3 - art�culo o servicio COMPRADO o PAGADO
@@ -244,23 +250,20 @@ class Recreacion extends MX_Controller {
      */
     public function guardaGrillaCompra() {
         
-        $this->load->model("Modsec3");
-        // Convierte en variables php lo que llega por POST
-        foreach($_POST as $nombre_campo => $valor){         
-                $asignacion = "\$" . $nombre_campo . "='" . $valor . "';";
-                eval($asignacion);
-            }
-            
-        $result=$this->Modsec3->guardaForm3($_POST);        
-        if($result){
-            //$result2=$this->Modsec3->actualizaPaginaControl($ID_FORMULARIO, $hdd_sec,4); 
-            //if($result2)
-                        
-                echo "-ok-";            
-        }   
-        else
-            echo "ERROR";
-        
+		$this->load->model("Modsec3");
+		// Convierte en variables php lo que llega por POST
+		foreach($_POST as $nombre_campo => $valor){	    	
+	  			$asignacion = "\$" . $nombre_campo . "='" . $valor . "';";
+	   			eval($asignacion);
+			}
+			
+		$result=$this->Modsec3->guardaForm3($_POST);		
+		if($result){
+			echo "-ok-";			
+		}	
+		else
+			echo "ERROR";
+		
     }
 
     /**
@@ -268,10 +271,10 @@ class Recreacion extends MX_Controller {
      * @param   Int $pagina Numero de pagina que debe mostrar
      * @since 2016-06-21
      */
-    private function mostrarGrillaNoCompra() {
+    private function mostrarGrillaNoCompra($data) {
 
         // Aca va el codigo
-        $data["js_dir"] = base_url('js/' . $this->module . '/' . $this->submodule . '/archivo.js');
+        $data["js_dir"] = base_url('js/' . $this->module . '/form4.js');
 
         $this->load->model(array("formulario/Mformulario", "control/Modmenu", "Modgmfh"));
 
@@ -283,7 +286,6 @@ class Recreacion extends MX_Controller {
         $data['preg']["var"] = $this->Modgmfh->lista_formaObtencion(array("seccion" => $this->idSeccion, "id_formulario" => $data["id_formulario"]));
         $data['preg']["variables"] = $this->Modgmfh->lista_variables_param(array("seccion" => $this->idSeccion, "pagina" => "4"));
 
-        //$data["view"] = $this->submodule . '/form4';
         $data["view"] = 'form4';
         $this->load->view("layout", $data);
     }
@@ -296,50 +298,51 @@ class Recreacion extends MX_Controller {
         $this->load->model(array("Modgmfh"));
         $id_formulario = $this->session->userdata("id_formulario");
         $id_seccion = $this->session->userdata("id_seccion");
-        $formas_obt = $this->Modgmfh->lista_formaObtencion(array("seccion" => $id_seccion, "id_formulario" => $id_formulario));
+        $formas_obt = $this->Modgmfh->lista_formaObtencion( array("seccion" => $id_seccion, "id_formulario" => $id_formulario) );
         $cant_formas_obt = count($formas_obt);
+        
+        $articulos = isset($_POST['articulos'])?$_POST['articulos']:"";
 
-        $articulos = isset($_POST['articulos']) ? $_POST['articulos'] : "";
-
-        if ($cant_formas_obt == 0 && ( is_array($articulos) || (isset($_POST['variable_uso']) && $_POST['variable_uso'] == 2) )) {
+        if($cant_formas_obt == 0 && ( is_array($articulos) || (isset($_POST['variable_uso']) && $_POST['variable_uso'] == 2) ) ) {
             $i = 0;
-            $var_independiente = $this->Modgmfh->lista_variables_param(array("seccion" => $id_seccion, "pagina" => 1));
-            // si selecciona niguna de las anteriores o que no ha utilizado ninguno de los productos en el �ltimo lapso de tiempo preguntado
-            if (is_array($articulos) && count($articulos) == 1 && $articulos[0] == "99999999") {
+            $var_independiente = $this->Modgmfh->lista_variables_param(array( "seccion" => $id_seccion, "pagina" => 1));
+            // si selecciona niguna de las anteriores o que no ha utilizado ninguno de los productos en el último lapso de tiempo preguntado
+            if(is_array($articulos) && count($articulos) == 1 && $articulos[0] == "99999999") {
                 $fechahoraactual = $this->Modgmfh->consultar_fecha_hora();
                 $fechaactual = substr($fechahoraactual, 0, 10);
                 //$this->Modgmfh->ejecutar_insert('ENIG_FORM_GMF_FORMA_OBTENCION', array( "ID_FORMULARIO" => $id_formulario, "ID_ARTICULO3" => "99999999".$id_seccion));
                 //$this->Modgmfh->ejecutar_update('ENIG_FORM_GMF_VARIABLES', array( "ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual), array( "ID_FORMULARIO" => $id_formulario, "ID_VARIABLE" => $id_seccion));
-                $this->Modgmfh->ejecutar_insert('ENIG_FORM_GMF_VARIABLES', array("ID_FORMULARIO" => $id_formulario, "ID_VARIABLE" => $var_independiente[0]['ID_VARIABLE'], "VALOR_VARIABLE" => "99999999"));
-                $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array("ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual), array("ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $id_seccion));
+                $this->Modgmfh->ejecutar_insert('ENIG_FORM_GMF_VARIABLES', array( "ID_FORMULARIO" => $id_formulario, "ID_VARIABLE" => $var_independiente[0]['ID_VARIABLE'], "VALOR_VARIABLE" => "99999999"));
+                $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $id_seccion));
                 $i = 1;
-            } else if (!is_array($articulos) && $_POST['variable_uso'] == "2") {
+            }
+            else if(!is_array($articulos) && $_POST['variable_uso'] == "2" )  {
                 $fechahoraactual = $this->Modgmfh->consultar_fecha_hora();
                 $fechaactual = substr($fechahoraactual, 0, 10);
-                $this->Modgmfh->ejecutar_insert('ENIG_FORM_GMF_VARIABLES', array("ID_FORMULARIO" => $id_formulario, "ID_VARIABLE" => $var_independiente[1]['ID_VARIABLE'], "VALOR_VARIABLE" => $_POST['variable_uso']));
-                $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array("ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual), array("ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $id_seccion));
+                $this->Modgmfh->ejecutar_insert('ENIG_FORM_GMF_VARIABLES', array( "ID_FORMULARIO" => $id_formulario, "ID_VARIABLE" => $var_independiente[1]['ID_VARIABLE'], "VALOR_VARIABLE" => $_POST['variable_uso']));
+                $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $id_seccion));
                 $i = 1;
-            } else {
-                if (isset($var_independiente[1])) {
-                    $this->Modgmfh->ejecutar_insert('ENIG_FORM_GMF_VARIABLES', array("ID_FORMULARIO" => $id_formulario, "ID_VARIABLE" => $var_independiente[1]['ID_VARIABLE'], "VALOR_VARIABLE" => "1"));
-                }
+            }
+            else {
+                if(isset($var_independiente[1])) {
+                    $this->Modgmfh->ejecutar_insert('ENIG_FORM_GMF_VARIABLES', array( "ID_FORMULARIO" => $id_formulario, "ID_VARIABLE" => $var_independiente[1]['ID_VARIABLE'], "VALOR_VARIABLE" => "1"));
+                }         
                 foreach ($articulos as $key => $value) {
-                    $forma_obt = $this->Modgmfh->listar_articulos_seccion(array("id" => $value, "id_formulario" => $id_formulario));
+                    $forma_obt = $this->Modgmfh->listar_articulos_seccion( array("id" => $value, "id_formulario" => $id_formulario) );
 
-                    if (count($forma_obt) == 1 && $articulos[0] != "99999999") {
-                        $this->Modgmfh->ejecutar_insert('ENIG_FORM_GMF_FORMA_OBTENCION', array("ID_FORMULARIO" => $id_formulario, "ID_ARTICULO3" => $value));
+                    if(count($forma_obt) == 1 && $articulos[0] != "99999999") {
+                        $this->Modgmfh->ejecutar_insert('ENIG_FORM_GMF_FORMA_OBTENCION', array( "ID_FORMULARIO" => $id_formulario, "ID_ARTICULO3" => $value));
                         $i++;
                     }
                 }
             }
-            if ($i > 0)
+            if($i > 0)
                 echo "S:Se ha guardado la informaci&oacute;n correctamente!";
-            else
-                echo "E:ERROR al guardar la secci&oacute;n. Intente nuevamente o recargue la p&aacute;gina.";
+            else echo "E:ERROR al guardar la secci&oacute;n. Intente nuevamente o recargue la p&aacute;gina.";
         }
         else {
             echo "E:ERROR al guardar la secci&oacute;n. Intente nuevamente o recargue la p&aacute;gina.";
-        }
+        }   
     }
 
     /**
@@ -350,29 +353,135 @@ class Recreacion extends MX_Controller {
         $this->load->model(array("Modgmfh"));
         $id_formulario = $this->session->userdata("id_formulario");
         $id_seccion = $this->session->userdata("id_seccion");
-        $formas_obt = $this->Modgmfh->lista_formaObtencion(array("seccion" => $id_seccion, "id_formulario" => $id_formulario));
+        $formas_obt = $this->Modgmfh->lista_formaObtencion( array("seccion" => $id_seccion, "id_formulario" => $id_formulario) );
         $cant_formas_obt = count($formas_obt);
 
-        if ($cant_formas_obt > 0) {
+        if($cant_formas_obt > 0) {
             foreach ($formas_obt as $key => $value) {
-                if (!isset($_POST[$value['ID_ARTICULO3']]['compra']) && !isset($_POST[$value['ID_ARTICULO3']]['recibido_pago']) && !isset($_POST[$value['ID_ARTICULO3']]['regalo']) &&
-                        !isset($_POST[$value['ID_ARTICULO3']]['intercambio']) && !isset($_POST[$value['ID_ARTICULO3']]['producido']) && !isset($_POST[$value['ID_ARTICULO3']]['negocio_propio']) &&
-                        !isset($_POST[$value['ID_ARTICULO3']]['otra']))
+                if(!isset($_POST[$value['ID_ARTICULO3']]['compra']) && !isset($_POST[$value['ID_ARTICULO3']]['recibido_pago']) && !isset($_POST[$value['ID_ARTICULO3']]['regalo']) && 
+                   !isset($_POST[$value['ID_ARTICULO3']]['intercambio']) && !isset($_POST[$value['ID_ARTICULO3']]['producido']) && !isset($_POST[$value['ID_ARTICULO3']]['negocio_propio']) &&
+                   !isset($_POST[$value['ID_ARTICULO3']]['otra']) )
                     die("W:Debe escoger por lo menos una opci&oacute;n en cada uno de los productos!");
             }
 
             foreach ($formas_obt as $key => $value) {
                 $codigos = array_keys($_POST[$value['ID_ARTICULO3']]);
                 $arrACT = array_fill_keys($codigos, 1);
-                $cols = array("compra" => 0, "recibido_pago" => 0, "regalo" => 0, "intercambio" => 0, "producido" => 0, "negocio_propio" => 0, "otra" => 0);
+                //$cols  = array( "compra" => 0, "recibido_pago" => 0, "regalo" => 0, "intercambio" => 0, "producido" => 0, "negocio_propio" => 0, "otra" => 0);
 
-                $arrUPD = array_merge($cols, $arrACT);
+                //$arrUPD = array_merge( $cols, $arrACT);
 
-                $this->Modgmfh->ejecutar_update('ENIG_FORM_GMF_FORMA_OBTENCION', $arrUPD, array("ID_FORMULARIO" => $id_formulario, "ID_ARTICULO3" => $value['ID_ARTICULO3']));
+                $this->Modgmfh->ejecutar_update('ENIG_FORM_GMF_FORMA_OBTENCION', $arrACT, array( "ID_FORMULARIO" => $id_formulario, "ID_ARTICULO3" => $value['ID_ARTICULO3']));
             }
             echo "S:Se ha guardado la informaci&oacute;n correctamente!";
-        } else {
+        }
+        else {
             echo "E:ERROR al guardar la secci&oacute;n. Intente nuevamente o recargue la p&aacute;gina.";
+        }
+    }
+
+    /**
+     * @author cemedinaa
+     * @since 2016-07-15
+     */
+    public function guardar_form4() {
+        $this->load->model(array("Modgmfh"));
+        $id_formulario = $this->session->userdata("id_formulario");
+        $id_seccion = $this->session->userdata("id_seccion");
+        $secc = $this->Modgmfh->listar_secciones(array("id" => $id_seccion));
+        $formas_obt = $this->Modgmfh->lista_formaObtencion( array("seccion" => $id_seccion, "id_formulario" => $id_formulario) );
+        $cant_formas_obt = count($formas_obt);
+
+        if($cant_formas_obt > 0) {
+            $variables = $this->Modgmfh->lista_variables_param(array("seccion" => $id_seccion, "pagina" => "4"));
+            $i = 0;
+            
+            $inputs = "";
+            $mensajes = "";
+            // Se recorren todos los articulos de la seccion y el formulario correspondiente
+            foreach ($formas_obt as $k1 => $v1) {
+                $cols  = array( "RECIBIDO_PAGO", "REGALO", "INTERCAMBIO", "PRODUCIDO", "NEGOCIO_PROPIO", "OTRA");
+                $rangoMayor = preg_match('/^\d+$/', $secc[0]['VALOR_MAXIMO'])?$secc[0]['VALOR_MAXIMO']:"";
+                $rangoMenor = preg_match('/^\d+$/', $secc[0]['VALOR_MINIMO'])?$secc[0]['VALOR_MINIMO']:"";
+                
+                $j = 0;                
+                // Se recorren todas las formas de obtencion para cada articulo
+                foreach($cols as $v2) {
+                    // Se verifica que esten definidos los input con los nombres establecidos, si la correspondiente forma de obtencion es igual a 1
+                    if( ( $v1[$v2] == 1 && !isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) && !isset($_POST['chb_' . $v1['ID_ARTICULO3']][strtolower($v2)]) ) 
+                        || ( $v1[$v2] == 1 && isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) && isset($_POST['chb_' . $v1['ID_ARTICULO3']][strtolower($v2)]) ) ) {
+                        $m = "'ERROR al guardar la secci&oacute;n. Intente nuevamente o recargue la p&aacute;gina.',";
+                        if(substr_count($mensajes, $m) == 0)
+                            $mensajes .= $m;
+                    }
+                    // Se verifica que los campos de texto que se reciben esten diligenciados, si la correspondiente forma de obtencion es igual a 1
+                    else if( $v1[$v2] == 1 && isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) && $_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)] == ""  ) {
+                        $m = "'Algunos de los campos no han sido diligenciados',";
+                        $inputs .= "'mask_" . $v1['ID_ARTICULO3'] . "_" . ($j +1) . "',";
+                        if(substr_count($mensajes, $m) == 0)
+                            $mensajes .= $m;
+                    }
+                    // Se verifica que los valores en los campos de texto sean enteros positivos, si la correspondiente forma de obtencion es igual a 1
+                    else if( $v1[$v2] == 1 && isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) && !preg_match('/^\d+$/', $_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) ) {
+                        $m = "'Los valores deben ser enteros positivos',";
+                        $inputs .= "'mask_" . $v1['ID_ARTICULO3'] . "_" . ($j +1) . "',";
+                        if(substr_count($mensajes, $m) == 0)
+                            $mensajes .= $m;
+                    }
+                    // Se verifica que los valores en los campos de texto esten dentro del rango establecido, si la correspondiente forma de obtencion es igual a 1
+                    else if($v1[$v2] == 1 && isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) && $rangoMayor != "" && $rangoMenor != "" && $id_seccion != "G3" && $id_seccion != "G4" &&
+                        ($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)] < $rangoMenor || $_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)] > $rangoMayor ) ) {
+                        $m = "'Los valores estimados no pueden ser menores a " . number_format($rangoMenor) . " o mayores a " . number_format($rangoMayor) . "',";
+                        $inputs .= "'mask_" . $v1['ID_ARTICULO3'] . "_" . ($j +1) . "',";
+                        if(substr_count($mensajes, $m) == 0)
+                            $mensajes .= $m;
+                    }
+                    // Se verifica que los valores en los campos de texto esten dentro del rango establecido o sean cero (solo para secciones G3 y G4), si la correspondiente forma de obtencion es igual a 1
+                    else if($v1[$v2] == 1 && isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) && $rangoMayor != "" && $rangoMenor != "" && ($id_seccion == "G3" || $id_seccion == "G4") &&
+                        ($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)] < $rangoMenor || $_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)] > $rangoMayor ) && $_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)] <> 0 ) {
+                        $m = "'Los valores estimados no pueden ser menores a " . number_format($rangoMenor) . " o mayores a " . number_format($rangoMayor) . " o diferentes a cero.',";
+                        $inputs .= "'mask_" . $v1['ID_ARTICULO3'] . "_" . ($j +1) . "',";
+                        if(substr_count($mensajes, $m) == 0)
+                            $mensajes .= $m;
+                    }
+
+                    // Se guarda en un array los arrays de insercion cuando el campo de texto viene con un valor
+                    if ( $v1[$v2] == 1 && isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) ){
+                        $arrInsert[] = array( "ID_FORMULARIO" => $id_formulario, "ID_ARTICULO3" => $v1['ID_ARTICULO3'], "ID_VARIABLE" => $variables[$j]['ID_VARIABLE'], "VALOR_ESTIMADO" => $_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)] );
+
+                    }
+                    // Se guarda en un array los arrays de insercion cuando viene activo el checkbox (se marco no sabe valor estimado)
+                    else if ( $v1[$v2] == 1 && isset($_POST['chb_' . $v1['ID_ARTICULO3']][strtolower($v2)]) ){
+                        $arrInsert[] = array( "ID_FORMULARIO" => $id_formulario, "ID_ARTICULO3" => $v1['ID_ARTICULO3'], "ID_VARIABLE" => $variables[$j]['ID_VARIABLE'], "VALOR_ESTIMADO" => 99 );
+                    }
+                    $j++;
+                }
+                
+                $i++;
+                
+
+            }
+
+            // Si no hay errrores se guarda
+            if($mensajes == "") {
+                // guarda
+                // Se recorre array de datos para insertar
+                foreach ($arrInsert as $idx => $arrValores) {
+                    $arrpk = $arrValores;                    
+                    $forma_adqui = $this->Modgmfh->lista_formaAdqui(array( "id_formulario" => $arrValores['ID_FORMULARIO'], "articulo" => $arrValores['ID_ARTICULO3'], "variable" => $arrValores['ID_VARIABLE']));
+                    // Si no existe ya la forma de adquisicion en la tabla del capitulo 4 se guarda
+                    if(count($forma_adqui) == 0) {
+                      $this->Modgmfh->ejecutar_insert('ENIG_FORM_GMF_FORMAS_ADQUI', $arrValores);
+                    }
+                }
+                echo "[[],['Se ha guardado la informaci&oacute;n correctamente!']]";
+            }
+            // Se hay errores se envia respuesta con los mensajes de los errores encontrados y los ids de los input que tienen los errores
+            else {
+                $mensajes = substr( $mensajes, 0, strlen($mensajes) - 1);
+                $inputs = substr( $inputs, 0, strlen($inputs) - 1);
+                echo "[[" . $inputs . "], [" . $mensajes ."]]";
+            }
         }
     }
     

@@ -59,22 +59,57 @@ class Gastoshog extends MX_Controller {
 							$data['dias'][$i]['E'] = "OFF";
 						$data['dias'][$i]['F'] = $this->Modmenu->consultarEstadoSeccion($data["id_formulario"], $k, '1');
 						$data['dias'][$i]['S'] = $k;
+						$data['dias'][$i]['D'] = $this->Modgastoshog->buscarDia($data["id_formulario"], $k);
+						$data['dias'][$i]['C'] = $this->Modgastoshog->fecha2texto($data['dias'][$i]['D']);
 						$i++;
 					}
+					$data['persona'] = $this->Mformulario->obtenerPersona($data["id_formulario"], $id_persona);
+					$data['preg_art']["var"] = $this->Mformulario->listarVariables('GDHARTICULOS', '1', $data["id_formulario"]);
+					$data['preg_art']["opc"] = $this->Mformulario->listarOpciones('GDHARTICULOS', '1', $data["id_formulario"]);
+					$arrVarPers = array("P10250S1C2M");
+					foreach ($data['preg_art']["var"] as $v) {
+						if (in_array($v["ID_VARIABLE"], $arrVarPers)) {
+							$personas = $this->Mformulario->listarPersonas($data["id_formulario"], $v["ID_VARIABLE"], "");
+							$n = count($personas) + 1;
+							$personas[$n]['ID_VARIABLE'] 		= 'P10250S1C2M';
+							$personas[$n]['ID_VALOR'] 			= '00';
+							$personas[$n]['ETIQUETA']			= 'A una persona de otro hogar';
+							$personas[$n]['DESCRIPCION_OPCION']	= '';
+							$data['preg_art']["opc"] = array_merge($data['preg_art']["opc"], $personas);
+						}
+					}
+					$data['preg_art']["reg"] = $this->Mformulario->listarConsistencias('GDHARTICULOS', '1');
+					$data['preg_art']["dep"] = $this->Mformulario->listarDependencias('GDHARTICULOS', '1');
+					$data['preg_com']["var"] = $this->Mformulario->listarVariables('GDHCOMIDAS', '1', $data["id_formulario"]);
+					$data['preg_com']["opc"] = $this->Mformulario->listarOpciones('GDHCOMIDAS', '1', $data["id_formulario"]);
+					$data['preg_com']["reg"] = $this->Mformulario->listarConsistencias('GDHCOMIDAS', '1');
+					$data['preg_com']["dep"] = $this->Mformulario->listarDependencias('GDHCOMIDAS', '1');
+					// DIA14
+					$data['preg_d14']["var"] = $this->Mformulario->listarVariables('14DIA14', '1', $data["id_formulario"]);
+					$data['preg_d14']["opc"] = $this->Mformulario->listarOpciones('14DIA14', '1', $data["id_formulario"]);
+					$data['preg_d14']["reg"] = $this->Mformulario->listarConsistencias('14DIA14', '1');
+					$data['preg_d14']["dep"] = $this->Mformulario->listarDependencias('14DIA14', '1');
 					//pr($data);
-					$data["view"] = "vgdhmenu";
+					$data["view"] = "vgdhdias";
 					$this->load->view("layout", $data);
 				}
 			}
 		}
 	}
 	
-	public function cargaDia($id_persona, $id_dia) {
+/*	public function cargaDia($id_persona, $id_dia) {
 		$this->load->model (array ("formulario/Mformulario", "control/Modmenu", "Modgastoshog"));
 		$data["id_formulario"] = $this->session->userdata("id_formulario");
 		$data["id_persona"] = $id_persona;
 		$data["seccion"] = $id_dia;
 		$data['dia'] = $this->Modgastoshog->buscarDia($data["id_formulario"], $id_dia);
+		$sessionData = array("auth" => "OK",
+					 "id_formulario" => $data["id_formulario"],
+					 "id_persona" => $data["id_persona"],
+					 "dia" => $data['dia'],
+					 "visita" => date("Y-m-d H:i:s"));
+		//pr($sessionData);
+		$this->session->set_userdata($sessionData);
 		$data['fecha'] = $this->Modgastoshog->fecha2texto($data['dia']);
 		$data['persona'] = $this->Mformulario->obtenerPersona($data["id_formulario"], $id_persona);
 		$data['preg_art']["var"] = $this->Mformulario->listarVariables('GDHARTICULOS', '1', $data["id_formulario"]);
@@ -105,7 +140,7 @@ class Gastoshog extends MX_Controller {
 		}
 		$data["view"] = "vgdiarioshogar";
 		$this->load->view("vgdiarioshogar", $data);
-	}
+	}*/
 	
 /*	public function anterior() {
 		$this->load->model (array ("formulario/Mformulario", "control/Modmenu"));
@@ -125,7 +160,7 @@ class Gastoshog extends MX_Controller {
 	 * Resultado de guardar el formulario
 	 * @author mayandarl
 	 */
-	public function guardar($tabla, $dia) {
+	public function guardar($tabla) {
 		$this->load->model(array("Modgastoshog", "control/Modmenu"));
 		$resultado = false;
 		$id_formulario = $this->session->userdata("id_formulario");
@@ -135,29 +170,34 @@ class Gastoshog extends MX_Controller {
 				$this->Modmenu->guardarAvanceFormulario($id_formulario, '00FRECUENCIAS', '1', 'SI');
 				$this->Modgastoshog->asignar14Dias($id_formulario);
 			}
+			echo "<b>Frecuencias guardadas!.</b>";
 		}
 		elseif ($tabla == 'ARTICULOS') {
+			$dia = $_POST['_DIA_ART'];
 			if ($_POST['_ACC_ARTICULOS'] == 'UPDATE')
 				$resultado = $this->Modgastoshog->actualizarFormularioArticulo($id_formulario, $dia, $_POST['_ID_ARTICULO'], $_POST);
 			elseif ($_POST['_ACC_ARTICULOS'] == 'INSERT')
 				$resultado = $this->Modgastoshog->crearFormularioArticulo($id_formulario, $dia, uniqid(), $_POST);
+			echo "<b>Art&iacute;culo guardado</b>";
 		}
 		elseif ($tabla == 'COMIDAS') {
+			$dia = $_POST['_DIA_COM'];
 			if ($_POST['_ACC_COMIDAS'] == 'UPDATE')
 				$resultado = $this->Modgastoshog->actualizarFormularioComida($id_formulario, $dia, $_POST['_ID_COMIDA'], $_POST);
 			elseif ($_POST['_ACC_COMIDAS'] == 'INSERT')
 				$resultado = $this->Modgastoshog->crearFormularioComida($id_formulario, $dia, uniqid(), $_POST);
+			echo "<b>Comida guardada</b>";
 		}
 		elseif ($tabla == '14DIA14') {
 			$resultado = $this->Modgastoshog->actualizarFormularioDia14($id_formulario, $_POST);
 			$this->findia('14DIA14');
+			echo "<b>Gracias.</b>";
 		}
 		/*if ($resultado) {
 			$inicio = $_POST['_INI_ARTICULOS'];
 			$fin = date("Y-m-d H:i:s");
 			$this->Modmenu->guardarRegistroFormulario($id_formulario, 'FAMILIA', '1', $inicio, $fin);
 		}*/
-		echo "<b>Formulario guardado exitosamente.</b>";
 	}
 	
 	/**
@@ -177,8 +217,9 @@ class Gastoshog extends MX_Controller {
 	 * Resultado de listar todas los articulos del formulario
 	 * @author Mario A. Yandar
 	 */
-	public function articulos ($id_formulario, $dia) {
+	public function articulos ($dia) {
 		$this->load->model("Modgastoshog");
+		$id_formulario = $this->session->userdata("id_formulario");
 		$data = $this->Modgastoshog->listadoArticulos($id_formulario, $dia);
 		echo json_encode($data);
 	}
@@ -187,8 +228,9 @@ class Gastoshog extends MX_Controller {
 	 * Resultado de Guardar en el formulario
 	 * @author Mario A. Yandar
 	 */
-	public function articulo ($id_formulario, $id_articulo) {
+	public function articulo ($id_articulo) {
 		$this->load->model("Modgastoshog");
+		$id_formulario = $this->session->userdata("id_formulario");
 		$data = $this->Modgastoshog->buscarArticulo($id_formulario, $id_articulo);
 		echo json_encode($data);
 	}
@@ -197,8 +239,9 @@ class Gastoshog extends MX_Controller {
 	 * Resultado de Eliminar en el formulario
 	 * @author Mario A. Yandar
 	 */
-	public function noarticulo ($id_formulario, $id_articulo) {
+	public function noarticulo ($id_articulo) {
 		$this->load->model("Modgastoshog");
+		$id_formulario = $this->session->userdata("id_formulario");
 		$data = $this->Modgastoshog->eliminarArticulo($id_formulario, $id_articulo);
 		return true;
 	}
@@ -217,8 +260,9 @@ class Gastoshog extends MX_Controller {
 	 * Resultado de listar todas las comidas del formulario
 	 * @author Mario A. Yandar
 	 */
-	public function comidas ($id_formulario, $dia) {
+	public function comidas ($dia) {
 		$this->load->model("Modgastoshog");
+		$id_formulario = $this->session->userdata("id_formulario");
 		$data = $this->Modgastoshog->listadoComidas($id_formulario, $dia);
 		echo json_encode($data);
 	}
@@ -227,8 +271,9 @@ class Gastoshog extends MX_Controller {
 	 * Resultado de Guardar en el formulario
 	 * @author Mario A. Yandar
 	 */
-	public function comida ($id_formulario, $id_comida) {
+	public function comida ($id_comida) {
 		$this->load->model("Modgastoshog");
+		$id_formulario = $this->session->userdata("id_formulario");
 		$data = $this->Modgastoshog->buscarComida($id_formulario, $id_comida);
 		echo json_encode($data);
 	}
@@ -237,8 +282,9 @@ class Gastoshog extends MX_Controller {
 	 * Resultado de Eliminar en el formulario
 	 * @author Mario A. Yandar
 	 */
-	public function nocomida($id_formulario, $id_comida) {
+	public function nocomida($id_comida) {
 		$this->load->model("Modgastoshog");
+		$id_formulario = $this->session->userdata("id_formulario");
 		$data = $this->Modgastoshog->eliminarComida($id_formulario, $id_comida);
 		return true;
 	}

@@ -1,11 +1,14 @@
-<?php if (!defined('BASEPATH')) exit('No direct script access allowed');
+<?php
+
+if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
 
 class My_model extends CI_Model {
-    
+
     private $sql;
     protected $exepcion;
     protected $msgError;
-    
+
     public function construct() {
         parent::__construct();
         $this->sql = 'qwerty';
@@ -20,7 +23,7 @@ class My_model extends CI_Model {
     public function get_sql() {
         return $this->sql;
     }
-    
+
     /**
      * Metodo que ejecuta todas las sentencias INSERT en la Base de Datos
      * @access public
@@ -43,13 +46,16 @@ class My_model extends CI_Model {
                         break;
                     }
                 }
-				if ($valor == NULL) {
-                        $this->sql .= "NULL";
+
+                if ($valor === NULL) {
+                    $this->sql .= "NULL";
                 } else if (is_string($valor) && strtolower($valor) == "null") {
-                        $this->sql .= "NULL";
-                }else if(es_fecha_valida($valor)) {
+
+                    $this->sql .= "NULL";
+                } else if (es_fecha_valida($valor)) {
+
                     $this->sql .= "TO_DATE('" . $valor . "', 'DD/MM/YYYY')";
-                } else if(is_string($valor)) {
+                } else if (is_string($valor)) {
                     $this->sql .= "'" . str_replace("'", "''", $valor) . "'";
                 } else {
                     $this->sql .= $valor;
@@ -57,7 +63,7 @@ class My_model extends CI_Model {
                 $this->sql .= (count($arrValores) != ($i + 1)) ? ", " : ")";
                 $i++;
             }
-           //pr($this->sql); exit;
+            //pr($this->sql); exit;
             //return $this->sql . ";";
             $query = $this->db->query($this->sql);
             $this->db->close();
@@ -83,8 +89,8 @@ class My_model extends CI_Model {
                             break;
                         }
                     }
-                    
-                    if ($valor == NULL) {
+
+                    if ($valor === NULL) {
                         $sql .= $campo . " = NULL, ";
                     } else if (is_string($valor) && strtolower($valor) == "null") {
                         $sql .= $campo . " = NULL, ";
@@ -129,7 +135,7 @@ class My_model extends CI_Model {
             return false;
         }
     }
-    
+
     /**
      * Consulta la fecha y hora actual
      * @access Public
@@ -147,7 +153,7 @@ class My_model extends CI_Model {
         $this->db->close();
         return $data["TODAY"];
     }
-    
+
     /**
      * Metodo que obtiene el ultimo id insertado en la BD en una tabla con campo 
      * serial o autoincremento
@@ -171,5 +177,6 @@ class My_model extends CI_Model {
             return false;
         }
     }
+
 }
 //EOC

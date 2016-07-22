@@ -64,6 +64,121 @@ input[type=radio]:not(old):checked + label > span > span {
     background-image : -webkit-linear-gradient(rgb(85,85,85), rgb(136,136,136));
     background-image : linear-gradient(rgb(85,85,85), rgb(136,136,136));
 }
+.tooltip {
+  position: absolute;
+  z-index: 1070;
+  display: block;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1.42857143;
+  text-align: left;
+  text-align: start;
+  text-decoration: none;
+  text-shadow: none;
+  text-transform: none;
+  letter-spacing: normal;
+  word-break: normal;
+  word-spacing: normal;
+  word-wrap: normal;
+  white-space: normal;
+  filter: alpha(opacity=0);
+  opacity: 0;
+ 
+  line-break: auto;
+}
+.tooltip.in {
+  filter: alpha(opacity=90);
+  opacity: .9;
+}
+.tooltip.top {
+  padding: 5px 0;
+  margin-top: -3px;
+}
+.tooltip.right {
+  padding: 0 5px;
+  margin-left: 3px;
+}
+.tooltip.bottom {
+  padding: 5px 0;
+  margin-top: 3px;
+}
+.tooltip.left {
+  padding: 0 5px;
+  margin-left: -3px;
+}
+.tooltip-inner {
+  max-width: 200px;
+  padding: 3px 8px;
+  color: #fff;
+  text-align: center;
+  background-color: #000;
+  border-radius: 4px;
+}
+.tooltip-arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+}
+.tooltip.top .tooltip-arrow {
+  bottom: 0;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px 5px 0;
+  border-top-color: #000;
+}
+.tooltip.top-left .tooltip-arrow {
+  right: 5px;
+  bottom: 0;
+  margin-bottom: -5px;
+  border-width: 5px 5px 0;
+  border-top-color: #000;
+}
+.tooltip.top-right .tooltip-arrow {
+  bottom: 0;
+  left: 5px;
+  margin-bottom: -5px;
+  border-width: 5px 5px 0;
+  border-top-color: #000;
+}
+.tooltip.right .tooltip-arrow {
+  top: 50%;
+  left: 0;
+  margin-top: -5px;
+  border-width: 5px 5px 5px 0;
+  border-right-color: #000;
+}
+.tooltip.left .tooltip-arrow {
+  top: 50%;
+  right: 0;
+  margin-top: -5px;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #000;
+}
+.tooltip.bottom .tooltip-arrow {
+  top: 0;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 0 5px 5px;
+  border-bottom-color: #000;
+}
+.tooltip.bottom-left .tooltip-arrow {
+  top: 0;
+  right: 5px;
+  margin-top: -5px;
+  border-width: 0 5px 5px;
+  border-bottom-color: #000;
+}
+.tooltip.bottom-right .tooltip-arrow {
+  top: 0;
+  left: 5px;
+  margin-top: -5px;
+  border-width: 0 5px 5px;
+  border-bottom-color: #000;
+}
 </style>
 <hr />
 <div class="row secondHead themeHead">
@@ -112,7 +227,7 @@ input[type=radio]:not(old):checked + label > span > span {
                                     <label for='art_<?= $v3['ID_ARTICULO3'] ?>_1'><span><span></span></span></label>
                                 </div>
                                 <div>
-                                    <label style="width:200px" for='art_<?= $v3['ID_ARTICULO3'] ?>_2'>Recibido por trabajo</label>
+                                    <label style="width:200px" for='art_<?= $v3['ID_ARTICULO3'] ?>_2'>Recibido por trabajo <a title="Los bienes y servicios adquiridos por el hogar que cubren una parte o el total del pago por su trabajo." data-toggle="tooltip" href="#">(?)</a></label>
                                     <input type='checkbox' name='<?= $v3['ID_ARTICULO3'] ?>[recibido_pago]' value='<?= $v3['ID_ARTICULO3'] ?>_2' id='art_<?= $v3['ID_ARTICULO3'] ?>_2' class='ops_<?= $i ?>'/>
                                     <label for='art_<?= $v3['ID_ARTICULO3'] ?>_2'><span><span></span></span></label>
                                 </div>
@@ -127,17 +242,17 @@ input[type=radio]:not(old):checked + label > span > span {
                                     <label for='art_<?= $v3['ID_ARTICULO3'] ?>_4'><span><span></span></span></label>
                                 </div>
                                 <div>
-                                    <label style="width:200px" for='art_<?= $v3['ID_ARTICULO3'] ?>_5'>Producido por el hogar</label>
+                                    <label style="width:200px" for='art_<?= $v3['ID_ARTICULO3'] ?>_5'>Producido por el hogar<a title="Los bienes y servicios adquiridos por el hogar al ser producidos en la propia explotación agraria, fábrica o taller por alguno de los miembros del hogar y consumida por ellos mismos." data-toggle="tooltip" href="#">(?)</a></label>
                                     <input type='checkbox' name='<?= $v3['ID_ARTICULO3'] ?>[producido]' value='<?= $v3['ID_ARTICULO3'] ?>_5' id='art_<?= $v3['ID_ARTICULO3'] ?>_5' class='ops_<?= $i ?>'/>
                                     <label for='art_<?= $v3['ID_ARTICULO3'] ?>_5'><span><span></span></span></label>
                                 </div>
                                 <div>
-                                    <label style="width:200px" for='art_<?= $v3['ID_ARTICULO3'] ?>_6'>Tomado de un negocio propio</label>
+                                    <label style="width:200px" for='art_<?= $v3['ID_ARTICULO3'] ?>_6'>Tomado de un negocio propio<a title="Cuando el hogar tiene un negocio propio en el que adquiere artículos para venderlos y obtiene así ingresos, y toma parte de esos artículos para su propio consumo." data-toggle="tooltip" href="#">(?)</a></label>
                                     <input type='checkbox' name='<?= $v3['ID_ARTICULO3'] ?>[negocio_propio]' value='<?= $v3['ID_ARTICULO3'] ?>_6' id='art_<?= $v3['ID_ARTICULO3'] ?>_6' class='ops_<?= $i ?>'/>
                                     <label for='art_<?= $v3['ID_ARTICULO3'] ?>_6'><span><span></span></span></label>
                                 </div>
                                 <div>
-                                    <label style="width:200px" for='art_<?= $v3['ID_ARTICULO3'] ?>_7'>Otra forma</label>
+                                    <label style="width:200px" for='art_<?= $v3['ID_ARTICULO3'] ?>_7'>Otra forma<a title="Se refiere a otras formas distintas a las mencionadas; por ejemplo: un jabón fiado en una tienda de barrio." data-toggle="tooltip" href="#">(?)</a></label>
                                     <input type='checkbox' name='<?= $v3['ID_ARTICULO3'] ?>[otra]' value='<?= $v3['ID_ARTICULO3'] ?>_7' id='art_<?= $v3['ID_ARTICULO3'] ?>_7' class='ops_<?= $i ?>' />
                                     <label for='art_<?= $v3['ID_ARTICULO3'] ?>_7'><span><span></span></span></label>
                                 </div>
@@ -159,7 +274,7 @@ input[type=radio]:not(old):checked + label > span > span {
                         <div class="col-sm-12" id="mensaje_"></div>
                     </div>
                     <div class="row text-center">
-                        <button disabled class='btn btn-success' id='env_form_2'>Guardar y Continuar <span class='glyphicon glyphicon-chevron-right' aria-hidden='true' title='Continuar'></span></button>
+                        <button class='btn btn-success' id='env_form_2'>Guardar y Continuar <span class='glyphicon glyphicon-chevron-right' aria-hidden='true' title='Continuar'></span></button>
                     </div>
                     </form>
                 </fieldset>

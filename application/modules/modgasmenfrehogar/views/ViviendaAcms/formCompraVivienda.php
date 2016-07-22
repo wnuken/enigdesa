@@ -1,4 +1,4 @@
-<script src="<?php echo base_url("/js/gasmenfrehogar/compravivienda/compravivienda.js"); ?>"></script>
+<script src="<?php echo base_url("/js/modgasmenfrehogar/compravivienda/compravivienda.js"); ?>"></script>
 <div class="page-header">
 	<h1>Gastos en el &uacute;ltimo a&ntilde;o</h1>
     <p class="lead">Alquiler, Combustibles, Mantenimiento y Servicios de la vivienda.</p>

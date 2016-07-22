@@ -165,7 +165,7 @@ input[type=radio]:not(old):checked + label > span > span {
                                         </div>
                                         <div>
                                             <input type='checkbox' name='articulos[]' value='99999999' id='99999999' />
-                                            <label for="<?= $v3['ID_ARTICULO3'] ?>"><span><span></span></span>Ninguna de las anteriores</label>
+                                            <label for="99999999"><span><span></span></span>Ninguna de las anteriores</label>
                                         </div>
                                     </div>
                             </div>

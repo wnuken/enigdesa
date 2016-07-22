@@ -463,16 +463,70 @@
 			result = cadena;
 		return parseInt(result);
 	}
+	
+	
+	
+	
+	
+	//*****************************************************************************************************************
+	//** Compara y valida que el valor de una caja de texto sea mayor o igual que el valor que se recibe por parametro
+	//*****************************************************************************************************************
+	$.validator.addMethod("mayorIgualQue",function(value, element, param){
+		var comp = convertirOperacion(param);
+		var valor = parseInt($(element).val(), 10);
+        if (valor >= comp)			                            	  
+            return false;
+        else
+            return true;
+    },"");
+	
+	//****************************************************************************************************************
+	//** Compara y valida que el valor de una caja de texto sea mayor que el valor que se recibe por parametro
+	//****************************************************************************************************************
+	$.validator.addMethod("mayorQue", function(value, element, param) {
+		var comp = convertirOperacion(param);
+		var valor = parseInt($(element).val(), 10);
+		if (valor > comp)
+			return false;
+		else
+			return true;
+	}, "");
+		
+	
 	//*****************************************************************************************************************
 	//** Compara y valida que el valor de una caja de texto sea menor o igual que el valor que se recibe por parametro
 	//*****************************************************************************************************************
-	$.validator.addMethod("menorIgualQue",function(value, element, param){
-		var comp = convertirOperacion(param); 
-		var valor = parseInt($(element).val());
-        if (valor <= comp){			                            	  
-      	  return false;
-        }
-        else{
-      	  return true;
-        }
+	$.validator.addMethod("menorIgualQue", function(value, element, param) {
+		var comp = convertirOperacion(param);
+		var valor = parseInt($(element).val(), 10);
+		if (valor <= comp) {
+			return false;
+		}
+		else {
+			return true;
+		}
+	}, "");
+	
+	//****************************************************************************************************************
+	//** Compara y valida que el valor de una caja de texto sea menor que el valor que se recibe por parametro
+	//****************************************************************************************************************
+	$.validator.addMethod("menorQue",function(value, element, param){
+		var comp = convertirOperacion(param);
+		var valor = parseInt($(element).val(), 10);
+	    if (valor < comp)			                            	  
+	        return false;
+		else
+		    return true;		    
+	},"");
+
+	//*****************************************************************************************************************
+    //** Verifica si el valor de un input es un entero
+    //*****************************************************************************************************************
+    $.validator.addMethod("esEntero", function(value, element, param){
+        var valor = $(element).val();
+        var expNumerica = /^[0-9]+$/;
+        if(!valor.match(expNumerica))
+            return false;
+        else
+            return true;
     },"");
