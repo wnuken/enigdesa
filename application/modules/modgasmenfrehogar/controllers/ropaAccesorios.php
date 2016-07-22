@@ -124,6 +124,8 @@ public function validateinitsection(){
    $dataElement['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
    $dataElement['ID_SECCION3'] =  $params['ID_SECCION3'];
    $dataElement['PAG_SECCION3'] = 1;
+   $dataElement['FECHA_INI_SEC'] = date('Y/m/d', strtotime('now'));
+   $dataElement['FECHA_FIN_SEC'] = date('Y/m/d', strtotime('now'));
    if($params['VALOR_VARIABLE'] == 2)
     $dataElement['ID_ESTADO_SEC'] = 2;
 $resultControl = $this->Maccesorios->updateGmfControl($dataElement);
@@ -148,9 +150,9 @@ public function getelements(){
     $PRODUCIDO = FALSE; $NEGOCIO_PROPIO = FALSE; $OTRA = FALSE;
 
     foreach ($elements as $key => $value) {
-     $active = FALSE;
+       $active = FALSE;
 
-     foreach ($elementsForm as $key1 => $value1) {
+       foreach ($elementsForm as $key1 => $value1) {
         if($value['ID_ARTICULO3'] == $value1['ID_ARTICULO3']){
             $active = TRUE;
 
@@ -215,6 +217,7 @@ public function savesetarticulos(){
     $dataElement['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
     $dataElement['ID_SECCION3'] = $params['ID_SECCION3'];
     $dataElement['PAG_SECCION3'] = 2;
+    $dataElement['FECHA_FIN_SEC'] = date('Y/m/d', strtotime('now'));
     $resultControl = $this->Maccesorios->updateGmfControl($dataElement);
 
     $responseArray = array(
@@ -252,6 +255,7 @@ public function updatearticulos(){
     $dataElement['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
     $dataElement['ID_SECCION3'] = $params['ID_SECCION3'];
     $dataElement['PAG_SECCION3'] = 3;
+    $dataElement['FECHA_FIN_SEC'] = date('Y/m/d', strtotime('now'));
     $resultControl = $this->Maccesorios->updateGmfControl($dataElement);
 
     $responseArray = array(
@@ -302,6 +306,7 @@ public function updatecompra(){
     $dataElement['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
     $dataElement['ID_SECCION3'] = $params['ID_SECCION3'];
     $dataElement['PAG_SECCION3'] = 4;
+    $dataElement['FECHA_FIN_SEC'] = date('Y/m/d', strtotime('now'));
     $resultControl = $this->Maccesorios->updateGmfControl($dataElement);
 
     $responseArray = array(
@@ -323,11 +328,13 @@ public function updateotros(){
     $dataElement['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
     $dataElement['ID_SECCION3'] = $params['ID_SECCION3'];
     $dataElement['ID_ESTADO_SEC'] = 2;
+    $dataElement['FECHA_FIN_SEC'] = date('Y/m/d', strtotime('now'));
     $resultControl = $this->Maccesorios->updateGmfControl($dataElement);
 
     if($params['ID_SECCION3'] == 'D6'){
         $dataElement['ID_SECCION3'] = $this->idSubModulo . '0';
         $dataElement['ID_ESTADO_SEC'] = 2;
+        $dataElement['FECHA_FIN_SEC'] = date('Y/m/d', strtotime('now'));
         $resultControl = $this->Maccesorios->updateGmfControl($dataElement);
     }
 

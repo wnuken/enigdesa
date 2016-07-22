@@ -53,6 +53,16 @@ class Modelropaaccesorios extends My_model {
     public function updateGmfControl($params){
         $this->db->where('ID_FORMULARIO', $params['ID_FORMULARIO']);
         $this->db->where('ID_SECCION3', $params['ID_SECCION3']);
+        if(isset($params['FECHA_INI_SEC'])){
+            $dateIni = $params['FECHA_INI_SEC'];
+            unset($params['FECHA_INI_SEC']);
+            $this->db->set('FECHA_INI_SEC',"to_date('$dateIni','yyyy/mm/dd')",false);
+        }
+        if(isset($params['FECHA_FIN_SEC'])){
+            $dateEnd = $params['FECHA_FIN_SEC'];
+            unset($params['FECHA_FIN_SEC']);
+            $this->db->set('FECHA_FIN_SEC',"to_date('$dateEnd','yyyy/mm/dd')",false);
+        }       
         $resultUpdate = $this->db->update('ENIG_ADMIN_GMF_CONTROL', $params);
 
        if($resultUpdate === TRUE){
