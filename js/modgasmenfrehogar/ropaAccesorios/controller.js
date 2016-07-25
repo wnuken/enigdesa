@@ -76,6 +76,7 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 	
 	$scope.FormulariorHombre = {};
 	$scope.validateGroup = [];
+	$scope.validateCompra = [];
 	$scope.subtotal = 0;
 
 	var gg = {
@@ -141,9 +142,17 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 	};
 
 	$scope.validateForm3 = function(params){
+		var secccion4 = 1;
+
+		angular.forEach($scope.validateCompra, function(element, key){
+			if(element == true)
+				secccion4 = 0;
+		});
+
 		var paramssec2 = {
 			"ID_FORMULARIO": $scope.FormulariorHombre.idFormulario,
 			"ID_SECCION3": $scope.FormulariorHombre.idSection,
+			"PAG_SECCION3": (params + secccion4),
 			"path": "ropaaccesorios/updatearticulos"
 		};
 
@@ -155,12 +164,11 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 
 		dataService.saveElements(paramssec2, function(dataResponse){
 			if(dataResponse.result == true){
-				$scope.pagesection = params;
+				$scope.pagesection = (params + secccion4);
 			}else{
 				console.log(dataResponse);
 			}
 		});
-
 	};
 
 	$scope.validateForm4 = function(params){
@@ -240,9 +248,11 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 		
 		$scope.validateGroup[index] = '';
 		angular.forEach($scope.FormulariorHombre.rh[index].ot, function(element, key){
-			console.log(element);
 			if(element == true)
 				$scope.validateGroup[index] = true;
+
+			if(key == "COMPRA")
+				$scope.validateCompra[index] = element;
 		});
 
 		//console.log($scope.elid);
@@ -301,6 +311,7 @@ appGHogar.controller('Educacion', ['$scope', 'dataService', 'localStorageService
 	
 	$scope.FormulariorHombre = {};
 	$scope.validateGroup = [];
+	$scope.validateCompra = [];
 	$scope.subtotal = 0;
 
 	var gg = {
@@ -366,9 +377,17 @@ appGHogar.controller('Educacion', ['$scope', 'dataService', 'localStorageService
 	};
 
 	$scope.validateForm3 = function(params){
+		var secccion4 = 1;
+
+		angular.forEach($scope.validateCompra, function(element, key){
+			if(element == true)
+				secccion4 = 0;
+		});
+
 		var paramssec2 = {
 			"ID_FORMULARIO": $scope.FormulariorHombre.idFormulario,
 			"ID_SECCION3": $scope.FormulariorHombre.idSection,
+			"PAG_SECCION3": (params + secccion4),
 			"path": "Educacion/updatearticulos"
 		};
 
@@ -380,7 +399,7 @@ appGHogar.controller('Educacion', ['$scope', 'dataService', 'localStorageService
 
 		dataService.saveElements(paramssec2, function(dataResponse){
 			if(dataResponse.result == true){
-				$scope.pagesection = params;
+				$scope.pagesection = (params + secccion4);
 			}else{
 				console.log(dataResponse);
 			}
@@ -479,6 +498,9 @@ appGHogar.controller('Educacion', ['$scope', 'dataService', 'localStorageService
 			console.log(element);
 			if(element == true)
 				$scope.validateGroup[index] = true;
+
+			if(key == "COMPRA")
+				$scope.validateCompra[index] = element;
 		});
 
 		//console.log($scope.elid);

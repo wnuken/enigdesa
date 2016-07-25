@@ -267,7 +267,7 @@ public function updatearticulos(){
 
     $dataElement['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
     $dataElement['ID_SECCION3'] = $params['ID_SECCION3'];
-    $dataElement['PAG_SECCION3'] = 3;
+    $dataElement['PAG_SECCION3'] = $params['PAG_SECCION3'];
     $dataElement['FECHA_FIN_SEC'] = date('Y/m/d', strtotime('now'));
     $resultControl = $this->Maccesorios->updateGmfControl($dataElement);
 
