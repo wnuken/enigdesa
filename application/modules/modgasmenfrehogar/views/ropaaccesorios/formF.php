@@ -216,7 +216,7 @@
 								<div ng-if="!FormulariorHombre.rh[$index].pa.VALOR_PAGADO1">
 									<input class="form-control isnumeric" type="text" name="pagado{{rhom.id}}" id="pagado{{rhom.id}}" ng-model="FormulariorHombre.rh[$index].pa.VALOR_PAGADO" 
 									ng-disabled="FormulariorHombre.rh[$index].pa.VALOR_PAGADO1" 
-									ng-change="sumValor($index)" required>
+									ng-change="sumValor($index)" required is-number>
 									<label ng-show="FormulariorHombre.rh[$index].pa.VALOR_PAGADO < 500"
 									style="display: inline; margin-left: 10px; color: rgb(255, 0, 0);">Valor mayor a 500.</label>
 								</div>
@@ -422,8 +422,8 @@
 						<td>{{rhom.name}}</td>
 						<td>
 							<div class="form-group" ng-if="rhom.ot.RECIBIDO_PAGO && FormulariorHombre.otraforma[rhom.id]['<?php echo $RECIBIDO_PAGO ?>'] !== false">
-								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" 
-								ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $RECIBIDO_PAGO ?>']" required ng-minlength="4"> 
+								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control isnumeric" 
+								ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $RECIBIDO_PAGO ?>']" required is-number ng-minlength="4"> 
 							</div>
 							<div class="form-group" ng-if="!rhom.ot.RECIBIDO_PAGO || FormulariorHombre.otraforma[rhom.id]['<?php echo $RECIBIDO_PAGO ?>'] === false">
 								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" disabled> 
@@ -441,8 +441,8 @@
 						
 						<td>
 							<div class="form-group" ng-if="rhom.ot.REGALO && FormulariorHombre.otraforma[rhom.id]['<?php echo $REGALO ?>'] !== false">
-								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" 
-								ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $REGALO ?>']" required ng-minlength="4"> 
+								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control isnumeric" 
+								ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $REGALO ?>']" required is-number ng-minlength="4"> 
 							</div>
 							<div class="form-group" ng-if="!rhom.ot.REGALO || FormulariorHombre.otraforma[rhom.id]['<?php echo $REGALO ?>'] === false">
 								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" disabled> 
@@ -460,8 +460,8 @@
 
 						<td>
 							<div class="form-group" ng-if="rhom.ot.INTERCAMBIO && FormulariorHombre.otraforma[rhom.id]['<?php echo $INTERCAMBIO ?>'] !== false">
-								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" 
-								ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $INTERCAMBIO ?>']" required ng-minlength="4"> 
+								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control isnumeric" 
+								ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $INTERCAMBIO ?>']" required is-number ng-minlength="4"> 
 							</div>
 							<div class="form-group" ng-if="!rhom.ot.INTERCAMBIO || FormulariorHombre.otraforma[rhom.id]['<?php echo $INTERCAMBIO ?>'] === false">
 								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" disabled> 
@@ -479,8 +479,8 @@
 
 						<td>
 							<div class="form-group" ng-if="rhom.ot.PRODUCIDO && FormulariorHombre.otraforma[rhom.id]['<?php echo $PRODUCIDO ?>'] !== false">
-								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" 
-								ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $PRODUCIDO ?>']" required ng-minlength="4"> 
+								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control isnumeric" 
+								ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $PRODUCIDO ?>']" required is-number ng-minlength="4"> 
 							</div>
 							<div class="form-group" ng-if="!rhom.ot.PRODUCIDO || FormulariorHombre.otraforma[rhom.id]['<?php echo $PRODUCIDO ?>'] === false">
 								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" disabled> 
@@ -498,8 +498,8 @@
 
 						<td>
 							<div class="form-group" ng-if="rhom.ot.NEGOCIO_PROPIO && FormulariorHombre.otraforma[rhom.id]['<?php echo $NEGOCIO_PROPIO ?>'] !== false">
-								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" 
-								ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $NEGOCIO_PROPIO ?>']" required ng-minlength="4"> 
+								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control isnumeric" 
+								ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $NEGOCIO_PROPIO ?>']" required is-number ng-minlength="4"> 
 							</div>
 							<div class="form-group" ng-if="!rhom.ot.NEGOCIO_PROPIO || FormulariorHombre.otraforma[rhom.id]['<?php echo $NEGOCIO_PROPIO ?>'] === false">
 								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" disabled> 
@@ -517,8 +517,8 @@
 
 						<td>
 							<div class="form-group" ng-if="rhom.ot.OTRA && FormulariorHombre.otraforma[rhom.id]['<?php echo $OTRA ?>'] !== false">
-								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" 
-								ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $OTRA ?>']" required ng-minlength="4"> 
+								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control isnumeric" 
+								ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $OTRA ?>']" required is-number ng-minlength="4"> 
 							</div>
 							<div class="form-group" ng-if="!rhom.ot.OTRA || FormulariorHombre.otraforma[rhom.id]['<?php echo $OTRA ?>'] === false">
 								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" disabled> 
@@ -533,9 +533,6 @@
 								<input name="value2" id="value2" type="checkbox" disabled> 
 							</div>
 						</td>
-
-
-
 					</tr>
 
 				</table>

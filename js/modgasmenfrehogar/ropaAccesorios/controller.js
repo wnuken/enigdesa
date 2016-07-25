@@ -57,6 +57,18 @@ this.getElements = function(params, callbackFunc) {
 };
 });
 
+appGHogar.directive("isNumber", function() {
+	return {
+		require: "ngModel",
+		scope: {
+			isNumber: '='
+		},
+		link: function(scope, element, attrs, ctrl) {
+			$("input.isnumeric").numeric();
+		}
+	};
+});
+
 $idSection = $("input#idSection");
 $idFormulario = $("input#idFormulario");
 
