@@ -107,6 +107,7 @@ class Modsec3 extends My_model {
 				//Asigna 99 a pago si existe check no recuerda ( es decir esta checkeado)
 				$asignacion = "isset(\$chk_no_recuerda_".$i.")?\$pago=99:'';";
    				eval($asignacion);
+				$pago=$this->quitarPuntoMiles($pago);
 				
 				//Columna valor pagado por CREDITO
 				$asignacion = "isset(\$txt_valor_credito_".$i.")?\$pago_credito=\$txt_valor_credito_".$i.":\$pago_credito=NULL;";
@@ -114,7 +115,7 @@ class Modsec3 extends My_model {
 				//Asigna 99 a pago_credito si existe check_credito no recuerda ( es decir esta checkeado)
 				$asignacion = "isset(\$chk_credito_no_recuerda_".$i.")?\$pago_credito=99:'';";
    				eval($asignacion);
-				
+				$pago_credito=$this->quitarPuntoMiles($pago_credito);
 				
 				$asignacion = "isset(\$sel_lugar_".$i.")?( (\$sel_lugar_".$i."=='' || \$sel_lugar_".$i."=='-')?\$lugar=NULL:\$lugar=\$sel_lugar_".$i." ): \$lugar=NULL; ";
 				eval($asignacion);
@@ -151,6 +152,7 @@ class Modsec3 extends My_model {
 						$row=$query->row();
 						$nom_var=$row->ID_VARIABLE_TOTAL_PAGO1;
 					
+					$txt_total=$this->quitarPuntoMiles($txt_total);
 					$sql2="INSERT INTO ENIG_FORM_GMF_VARIABLES (ID_FORMULARIO,ID_VARIABLE,VALOR_VARIABLE) 
 					VALUES ('$ID_FORMULARIO', '$nom_var', '$txt_total') ";
 					$query = $this->db->query($sql2);
@@ -176,6 +178,7 @@ class Modsec3 extends My_model {
 						$row=$query->row();
 						$nom_var=$row->ID_VARIABLE_TOTAL_PAGO2;
 					
+					$txt_total_credito=$this->quitarPuntoMiles($txt_total_credito);
 					$sql2="INSERT INTO ENIG_FORM_GMF_VARIABLES (ID_FORMULARIO,ID_VARIABLE,VALOR_VARIABLE) 
 					VALUES ('$ID_FORMULARIO', '$nom_var', '$txt_total_credito') ";
 					$query = $this->db->query($sql2);
@@ -327,6 +330,20 @@ class Modsec3 extends My_model {
 		return $existe;
 	}
 
+	
+	/**
+     * Quita separador de miles de un entero
+     * @access Public
+     * @author hhchavezv
+	 * @param  
+	 * @return 
+     */
+    public function quitarPuntoMiles($numero) 
+	{               
+		$cifra=str_replace(".","",$numero);
+		
+		return $cifra;
+	}
 	
 
 }

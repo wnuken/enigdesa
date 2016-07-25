@@ -50,8 +50,9 @@
 	{
 		// Vuelve a realizar suma total de pago de tabla articulos
 		pag3_suma_articulos(1);
-		pag3_suma_articulos(2);
-		
+		if($("#txt_total_credito").length >0){
+			pag3_suma_articulos(2);
+		}
 		if ($("#form_sec3").valid() == true){
 		
 			if(window.confirm('Haga clic en Aceptar si realmente quiere guardar y continuar a la siguiente secci\u00f3n.'))
@@ -112,23 +113,21 @@
 		}
 	});
 	
-	/* nota: se daña validacion al colocarle puntos
+	
 	// Poner punto de miles a los valores estimados
     $( "input[type=text]" ).on( "keyup blur", function() {
 		// Validaciones
-			var numero = $(this).val().replace(/\./g, '');			
-            var numConMiles = agregarPuntosMiles(numero);
-            $(this).val(numConMiles);
-        
+		var id_campo=this.id;
+			if(id_campo != "txt_otro_medio_pago"){// campo de texto			
+				var numero = $(this).val().replace(/\./g, '');			
+				var numConMiles = agregarPuntosMiles(numero);
+				$(this).val(numConMiles);  			
+			}
+			
+			
     });
 	
-	$( "#txt_total , #txt_total_credito" ).on( "keyup blur change", function() {
-		// Validaciones
-			var numero = $(this).val().replace(/\./g, '');			
-            var numConMiles = agregarPuntosMiles(numero);
-            $(this).val(numConMiles);
-        
-    });*/
+	
 	
 });//EOC
 
@@ -160,26 +159,34 @@ function pag3_valida_articulos_pagados()
 		$(valor_credito).numerico().largo(11);
 		*/
 		if(!isNaN(rango_max)) {
-			$( "input[type=text]" ).numerico().largo(agregarPuntosMiles(rango_max).length);
+			$( valor ).numerico().largo(agregarPuntosMiles(rango_max).length);
+			$( valor_credito ).numerico().largo(agregarPuntosMiles(rango_max).length);
 		}
 		
 		// Validaciones
 		$(valor).rules("add", { required   :   true,  
-								menorQue:rango_min, 
-								mayorQue:rango_max,
-								esEntero : true, 
+								menorQue_puntoMiles:rango_min, 
+								mayorQue_puntoMiles:rango_max,
+								esEntero_puntoMiles : true, 
 					 messages: { required   :  "Digite un valor.", 
-								 menorQue:"Digite un valor mayor de "+agregarPuntosMiles(rango_min), 
-								 mayorQue:"Digite un valor menor de "+agregarPuntosMiles(rango_max),
-								 esEntero: "Digite solo números."}
+								 menorQue_puntoMiles:"Digite un valor mayor de "+agregarPuntosMiles(rango_min), 
+								 mayorQue_puntoMiles:"Digite un valor menor de "+agregarPuntosMiles(rango_max),
+								 esEntero_puntoMiles: "Digite solo números."
+							   }
 					});
 		/*$(no_recuerda).rules("add", { required   :   true, 
 					 messages: { required   :  "Digite un valor."}
 					});*/
 					
 		if($(valor_credito).length >0){// si existe
-		$(valor_credito).rules("add", { required   :   true,  menorQue:rango_min, mayorQue:rango_max,
-					 messages: { required   :  "Digite un valor.", menorQue:"Digite un valor mayor de "+rango_min, mayorQue:"Digite un valor menor de "+rango_max}
+		$(valor_credito).rules("add", { required   :   true,  
+										menorQue_puntoMiles:rango_min, 
+										mayorQue_puntoMiles:rango_max,
+										esEntero_puntoMiles : true, 
+							 messages: { required   :  "Digite un valor.", 
+										menorQue_puntoMiles:"Digite un valor mayor de "+agregarPuntosMiles(rango_min), 
+										mayorQue_puntoMiles:"Digite un valor menor de "+agregarPuntosMiles(rango_max),
+										esEntero_puntoMiles: "Digite solo números."}
 					});
 		}			
 		$(lugar).rules("add", { comboBox   :   '-', 
@@ -199,20 +206,26 @@ function pag3_suma_articulos(tipo)
 		
 	for (x=0; x<nro_articulos; x=x+1) 
 	{
-		if(tipo ==1)
+		if(tipo ==1){
 			var valor="#txt_valor_"+x;
-		else if(tipo ==2)
-			var valor="#txt_valor_credito_"+x;
 			
-		if(parseInt( $(valor).val() ) >=0)
-			suma= suma+parseInt( $(valor).val() );
+		}else if(tipo ==2){
+			var valor="#txt_valor_credito_"+x;
+		}
+		
+		
+		var cifra=	quitarPuntoMiles( $(valor).val() );
+		if( cifra  >=0){
+			suma= suma+ cifra;			
+			}
 	}
+	suma=agregarPuntosMiles(suma);
 	
-	if(tipo ==1)	
-		$("#txt_total").attr("value",agregarPuntosMiles(suma));
-	else if(tipo ==2)
-		$("#txt_total_credito").attr("value",agregarPuntosMiles(suma));	
-	
+	if(tipo ==1){	
+		$("#txt_total").attr("value",suma);
+	}else if(tipo ==2){
+		$("#txt_total_credito").attr("value",suma);	
+	}
 }//func
 
 // Deshabilita pago, si hizo clic en check de no recuerda valor
@@ -240,7 +253,72 @@ function pag3_deshabilita_pago(fila, tipo)
 	
 }//func
 
-// Mascara para miles
+/**
+ * Función que coloca punto separador de miles
+ */
 var agregarPuntosMiles = function(numero){
         return String(numero).split(/(?=(?:\d{3})+$)/).join(".");// nota: en BD la coma es el separador de miles
     }
+
+/**
+ * Función que quita punto separador de miles
+ */
+function quitarPuntoMiles(campo)
+{
+	//var cifra=campo.replace(".", ""); //solo reemplaza la primer ocurrencia
+	var cifra=replaceAll(campo, ".", "" );// con funcion para reemplazar todas las ocurrencias
+	cifra=parseInt(cifra ,10);
+	
+	return cifra;
+}
+
+/**
+ * Función que permite reemplazar TODAS las subcadenas encontradas
+ * en un string por otra nueva subcadena.
+ */
+function replaceAll(text, search, newstring ){
+    while (text.toString().indexOf(search) != -1)
+        text = text.toString().replace(search,newstring);
+    return text;
+}
+
+	//****************************************************************************************************************
+	//** Compara y valida que el valor de una caja de texto sea menor que el valor que se recibe por parametro
+	//****************************************************************************************************************
+	$.validator.addMethod("menorQue_puntoMiles",function(value, element, param){
+		var comp = convertirOperacion(param);
+		var valor = quitarPuntoMiles($(element).val());
+	    if (valor < comp)			                            	  
+	        return false;
+		else
+		    return true;		    
+	},"");
+	
+	//****************************************************************************************************************
+	//** Compara y valida que el valor de una caja de texto sea mayor que el valor que se recibe por parametro
+	//****************************************************************************************************************
+	$.validator.addMethod("mayorQue_puntoMiles", function(value, element, param) {
+		var comp = convertirOperacion(param);
+		var valor = quitarPuntoMiles($(element).val());
+		if (valor > comp)
+			return false;
+		else
+			return true;
+	}, "");
+	
+	//*****************************************************************************************************************
+    //** Verifica si el valor de un input es un entero
+    //*****************************************************************************************************************
+    $.validator.addMethod("esEntero_puntoMiles", function(value, element, param){
+        var valor = replaceAll($(element).val(), ".", "" );
+		//var expNumerica = /^[+-]?\d+([,.]\d+)?$/;
+		//var expNumerica = /^[+-]?\d+([,.]\d+([,.]\d+))?$/;
+		//var expNumerica = /^\d+|[,.]|\d+?$/;// valida cifra con punto de separacion de miles
+		
+		valor=String(valor);// funcion match requiere q sea string
+		var expNumerica = /^[0-9]+$/;
+        if(valor.match(expNumerica))
+            return true;
+        else
+            return false;
+    },"");

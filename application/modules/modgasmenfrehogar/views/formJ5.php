@@ -64,6 +64,13 @@ input[type=radio]:not(old):checked + label > span > span {
     background-image : -webkit-linear-gradient(rgb(85,85,85), rgb(136,136,136));
     background-image : linear-gradient(rgb(85,85,85), rgb(136,136,136));
 }
+.caja {
+font-family: sans-serif;
+font-size: 10px;
+font-weight: 400;
+color: #070707;
+background:#E9EFCA
+}
 </style>
 <script src="<?= $js_dir ?>"></script>
 <hr />
@@ -111,26 +118,25 @@ input[type=radio]:not(old):checked + label > span > span {
                                 ¿De P10303 del 2015 a P10303S1 del 2016 usted o alg&uacute;n miembro del hogar realiz&oacute; viajes a destinos nacionales e internacionales?
                             </div>
                         <br>
-                        <br>
+                        
 			<!--/div>
 		</div-->
 
             <div class="example">
             	<div>
-					<input type='checkbox' name='P10396S1' value='P10395S1' id='art_P10395S1' class='ops_1'/>
+					<input type='checkbox' name='P10395S1' value='P10395S1' id='art_P10395S1' class='ops_1'/>
 					<label for="art_P10395S1" id="art_P10395S1"><span></span>Nacional</label>
 				</div>
-				<div id="mostrar_P10395S1" style="display: none">
+				<div id="mostrar_P10395S1" style="display: none; margin-left: 4em">
 					<div class='form-group has-feedback cont_articulo' id='div-P10395S1A1'>
                         <label class="control-label" for="P10395S1A1">P10395S1A1 Cu&aacute;ntos viajes</label>
 
                         <div title="" data-original-title="" id="RESP_P10395S1A1" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
                             
                         </div>
-                        <br><br>
-
-                        <div class="example">
-                        	<div>
+                        <br>
+						<div class="example">
+                        	<div style="width: 200px">
 								<input type="text" name="P10395S1A1" id="P10395S1A1" class="form-control"  maxlength="25" >	
 							</div>
 
@@ -141,7 +147,7 @@ input[type=radio]:not(old):checked + label > span > span {
 					<input type='checkbox' name='P10395S2' value='P10395S2' id='art_P10395S2' class='ops_2'/>
 					<label for="art_P10395S2" id="art_P10395S2"><span></span>Internacional</label>
 				</div>
-                <div id="mostrar_P10395S2" style="display: none">
+                <div id="mostrar_P10395S2" style="display: none; margin-left: 4em">
 					<div class='form-group has-feedback cont_articulo' id='div-P10395S2A1'>
                         <label class="control-label" for="P10395S2A1">P10395S1A1 Cu&aacute;ntos viajes</label>
 
@@ -151,7 +157,7 @@ input[type=radio]:not(old):checked + label > span > span {
                         <br><br>
 
                         <div class="example">
-                        	<div>
+                        	<div style="width: 200px">
 								<input type="text" name="P10395S2A1" id="P10395S2A1" class="form-control"  maxlength="25" >	
 							</div>
 
@@ -164,220 +170,249 @@ input[type=radio]:not(old):checked + label > span > span {
 				</div>
             </div>
         	<hr></hr>
-            <div class='example ocultar'>
-	        	<label class="control-label" for="P10395">P10396</label>
-	        	<div title="" data-original-title="" id="RESP_P10396" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
-	             	¿Para realizar el &uacute;timo viaje adquiri&oacute; paquete tur&iacute;stico completo? (Incluye tiquetes, alojamiento, alimentaci&oacute;n y otros).
-	             </div>
-	             <br>
-	             <br>
-            </div>
-            <div class='example ocultar'>
-            	<input type='checkbox' name='si_P10396' value='1' id='si_P10396' class='ops_1'/>
-				<label for="si_P10396" id="si_P10396"><span></span>Si</label>
-			</div>
-			<div id="mostrar_P10396" style="display: none" class='ocultar'>
-				<div class='form-group has-feedback cont_articulo' id='div-P10396'>
-                	<label class="control-label" for="P10396S1">P10396S1 ¿Cu&aacute;ntos paquetes</label>
-                    <div title="" data-original-title="" id="RESP_P10396S1" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
-                	</div>
-	                <div class="example">
-	                	<div>
-							<input type="text" name="P10396S1" id="P10396S1" class="form-control"  maxlength="25" >	
+        	<div class='ocultar'>
+	            <div class='example'>
+		        	<label class="control-label" for="P10395">P10396</label>
+		        	<div title="" data-original-title="" id="RESP_P10396" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
+		             	¿Para realizar el &uacute;timo viaje adquiri&oacute; paquete tur&iacute;stico completo? (Incluye tiquetes, alojamiento, alimentaci&oacute;n y otros).
+		             </div>
+		             <br>
+		        </div>
+	            <div class='example'>
+	            	<input type='checkbox' name='si_P10396' value='1' id='si_P10396' class='ops_1'/>
+					<label for="si_P10396" id="si_P10396"><span></span>Si</label>
+				</div>
+				<div id="mostrar_P10396" style="display: none; margin-left: 4em" >
+					<div class='form-group has-feedback cont_articulo' id='div-P10396'>
+	                	<label class="control-label" for="P10396S1">P10396S1 ¿Cu&aacute;ntos paquetes</label>
+	                    <div title="" data-original-title="" id="RESP_P10396S1" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
+	                	</div>
+		                <div class="example">
+		                	<div style="width: 200px">
+								<input type="text" name="P10396S1" id="P10396S1" class="form-control"  maxlength="25">	
+							</div>
 						</div>
-					</div>
-					<div>
-						<input type='checkbox' name='P10396S1_99' value='99' id='art_P10396S1_99' class='ops_2'/>
-						<label for="art_P10396S1_99" id="art_P10396S1_99"><span></span>No sabe o no informa</label>
-					</div>
-            	</div>
-				
-				<div class='form-group has-feedback cont_articulo' id='div-P10396'>
-                	<label class="control-label" for="P10396S2">P10396S2 ¿Cu&aacute;nto gasto en esos paquetes?</label>
-                    <div title="" data-original-title="" id="RESP_P10396S2" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
-                	</div>
-	                <div class="example">
-	                	<div>
-							<input type="text" name="P10396S2" id="P10396S2" class="form-control"  maxlength="25" >	
+						<div>
+							<input type='checkbox' name='P10396S1_99' value='99' id='art_P10396S1_99' class='ops_2'/>
+							<label for="art_P10396S1_99" id="art_P10396S1_99"><span></span>No sabe o no informa</label>
 						</div>
-					</div>
-					<div>
-						<input type='checkbox' name='P10396S2_99' value='99' id='art_P10396S2_99' class='ops_2'/>
-						<label for="art_P10396S2_99" id="art_P10396S2_99"><span></span>No sabe o no informa</label>
-					</div>
-            	</div>
-            </div>	
-			<div class='example ocultar'>
-            	<input type='checkbox' name='no_P10396' value='1' id='no_P10396' class='ops_1'/>
-				<label for="no_P10396" id="no_P10396"><span></span>No</label>
-			</div>	
-			<div class='ocultar'>
-				<hr></hr>
-			</div>
-			<div class='example ocultar' title="" data-original-title="" id="" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
-				¿Cu&aacute;les alojamientos emple&oacute; para pernoctar durante el &uacute;ltimo viaje?
-			</div>
-			 <div class='example ocultar'>
-	        	<div title="" data-original-title="" id="RESP_P10397S1" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
-	             	<label class="control-label" for="P10397S1">P10397S1</label>
-	             	 Hotel, hostal, centro vacacional.
-	             </div>
-	        </div>
-	        <div class='example ocultar'>
-            	<input type='checkbox' name='si_P10397S1' value='1' id='si_P10397S1' class='ops_1'/>
-				<label for="si_P10397S1" id="si_P10397S1"><span></span>Si</label>
-			</div>
-			<div id="mostrar_P10397S1A1" style="display: none" class='ocultar'>
-				<div class='form-group has-feedback cont_articulo' id='div-P10397S1A1'>
-                	<label class="control-label" for="P10397S1A1">P10397S1A1 ¿Cu&aacute;ntos noches?</label>
-                    <div title="" data-original-title="" id="RESP_P10397S1A1" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
-                	</div>
-	                <div class="example">
-	                	<div>
-							<input type="text" name="P10397S1A1" id="P10397S1A1" class="form-control"  maxlength="25" >	
+	            	</div>
+			
+					<div class='form-group has-feedback cont_articulo' id='div-P10396'>
+	                	<label class="control-label" for="P10396S2">P10396S2 ¿Cu&aacute;nto gasto en esos paquetes?</label>
+	                    <div title="" data-original-title="" id="RESP_P10396S2" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
+	                	</div>
+		                <div class="example">
+		                	<div style="width: 200px">
+								<input type="text" name="P10396S2" id="P10396S2" class="form-control"  maxlength="25" >	
+							</div>
 						</div>
-					</div>
-					<div>
-						<input type='checkbox' name='P10397S1A1_99' value='99' id='art_P10397S1A1_99' class='ops_2'/>
-						<label for="art_P10397S1A1_99" id="art_P10397S1A1_99"><span></span>No sabe o no informa</label>
-					</div>
-            	</div>
-			</div>
-			 <div class='example ocultar'>
-            	<input type='checkbox' name='no_P10397S1' value='2' id='no_P10397S1' class='ops_2'/>
-				<label for="no_P10397S1" id="no_P10397S1"><span></span>No</label>
-			</div>
-			<div class='example ocultar'>
-	        	<div title="" data-original-title="" id="RESP_P10397S1" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
-	             	<label class="control-label" for="P10397S3">P10397S3</label>
-	             	 Campamento o camping.
-	             </div>
-	        </div>
-	        <div class='example ocultar'>
-            	<input type='checkbox' name='si_P10397S3' value='1' id='si_P10397S3' class='ops_1'/>
-				<label for="si_P10397S3" id="si_P10397S3"><span></span>Si</label>
-			</div>
-			<div id="mostrar_P10397S3A1" style="display: none" class='ocultar'>
-				<div class='form-group has-feedback cont_articulo' id='div-P10397S3A1'>
-                	<label class="control-label" for="P10397S3A1">P10397S3A1 ¿Cu&aacute;ntos noches?</label>
-                    <div title="" data-original-title="" id="RESP_P10397S3A1" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
-                	</div>
-	                <div class="example">
-	                	<div>
-							<input type="text" name="P10397S3A1" id="P10397S3A1" class="form-control"  maxlength="25" >	
+						<div>
+							<input type='checkbox' name='P10396S2_99' value='99' id='art_P10396S2_99' class='ops_2'/>
+							<label for="art_P10396S2_99" id="art_P10396S2_99"><span></span>No sabe o no informa</label>
 						</div>
-					</div>
-					<div>
-						<input type='checkbox' name='P10397S3A1_99' value='99' id='art_P10397S3A1_99' class='ops_2'/>
-						<label for="art_P10397S1A1_99" id="art_P10397S1A1_99"><span></span>No sabe o no informa</label>
-					</div>
-            	</div>
-			</div>
-			 <div class='example ocultar'>
-            	<input type='checkbox' name='no_P10397S3' value='2' id='no_P10397S3' class='ops_2'/>
-				<label for="no_P10397S3" id="no_P10397S3"><span></span>No</label>
-			</div>
-			<div class='example ocultar'>
-	        	<div title="" data-original-title="" id="RESP_P10397S4" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
-	             	<label class="control-label" for="P10397S4">P10397S4</label>
-	             	 Alojamiento rural
-	             </div>
-	        </div>
-	        <div class='example ocultar'>
-            	<input type='checkbox' name='si_P10397S4' value='1' id='si_P10397S4' class='ops_1'/>
-				<label for="si_P10397S4" id="si_P10397S4"><span></span>Si</label>
-			</div>
-			<div id="mostrar_P10397S4A1" style="display: none" class='ocultar'>
-				<div class='form-group has-feedback cont_articulo' id='div-P10397S4A1'>
-                	<label class="control-label" for="P10397S4A1">P10397S4A1 ¿Cu&aacute;ntos noches?</label>
-                    <div title="" data-original-title="" id="RESP_P10397S4A1" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
-                	</div>
-	                <div class="example">
-	                	<div>
-							<input type="text" name="P10397S4A1" id="P10397S4A1" class="form-control"  maxlength="25" >	
-						</div>
-					</div>
-					<div>
-						<input type='checkbox' name='P10397S4A1_99' value='99' id='art_P10397S4A1_99' class='ops_2'/>
-						<label for="art_P10397S4A1_99" id="art_P10397S4A1_99"><span></span>No sabe o no informa</label>
-					</div>
-            	</div>
-			</div>
-			 <div class='example ocultar'>
-            	<input type='checkbox' name='no_P10397S4' value='2' id='no_P10397S4' class='ops_2'/>
-				<label for="no_P10397S4" id="no_P10397S4"><span></span>No</label>
-			</div>
-			<div class='example ocultar'>
-	        	<div title="" data-original-title="" id="RESP_P10397S5" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
-	             	<label class="control-label" for="P10397S5">P10397S5</label>
-	             	 Casa, apartamento, finca, en propiedad, de familiares o amigos
-	             </div>
-	        </div>
-	        <div class='example ocultar'>
-            	<input type='checkbox' name='si_P10397S5' value='1' id='si_P10397S5' class='ops_1'/>
-				<label for="si_P10397S5" id="si_P10397S5"><span></span>Si</label>
-			</div>
-			<div id="mostrar_P10397S5A1" style="display: none" class='ocultar'>
-				<div class='form-group has-feedback cont_articulo' id='div-P10397S5A1'>
-                	<label class="control-label" for="P10397S5A1">P10397S4A1 ¿Cu&aacute;ntos noches?</label>
-                    <div title="" data-original-title="" id="RESP_P10397S5A1" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
-                	</div>
-	                <div class="example">
-	                	<div>
-							<input type="text" name="P10397S5A1" id="P10397S5A1" class="form-control"  maxlength="25" >	
-						</div>
-					</div>
-					<div>
-						<input type='checkbox' name='P10397S5A1_99' value='99' id='art_P10397S5A1_99' class='ops_2'/>
-						<label for="art_P10397S5A1_99" id="art_P10397S5A1_99"><span></span>No sabe o no informa</label>
-					</div>
-            	</div>
-			</div>
-			 <div class='example ocultar'>
-            	<input type='checkbox' name='no_P10397S5' value='2' id='no_P10397S5' class='ops_2'/>
-				<label for="no_P10397S5" id="no_P10397S5"><span></span>No</label>
-			</div>
-	        <div class='ocultar'>
-				<hr></hr>
-			</div>
-			<div class='example ocultar'>
-	        	<label class="control-label" for="P3J1324">P3J1324</label>
-	        	<div title="" data-original-title="" id="RESP_P3J1324" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
-	             	¿Cu&aacute;l fue el monto total pagado por su &uacute;ltimo viaje?
-	             </div>
-	        </div>
-	        <div class='ocultar'>
-				<div class='form-group has-feedback cont_articulo' id='div-P3J1324'>
-                	<div title="" data-original-title="" id="RESP_P3J1324" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
-                	</div>
-	                <div class="example">
-	                	<div>
-							<input type="text" name="P3J1324" id="P3J1324" class="form-control"  maxlength="25" >	
-						</div>
-					</div>
-					<div>
-						<input type='checkbox' name='P3J1324_99' value='99' id='art_P3J1324_99' class='ops_4'/>
-						<label for="art_P3J1324_99" id="art_P3J1324_99"><span></span>No sabe o no informa</label>
-					</div>
-            	</div>
+	            	</div>
+	            </div>	
+				<div class='example ocultar'>
+	            	<input type='checkbox' name='no_P10396' value='1' id='no_P10396' class='ops_1'/>
+					<label for="no_P10396" id="no_P10396"><span></span>No</label>
+				</div>	
 			</div>
 			<div class='ocultar'>
-				<hr></hr>
-			</div>
-			<div class='example ocultar'>
-	        	<label class="control-label" for="P10398">P10398</label>
-	        	<div title="" data-original-title="" id="RESP_P10398" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
-	             	¿Cu&aacute;les de las siguientes fuentes utiliz&oacute; para realizar el &uacute;ltimo viaje?
-	             </div>
-	        </div>			
+				<div>
+					<hr></hr>
+				</div>
+				<div class='ocultarAlojamiento'>
+					<div class='example' title="" data-original-title="" id="" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
+						¿Cu&aacute;les alojamientos emple&oacute; para pernoctar durante el &uacute;ltimo viaje?
+					</div>
+					<br>
+					 <div class='example'>
+			        	<div title="" data-original-title="" id="RESP_P10397S1" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
+			             	<label class="control-label" for="P10397S1">P10397S1</label>
+			             	 Hotel, hostal, centro vacacional.
+			             </div>
+			        </div>
+			        <div class='example'>
+		            	<input type='checkbox' name='si_P10397S1' value='1' id='si_P10397S1' class='ops_1'/>
+						<label for="si_P10397S1" id="si_P10397S1"><span></span>Si</label>
+					</div>
+					<div id="mostrar_P10397S1A1" style="display: none; margin-left: 4em">
+						<div class='form-group has-feedback cont_articulo' id='div-P10397S1A1'>
+		                	<label class="control-label" for="P10397S1A1">P10397S1A1 ¿Cu&aacute;ntos noches?</label>
+		                    <div title="" data-original-title="" id="RESP_P10397S1A1" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
+		                	</div>
+			                <div class="example">
+			                	<div style="width: 200px">
+									<input type="text" name="P10397S1A1" id="P10397S1A1" class="form-control"  maxlength="25" >	
+								</div>
+							</div>
+							<div>
+								<input type='checkbox' name='P10397S1A1_99' value='99' id='art_P10397S1A1_99' class='ops_2'/>
+								<label for="art_P10397S1A1_99" id="art_P10397S1A1_99"><span></span>No sabe o no informa</label>
+							</div>
+		            	</div>
+					</div>
+					 <div class='example'>
+		            	<input type='checkbox' name='no_P10397S1' value='2' id='no_P10397S1' class='ops_2'/>
+						<label for="no_P10397S1" id="no_P10397S1"><span></span>No</label>
+					</div>
+					<div class='example'>
+			        	<div title="" data-original-title="" id="RESP_P10397S1" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
+			             	<label class="control-label" for="P10397S3">P10397S3</label>
+			             	 Campamento o camping.
+			             </div>
+			        </div>
+			        <div class='example'>
+		            	<input type='checkbox' name='si_P10397S3' value='1' id='si_P10397S3' class='ops_1'/>
+						<label for="si_P10397S3" id="si_P10397S3"><span></span>Si</label>
+					</div>
+					<div id="mostrar_P10397S3A1" style="display: none; margin-left: 4em">
+						<div class='form-group has-feedback cont_articulo' id='div-P10397S3A1'>
+		                	<label class="control-label" for="P10397S3A1">P10397S3A1 ¿Cu&aacute;ntos noches?</label>
+		                    <div title="" data-original-title="" id="RESP_P10397S3A1" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
+		                	</div>
+			                <div class="example">
+			                	<div style="width: 200px">
+									<input type="text" name="P10397S3A1" id="P10397S3A1" class="form-control"  maxlength="25" >	
+								</div>
+							</div>
+							<div>
+								<input type='checkbox' name='P10397S3A1_99' value='99' id='art_P10397S3A1_99' class='ops_2'/>
+								<label for="art_P10397S1A1_99" id="art_P10397S1A1_99"><span></span>No sabe o no informa</label>
+							</div>
+		            	</div>
+					</div>
+					 <div class='example'>
+		            	<input type='checkbox' name='no_P10397S3' value='2' id='no_P10397S3' class='ops_2'/>
+						<label for="no_P10397S3" id="no_P10397S3"><span></span>No</label>
+					</div>
+					<div class='example'>
+			        	<div title="" data-original-title="" id="RESP_P10397S4" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
+			             	<label class="control-label" for="P10397S4">P10397S4</label>
+			             	 Alojamiento rural
+			             </div>
+			        </div>
+			        <div class='example'>
+		            	<input type='checkbox' name='si_P10397S4' value='1' id='si_P10397S4' class='ops_1'/>
+						<label for="si_P10397S4" id="si_P10397S4"><span></span>Si</label>
+					</div>
+					<div id="mostrar_P10397S4A1" style="display: none; margin-left: 4em">
+						<div class='form-group has-feedback cont_articulo' id='div-P10397S4A1'>
+		                	<label class="control-label" for="P10397S4A1">P10397S4A1 ¿Cu&aacute;ntos noches?</label>
+		                    <div title="" data-original-title="" id="RESP_P10397S4A1" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
+		                	</div>
+			                <div class="example">
+			                	<div style="width: 200px">
+									<input type="text" name="P10397S4A1" id="P10397S4A1" class="form-control"  maxlength="25" >	
+								</div>
+							</div>
+							<div>
+								<input type='checkbox' name='P10397S4A1_99' value='99' id='art_P10397S4A1_99' class='ops_2'/>
+								<label for="art_P10397S4A1_99" id="art_P10397S4A1_99"><span></span>No sabe o no informa</label>
+							</div>
+		            	</div>
+					</div>
+					 <div class='example'>
+		            	<input type='checkbox' name='no_P10397S4' value='2' id='no_P10397S4' class='ops_2'/>
+						<label for="no_P10397S4" id="no_P10397S4"><span></span>No</label>
+					</div>
+					<div class='example'>
+			        	<div title="" data-original-title="" id="RESP_P10397S5" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
+			             	<label class="control-label" for="P10397S5">P10397S5</label>
+			             	 Casa, apartamento, finca, en propiedad, de familiares o amigos
+			             </div>
+			        </div>
+			        <div class='example'>
+		            	<input type='checkbox' name='si_P10397S5' value='1' id='si_P10397S5' class='ops_1'/>
+						<label for="si_P10397S5" id="si_P10397S5"><span></span>Si</label>
+					</div>
+					<div id="mostrar_P10397S5A1" style="display: none; margin-left: 4em">
+						<div class='form-group has-feedback cont_articulo' id='div-P10397S5A1'>
+		                	<label class="control-label" for="P10397S5A1">P10397S4A1 ¿Cu&aacute;ntos noches?</label>
+		                    <div title="" data-original-title="" id="RESP_P10397S5A1" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
+		                	</div>
+			                <div class="example">
+			                	<div style="width: 200px">
+									<input type="text" name="P10397S5A1" id="P10397S5A1" class="form-control"  maxlength="25" >	
+								</div>
+							</div>
+							<div>
+								<input type='checkbox' name='P10397S5A1_99' value='99' id='art_P10397S5A1_99' class='ops_2'/>
+								<label for="art_P10397S5A1_99" id="art_P10397S5A1_99"><span></span>No sabe o no informa</label>
+							</div>
+		            	</div>
+					</div>
+					 <div class='example'>
+		            	<input type='checkbox' name='no_P10397S5' value='2' id='no_P10397S5' class='ops_2'/>
+						<label for="no_P10397S5" id="no_P10397S5"><span></span>No</label>
+					</div>
+					
+			        <div class=''>
+						<hr></hr>
+					</div>
+					<div class='example'>
+			        	<label class="control-label" for="P3J1324">P3J1324</label>
+			        	<div title="" data-original-title="" id="RESP_P3J1324" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
+			             	¿Cu&aacute;l fue el monto total pagado por su &uacute;ltimo viaje?
+			             </div>
+			             <div class='caja'>
+			             	 Incluya alojamiento, transporte, alimentaci&oacute;n, bienes de uso personal, servicios culturales y de recreaci&oacute;n, souvenirs, artesan&iacute;as y regalos.
+			             </div>
+			             <br>
+			        </div>
+			        <div class=''>
+						<div class='form-group has-feedback cont_articulo' id='div-P3J1324'>
+		                	<div title="" data-original-title="" id="RESP_P3J1324" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
+		                	</div>
+		                	<div style="margin-left: 4em">
+				                <div class="example">
+				                	<div style="width: 200px">
+										<input type="text" name="P3J1324" id="P3J1324" class="form-control"  maxlength="25" >	
+									</div>
+								</div>
+								<div>
+									<input type='checkbox' name='P3J1324_99' value='99' id='art_P3J1324_99' class='ops_4'/>
+									<label for="art_P3J1324_99" id="art_P3J1324_99"><span></span>No sabe o no informa</label>
+								</div>
+							</div>
+		            	</div>
+					</div>
+					<div class=''>
+						<hr></hr>
+					</div>
+				</div>	
+				<div class='example'>
+		        	<label class="control-label" for="P10398">P10398</label>
+		        	<div title="" data-original-title="" id="RESP_P10398" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
+		             	¿Cu&aacute;les de las siguientes fuentes utiliz&oacute; para realizar el &uacute;ltimo viaje?
+		             </div>
+		             <br>
+		        </div>
+		        <div class='example'>
+	            	<input type='checkbox' name='P10398S1' value='P10398S1' id='P10398S1' class='ops_1'/>
+					<label for="P10398S1" id="P10398S1"><span></span>Pr&eacute;stamo</label>
+				</div>
+				<div class='example'>
+	            	<input type='checkbox' name='P10398S2' value='P10398S2' id='P10398S2' class='ops_2'/>
+					<label for="P10398S2" id="P10398S2"><span></span>Vi&aacute;ticos</label>
+				</div>
+				<div class='example'>
+	            	<input type='checkbox' name='P10398S3' value='P10398S3' id='P10398S3' class='ops_2'/>
+					<label for=P10398S3 id="P10398S3"><span></span>Recursos propios no reembolsables</label>
+				</div>
+				<div class='example'>
+	            	<input type='checkbox' name='P10398S4' value='P10398S4' id='P10398S4' class='ops_2'/>
+					<label for=P10398S4 id="P10398S4"><span></span>Recursos propios reembolsables por empleador</label>
+				</div>
+			</div>				
     </div>			
 		<div class='form-group has-feedback' id='div'>
 			<h5 class='control-label articulo'</h5>
 
 			<div class='col-sm-10' id='mmm' data-toggle='popover' data-placement='top' data-trigger='hover' data-content=''>
-
-				<table>
-					<!--tr>
+				<!--  table>
+					<tr>
 						<td>
 							<h5 class='control-label' for=''>P10395</h5>
 						</td>
@@ -642,7 +677,7 @@ input[type=radio]:not(old):checked + label > span > span {
 						<td colspan='2'>
 						<hr>
 						</td>
-					</tr -->
+					</tr >
 					<tr class='ocultar'>
 						<td colspan='2'>
 							<h5 class='control-label' for=''>P10398 Cu&aacute;les de las siguientes fuentes utiliz&oacute; para realizar el &uacute;ltimo viaje?</h5>
@@ -684,7 +719,7 @@ input[type=radio]:not(old):checked + label > span > span {
 							<h5 class='control-label' for='P10398S4'>Recursos propios reembolsables por empleador</h5>
 						</td>
 					</tr>
-				</table>
+				</table-->
 		
 <?php 
 	//$i++;

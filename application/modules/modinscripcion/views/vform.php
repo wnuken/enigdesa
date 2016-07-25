@@ -78,20 +78,7 @@
 			la mayor parte del tiempo en la vivienda, aunque en el momento del diligenciamiento se encuentren ausentes temporalmente.
 			</div>
 			</div>
-			De acuerdo con las definiciones previamente descritas y las siguientes consideraciones <a href='#' data-toggle='tooltip' title='Recuerde incluir como parte de su hogar a los siguientes RESIDENTES HABITUALES, porque no tienen residencia habitual en otro hogar:
-1) Personas que están ausentes por 6 meses o menos por motivos especiales como: vacaciones, cursos de capacitación, viajes de negocio, comisiones de trabajo, entre otros; y además, cuentan con la seguridad de que van a regresar al hogar después de estos 6 meses o menos.
-2) Agentes viajeros, marinos mercantes.
-3) Secuestrados y desaparecidos, sin importar el tiempo de ausencia.
-4) Enfermos internados en hospitales o clínicas, sin importar el tiempo de ausencia.
-5) Desplazados, sin importar el tiempo de permanencia en el hogar encuestado.
-6) Detenidos temporalmente en inspecciones de policía.
-7) Empleados internos del servicio doméstico
-8) Personas que están prestando el servicio militar en la policía pero duermen en sus respectivos hogares.
-9) Pensionistas 
-10) Residentes de casas fiscales al interior de guarniciones militares.
-NO incluya como RESIDENTES HABITUALES:
-1) Personas que aunque sean consideradas como el principal soporte económico del hogar y estén presentes en el hogar cada fin de semana o cada 15 días, lleven 6 meses o más ausentes y tengan residencia en otro hogar porque permanecen la mayor parte del tiempo en un sitio diferente.
-2) Personas que en el momento de la encuesta están pagando condenas en cárceles, prestando servicio militar en cuarteles del ejército, la fuerza aérea o en la amada nacional; están internos en instituciones educativas, asilos, conventos o monasterios.'>(?)</a> responda las siguientes preguntas:
+			De acuerdo con las definiciones previamente descritas y las siguientes <a href='#' onclick='$("#AYUDA").dialog("open");'>consideraciones</a>, responda las siguientes preguntas:
 		</blockquote>
 		<br/>
 		<form id="form_FAMILIA_1" name="form_FAMILIA_1" class="form-horizontal" role="form">
@@ -171,10 +158,33 @@ NO incluya como RESIDENTES HABITUALES:
 		</div>
 	</div>
 </div>
+<div id="AYUDA" title="Consideraciones Residentes">
+Recuerde incluir como parte de su hogar a los siguientes RESIDENTES HABITUALES, porque no tienen residencia habitual en otro hogar:
+<br/><br/>
+<ol>
+<li> Personas que están ausentes por 6 meses o menos por motivos especiales como: vacaciones, cursos de capacitación, viajes de negocio, comisiones de trabajo, entre otros; y además, cuentan con la seguridad de que van a regresar al hogar después de estos 6 meses o menos.</li>
+<li> Agentes viajeros, marinos mercantes.</li>
+<li> Secuestrados y desaparecidos, sin importar el tiempo de ausencia.</li>
+<li> Enfermos internados en hospitales o clínicas, sin importar el tiempo de ausencia.</li>
+<li> Desplazados, sin importar el tiempo de permanencia en el hogar encuestado.</li>
+<li> Detenidos temporalmente en inspecciones de policía.</li>
+<li> Empleados internos del servicio doméstico.</li>
+<li> Personas que están prestando el servicio militar en la policía pero duermen en sus respectivos hogares.</li>
+<li> Pensionistas.</li>
+<li> Residentes de casas fiscales al interior de guarniciones militares.</li>
+</ol>
+NO incluya como RESIDENTES HABITUALES:
+<ol>
+<li> Personas que aunque sean consideradas como el principal soporte económico del hogar y estén presentes en el hogar cada fin de semana o cada 15 días, lleven 6 meses o más ausentes y tengan residencia en otro hogar porque permanecen la mayor parte del tiempo en un sitio diferente.</li>
+<li> Personas que en el momento de la encuesta están pagando condenas en cárceles, prestando servicio militar en cuarteles del ejército, la fuerza aérea o en la amada nacional; están internos en instituciones educativas, asilos, conventos o monasterios.</a></li>
+</ol>
+</div>
 <div id="msj_numpers" title="Personas del Hogar">
   <p>¿Está seguro(a) que los residentes registrados son TODOS los residentes habituales de su hogar? Recuerde que una vez acepte esta información NO podrá ser modificada.</p>
 </div>
-
+<style>
+.ui-dialog { z-index: 1000 !important ;}
+</style>
 <script>
     // aplicar reglas de consistencia
     // regla[ID__#] = NEW ARRAY{0=REGLA, 1=MENSAJE, 2=TIPOERROR, 3=ESTADO}
@@ -282,6 +292,7 @@ echo "\t var filas = '". count($familia_personas) ."';\n";
 			autoOpen: false,
 			resizable: true,
 			height:250,
+			position: { my: 'top', at: 'top+150' },
 			modal: true,
 			buttons: {
 				"Aceptar": function() {
@@ -292,6 +303,13 @@ echo "\t var filas = '". count($familia_personas) ."';\n";
 					$( this ).dialog( "close" );
 				}
 			}
+		});
+		$("#AYUDA").dialog({
+			autoOpen: false,
+			position: { my: 'top', at: 'top+150' },
+			height:550,
+			width:800,
+			modal: true
 		});
 		recargatabla();
 		$("#ENV_FAMILIA_1").click(function () {
