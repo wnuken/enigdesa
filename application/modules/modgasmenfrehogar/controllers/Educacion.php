@@ -79,6 +79,12 @@ class Educacion extends MX_Controller {
                             $data['MEDIO_CUAL'] = $section['ID_VARIABLE_OTRO_PAGO'];
                             $data['EPSS'] = $section['ID_VARIABLE_VP2'];
                             $data['EPSS_CUAL'] = $section['ID_VARIABLE_LC'];
+                            $data['RECIBIDO_PAGO'] = $section['ID_VARIABLE_TRABAJO'];
+                            $data['REGALO'] = $section['ID_VARIABLE_REGALO'];
+                            $data['INTERCAMBIO'] = $section['ID_VARIABLE_INTERCAMBIO'];
+                            $data['PRODUCIDO'] = $section['ID_VARIABLE_PRODUCIDO'];
+                            $data['NEGOCIO_PROPIO'] = $section['ID_VARIABLE_NEGOCIO'];
+                            $data['OTRA'] = $section['ID_VARIABLE_OTRA'];
                             $data['LOGO'] = $section['LOGO'];
                             $data["view"]="ropaaccesorios/form1";
                             $this->load->view("layout", $data);
@@ -344,6 +350,31 @@ public function updateotros(){
         $dataElement['FECHA_FIN_SEC'] = date('Y/m/d', strtotime('now'));
         $resultControl = $this->Maccesorios->updateGmfControl($dataElement);
     }
+
+    $OTRA_PAGO = json_decode($params['OTRA_PAGO'], TRUE);
+    $dataFormas['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
+    foreach ($OTRA_PAGO as $key => $articulo3) {
+        $dataFormas['ID_ARTICULO3'] = $key;
+        foreach ($articulo3 as $key1 => $value) {
+            $dataFormas['ID_VARIABLE'] = $key1;
+            $dataFormas['VALOR_ESTIMADO'] = $value;
+            if($value === FALSE){
+                $dataFormas['VALOR_ESTIMADO'] = 99;
+            }
+            
+            $resultVariables[] = $this->Maccesorios->setFormasPago($dataFormas);
+        }
+    }
+
+    $responseArray = array(
+        'result' => TRUE,
+        'variables' => $resultVariables,
+        'control' => $resultControl
+        );
+
+    $response = json_encode($responseArray);
+
+    echo $response;
 
 
 }

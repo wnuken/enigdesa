@@ -197,22 +197,20 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 
 	$scope.validateForm5 = function(params){
 		
-			var paramssec4 = {
-				"ID_FORMULARIO": $scope.FormulariorHombre.idFormulario,
-				"ID_SECCION3": $scope.FormulariorHombre.idSection,
-				"path": "ropaaccesorios/updateotros"
-			};
+		var paramssec4 = {
+			"ID_FORMULARIO": $scope.FormulariorHombre.idFormulario,
+			"ID_SECCION3": $scope.FormulariorHombre.idSection,
+			"OTRA_PAGO": $scope.FormulariorHombre.otraforma,
+			"path": "ropaaccesorios/updateotros"
+		};
 
-			dataService.saveElements(paramssec4, function(dataResponse){
-				console.log(dataResponse);
-				console.log('Se guarda control');
+		dataService.saveElements(paramssec4, function(dataResponse){
+			if(dataResponse.result == true){
 				$window.location.reload();
-			/*if(dataResponse.result == true){
-				$scope.pagesection = params;
 			}else{
 				console.log(dataResponse);
-			};*/
-			});
+			};
+		});
 	};
 
 	$scope.validateBtnS1 = function(index){
@@ -423,35 +421,30 @@ appGHogar.controller('Educacion', ['$scope', 'dataService', 'localStorageService
 	};
 
 	$scope.validateForm5 = function(params){
-			
-			var paramssec4 = {};
-
-
-			if($scope.FormulariorHombre.idSection == 'D6'){
-				var paramssec4 = {
+		var paramssec4 = {};
+		if($scope.FormulariorHombre.idSection == 'D6'){
+			var paramssec4 = {
 				"ID_FORMULARIO": $scope.FormulariorHombre.idFormulario,
 				"ID_SECCION3": $scope.FormulariorHombre.idSection,
+				"OTRA_PAGO": $scope.FormulariorHombre.otraforma,
 				"path": "ropaaccesorios/updateotros"
-				};
-			}else{
-				var paramssec4 = {
+			};
+		}else{
+			var paramssec4 = {
 				"ID_FORMULARIO": $scope.FormulariorHombre.idFormulario,
 				"ID_SECCION3": $scope.FormulariorHombre.idSection,
+				"OTRA_PAGO": $scope.FormulariorHombre.otraforma,
 				"path": "Educacion/updateotros"
-				};
 			};
-			
+		};
 
-			dataService.saveElements(paramssec4, function(dataResponse){
-				console.log(dataResponse);
-				console.log('Se guarda control');
+		dataService.saveElements(paramssec4, function(dataResponse){
+			if(dataResponse.result == true){
 				$window.location.reload();
-			/*if(dataResponse.result == true){
-				$scope.pagesection = params;
 			}else{
 				console.log(dataResponse);
-			};*/
-			});
+			};
+		});
 	};
 
 	

@@ -173,7 +173,29 @@ class Modelropaaccesorios extends My_model {
         return $result;
     }
 
+    public function setFormasPago($params){
+        $this->db->where('ID_FORMULARIO',$params['ID_FORMULARIO']);
+        $this->db->where('ID_ARTICULO3',$params['ID_ARTICULO3']);
+        $this->db->where('ID_VARIABLE',$params['ID_VARIABLE']);
+        $q = $this->db->get('ENIG_FORM_GMF_FORMAS_ADQUI');
+        
+        if ( $q->num_rows() > 0 ){
+            $this->db->where('ID_FORMULARIO',$params['ID_FORMULARIO']);
+            $this->db->where('ID_ARTICULO3',$params['ID_ARTICULO3']);
+            $this->db->where('ID_VARIABLE',$params['ID_VARIABLE']);
+            $resultInsert = $this->db->update('ENIG_FORM_GMF_FORMAS_ADQUI',$params);
+        }else{
+            $resultInsert = $this->db->insert('ENIG_FORM_GMF_FORMAS_ADQUI', $params);
+        }
+        
+        if($resultInsert === TRUE){
+            $result = $resultInsert;
+        }else{
+            $result = FALSE;
+        }
 
+        return $result;
+    }
     
 
 

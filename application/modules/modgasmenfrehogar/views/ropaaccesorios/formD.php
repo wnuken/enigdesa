@@ -349,18 +349,18 @@
 					(rhom.ot.RECIBIDO_PAGO === true || rhom.ot.REGALO === true || rhom.ot.INTERCAMBIO === true || rhom.ot.PRODUCIDO === true || rhom.ot.NEGOCIO_PROPIO === true || rhom.ot.OTRA === true)">
 						<td>{{rhom.name}}</td>
 						<td>
-							<div class="form-group" ng-if="rhom.ot.RECIBIDO_PAGO && FormulariorHombre.otraforma[rhom.id]['RECIBIDO_PAGO'] !== false">
+							<div class="form-group" ng-if="rhom.ot.RECIBIDO_PAGO && FormulariorHombre.otraforma[rhom.id]['<?php echo $RECIBIDO_PAGO ?>'] !== false">
 								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" 
-								ng-model="FormulariorHombre.otraforma[rhom.id].RECIBIDO_PAGO" required ng-minlength="4"> 
+								ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $RECIBIDO_PAGO ?>']" required ng-minlength="4"> 
 							</div>
-							<div class="form-group" ng-if="!rhom.ot.RECIBIDO_PAGO || FormulariorHombre.otraforma[rhom.id]['RECIBIDO_PAGO'] === false">
+							<div class="form-group" ng-if="!rhom.ot.RECIBIDO_PAGO || FormulariorHombre.otraforma[rhom.id]['<?php echo $RECIBIDO_PAGO ?>'] === false">
 								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" disabled> 
 							</div>
 						</td>
 						<td>
 							<div class="form-group" ng-if="rhom.ot.RECIBIDO_PAGO">
 								<input name="{{rhom.id}}1" id="{{rhom.id}}1" type="checkbox"
-								value="false" ng-click="changeValueOT(rhom.id, 'RECIBIDO_PAGO')"> 
+								value="false" ng-click="changeValueOT(rhom.id, '<?php echo $RECIBIDO_PAGO ?>')"> 
 							</div>
 							<div class="form-group" ng-if="!rhom.ot.RECIBIDO_PAGO">
 								<input name="value2" id="value2" type="checkbox" disabled> 
@@ -368,18 +368,18 @@
 						</td>
 						
 						<td>
-							<div class="form-group" ng-if="rhom.ot.REGALO && FormulariorHombre.otraforma[rhom.id]['REGALO'] !== false">
+							<div class="form-group" ng-if="rhom.ot.REGALO && FormulariorHombre.otraforma[rhom.id]['<?php echo $REGALO ?>'] !== false">
 								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" 
-								ng-model="FormulariorHombre.otraforma[rhom.id].REGALO" required ng-minlength="4"> 
+								ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $REGALO ?>']" required ng-minlength="4"> 
 							</div>
-							<div class="form-group" ng-if="!rhom.ot.REGALO || FormulariorHombre.otraforma[rhom.id]['REGALO'] === false">
+							<div class="form-group" ng-if="!rhom.ot.REGALO || FormulariorHombre.otraforma[rhom.id]['<?php echo $REGALO ?>'] === false">
 								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" disabled> 
 							</div>
 						</td>
 						<td>
 							<div class="form-group" ng-if="rhom.ot.REGALO">
 								<input name="{{rhom.id}}1" id="{{rhom.id}}1" type="checkbox"
-								value="false" ng-click="changeValueOT(rhom.id, 'REGALO')"> 
+								value="false" ng-click="changeValueOT(rhom.id, '<?php echo $REGALO ?>')"> 
 							</div>
 							<div class="form-group" ng-if="!rhom.ot.REGALO">
 								<input name="value2" id="value2" type="checkbox" disabled> 
@@ -387,18 +387,18 @@
 						</td>
 
 						<td>
-							<div class="form-group" ng-if="rhom.ot.INTERCAMBIO && FormulariorHombre.otraforma[rhom.id]['INTERCAMBIO'] !== false">
+							<div class="form-group" ng-if="rhom.ot.INTERCAMBIO && FormulariorHombre.otraforma[rhom.id]['<?php echo $INTERCAMBIO ?>'] !== false">
 								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" 
-								ng-model="FormulariorHombre.otraforma[rhom.id].INTERCAMBIO" required ng-minlength="4"> 
+								ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $INTERCAMBIO ?>']" required ng-minlength="4"> 
 							</div>
-							<div class="form-group" ng-if="!rhom.ot.INTERCAMBIO || FormulariorHombre.otraforma[rhom.id]['INTERCAMBIO'] === false">
+							<div class="form-group" ng-if="!rhom.ot.INTERCAMBIO || FormulariorHombre.otraforma[rhom.id]['<?php echo $INTERCAMBIO ?>'] === false">
 								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" disabled> 
 							</div>
 						</td>
 						<td>
 							<div class="form-group" ng-if="rhom.ot.INTERCAMBIO">
 								<input name="{{rhom.id}}1" id="{{rhom.id}}1" type="checkbox"
-								value="false" ng-click="changeValueOT(rhom.id, 'INTERCAMBIO')"> 
+								value="false" ng-click="changeValueOT(rhom.id, '<?php echo $INTERCAMBIO ?>')"> 
 							</div>
 							<div class="form-group" ng-if="!rhom.ot.INTERCAMBIO">
 								<input name="value2" id="value2" type="checkbox" disabled> 
@@ -406,18 +406,18 @@
 						</td>
 
 						<td>
-							<div class="form-group" ng-if="rhom.ot.PRODUCIDO && FormulariorHombre.otraforma[rhom.id]['PRODUCIDO'] !== false">
+							<div class="form-group" ng-if="rhom.ot.PRODUCIDO && FormulariorHombre.otraforma[rhom.id]['<?php echo $PRODUCIDO ?>'] !== false">
 								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" 
-								ng-model="FormulariorHombre.otraforma[rhom.id].PRODUCIDO" required ng-minlength="4"> 
+								ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $PRODUCIDO ?>']" required ng-minlength="4"> 
 							</div>
-							<div class="form-group" ng-if="!rhom.ot.PRODUCIDO || FormulariorHombre.otraforma[rhom.id]['PRODUCIDO'] === false">
+							<div class="form-group" ng-if="!rhom.ot.PRODUCIDO || FormulariorHombre.otraforma[rhom.id]['<?php echo $PRODUCIDO ?>'] === false">
 								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" disabled> 
 							</div>
 						</td>
 						<td>
 							<div class="form-group" ng-if="rhom.ot.PRODUCIDO">
 								<input name="{{rhom.id}}1" id="{{rhom.id}}1" type="checkbox"
-								value="false" ng-click="changeValueOT(rhom.id, 'PRODUCIDO')"> 
+								value="false" ng-click="changeValueOT(rhom.id, '<?php echo $PRODUCIDO ?>')"> 
 							</div>
 							<div class="form-group" ng-if="!rhom.ot.PRODUCIDO">
 								<input name="value2" id="value2" type="checkbox" disabled> 
@@ -425,18 +425,18 @@
 						</td>
 
 						<td>
-							<div class="form-group" ng-if="rhom.ot.NEGOCIO_PROPIO && FormulariorHombre.otraforma[rhom.id]['NEGOCIO_PROPIO'] !== false">
+							<div class="form-group" ng-if="rhom.ot.NEGOCIO_PROPIO && FormulariorHombre.otraforma[rhom.id]['<?php echo $NEGOCIO_PROPIO ?>'] !== false">
 								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" 
-								ng-model="FormulariorHombre.otraforma[rhom.id].NEGOCIO_PROPIO" required ng-minlength="4"> 
+								ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $NEGOCIO_PROPIO ?>']" required ng-minlength="4"> 
 							</div>
-							<div class="form-group" ng-if="!rhom.ot.NEGOCIO_PROPIO || FormulariorHombre.otraforma[rhom.id]['NEGOCIO_PROPIO'] === false">
+							<div class="form-group" ng-if="!rhom.ot.NEGOCIO_PROPIO || FormulariorHombre.otraforma[rhom.id]['<?php echo $NEGOCIO_PROPIO ?>'] === false">
 								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" disabled> 
 							</div>
 						</td>
 						<td>
 							<div class="form-group" ng-if="rhom.ot.NEGOCIO_PROPIO">
 								<input name="{{rhom.id}}1" id="{{rhom.id}}1" type="checkbox"
-								value="false" ng-click="changeValueOT(rhom.id, 'NEGOCIO_PROPIO')"> 
+								value="false" ng-click="changeValueOT(rhom.id, '<?php echo $NEGOCIO_PROPIO ?>')"> 
 							</div>
 							<div class="form-group" ng-if="!rhom.ot.NEGOCIO_PROPIO">
 								<input name="value2" id="value2" type="checkbox" disabled> 
@@ -444,18 +444,18 @@
 						</td>
 
 						<td>
-							<div class="form-group" ng-if="rhom.ot.OTRA && FormulariorHombre.otraforma[rhom.id]['OTRA'] !== false">
+							<div class="form-group" ng-if="rhom.ot.OTRA && FormulariorHombre.otraforma[rhom.id]['<?php echo $OTRA ?>'] !== false">
 								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" 
-								ng-model="FormulariorHombre.otraforma[rhom.id].OTRA" required ng-minlength="4"> 
+								ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $OTRA ?>']" required ng-minlength="4"> 
 							</div>
-							<div class="form-group" ng-if="!rhom.ot.OTRA || FormulariorHombre.otraforma[rhom.id]['OTRA'] === false">
+							<div class="form-group" ng-if="!rhom.ot.OTRA || FormulariorHombre.otraforma[rhom.id]['<?php echo $OTRA ?>'] === false">
 								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" disabled> 
 							</div>
 						</td>
 						<td>
 							<div class="form-group" ng-if="rhom.ot.OTRA">
 								<input name="{{rhom.id}}1" id="{{rhom.id}}1" type="checkbox"
-								value="false" ng-click="changeValueOT(rhom.id, 'OTRA')"> 
+								value="false" ng-click="changeValueOT(rhom.id, '<?php echo $OTRA ?>')"> 
 							</div>
 							<div class="form-group" ng-if="!rhom.ot.OTRA">
 								<input name="value2" id="value2" type="checkbox" disabled> 

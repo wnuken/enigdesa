@@ -60,7 +60,7 @@ class Ropaaccesorios extends MX_Controller {
             if(is_array($validateControl)){
                 foreach ($validateControl as $key => $section) {
 
-                 if($section['ID_SECCION3'] == 'D6'){
+                   if($section['ID_SECCION3'] == 'D6'){
                     $this->idSubModulo = 'E';
                     $section['PAG_SECCION3'] = 1;
                 }
@@ -80,6 +80,12 @@ class Ropaaccesorios extends MX_Controller {
                     $data['MEDIO_CUAL'] = $section['ID_VARIABLE_OTRO_PAGO'];
                     $data['EPSS'] = $section['ID_VARIABLE_VP2'];
                     $data['EPSS_CUAL'] = $section['ID_VARIABLE_LC'];
+                    $data['RECIBIDO_PAGO'] = $section['ID_VARIABLE_TRABAJO'];
+                    $data['REGALO'] = $section['ID_VARIABLE_REGALO'];
+                    $data['INTERCAMBIO'] = $section['ID_VARIABLE_INTERCAMBIO'];
+                    $data['PRODUCIDO'] = $section['ID_VARIABLE_PRODUCIDO'];
+                    $data['NEGOCIO_PROPIO'] = $section['ID_VARIABLE_NEGOCIO'];
+                    $data['OTRA'] = $section['ID_VARIABLE_OTRA'];
                     $data['LOGO'] = $section['LOGO'];
                     $data["view"]="ropaaccesorios/form1";
                     $this->load->view("layout", $data);
@@ -110,23 +116,23 @@ private function updateControlSection($params){
 }
 
 public function validateinitsection(){
-   $params = $this->input->get(NULL, TRUE);
-   $result = FALSE;
+ $params = $this->input->get(NULL, TRUE);
+ $result = FALSE;
 
-   $paramsGmf['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
-   $paramsGmf['ID_VARIABLE'] = $params['ID_VARIABLE'];
-   $paramsGmf['VALOR_VARIABLE'] = $params['VALOR_VARIABLE'];
+ $paramsGmf['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
+ $paramsGmf['ID_VARIABLE'] = $params['ID_VARIABLE'];
+ $paramsGmf['VALOR_VARIABLE'] = $params['VALOR_VARIABLE'];
 
       // var_dump($paramsGmf);
 
-   $result = $this->Maccesorios->setGmfVariable($paramsGmf);
+ $result = $this->Maccesorios->setGmfVariable($paramsGmf);
 
-   $dataElement['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
-   $dataElement['ID_SECCION3'] =  $params['ID_SECCION3'];
-   $dataElement['PAG_SECCION3'] = 1;
-   $dataElement['FECHA_INI_SEC'] = date('Y/m/d', strtotime('now'));
-   $dataElement['FECHA_FIN_SEC'] = date('Y/m/d', strtotime('now'));
-   if($params['VALOR_VARIABLE'] == 2)
+ $dataElement['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
+ $dataElement['ID_SECCION3'] =  $params['ID_SECCION3'];
+ $dataElement['PAG_SECCION3'] = 1;
+ $dataElement['FECHA_INI_SEC'] = date('Y/m/d', strtotime('now'));
+ $dataElement['FECHA_FIN_SEC'] = date('Y/m/d', strtotime('now'));
+ if($params['VALOR_VARIABLE'] == 2)
     $dataElement['ID_ESTADO_SEC'] = 2;
 $resultControl = $this->Maccesorios->updateGmfControl($dataElement);
 
@@ -150,9 +156,9 @@ public function getelements(){
     $PRODUCIDO = FALSE; $NEGOCIO_PROPIO = FALSE; $OTRA = FALSE;
 
     foreach ($elements as $key => $value) {
-       $active = FALSE;
+     $active = FALSE;
 
-       foreach ($elementsForm as $key1 => $value1) {
+     foreach ($elementsForm as $key1 => $value1) {
         if($value['ID_ARTICULO3'] == $value1['ID_ARTICULO3']){
             $active = TRUE;
 
@@ -337,6 +343,31 @@ public function updateotros(){
         $dataElement['FECHA_FIN_SEC'] = date('Y/m/d', strtotime('now'));
         $resultControl = $this->Maccesorios->updateGmfControl($dataElement);
     }
+
+    $OTRA_PAGO = json_decode($params['OTRA_PAGO'], TRUE);
+    $dataFormas['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
+    foreach ($OTRA_PAGO as $key => $articulo3) {
+        $dataFormas['ID_ARTICULO3'] = $key;
+        foreach ($articulo3 as $key1 => $value) {
+            $dataFormas['ID_VARIABLE'] = $key1;
+            $dataFormas['VALOR_ESTIMADO'] = $value;
+            if($value === FALSE){
+                $dataFormas['VALOR_ESTIMADO'] = 99;
+            }
+            
+            $resultVariables[] = $this->Maccesorios->setFormasPago($dataFormas);
+        }
+    }
+
+    $responseArray = array(
+        'result' => TRUE,
+        'variables' => $resultVariables,
+        'control' => $resultControl
+        );
+
+    $response = json_encode($responseArray);
+
+    echo $response;
 
 
 }
