@@ -203,7 +203,7 @@ function pag3_suma_articulos(tipo)
 {
 	var nro_articulos=parseInt ($("#hdd_nro_articulos").val() );
 	var suma=0;
-		
+	
 	for (x=0; x<nro_articulos; x=x+1) 
 	{
 		if(tipo ==1){
@@ -222,9 +222,9 @@ function pag3_suma_articulos(tipo)
 	suma=agregarPuntosMiles(suma);
 	
 	if(tipo ==1){	
-		$("#txt_total").attr("value",suma);
-	}else if(tipo ==2){
-		$("#txt_total_credito").attr("value",suma);	
+		$("#txt_total").val(suma);	
+	}else if(tipo ==2){ 
+		$("#txt_total_credito").val(suma);	
 	}
 }//func
 
