@@ -69,6 +69,19 @@ appGHogar.directive("isNumber", function() {
 	};
 });
 
+appGHogar.directive("isCurrency", function() {
+	return {
+		require: "ngModel",
+		scope: {
+			isCurrency: '='
+		},
+		link: function(scope, element, attrs, ctrl) {
+			$('.currency').maskMoney({precision:0});
+		}
+	};
+});
+
+
 $idSection = $("input#idSection");
 $idFormulario = $("input#idFormulario");
 
@@ -78,6 +91,8 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 	$scope.validateGroup = [];
 	$scope.validateCompra = [];
 	$scope.subtotal = 0;
+	$scope.continue = [];
+	$scope.VALOR_PAGADO = [];
 
 	var gg = {
 		"ID_SECCION3": $idSection.val()
@@ -97,6 +112,35 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 	});
 
 	$scope.pagesection = '';
+
+	$scope.validateContinue = function(page){
+		console.log(page);
+		$scope.continue[page] = 1;
+
+		if(page == 2){
+			
+			angular.forEach($scope.FormulariorHombre.rh, function(element, key){
+					var prueba = false;
+				if(element.value == true){
+					angular.forEach(element.ot, function(element1, key1){
+						console.log(element1);
+					if(element1 == true){
+						prueba = true;
+					}
+				});
+
+				if(prueba == false){
+					$("div#itemGroup" + element.id).addClass('alert alert-danger');
+				}
+
+				 console.log(element, ' ', prueba);
+				}
+				
+			});
+
+			// $("div#itemGroup" + idItems).addClass('alert alert-danger');
+		}
+	};
 
 	$scope.validateForm1 = function(params){
 		var paramssec0 = {
@@ -120,6 +164,7 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 	};
 
 	$scope.validateForm2 = function(params){
+
 		var paramssec1 = {
 			"ID_FORMULARIO": $scope.FormulariorHombre.idFormulario,
 			"ID_SECCION3": $scope.FormulariorHombre.idSection,
@@ -133,7 +178,8 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 		});
 		dataService.saveElements(paramssec1, function(dataResponse){
 			if(dataResponse.result == true && dataResponse.control == true){
-				$scope.pagesection = params;
+				// $scope.pagesection = params;
+				$window.location.reload();
 			}else{
 				console.log(dataResponse);
 			}
@@ -164,7 +210,8 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 
 		dataService.saveElements(paramssec2, function(dataResponse){
 			if(dataResponse.result == true){
-				$scope.pagesection = (params + secccion4);
+				// $scope.pagesection = (params + secccion4);
+				$window.location.reload();
 			}else{
 				console.log(dataResponse);
 			}
@@ -244,8 +291,9 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 		console.log($scope.activeBtnS1);
 	};
 
-	$scope.validateBtnS2 = function(index){
-		
+	$scope.validateBtnS2 = function(index, idGroup){
+
+		$("div#itemGroup" + idGroup).removeClass('alert alert-danger');		
 		$scope.validateGroup[index] = '';
 		angular.forEach($scope.FormulariorHombre.rh[index].ot, function(element, key){
 			if(element == true)
@@ -258,10 +306,42 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 		//console.log($scope.elid);
 	};
 
-	$scope.sumValor = function(index){
-		console.log($scope.FormulariorHombre);
+	$scope.sumValor = function(index, id){
 		var subt = 0;
 		var vapagado = 0; 
+
+		var pagado = new String($scope.VALOR_PAGADO[index]);
+				
+		 var pagadoReal = '';
+		angular.forEach(pagado, function(element, key){
+			if(!isNaN(key) && element != '.'){
+				console.log(element);
+				pagadoReal = pagadoReal + element;
+			}			
+		});
+
+		if(typeof $scope.FormulariorHombre.rh[index] == 'undefined' )
+			$scope.FormulariorHombre.rh[index] = [];
+
+		if(typeof $scope.FormulariorHombre.rh[index].pa == 'undefined' )
+			$scope.FormulariorHombre.rh[index].pa = {};
+
+		if(typeof $scope.FormulariorHombre.rh[index].pa.VALOR_PAGADO == 'undefined' )
+			$scope.FormulariorHombre.rh[index].pa.VALOR_PAGADO = '';
+
+		 $scope.FormulariorHombre.rh[index].pa.VALOR_PAGADO = pagadoReal;
+
+		angular.forEach(pagado, function(element, key){
+			if(!isNaN(key) && element != '.'){
+				console.log(element);
+			}
+		});
+
+
+
+		/*$scope.VALOR_PAGADO[index] =	pagado.replace(rExp, "");
+				console.log($scope.VALOR_PAGADO);*/
+
 		angular.forEach($scope.FormulariorHombre.rh, function(element, key){
 			if( typeof element.pa != 'undefined' && !isNaN(element.pa.VALOR_PAGADO)){
 				vapagado = parseInt(element.pa.VALOR_PAGADO);

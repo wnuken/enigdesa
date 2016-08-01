@@ -60,9 +60,40 @@ class Ropaaccesorios extends MX_Controller {
             if(is_array($validateControl)){
                 foreach ($validateControl as $key => $section) {
 
-                   if($section['ID_SECCION3'] == 'D6'){
+                 if($section['ID_SECCION3'] == 'D6'){
                     $this->idSubModulo = 'E';
                     $section['PAG_SECCION3'] = 1;
+                }
+
+
+                if($section['ID_SECCION3'] == 'D1'){
+                    $data['TITULO4'] = 'De P10260D11 a P10260S1D11 del 2016, ¿usted o algún miembro del hogar compró, adquirió o le regalaron prendas de vestir o calzado para HOMBRE?';
+                    $data['TITULO5'] = 'De la siguiente lista de artículos y servicios indique aquellos que usted o algún miembro del hogar compró, adquirió o le regalaron durante los últimos tres meses de P10260D11 a P10260S1D11 del 2016:';
+                    $data['TITULO6'] = 'De las prendas de vestir para HOMBRE elegidas, responda la siguiente información:';
+                }
+                if($section['ID_SECCION3'] == 'D2'){
+                    $data['TITULO4'] = 'De P10260D12 a P10260S1D12 del 2016, ¿usted o algún miembro del hogar compró, adquirió o le regalaron prendas de vestir o calzado para MUJER?';
+                    $data['TITULO5'] = 'De la siguiente lista de prendas de vestir para MUJER, indique aquellas que usted o algún miembro del hogar compró, adquirió o le regalaron durante P10260D12 a P10260S1D12 del 2016:';
+                    $data['TITULO6'] = 'De las prendas de vestir para MUJER elegidas, responda la siguiente información:';
+                }
+                if($section['ID_SECCION3'] == 'D3'){
+                    $data['TITULO4'] = 'De P10260D13 a P10260S1D13 del 2016, ¿usted o algún miembro del hogar compró, adquirió o le regalaron prendas de vestir o calzado para NIÑO?';
+                    $data['TITULO5'] = 'De la siguiente lista de prendas de vestir para NIÑO, indique aquellas que usted o algún miembro del hogar compró, adquirió o le regalaron durante P10260D13 a P10260S1D13 del 2016:';
+                    $data['TITULO6'] = 'De las prendas de vestir para NIÑO elegidas, responda la siguiente información:';
+                }
+                if($section['ID_SECCION3'] == 'D4'){
+                    $data['TITULO4'] = 'De P10260D14 a P10260S1D14 del 2016, ¿usted o algún miembro del hogar compró, adquirió o le regalaron prendas de vestir o calzado para NIÑA?';
+                    $data['TITULO5'] = 'De la siguiente lista de prendas de vestir para NIÑA, indique aquellas que usted o algún miembro del hogar compró, adquirió o le regalaron durante P10260D14 a P10260S1D14 del 2016:';
+                    $data['TITULO6'] = 'De las prendas de vestir para NIÑA elegidas, responda lo siguiente:';
+                }
+                if($section['ID_SECCION3'] == 'D5'){
+                    $data['TITULO4'] = 'De P10260D15 a P10260S1D15 del 2016, ¿usted o algún miembro del hogar compró, adquirió o le regalaron prendas de vestir o calzado para BEBÉ?';
+                    $data['TITULO5'] = 'De la siguiente lista de prendas de vestir para BEBÉ, indique aquellas que usted o algún miembro del hogar compró, adquirió o le regalaron durante P10260D15 a P10260S1D15 del 2016:';
+                    $data['TITULO6'] = 'De las prendas de vestir para BEBÉ elegidas, responda lo siguiente:';
+                }
+                if($section['ID_SECCION3'] == 'D6'){
+                    $data['TITULO5'] = 'De la siguiente lista de artículos y servicios, indique aquellas que usted o algún miembro del hogar compró, adquirió o le regalaron durante P10260D16 a P10260S1D16 del 2016:';
+                    $data['TITULO6'] = 'De la lista de artículos y servicios elegidos, responda lo siguiente:';
                 }
 
 
@@ -116,23 +147,23 @@ private function updateControlSection($params){
 }
 
 public function validateinitsection(){
- $params = $this->input->get(NULL, TRUE);
- $result = FALSE;
+   $params = $this->input->get(NULL, TRUE);
+   $result = FALSE;
 
- $paramsGmf['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
- $paramsGmf['ID_VARIABLE'] = $params['ID_VARIABLE'];
- $paramsGmf['VALOR_VARIABLE'] = $params['VALOR_VARIABLE'];
+   $paramsGmf['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
+   $paramsGmf['ID_VARIABLE'] = $params['ID_VARIABLE'];
+   $paramsGmf['VALOR_VARIABLE'] = $params['VALOR_VARIABLE'];
 
       // var_dump($paramsGmf);
 
- $result = $this->Maccesorios->setGmfVariable($paramsGmf);
+   $result = $this->Maccesorios->setGmfVariable($paramsGmf);
 
- $dataElement['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
- $dataElement['ID_SECCION3'] =  $params['ID_SECCION3'];
- $dataElement['PAG_SECCION3'] = 1;
- $dataElement['FECHA_INI_SEC'] = date('Y/m/d', strtotime('now'));
- $dataElement['FECHA_FIN_SEC'] = date('Y/m/d', strtotime('now'));
- if($params['VALOR_VARIABLE'] == 2)
+   $dataElement['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
+   $dataElement['ID_SECCION3'] =  $params['ID_SECCION3'];
+   $dataElement['PAG_SECCION3'] = 1;
+   $dataElement['FECHA_INI_SEC'] = date('Y/m/d', strtotime('now'));
+   $dataElement['FECHA_FIN_SEC'] = date('Y/m/d', strtotime('now'));
+   if($params['VALOR_VARIABLE'] == 2)
     $dataElement['ID_ESTADO_SEC'] = 2;
 $resultControl = $this->Maccesorios->updateGmfControl($dataElement);
 
@@ -156,9 +187,9 @@ public function getelements(){
     $PRODUCIDO = FALSE; $NEGOCIO_PROPIO = FALSE; $OTRA = FALSE;
 
     foreach ($elements as $key => $value) {
-     $active = FALSE;
+       $active = FALSE;
 
-     foreach ($elementsForm as $key1 => $value1) {
+       foreach ($elementsForm as $key1 => $value1) {
         if($value['ID_ARTICULO3'] == $value1['ID_ARTICULO3']){
             $active = TRUE;
 
