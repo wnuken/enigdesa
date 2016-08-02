@@ -113,6 +113,27 @@
 	}
 ?>
 		</div>
+<div id="AYUDA" title="Consideraciones Residentes">
+Recuerde incluir como parte de su hogar a los siguientes RESIDENTES HABITUALES, porque no tienen residencia habitual en otro hogar:
+<br/><br/>
+<ol>
+<li> Personas que están ausentes por 6 meses o menos por motivos especiales como: vacaciones, cursos de capacitación, viajes de negocio, comisiones de trabajo, entre otros; y además, cuentan con la seguridad de que van a regresar al hogar después de estos 6 meses o menos.</li>
+<li> Agentes viajeros, marinos mercantes.</li>
+<li> Secuestrados y desaparecidos, sin importar el tiempo de ausencia.</li>
+<li> Enfermos internados en hospitales o clínicas, sin importar el tiempo de ausencia.</li>
+<li> Desplazados, sin importar el tiempo de permanencia en el hogar encuestado.</li>
+<li> Detenidos temporalmente en inspecciones de policía.</li>
+<li> Empleados internos del servicio doméstico.</li>
+<li> Personas que están prestando el servicio militar en la policía pero duermen en sus respectivos hogares.</li>
+<li> Pensionistas.</li>
+<li> Residentes de casas fiscales al interior de guarniciones militares.</li>
+</ol>
+NO incluya como RESIDENTES HABITUALES:
+<ol>
+<li> Personas que aunque sean consideradas como el principal soporte económico del hogar y estén presentes en el hogar cada fin de semana o cada 15 días, lleven 6 meses o más ausentes y tengan residencia en otro hogar porque permanecen la mayor parte del tiempo en un sitio diferente.</li>
+<li> Personas que en el momento de la encuesta están pagando condenas en cárceles, prestando servicio militar en cuarteles del ejército, la fuerza aérea o en la amada nacional; están internos en instituciones educativas, asilos, conventos o monasterios.</a></li>
+</ol>
+</div>
 <script>
 <?php
 	echo "\t var regla_". $secc['ID_SECCION']."_". $secc['PAGINA'] ." = new Array();\n";
@@ -162,12 +183,14 @@ $(function() {
 			echo "	$('#". $v3['ID_VARIABLE'] ."').number(true, 0, ',', '.');\n";
 		if ($v3['TIPO_CAMPO'] == 'MAYUSC')
 			echo "	$('#" . $v3 ['ID_VARIABLE'] . "').mayusculas();\n";
+		if ($v3['TIPO_CAMPO'] == 'NUMNOSABE')
+			echo "	$('#". $v3['ID_VARIABLE'] ."').numnosabe('". $v3['ID_VARIABLE'] ."');\n";
 	}
 ?>
 	// Casos especiales
-	$("#P548").datepicker({changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd", yearRange: '1900:2016', onSelect: function (dateText, inst) {
-		chk_cons('P548', regla_01CARACTERISTICAS_1);
-    }});
+	//$("#P548").datepicker({changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd", yearRange: '1900:2016', onSelect: function (dateText, inst) {
+	//	chk_cons('P548', regla_01CARACTERISTICAS_1);
+    //}});
 	//autocompletar etnias indigenas
 	/*$('#P5667').autocomplete({
 		source: function (val) {
@@ -178,7 +201,13 @@ $(function() {
 				});
 		}, minLength: 3
 	});*/
-
+	$("#AYUDA").dialog({
+		autoOpen: false,
+		position: { my: 'top', at: 'top+150' },
+		height:550,
+		width:800,
+		modal: true
+	});
 	$('#P5667').autocomplete({
 		source: function(request, response) { 
 			jQuery.ajax({

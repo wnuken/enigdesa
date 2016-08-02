@@ -16,7 +16,7 @@
 			txt_total    		: {	required        :  true, expresion: '$("#hdd_nro_articulos").val() ==0' },
 			txt_total_credito    		: {	required        :  true, expresion: '$("#hdd_nro_articulos").val() ==0' },
 			sel_medio_pago    	: {	comboBox        :  '-'},
-			txt_otro_medio_pago : {	required        :  true, maxlength: 100}
+			txt_otro_medio_pago : {	required        :  true, minlength:5 ,maxlength: 100}
 					
 		},
 		//Mensajes de validacion
@@ -24,7 +24,9 @@
 			txt_total    		: {	required        :  "Verifique el subtotal.", expresion :  "No hay artículos o servicios comprados o pagados."},
 			txt_total_credito    		: {	required        :  "Verifique el subtotal.", expresion :  "No hay artículos o servicios comprados o pagados."},
 			sel_medio_pago    	: {	comboBox        :  "Seleccione una opci&oacute;n."},
-			txt_otro_medio_pago : {	required        :  "Diligencie c&uacute;al otro medio de pago. ", maxlength		:  "Máximo 100 caracteres"},
+			txt_otro_medio_pago : {	required        :  "Diligencie c&uacute;al otro medio de pago. ", 
+														minlength		:  "Mínimo 5 caracteres",
+														maxlength	:  "Máximo 100 caracteres"},
 			
 						
 		},

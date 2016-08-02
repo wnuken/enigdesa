@@ -276,6 +276,7 @@ $(function() {
 <?
 	$disab = "";
 	$sindia = true;
+	$activo = "";
 	foreach ($dias as $k=>$v) {
 		if ($v['E'] == "HOY") {
 			echo "	$('#ID_SECCION').val(dia[$k][0]);\n";

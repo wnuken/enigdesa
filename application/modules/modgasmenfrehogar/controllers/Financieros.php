@@ -30,7 +30,7 @@ class Financieros extends MX_Controller {
     private function actualizarEstado() {
         $this->load->model(array("Modgmfh"));
         $id_formulario = $this->session->userdata("id_formulario");
-        $arrSA = $this->Modgmfh->listar_secciones_avances(array( "id0" => $this->idSubModulo , "estado" => array(0,1)));
+        $arrSA = $this->Modgmfh->listar_secciones_avances(array( "id0" => $this->idSubModulo , "estado" => array(0,1), "idForm" => $id_formulario));
         
         $fechahoraactual = $this->Modgmfh->consultar_fecha_hora();
         $fechaactual = substr($fechahoraactual, 0, 10);
@@ -106,13 +106,14 @@ class Financieros extends MX_Controller {
             $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual ), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $arrSA[0]['ID_SECCION3']));
             $arrSA[0]['ID_ESTADO_SEC'] = 2;
         }
-        $arrSA = $this->Modgmfh->listar_secciones_avances(array( "id0" => $this->idSubModulo , "estado" => array(0,1)));
+        $arrSA = $this->Modgmfh->listar_secciones_avances(array( "id0" => $this->idSubModulo , "estado" => array(0,1), "idForm" => $id_formulario));
         return $arrSA;
     }
     
     public function index() {
         $this->load->model(array("formulario/Mformulario", "control/Modmenu", "Modgmfh"));
         $data["id_formulario"] = $this->session->userdata("id_formulario");
+        
         if (empty($data["id_formulario"])) {
             redirect('/');
             return false;
@@ -122,6 +123,7 @@ class Financieros extends MX_Controller {
         $arrSA = $this->actualizarEstado();
         $this->idSeccion = count($arrSA) > 1 ? $arrSA[1]['ID_SECCION3'] : "";
 
+        echo $this->idSeccion;
         
         if (count($arrSA) == 0 || (count($arrSA) > 0 && $arrSA[0]['ID_ESTADO_SEC'] == 2) ) {
             redirect(base_url($this->module));
@@ -219,30 +221,36 @@ class Financieros extends MX_Controller {
         $this->load->view("layout", $data);
     }*/
 
-    /** Abre p�gina 3 -  art�culo o servicio COMPRADO o PAGADO
+     /** Abre p�gina 3 -  art�culo o servicio COMPRADO o PAGADO
      * @author hhchavezv
      * @param   array $data: array con parametros a enviar a vista
      * @since 2016-07-01
      */
-    private function mostrarGrillaCompra($data) {
+     private function mostrarGrillaCompra($data) {
         
-        $this->load->model("Modsec3");
-        
-        //Lista de articulos pagados, del m�dulo
-        $data["arrArticulos"]= $this->Modsec3->listar_articulos_comprados($data['id_formulario'], $data['secc'][0]['ID_SECCION3']); 
-        
-        // Verifica si debe habilitar pregunta "medio de pago"
-        $data["habilita_medio_pago"]= $this->Modsec3->habilitaPreguntaMedioPago($data['secc'][0]['ID_SECCION3']); 
-        
-        // Se consulta la lista de medios de pago
-        $data["arrMediosPago"]=$this->Modsec3->listar_medios_pago(); 
-        // Se consulta la lista de los lugares de compra
+		$this->load->model("Modsec3");
+		
+		//Lista de articulos pagados, del m�dulo
+		$data["arrArticulos"]= $this->Modsec3->listar_articulos_comprados($data['id_formulario'], $data['secc'][0]['ID_SECCION3']); 
+		
+		// Verifica si debe habilitar pregunta "medio de pago"
+		$data["habilita_medio_pago"]= $data['secc'][0]['ID_VARIABLE_MEDIO_PAGO']; 		
+		// Verifica si debe habilitar segunda forma de pago a CREDITO
+		$data["habilita_credito"]= $data['secc'][0]['ID_VARIABLE_TOTAL_PAGO2']; 
+		
+		// Consulta rangos para pago
+		$data["rango_min"]= $data['secc'][0]['VALOR_MINIMO']; 
+		$data["rango_max"]= $data['secc'][0]['VALOR_MAXIMO']; 
+		
+		// Se consulta la lista de medios de pago
+		$data["arrMediosPago"]=$this->Modsec3->listar_medios_pago(); 
+		// Se consulta la lista de los lugares de compra
         $data["arrLugarCompra"] = $this->Modgmfh->consultar_param_general('', 'LUGAR_COMPRA', '', '');
-        // Se consulta la lista de frecuencia de compra
+		// Se consulta la lista de frecuencia de compra
         $data["arrFrecCompra"]= $this->Modgmfh->consultar_param_general('', 'FRECUENCIA_COMPRA', '', '');
-        
+		
         $data["view"] = 'form3';
-        $this->load->view("layout", $data);
+		$this->load->view("layout", $data);
     }
     
     /** Guarda p�gina 3 - art�culo o servicio COMPRADO o PAGADO
@@ -252,23 +260,20 @@ class Financieros extends MX_Controller {
      */
     public function guardaGrillaCompra() {
         
-        $this->load->model("Modsec3");
-        // Convierte en variables php lo que llega por POST
-        foreach($_POST as $nombre_campo => $valor){         
-                $asignacion = "\$" . $nombre_campo . "='" . $valor . "';";
-                eval($asignacion);
-            }
-            
-        $result=$this->Modsec3->guardaForm3($_POST);        
-        if($result){
-            //$result2=$this->Modsec3->actualizaPaginaControl($ID_FORMULARIO, $hdd_sec,4); 
-            //if($result2)
-                        
-                echo "-ok-";            
-        }   
-        else
-            echo "ERROR";
-        
+		$this->load->model("Modsec3");
+		// Convierte en variables php lo que llega por POST
+		foreach($_POST as $nombre_campo => $valor){	    	
+	  			$asignacion = "\$" . $nombre_campo . "='" . $valor . "';";
+	   			eval($asignacion);
+			}
+			
+		$result=$this->Modsec3->guardaForm3($_POST);		
+		if($result){
+			echo "-ok-";			
+		}	
+		else
+			echo "ERROR";
+		
     }
     
     /**
@@ -324,7 +329,7 @@ class Financieros extends MX_Controller {
                     $forma_obt = $this->Modgmfh->listar_articulos_seccion( array("id" => $value, "id_formulario" => $id_formulario) );
 
                     if(count($forma_obt) == 1 && $articulos[0] != "99999999") {
-                        $this->Modgmfh->ejecutar_insert('ENIG_FORM_GMF_FORMA_OBTENCION', array( "ID_FORMULARIO" => $id_formulario, "ID_ARTICULO3" => $value));
+                        $this->Modgmfh->ejecutar_insert('ENIG_FORM_GMF_FORMA_OBTENCION', array( "ID_FORMULARIO" => $id_formulario, "ID_ARTICULO3" => $value, "COMPRA" => 1));
                         $i++;
                     }
                 }

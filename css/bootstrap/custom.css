@@ -827,3 +827,5 @@ blockquote {
 .tooltip {
 	color: red !important;
 }
+/* 2016-07-23 - Locate Dialog in front */
+.ui-dialog { z-index: 1000 !important ;}

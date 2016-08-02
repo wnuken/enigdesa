@@ -28,6 +28,7 @@ class ViviendaCompra extends MX_Controller {
      * @since  05/07/2016
      */    
     public function index() {
+		$data["id_formulario"] = $this->session->userdata("id_formulario");
 		$data["view"] = 'ViviendaAcms/formCompraVivienda';
 		$this->load->view("layout", $data);
     }
@@ -94,6 +95,34 @@ class ViviendaCompra extends MX_Controller {
     private function mostrarFormCompraVivienda() {
         $this->load->library('../controllers/whathever');
 		$this->whathever->functioname();
+    }
+	
+	/** Guarda pagina C14.CompraAdecuaciónVivnda_Año
+     * @author hhchavezv
+     * @since 2016-08-01
+	 * @return echo "-ok-" si guarda correctamente, si no "ERROR"
+     */
+    public function guardaGrillaCompraViv() {
+        
+		$this->load->model("ViviendaAcms/Modcompraviv");
+		// Convierte en variables php lo que llega por POST
+		foreach($_POST as $nombre_campo => $valor){	    	
+	  			$asignacion = "\$" . $nombre_campo . "='" . $valor . "';";
+	   			eval($asignacion);
+			}
+		
+	
+		$result=$this->Modcompraviv->guardaCompraViv($_POST);	
+
+		//pr($_POST);			
+		$result=false;// pruebas
+		
+		if($result){
+			echo "-ok-";			
+		}	
+		else
+			echo "ERROR";
+		
     }
 }
 //EOC

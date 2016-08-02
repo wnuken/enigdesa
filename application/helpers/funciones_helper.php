@@ -380,7 +380,8 @@ if (!function_exists("mostrar_input_text")) {
 		if (count($arr_var) > 0) {
 			//if($arr_var["TIPO_DATO"] == "NUMERICO")
 			//	$html = "<input type='number'";
-			$html .= " size='" . $arr_var['LONG_TEXTO'] . "' maxlength='" . $arr_var['LONGITUD'] . "' placeholder='" . $arr_var['ETIQUETA'] . "' " . " id='" . $arr_var['ID_VARIABLE'] . "' name='" . $arr_var['ID_VARIABLE'] . "' data-toggle='popover' data-trigger='focus hover' data-content='' />\n";
+			$html .= " size='". $arr_var['LONG_TEXTO'] ."' maxlength='". $arr_var['LONGITUD'] ."' placeholder='" . $arr_var['ETIQUETA'] . "' tabindex='". $arr_var['ORDEN'] .
+				"' id='" . $arr_var['ID_VARIABLE'] . "' name='" . $arr_var['ID_VARIABLE'] . "' data-toggle='popover' data-trigger='focus hover' data-content='' />\n";
 		}
 		return $html;
 	}
@@ -398,7 +399,7 @@ if (!function_exists("mostrar_select")) {
 	function mostrar_select($arr_var, $arr_opc) {
 		$html = "";
 		if (count($arr_var) > 0) {
-			$html = "<select id='" . $arr_var['ID_VARIABLE'] . "' name='" . $arr_var['ID_VARIABLE'] . "'>\n";
+			$html = "<select id='" . $arr_var['ID_VARIABLE'] . "' name='" . $arr_var['ID_VARIABLE'] . "' tabindex='". $arr_var['ORDEN'] . "'>\n";
 			foreach ($arr_opc as $k1 => $v1) {
 				$sel = "";
 				if ($arr_var['ID_VARIABLE'] == $v1 ['ID_VARIABLE']) {
@@ -430,8 +431,9 @@ if (!function_exists("mostrar_radios")) {
 				if ($arr_var['ID_VARIABLE'] == $v1 ['ID_VARIABLE']) {
 					if ($arr_var['VR_DEFECTO'] == $v1 ['ID_VALOR'])
 						$sel = 'checked';
-					$html .= "<input type='radio' name='" . $v1 ['ID_VARIABLE'] . "' id='". $arr_var['ID_VARIABLE'] .".". $v1 ['ID_VALOR'] ."' value='" .
-							$v1 ['ID_VALOR'] . "'" . " $sel /><label for='". $arr_var['ID_VARIABLE'] .".". $v1 ['ID_VALOR'] ."'> " . $v1 ['ETIQUETA'];
+					$html .= "<input type='radio' name='" . $arr_var ['ID_VARIABLE'] . "' id='". $arr_var['ID_VARIABLE'] .".". $v1['ID_VALOR'] .
+						"' tabindex='". $arr_var['ORDEN'] . "' value='". $v1 ['ID_VALOR'] . "'" . " $sel /><label for='". $arr_var['ID_VARIABLE'] .".". 
+						$v1 ['ID_VALOR'] ."'> " . $v1 ['ETIQUETA'];
 					if (!empty($v1['DESCRIPCION_OPCION']))
 						$html .= "&nbsp;<a href='#' data-toggle='tooltip' title='" . $v1['DESCRIPCION_OPCION'] . "'>(?)</a>";
 					$html .= "</label><br/>\n";
@@ -462,7 +464,7 @@ if (!function_exists("mostrar_sino")) {
 					if (empty($v1['ID_VALOR']))
 						$hdn = 'style="display:none"';
 					$html .= "<input type='radio' name='". $v1['ID_VARIABLE'] ."' id='". $arr_var['ID_VARIABLE'] .".". $v1['ID_VALOR'] ."' value='".
-							$v1 ['ID_VALOR'] . "'" . " $sel $hdn /> ";
+							$v1 ['ID_VALOR'] . "'" . " $sel $hdn tabindex='". $arr_var['ORDEN'] . "'/> ";
 					if (empty($hdn))
 						$html .= "<label for='". $arr_var['ID_VARIABLE'] .".". $v1 ['ID_VALOR'] ."'> ". $v1 ['ETIQUETA'];
 					if (!empty($v1['DESCRIPCION_OPCION']))
@@ -487,11 +489,13 @@ if (!function_exists("mostrar_sino")) {
 if (!function_exists("mostrar_numnosabe")) {
 	function mostrar_numnosabe($arr_var) {
 		//$html  = "<input type='radio' name='_". $arr_var['ID_VARIABLE'] ."' onClick=\"$('#". $arr_var['ID_VARIABLE'] ."').removeAttr('disabled')\" value='0'/> ";
-		$html = "<input type='text' id='". $arr_var['ID_VARIABLE'] ."' name='". $arr_var['ID_VARIABLE'] ."' ";
-		$html .= " size='". $arr_var['LONG_TEXTO'] ."' maxlength='". $arr_var['LONGITUD'] ."' placeholder='". $arr_var['ETIQUETA'] ."' onBlur=\"if(\$(this).val()!='98')".
-		"document.getElementById('". $arr_var['ID_VARIABLE'] .".98').checked=false; if(\$(this).val()!='99') document.getElementById('". $arr_var['ID_VARIABLE'] .".99').checked=false;\" />&nbsp;&nbsp;\n";
-		$html .= "<input type='radio' id='". $arr_var['ID_VARIABLE'] .".98' name='_". $arr_var['ID_VARIABLE'] ."' onClick=\"$('#". $arr_var['ID_VARIABLE'] ."').val('98');$('#". $arr_var['ID_VARIABLE'] ."').focus();\"/> No sabe &nbsp;&nbsp;\n";
-		$html .= "<input type='radio' id='". $arr_var['ID_VARIABLE'] .".99' name='_". $arr_var['ID_VARIABLE'] ."' onClick=\"$('#". $arr_var['ID_VARIABLE'] ."').val('99');$('#". $arr_var['ID_VARIABLE'] ."').focus();\"/> No informa\n";
+		$html = "<input type='text' id='". $arr_var['ID_VARIABLE'] ."' name='". $arr_var['ID_VARIABLE'] ."' tabindex='". $arr_var['ORDEN'] ."' size='". 
+			$arr_var['LONG_TEXTO'] ."' maxlength='". $arr_var['LONGITUD'] ."' placeholder='". $arr_var['ETIQUETA'] .
+			"' onClick=\"$(this).val('');$(this).css('color','black');\"/>&nbsp;&nbsp;\n";
+		$html .= "<input type='radio' id='". $arr_var['ID_VARIABLE'] .".98' name='_". $arr_var['ID_VARIABLE'] ."' value='98' onClick=\"$('#". $arr_var['ID_VARIABLE'] .
+		"').css('color','white'); $('#". $arr_var['ID_VARIABLE'] ."').val('98');$('#". $arr_var['ID_VARIABLE'] ."').focus();\"/> <label for='". $arr_var['ID_VARIABLE'] .".98'>No sabe</label>&nbsp;&nbsp;\n";
+		$html .= "<input type='radio' id='". $arr_var['ID_VARIABLE'] .".99' name='_". $arr_var['ID_VARIABLE'] ."' value='99' onClick=\"$('#". $arr_var['ID_VARIABLE'] .
+		"').css('color','white'); $('#". $arr_var['ID_VARIABLE'] ."').val('99');$('#". $arr_var['ID_VARIABLE'] ."').focus();\"/> <label for='". $arr_var['ID_VARIABLE'] .".99'>No informa</label>\n";
         return $html;
 	}
 }
@@ -505,10 +509,11 @@ if (!function_exists("mostrar_numnosabe")) {
  */
 if (!function_exists("mostrar_numnoinfo")) {
 	function mostrar_numnoinfo($arr_var) {
-		$html = "<input type='text' id='". $arr_var['ID_VARIABLE'] ."' name='". $arr_var['ID_VARIABLE'] ."' ";
+		$html = "<input type='text' id='". $arr_var['ID_VARIABLE'] ."' name='". $arr_var['ID_VARIABLE'] ."' tabindex='". $arr_var['ORDEN'] . "' ";
 		$html .= " size='". $arr_var['LONG_TEXTO'] ."' maxlength='". $arr_var['LONGITUD'] ."' placeholder='". $arr_var['ETIQUETA'] ."' onBlur=\"if(\$(this).val()!='99')".
-			"document.getElementById('". $arr_var['ID_VARIABLE'] .".99').checked=false;\" />&nbsp;&nbsp;\n";
-		$html .= "<input type='radio' id='". $arr_var['ID_VARIABLE'] .".99' name='_". $arr_var['ID_VARIABLE'] ."' onClick=\"$('#". $arr_var['ID_VARIABLE'] ."').val('99');$('#". $arr_var['ID_VARIABLE'] ."').focus();\" /> No informa\n";
+			"document.getElementById('". $arr_var['ID_VARIABLE'] .".99').checked=false;\" onClick=\"$(this).val('');$(this).css('color','black');\"/>&nbsp;&nbsp;\n";
+		$html .= "<input type='radio' id='". $arr_var['ID_VARIABLE'] .".99' name='_". $arr_var['ID_VARIABLE'] ."' onClick=\"$('#". $arr_var['ID_VARIABLE'] .
+			"').css('color','white'); $('#". $arr_var['ID_VARIABLE'] ."').val('99');$('#". $arr_var['ID_VARIABLE'] ."').focus();\" /> <label for='". $arr_var['ID_VARIABLE'] .".99'>No informa</label>\n";
         return $html;
 	}
 }

@@ -46,6 +46,7 @@ class Recreacion extends MX_Controller {
             $formas_obt_con_compra = $this->Modgmfh->lista_formaObtencion(array("seccion" => $this->idSeccion, "id_formulario" => $id_formulario, "compra" => 1));
             $lista_compra = $this->Modgmfh->lista_compra(array("seccion" => $this->idSeccion, "id_formulario" => $id_formulario));
             $formas_adqui = $this->Modgmfh->lista_formaAdqui(array("seccion" => $this->idSeccion, "id_formulario" => $id_formulario));
+            $formas_gastos = $this->Modgmfh->consultar_gastos_viaje( array("seccion" => $this->idSeccion, "id_formulario" => $id_formulario) );
             $fin = false;
 
             if ($arrSA[0]['ID_ESTADO_SEC'] == 0) {
@@ -56,11 +57,11 @@ class Recreacion extends MX_Controller {
                 $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array("ID_ESTADO_SEC" => 1, "PAG_SECCION3" => 1, "FECHA_INI_SEC" => $fechaactual), array("ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $this->idSeccion));
                 $arrSA[1]['ID_ESTADO_SEC'] = 1;
                 $arrSA[1]['PAG_SECCION3'] = 1;
-            } else if ($arrSA[1]['ID_ESTADO_SEC'] == 1 && $arrSA[1]['PAG_SECCION3'] == 1 && count($formas_obt) > 0 && $this->idSeccion == "J5") {// revisar validacion de si se guardo el capitulo 1 en j5 count($formas_obt) > 0
+            } else if ($arrSA[1]['ID_ESTADO_SEC'] == 1 && $arrSA[1]['PAG_SECCION3'] == 1 && $this->idSeccion == "J5" && count($formas_gastos) > 0) {// revisar validacion de si se guardo el capitulo 1 en j5 count($formas_obt) > 0
                 $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array("ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual), array("ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $this->idSeccion));
                 $arrSA[1]['ID_ESTADO_SEC'] = 2;
                 $fin = true;
-            } else if ($arrSA[1]['ID_ESTADO_SEC'] == 1 && $arrSA[1]['PAG_SECCION3'] == 1 && count($formas_obt) > 0 && $this->idSeccion != "J5") {
+            } else if ($arrSA[1]['ID_ESTADO_SEC'] == 1 && $arrSA[1]['PAG_SECCION3'] == 1 && $this->idSeccion != "J5" && count($formas_obt) > 0) {
                 $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array("PAG_SECCION3" => 2), array("ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => $this->idSeccion));
                 $arrSA[1]['PAG_SECCION3'] = 2;
             } else if ($arrSA[1]['ID_ESTADO_SEC'] == 1 && $arrSA[1]['PAG_SECCION3'] == 2 && count($formas_obt_con_compra) > 0) {
@@ -283,7 +284,7 @@ class Recreacion extends MX_Controller {
 
         $data['secc'] = $this->Modgmfh->listar_secciones(array("id" => $this->idSeccion));
 
-        $data['preg']["var"] = $this->Modgmfh->lista_formaObtencion(array("seccion" => $this->idSeccion, "id_formulario" => $data["id_formulario"]));
+        $data['preg']["var"] = $this->Modgmfh->lista_formaObtencion(array("seccion" => $this->idSeccion, "id_formulario" => $data["id_formulario"], "sincompra" => 1));
         $data['preg']["variables"] = $this->Modgmfh->lista_variables_param(array("seccion" => $this->idSeccion, "pagina" => "4"));
 
         $data["view"] = 'form4';
@@ -389,7 +390,7 @@ class Recreacion extends MX_Controller {
         $id_formulario = $this->session->userdata("id_formulario");
         $id_seccion = $this->session->userdata("id_seccion");
         $secc = $this->Modgmfh->listar_secciones(array("id" => $id_seccion));
-        $formas_obt = $this->Modgmfh->lista_formaObtencion( array("seccion" => $id_seccion, "id_formulario" => $id_formulario) );
+        $formas_obt = $this->Modgmfh->lista_formaObtencion( array("seccion" => $id_seccion, "id_formulario" => $id_formulario, "sincompra" => 1) );
         $cant_formas_obt = count($formas_obt);
 
         if($cant_formas_obt > 0) {
@@ -407,6 +408,8 @@ class Recreacion extends MX_Controller {
                 $j = 0;                
                 // Se recorren todas las formas de obtencion para cada articulo
                 foreach($cols as $v2) {
+                    $val_input = isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)])?str_replace(".", "", $_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]):"";
+
                     // Se verifica que esten definidos los input con los nombres establecidos, si la correspondiente forma de obtencion es igual a 1
                     if( ( $v1[$v2] == 1 && !isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) && !isset($_POST['chb_' . $v1['ID_ARTICULO3']][strtolower($v2)]) ) 
                         || ( $v1[$v2] == 1 && isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) && isset($_POST['chb_' . $v1['ID_ARTICULO3']][strtolower($v2)]) ) ) {
@@ -417,37 +420,37 @@ class Recreacion extends MX_Controller {
                     // Se verifica que los campos de texto que se reciben esten diligenciados, si la correspondiente forma de obtencion es igual a 1
                     else if( $v1[$v2] == 1 && isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) && $_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)] == ""  ) {
                         $m = "'Algunos de los campos no han sido diligenciados',";
-                        $inputs .= "'mask_" . $v1['ID_ARTICULO3'] . "_" . ($j +1) . "',";
+                        $inputs .= "'txt_" . $v1['ID_ARTICULO3'] . "_" . ($j +1) . "',";
                         if(substr_count($mensajes, $m) == 0)
                             $mensajes .= $m;
                     }
                     // Se verifica que los valores en los campos de texto sean enteros positivos, si la correspondiente forma de obtencion es igual a 1
-                    else if( $v1[$v2] == 1 && isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) && !preg_match('/^\d+$/', $_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) ) {
+                    else if( $v1[$v2] == 1 && isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) && !preg_match('/^\d+$/', $val_input) ) {
                         $m = "'Los valores deben ser enteros positivos',";
-                        $inputs .= "'mask_" . $v1['ID_ARTICULO3'] . "_" . ($j +1) . "',";
+                        $inputs .= "'txt_" . $v1['ID_ARTICULO3'] . "_" . ($j +1) . "',";
                         if(substr_count($mensajes, $m) == 0)
                             $mensajes .= $m;
                     }
                     // Se verifica que los valores en los campos de texto esten dentro del rango establecido, si la correspondiente forma de obtencion es igual a 1
                     else if($v1[$v2] == 1 && isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) && $rangoMayor != "" && $rangoMenor != "" && $id_seccion != "G3" && $id_seccion != "G4" &&
-                        ($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)] < $rangoMenor || $_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)] > $rangoMayor ) ) {
+                        ($val_input < $rangoMenor || $val_input > $rangoMayor ) ) {
                         $m = "'Los valores estimados no pueden ser menores a " . number_format($rangoMenor) . " o mayores a " . number_format($rangoMayor) . "',";
-                        $inputs .= "'mask_" . $v1['ID_ARTICULO3'] . "_" . ($j +1) . "',";
+                        $inputs .= "'txt_" . $v1['ID_ARTICULO3'] . "_" . ($j +1) . "',";
                         if(substr_count($mensajes, $m) == 0)
                             $mensajes .= $m;
                     }
                     // Se verifica que los valores en los campos de texto esten dentro del rango establecido o sean cero (solo para secciones G3 y G4), si la correspondiente forma de obtencion es igual a 1
                     else if($v1[$v2] == 1 && isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) && $rangoMayor != "" && $rangoMenor != "" && ($id_seccion == "G3" || $id_seccion == "G4") &&
-                        ($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)] < $rangoMenor || $_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)] > $rangoMayor ) && $_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)] <> 0 ) {
+                        ($val_input < $rangoMenor || $val_input > $rangoMayor ) && $val_input <> 0 ) {
                         $m = "'Los valores estimados no pueden ser menores a " . number_format($rangoMenor) . " o mayores a " . number_format($rangoMayor) . " o diferentes a cero.',";
-                        $inputs .= "'mask_" . $v1['ID_ARTICULO3'] . "_" . ($j +1) . "',";
+                        $inputs .= "'txt_" . $v1['ID_ARTICULO3'] . "_" . ($j +1) . "',";
                         if(substr_count($mensajes, $m) == 0)
                             $mensajes .= $m;
                     }
 
                     // Se guarda en un array los arrays de insercion cuando el campo de texto viene con un valor
                     if ( $v1[$v2] == 1 && isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) ){
-                        $arrInsert[] = array( "ID_FORMULARIO" => $id_formulario, "ID_ARTICULO3" => $v1['ID_ARTICULO3'], "ID_VARIABLE" => $variables[$j]['ID_VARIABLE'], "VALOR_ESTIMADO" => $_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)] );
+                        $arrInsert[] = array( "ID_FORMULARIO" => $id_formulario, "ID_ARTICULO3" => $v1['ID_ARTICULO3'], "ID_VARIABLE" => $variables[$j]['ID_VARIABLE'], "VALOR_ESTIMADO" => $val_input );
 
                     }
                     // Se guarda en un array los arrays de insercion cuando viene activo el checkbox (se marco no sabe valor estimado)
@@ -455,11 +458,8 @@ class Recreacion extends MX_Controller {
                         $arrInsert[] = array( "ID_FORMULARIO" => $id_formulario, "ID_ARTICULO3" => $v1['ID_ARTICULO3'], "ID_VARIABLE" => $variables[$j]['ID_VARIABLE'], "VALOR_ESTIMADO" => 99 );
                     }
                     $j++;
-                }
-                
+                }                
                 $i++;
-                
-
             }
 
             // Si no hay errrores se guarda
@@ -505,9 +505,68 @@ class Recreacion extends MX_Controller {
     	$data["view"] = "formJ5";
     	
     	$this->load->view("layout", $data);
-    	
-    	
-    	
+    }
+    
+    /**
+     * @author sjneirag
+     * @since 2016-07-28
+     */
+    public function guardar_formJ5() {
+    	$this->load->model(array("Modgmfh"));
+    	$id_formulario = $this->session->userdata("id_formulario");
+    	$id_seccion = $this->session->userdata("id_seccion");
+    	$formas_gastos = $this->Modgmfh->consultar_gastos_viaje( array("seccion" => $id_seccion, "id_formulario" => $id_formulario) );
+    	$cant_formas_gastos = count($formas_gastos);
+    	 
+    	if($cant_formas_gastos > 0 ){
+    		echo "Ya existen registros con el formulario ".$id_formulario;
+    	}else{
+    		foreach ($_REQUEST as $clave => $valor) {
+    			if($valor != ''){
+    				if(($clave == 'P10395S1') || ($clave == 'P10395S2') || ($clave == 99999999)){
+    					$clave='P10395';
+    				}
+    				if(($clave == 'si_P10396') || ($clave == 'no_P10396')){
+    					$clave='P10396';
+    				}
+    				if(($clave == 'si_P10397S1') || ($clave == 'no_P10397S1')){
+    					$clave='P10397S1';
+    				}
+    				if(($clave == 'si_P10397S3')  || ($clave == 'no_P10397S3')){
+    					$clave='P10397S3';
+    				}
+    				if(($clave == 'si_P10397S4') || ($clave == 'no_P10397S4')){
+    					$clave='P10397S4';
+    				}
+    				if(($clave == 'si_P10397S5') || ($clave == 'no_P10397S5')){
+    					$clave='P10397S5';
+    				}
+    				if($clave=='P10396S1_99'){
+    					$clave='P10396S1';
+    				}
+    				if($clave=='P10396S2_99'){
+    					$clave='P10396S2';
+    				}
+    				if($clave == 'P10397S1A1_99'){
+    					$clave='P10397S1A1';
+    				}
+    				if($clave == 'P10397S3A1_99'){
+    					$clave='P10397S3A1';
+    				}
+    				if($clave == 'P10397S4A1_99'){
+    					$clave='P10397S4A1';
+    				}
+    				if($clave == 'P10397S5A1_99'){
+    					$clave='P10397S5A1';
+    				}
+    				//echo $clave." => ".$valor."<br>";
+    				$arrInsert= array( "FORMULARIO" => $id_formulario, "SECCION" => $id_seccion, "VARIABLE" => $clave, "RESPUESTA" => $valor, "ESTADO" => 1);
+    				$this->Modgmfh->ejecutar_insert('ENIG_FORM_GMF_GASTOS_VIAJE', $arrInsert);
+    			}
+    		}
+    		echo "S:Se ha guardado la informaci&oacute;n correctamente!";
+    	}
+    	//echo "E:ERROR al guardar la secci&oacute;n. Intente nuevamente o recargue la p&aacute;gina.";
     }
 
 }

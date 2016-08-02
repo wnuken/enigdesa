@@ -132,6 +132,7 @@ class Mingresos extends CI_Model {
 				$data[$i]['TIPO_DATO']		= $row->TIPO_DATO;
 				$data[$i]['TIPO_CAMPO'] 	= $row->TIPO_CAMPO;
 				$data[$i]['LONGITUD'] 		= $row->LONGITUD;
+				$data[$i]['ORDEN'] 			= $row->ORDEN;
 				$data[$i]['VR_DEFECTO'] 	= $row->VR_DEFECTO;
 				$data[$i]['LONG_TEXTO'] 	= $row->LONG_TEXTO;
 				$data[$i]['GRUPO'] 			= $row->GRUPO;
@@ -391,13 +392,13 @@ class Mingresos extends CI_Model {
      * @author Mario A. Yandar
      */
     public function buscaretnias($nombre) {
-        $sql = "SELECT COD_RESGUARDO, NOMBRE_RESGUARDO FROM ENIG_PARAM_RESGUARDOS
-		WHERE NOMBRE_RESGUARDO LIKE '" . $nombre . "%' ORDER BY NOMBRE_RESGUARDO";
+        $sql = "SELECT CODIGO, NOMBRE FROM ENIG_PARAM_ETNIAS
+		WHERE NOMBRE LIKE '" . $nombre . "%' ORDER BY NOMBRE";
         $query = $this->db->query($sql);
         $data = array();
         if ($query->num_rows() > 0)
             foreach ($query->result() as $row)
-                $data[$row->COD_RESGUARDO] = $row->NOMBRE_RESGUARDO;
+                $data[$row->CODIGO] = $row->NOMBRE;
         $this->db->close();
         return $data;
     }

@@ -442,6 +442,58 @@ class Modgmfh extends My_model {
         $this->db->close();
         return $data;
     }
+    
+    /**
+     * Consulta los datos gastos en viajes
+     * @access Public
+     * @author sjneirag
+     * @param Array     $arrDatos   Arreglo asociativo con los valores para hacer la consulta
+     * @return Array    $data       Registros devueltos por la consulta
+     */
+     public function consultar_gastos_viaje($arrDatos) {
+        $data = array();
+        $cond = '';
+        $i = 0;
+
+        if (array_key_exists("articulo", $arrDatos)) {
+            if (is_string($arrDatos["articulo"])) {
+                $cond .= " AND A.ID_ARTICULO3 = '" . $arrDatos["articulo"] . "'";
+            } else if (is_array($arrDatos["articulo"])) {
+                $cond .= " AND A.ID_ARTICULO3 IN (" . implode(",", $arrDatos["articulo"]) . ")";
+            }
+        }
+        if (array_key_exists("seccion", $arrDatos)) {
+            if (is_string($arrDatos["seccion"])) {
+                $cond .= " AND SECCION = '" . $arrDatos["seccion"] . "'";
+            } else if (is_array($arrDatos["seccion"])) {
+                $cond .= " AND SECCION IN ('" . implode("','", $arrDatos["seccion"]) . "')";
+            }
+        }
+        if (array_key_exists("id_formulario", $arrDatos)) {
+            $cond .= " AND FORMULARIO = '" . $arrDatos["id_formulario"] . "'";
+        }
+        if (array_key_exists("compra", $arrDatos)) {
+            $cond .= " AND FO.COMPRA = '" . $arrDatos["compra"] . "'";
+        }
+        if (array_key_exists("sincompra", $arrDatos)) {
+            $cond .= " AND ( FO.RECIBIDO_PAGO = '" . $arrDatos["sincompra"] . "' OR FO.REGALO = '" . $arrDatos["sincompra"] . "' OR FO.INTERCAMBIO = '" . $arrDatos["sincompra"] . "' 
+                        OR FO.PRODUCIDO = '" . $arrDatos["sincompra"] . "' OR FO.NEGOCIO_PROPIO = '" . $arrDatos["sincompra"] . "' OR FO.OTRA = '" . $arrDatos["sincompra"] . "' )";
+        }
+    
+        
+        $sql = "SELECT ID_GASTOS_VIAJE, FORMULARIO, SECCION, VARIABLE 
+            FROM ENIG_FORM_GMF_GASTOS_VIAJE  
+            WHERE FORMULARIO IS NOT NULL $cond  
+             ORDER BY ID_GASTOS_VIAJE ASC";
+        //pr($sql); exit;
+        $query = $this->db->query($sql);
+        while ($row = $query->unbuffered_row('array')) {
+            $data[$i] = $row;
+            $i++;
+        }
+        $this->db->close();
+        return $data;
+    }
 
 }
 //EOC

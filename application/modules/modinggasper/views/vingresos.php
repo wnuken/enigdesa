@@ -161,6 +161,8 @@ $(function() {
 			echo "	$('#". $v3['ID_VARIABLE'] ."').number(true, 0, ',', '.');\n";
 		if ($v3['TIPO_CAMPO'] == 'MAYUSC')
 			echo "	$('#" . $v3['ID_VARIABLE'] . "').mayusculas();\n";
+		if ($v3['TIPO_CAMPO'] == 'NUMNOSABE')
+			echo "	$('#". $v3['ID_VARIABLE'] ."').numnosabe('". $v3['ID_VARIABLE'] ."');\n";
 	}
 ?>
 	// Casos especiales

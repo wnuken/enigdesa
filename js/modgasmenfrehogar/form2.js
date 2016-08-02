@@ -4,8 +4,8 @@
  * @since  08-07-2016
  */
 $(function () {
-    $('[data-toggle="tooltip"]').tooltip();
-    $('[data-toggle="popover"]').popover();
+    $('.ayuda').tooltip({ selector: '[data-toggle=tooltip]' });
+    $('.ayuda').popover({ selector: '[data-toggle=popover]' });
     
     var verificarSeleccion = function(nroArticulos) {
         var articulos = nroArticulos;
@@ -22,8 +22,8 @@ $(function () {
     };
 
 
-    /*$("input[type=checkbox]").on("change", function () {
-        var articulos = $(".articulo").length;
+    $("input[type=checkbox]").on("change", function () {
+        /*var articulos = $(".articulo").length;
         var cont = 0;
         for (var i = 0; i < articulos; i++) {
             var sel = $(":input.ops_" + (i + 1) + ":checked").length;
@@ -33,9 +33,30 @@ $(function () {
         if (articulos == cont)
             $("#env_form_2").prop('disabled', false);
         else
-            $("#env_form_2").prop('disabled', true);
+            $("#env_form_2").prop('disabled', true);*/
+        var elem = $(this).parent().parent();
+        if($(this).prop("checked")) {            
+            if(elem.attr( "class") && elem.attr( "class").indexOf('alert alert-danger') != -1) {
+                elem.tooltip('destroy');
+                elem.popover('destroy');
+            }
+            elem.removeClass( "alert alert-danger" );
+        }
+        else if(!$(this).prop("checked")) {
+            var clase = $(this).attr("class");
+            var seleccionados_art = $(":input." + clase + ":checked").length;
+            if(seleccionados_art == 0) {
+                elem.tooltip();
+                elem.popover();
+                elem.addClass( "alert alert-danger" );
+                $('#mensaje_').html('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>Hay campos que requieren correcciones, por favor verifique e intente nuevamente</div>');
+            }
+        }
+        if($('.alert-danger').length == 0) {
+            $('#mensaje_').html('');
+        }
 
-    });*/
+    });
 
     $("#form_2").submit(function(e){
         e.preventDefault();
@@ -46,6 +67,7 @@ $(function () {
         if( verificarSeleccion($(".articulo").length) ) {
             //var confirmacion = confirm("¿Está usted seguro de querer continuar? Una vez haga clic en Continuar NO podrá cambiar la información proporcionada y NO podrá regresar a esta pantalla. Si quiere editar información de estas respuestas haga clic en Cancelar.");
             //if(confirmacion) {
+            $('#mensaje_').html('');
             bootbox.confirm({
                 title: 'Confirmación',
                 message: '¿Está usted seguro de querer continuar? Una vez haga clic en Continuar NO podrá cambiar la información proporcionada y NO podrá regresar a esta pantalla. Si quiere editar información de estas respuestas haga clic en Cancelar.',
@@ -55,7 +77,7 @@ $(function () {
                     className: 'btn btn-primary btn-success'
                 },
                 'confirm': {
-                    label: 'Aceptar',
+                    label: 'Continuar',
                     className: 'btn btn-primary btn-success'
                 }
             }, callback: function(result) {
@@ -100,14 +122,28 @@ $(function () {
             //}
         }
         else {
-            bootbox.alert({message:'Respuesta obligatoria. Por favor, seleccione una opción para continuar.', 
-                buttons: {
-                    'ok': {
-                    label: 'Aceptar',
-                    className: 'btn btn-primary btn-success'
-                }
-            }});
+            //bootbox.alert({message:'Respuesta obligatoria. Por favor, seleccione una opción para continuar.', 
+            //    buttons: {
+            //        'ok': {
+            //        label: 'Aceptar',
+            //        className: 'btn btn-primary btn-success'
+            //    }
+            //}});
             //alert("Respuesta obligatoria. Por favor, seleccione una opción para continuar.");
+            $('#mensaje_').html('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>Hay campos que requieren correcciones, por favor verifique e intente nuevamente</div>');
+            $(".example").removeClass( "alert alert-danger" );
+            var articulos = $(".articulo").length;
+            var cont = 0;
+            for (var i = 0; i < articulos; i++) {
+                var sel = $(":input.ops_" + (i + 1) + ":checked").length;
+                var elem = $(":input.ops_" + (i + 1)).parent().parent();
+                if (sel == 0) {
+                    elem.tooltip();
+                    elem.popover();
+                    elem.addClass( "alert alert-danger" );                    
+                }
+            }
+        
         }
     });
 });

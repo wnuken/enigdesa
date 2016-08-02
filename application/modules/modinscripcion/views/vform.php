@@ -182,9 +182,6 @@ NO incluya como RESIDENTES HABITUALES:
 <div id="msj_numpers" title="Personas del Hogar">
   <p>¿Está seguro(a) que los residentes registrados son TODOS los residentes habituales de su hogar? Recuerde que una vez acepte esta información NO podrá ser modificada.</p>
 </div>
-<style>
-.ui-dialog { z-index: 1000 !important ;}
-</style>
 <script>
     // aplicar reglas de consistencia
     // regla[ID__#] = NEW ARRAY{0=REGLA, 1=MENSAJE, 2=TIPOERROR, 3=ESTADO}
@@ -310,6 +307,23 @@ echo "\t var filas = '". count($familia_personas) ."';\n";
 			height:550,
 			width:800,
 			modal: true
+		});
+		$('#P6040').attr('readonly', true);
+		// FAMILIA :: Control de dependencias entre variables...
+		$("#P548").datepicker({changeMonth: true, changeYear: true, dateFormat: "yy-mm-dd", yearRange: '1900:2016',
+			onSelect: function (dateText) {
+				// Calcular edad
+				var today = new Date();
+				var birthDate = new Date(dateText);
+				var age = today.getFullYear() - birthDate.getFullYear();
+				var m = today.getMonth() - birthDate.getMonth();
+				if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+					age--;
+				}
+				$("#P6040").val(age);
+				chk_cons('P548', regla_cap2);
+				chk_cons('P6040', regla_cap2);
+			}
 		});
 		recargatabla();
 		$("#ENV_FAMILIA_1").click(function () {

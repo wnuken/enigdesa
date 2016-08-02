@@ -39,7 +39,7 @@ $(function () {
         $( "input[type=text]" ).numerico().largo(agregarPuntosMiles($("#VALOR_MAXIMO").val()).length);
     }
 
-    $( "input[type=hidden]" ).each(function() {
+    $( "input[type=text]" ).each(function() {
         
         if(!isNaN(valor_maximo) && !isNaN(valor_maximo) && $(this).attr("name") && !$(this).prop("disabled") && $(this).attr("id").indexOf("txt_") != -1){
             // Validaciones
@@ -93,8 +93,8 @@ $(function () {
             var numero = $(this).val().replace(/\./g, '');
             var numConMiles = agregarPuntosMiles(numero);
             $(this).val(numConMiles);
-            var idIpt = $(this).attr("id");
-            $("#" + idIpt.replace("mask_","txt_")).val(numero);
+            //var idIpt = $(this).attr("id");
+            //$("#" + idIpt.replace("mask_","txt_")).val(numero);
         }
     });
 
@@ -163,7 +163,7 @@ $(function () {
                     className: 'btn btn-primary btn-success'
                 },
                 'confirm': {
-                    label: 'Aceptar',
+                    label: 'Continuar',
                     className: 'btn btn-primary btn-success'
                 }
             }, callback: function(result) {

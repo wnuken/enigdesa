@@ -21,11 +21,10 @@
 		<div class="col-sm-4" id="mensaje<?echo $v['S']?>"></div>
 	</div>
 	<h3>Registre sus gastos de hoy:</h3>
-	<blockquote>Registre  los gastos diarios del hogar en alimentos y bebidas adquiridos y las LAS MESADAS ENTREGADAS durante el día de hoy <a href='#' data-toggle='tooltip' title='Para el registro de sus gastos de hoy tenga en cuenta: *El diligenciamientos de sus gastos personales debe hacerlo solo durante 7 días.  *El registro de las mesadas entregadas debe hacerce el mismo día en que efectúe la entrega.  *Incluir los artículos y servicios que sin ser comprados los obtuvo de un negocio propio, como regalo, intercambio o como pago por su trabajo. '>(?)</a>. 
-	Además incluya los gastos personales y adquisiciones realizadas por <i><? echo $persona['P521A'] ." ". $persona['P521C']; ?></i> y los miembros del hogar menores 
-	de 10 años y con limitaciones cognitivas en  servicios en pasajes en bus, colectivo, entre otros; pago de parqueadero; llamadas locales desde cabinas 
-	telefónicas, teléfonos monederos, teléfonos públicos y llamadas por minutos desde celular a cualquier destino; gastos en juegos electrónicos, de azar y 
-	de mesa; café internet; bebidas alchohólicas, estupefacientes, entre otros.</blockquote>
+	<blockquote>Registre los gastos diarios del hogar en alimentos y bebidas adquiridos y las  MESADAS ENTREGADAS durante el día de hoy <a href='#' data-toggle='tooltip' title='Para el registro de sus gastos de hoy tenga en cuenta: *El diligenciamientos de sus gastos personales debe hacerlo solo durante 7 días.  *El registro de las mesadas entregadas debe hacerce el mismo día en que efectúe la entrega.  *Incluir los artículos y servicios que sin ser comprados los obtuvo de un negocio propio, como regalo, intercambio o como pago por su trabajo. '>(?)</a>. 
+	Además incluya los gastos personales y adquisiciones realizadas por <i><? echo $persona['P521A'] ." ". $persona['P521C']; ?></i>, los residentes del hogar menores 
+	de 10 años y las personas con alguna <a href='#' data-toggle='tooltip' title='Las personas con discapacidad incluyen a aquellas que tengan deficiencias físicas, mentales, intelectuales o sensoriales a largo plazo.'>discapacidad</a> en servicios como pasajes en bus, colectivo, entre otros; pago de parqueadero; llamadas locales desde cabinas telefónicas, teléfonos monederos, teléfonos públicos y llamadas por minutos desde celular a cualquier destino; gastos en juegos electrónicos, de azar y de mesa; café internet; bebidas alchohólicas, estupefacientes, entre otros.
+	</blockquote>
 	<table class="table table-striped table-bordered table-reflow">
 		<thead>
 			<tr>

@@ -63,6 +63,7 @@ class Gastoshog extends MX_Controller {
 						$data['dias'][$i]['C'] = $this->Modgastoshog->fecha2texto($data['dias'][$i]['D']);
 						$i++;
 					}
+					//pr($data['dias']);
 					$data['persona'] = $this->Mformulario->obtenerPersona($data["id_formulario"], $id_persona);
 					$data['preg_art']["var"] = $this->Mformulario->listarVariables('GDHARTICULOS', '1', $data["id_formulario"]);
 					$data['preg_art']["opc"] = $this->Mformulario->listarOpciones('GDHARTICULOS', '1', $data["id_formulario"]);

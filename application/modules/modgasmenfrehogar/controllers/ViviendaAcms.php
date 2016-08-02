@@ -92,8 +92,8 @@ class ViviendaAcms extends MX_Controller {
 					$data["js_dir"] = base_url('js/modgasmenfrehogar/form3.js');					
 					$this->mostrarGrillaCompra($data);
                     break;
-                case 4:echo "mostrarGrillaNoCompra1";
-                    //$this->mostrarGrillaNoCompra($data);
+                case 4://echo "mostrarGrillaNoCompra1";
+                    $this->mostrarGrillaNoCompra($data);
                     break;
 				case 5://echo "mostrarListaArticulos 2";
                     $this->mostrarListaArticulos($data);
@@ -110,8 +110,8 @@ class ViviendaAcms extends MX_Controller {
 					$data["js_dir"] = base_url('js/modgasmenfrehogar/form3.js');					
                     $this->mostrarGrillaCompra($data);
                     break;
-                case 8:echo "mostrarGrillaNoCompra 2";
-                    //$this->mostrarGrillaNoCompra($data);
+                case 8://echo "mostrarGrillaNoCompra 2";
+                    $this->mostrarGrillaNoCompra($data);
                     break;
 				case 9: //echo "mostrarFormServiciosPublicos";
                     $this->mostrarFormServiciosPublicos();
@@ -273,7 +273,7 @@ class ViviendaAcms extends MX_Controller {
 
         $data['secc'] = $this->Modgmfh->listar_secciones(array("id" => $this->idSeccion));
 
-        $data['preg']["var"] = $this->Modgmfh->lista_formaObtencion(array("seccion" => $this->idSeccion, "id_formulario" => $data["id_formulario"]));
+        $data['preg']["var"] = $this->Modgmfh->lista_formaObtencion(array("seccion" => $this->idSeccion, "id_formulario" => $data["id_formulario"], "sincompra" => 1));
         $data['preg']["variables"] = $this->Modgmfh->lista_variables_param(array("seccion" => $this->idSeccion, "pagina" => "4"));
 
         $data["view"] = 'form4';
@@ -327,7 +327,7 @@ class ViviendaAcms extends MX_Controller {
             $formas_adqui = $this->Modgmfh->lista_formaAdqui( array("seccion" => $this->idSeccion, "id_formulario" => $id_formulario) );
             
 			$forma_compra_viv = array(); // consultar tabla donde almacena 3C14.CompraAdecuaciónVivnda_Año
-			//$forma_compra_viv = array("1" =>"prueba" ); // consultar tabla donde almacena 3C14.CompraAdecuaciónVivnda_Año
+			//$forma_compra_viv = array("1" =>"prueba" ); // pruebas
 			
 			$fin = false;
             //echo "secc=".$this->idSeccion;
@@ -415,7 +415,7 @@ class ViviendaAcms extends MX_Controller {
 					$arrSA[1]['ID_ESTADO_SEC'] = 1;
 					$arrSA[1]['PAG_SECCION3'] = 1;
 				}
-				if($arrSA[1]['ID_ESTADO_SEC'] ==  1 && $arrSA[1]['PAG_SECCION3'] ==  1 && count($forma_compra_viv)>0 ){
+				else if($arrSA[1]['ID_ESTADO_SEC'] ==  1 && $arrSA[1]['PAG_SECCION3'] ==  1 && count($forma_compra_viv)>0 ){
 					$this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => "C4"));
 					$arrSA[1]['ID_ESTADO_SEC'] = 2;
 					
@@ -424,9 +424,6 @@ class ViviendaAcms extends MX_Controller {
 					$arrSA[0]['ID_ESTADO_SEC'] = 2;
 					
 				}
-				
-			
-				
 			
 			}
 
@@ -542,7 +539,7 @@ class ViviendaAcms extends MX_Controller {
         $id_formulario = $this->session->userdata("id_formulario");
         $id_seccion = $this->session->userdata("id_seccion");
         $secc = $this->Modgmfh->listar_secciones(array("id" => $id_seccion));
-        $formas_obt = $this->Modgmfh->lista_formaObtencion( array("seccion" => $id_seccion, "id_formulario" => $id_formulario) );
+        $formas_obt = $this->Modgmfh->lista_formaObtencion( array("seccion" => $id_seccion, "id_formulario" => $id_formulario, "sincompra" => 1) );
         $cant_formas_obt = count($formas_obt);
 
         if($cant_formas_obt > 0) {
@@ -560,6 +557,8 @@ class ViviendaAcms extends MX_Controller {
                 $j = 0;                
                 // Se recorren todas las formas de obtencion para cada articulo
                 foreach($cols as $v2) {
+                    $val_input = isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)])?str_replace(".", "", $_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]):"";
+
                     // Se verifica que esten definidos los input con los nombres establecidos, si la correspondiente forma de obtencion es igual a 1
                     if( ( $v1[$v2] == 1 && !isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) && !isset($_POST['chb_' . $v1['ID_ARTICULO3']][strtolower($v2)]) ) 
                         || ( $v1[$v2] == 1 && isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) && isset($_POST['chb_' . $v1['ID_ARTICULO3']][strtolower($v2)]) ) ) {
@@ -570,37 +569,37 @@ class ViviendaAcms extends MX_Controller {
                     // Se verifica que los campos de texto que se reciben esten diligenciados, si la correspondiente forma de obtencion es igual a 1
                     else if( $v1[$v2] == 1 && isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) && $_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)] == ""  ) {
                         $m = "'Algunos de los campos no han sido diligenciados',";
-                        $inputs .= "'mask_" . $v1['ID_ARTICULO3'] . "_" . ($j +1) . "',";
+                        $inputs .= "'txt_" . $v1['ID_ARTICULO3'] . "_" . ($j +1) . "',";
                         if(substr_count($mensajes, $m) == 0)
                             $mensajes .= $m;
                     }
                     // Se verifica que los valores en los campos de texto sean enteros positivos, si la correspondiente forma de obtencion es igual a 1
-                    else if( $v1[$v2] == 1 && isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) && !preg_match('/^\d+$/', $_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) ) {
+                    else if( $v1[$v2] == 1 && isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) && !preg_match('/^\d+$/', $val_input) ) {
                         $m = "'Los valores deben ser enteros positivos',";
-                        $inputs .= "'mask_" . $v1['ID_ARTICULO3'] . "_" . ($j +1) . "',";
+                        $inputs .= "'txt_" . $v1['ID_ARTICULO3'] . "_" . ($j +1) . "',";
                         if(substr_count($mensajes, $m) == 0)
                             $mensajes .= $m;
                     }
                     // Se verifica que los valores en los campos de texto esten dentro del rango establecido, si la correspondiente forma de obtencion es igual a 1
                     else if($v1[$v2] == 1 && isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) && $rangoMayor != "" && $rangoMenor != "" && $id_seccion != "G3" && $id_seccion != "G4" &&
-                        ($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)] < $rangoMenor || $_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)] > $rangoMayor ) ) {
+                        ($val_input < $rangoMenor || $val_input > $rangoMayor ) ) {
                         $m = "'Los valores estimados no pueden ser menores a " . number_format($rangoMenor) . " o mayores a " . number_format($rangoMayor) . "',";
-                        $inputs .= "'mask_" . $v1['ID_ARTICULO3'] . "_" . ($j +1) . "',";
+                        $inputs .= "'txt_" . $v1['ID_ARTICULO3'] . "_" . ($j +1) . "',";
                         if(substr_count($mensajes, $m) == 0)
                             $mensajes .= $m;
                     }
                     // Se verifica que los valores en los campos de texto esten dentro del rango establecido o sean cero (solo para secciones G3 y G4), si la correspondiente forma de obtencion es igual a 1
                     else if($v1[$v2] == 1 && isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) && $rangoMayor != "" && $rangoMenor != "" && ($id_seccion == "G3" || $id_seccion == "G4") &&
-                        ($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)] < $rangoMenor || $_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)] > $rangoMayor ) && $_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)] <> 0 ) {
+                        ($val_input < $rangoMenor || $val_input > $rangoMayor ) && $val_input <> 0 ) {
                         $m = "'Los valores estimados no pueden ser menores a " . number_format($rangoMenor) . " o mayores a " . number_format($rangoMayor) . " o diferentes a cero.',";
-                        $inputs .= "'mask_" . $v1['ID_ARTICULO3'] . "_" . ($j +1) . "',";
+                        $inputs .= "'txt_" . $v1['ID_ARTICULO3'] . "_" . ($j +1) . "',";
                         if(substr_count($mensajes, $m) == 0)
                             $mensajes .= $m;
                     }
 
                     // Se guarda en un array los arrays de insercion cuando el campo de texto viene con un valor
                     if ( $v1[$v2] == 1 && isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) ){
-                        $arrInsert[] = array( "ID_FORMULARIO" => $id_formulario, "ID_ARTICULO3" => $v1['ID_ARTICULO3'], "ID_VARIABLE" => $variables[$j]['ID_VARIABLE'], "VALOR_ESTIMADO" => $_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)] );
+                        $arrInsert[] = array( "ID_FORMULARIO" => $id_formulario, "ID_ARTICULO3" => $v1['ID_ARTICULO3'], "ID_VARIABLE" => $variables[$j]['ID_VARIABLE'], "VALOR_ESTIMADO" => $val_input );
 
                     }
                     // Se guarda en un array los arrays de insercion cuando viene activo el checkbox (se marco no sabe valor estimado)
@@ -608,11 +607,8 @@ class ViviendaAcms extends MX_Controller {
                         $arrInsert[] = array( "ID_FORMULARIO" => $id_formulario, "ID_ARTICULO3" => $v1['ID_ARTICULO3'], "ID_VARIABLE" => $variables[$j]['ID_VARIABLE'], "VALOR_ESTIMADO" => 99 );
                     }
                     $j++;
-                }
-                
+                }                
                 $i++;
-                
-
             }
 
             // Si no hay errrores se guarda

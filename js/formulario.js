@@ -270,6 +270,28 @@ $(function ()
 				return false;
 		});
 	};
+	
+	$.fn.numnosabe = function (id) {
+		return this.blur(function (event) {
+			if ($(this).val() != '98')
+				document.getElementById(id +".98").checked = false;
+			if ($(this).val() != '99')
+				document.getElementById(id +".99").checked = false;
+			if ($(this).val() == '98' || $(this).val() == '99')
+				$(this).css('color', 'white');
+			else {
+				$(this).css('color', 'black');
+			}
+		});
+	};
+
+/*	$.fn.numnosabeopc = function (id) {
+		return this.click(function (event) {
+			$("#" + id).css('color', 'white');
+			$("#" + id).val($(this).val());
+			$("#" + id).focus();
+		});
+	};*/
 
 	//////////////////////////////////////
 	// FORMULARIO PRINCIPAL MODULOS

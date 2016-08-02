@@ -5,22 +5,48 @@
  */
 $(function() {
 	
+	var agregarPuntosMiles = function(numero){
+        return String(numero).split(/(?=(?:\d{3})+$)/).join(".");
+    }
+	
 	//VALIDACIONES PARA EL MODULO I
 	$("#form_5").validate({
+		//ignore:"",
 		rules : {
 			P10395S1A1 : {required   :  true,
-							mayorQue:365,
+							mayorQue:20,
 							menorQue:1
 			},
 			P10395S2A1 : {	required : true,
-							mayorQue:365,
+							mayorQue:20,
 							menorQue:1
 			}, 
 			P10396S1 : {	required : true,
-							mayorQue : 365,
+							mayorQue : 20,
 							menorQue : 1
 			},
 			P10396S2 : {	required : true,
+							mayorQue : 20000000,
+							menorQue : 50000
+							
+			},
+			P10397S1A1 : {	required : true,
+							mayorQue : 20,
+							menorQue : 1
+			},
+			P10397S3A1 : {	required : true,
+							mayorQue : 20,
+							menorQue : 1
+			},
+			P10397S4A1 : {	required : true,
+							mayorQue : 20,
+							menorQue : 1
+			},
+			P10397S5A1 : {	required : true,
+							mayorQue : 20,
+							menorQue : 1
+			},
+			P3J1324 : {	required : true,
 							mayorQue : 20000000,
 							menorQue : 50000
 			}
@@ -36,14 +62,35 @@ $(function() {
 							menorQue:"Digite un valor mayor de 0" 
 			},
 			P10396S1 : {	required:"Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.",
-							mayorQue:"Digite un valor menor o igual de 365",
+							mayorQue:"Digite un valor menor o igual de 20",
 							menorQue:"Digite un valor mayor de 0" 
 			},
 			P10396S2 : {	required:" Por favor, digite un valor o seleccione una opci&oacute;n para continuar.",
 							mayorQue:"Digite un valor menor o igual de 20.000.000",
+							menorQue:"Digite un valor mayor de 50.000"
+							
+			},
+			P10397S1A1 : {	required:"Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.",
+							mayorQue:"Digite un valor menor o igual de 20",
+							menorQue:"Digite un valor mayor de 0" 
+			},
+			P10397S3A1 : {	required:"Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.",
+							mayorQue:"Digite un valor menor o igual de 20",
+							menorQue:"Digite un valor mayor de 0" 
+			},
+			P10397S4A1 : {	required:"Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.",
+							mayorQue:"Digite un valor menor o igual de 20",
+							menorQue:"Digite un valor mayor de 0" 
+			},
+			P10397S5A1 : {	required:"Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.",
+							mayorQue:"Digite un valor menor o igual de 20",
+							menorQue:"Digite un valor mayor de 0" 
+			},
+			P3J1324 : {	required:" Por favor, digite un valor o seleccione una opci&oacute;n para continuar.",
+							mayorQue:"Digite un valor menor o igual de 20.000.000",
 							menorQue:"Digite un valor mayor de 50.000" 
 			}
-			
+					
 		},
 		errorPlacement: function(error, element) {
 			//Mostrar el error en la parte de abajo de la caja de texto.
@@ -60,79 +107,146 @@ $(function() {
 		}
 	});
 	
-	/*$("#form_5").validate({
-        //Reglas de Validacion
-        rules : {
-        	//P10395S1A1         : { required        :  true
-            //sel_medio_pago        : { comboBox        :  '-'},
-            //txt_otro_medio_pago : {   required        :  true, maxlength: 100}
-                    
-        },
-        //Mensajes de validacion
-        messages : {
-        	//P10395S1A1         : { required        :  "Verifique el subtotal."}
-            //sel_medio_pago        : { comboBox        :  "Seleccione una opci&oacute;n."},
-            //txt_otro_medio_pago : {   required        :  "Diligencie c&uacute;al otro medio de pago. ", maxlength     :  "Máximo 100 caracteres"},
-            
-                        
-        },
-        //Mensajes de error
-        errorPlacement: function(error, element) {
-            element.after(error);               
-            error.css('display','inline');
-            error.css('margin-left','10px');                
-            error.css('color',"#FF0000");
-            
-        //$(element).focus();//si se coloca no muestra todos los errores, va mostrando de uno en uno
-        },
-        submitHandler: function(form) {
-            return true;
-            
-        }
-    });
-	    
-	$("#P10395S1A1").rules("add", { required   :   true,  menorQue:1,
-		                                                  mayorQue:365,	
-        messages: { required   :  "Digite un valor.", menorQue:"Digite un valor mayor de 0",
-        												mayorQue:"Digite un valor menor o igual de 365"                  
-        	}
-    });*/
-	
-	/*$( "input[type=checkbox]" ).on( "change", function(){
-		var articulos = $( ".articulo" ).length;
-		var cont  = 0;
-		for(var i=0; i < articulos; i++) {
-			var sel = $(":input.ops_" + (i+1) + ":checked").length;
-			if(sel > 0) 
-				cont++;
-		}
-
-		if(articulos == cont)
-			$("#env_form_2").prop('disabled', false);
-		else $("#env_form_2").prop('disabled', true);
-		
-	});*/
-
-	// boton enviar
+		// boton enviar
 	$("#env_form_5").on("click",function(){
+		$("#art_P10395S1").on("change",function(){
+			if($(this).prop('checked')){
+			$("#art_P10395S1").parent().parent().removeClass("alert alert-danger");
+			$('#mensaje').html('');
+			}
+		});
+		$("#art_P10395S2").on("change",function(){
+			if($(this).prop('checked')){
+			$("#art_P10395S1").parent().parent().removeClass("alert alert-danger");
+			$('#mensaje').html('');
+			}
+		});
+		$("#art_99999999").on("change",function(){
+			if($(this).prop('checked')){
+			$("#art_P10395S1").parent().parent().removeClass("alert alert-danger");
+			$('#mensaje').html('');
+			}
+		});
+		$("#si_P10396").on("change",function(){
+			if($(this).prop('checked')){
+			$("#si_P10396").parent().parent().removeClass("alert alert-danger");
+			$('#mensaje').html('');
+			}
+		});
+		$("#no_P10396").on("change",function(){
+			if($(this).prop('checked')){
+			$("#si_P10396").parent().parent().removeClass("alert alert-danger");
+			$('#mensaje').html('');
+			}
+		});
+		$("#si_P10397S1").on("change",function(){
+			if($(this).prop('checked')){
+			$("#si_P10397S1").parent().parent().removeClass("alert alert-danger");
+			$('#mensaje').html('');
+			}
+		});
+		$("#no_P10397S1").on("change",function(){
+			if($(this).prop('checked')){
+			$("#si_P10397S1").parent().parent().removeClass("alert alert-danger");
+			$('#mensaje').html('');
+			}
+		});
+		$("#si_P10397S3").on("change",function(){
+			if($(this).prop('checked')){
+			$("#si_P10397S3").parent().parent().removeClass("alert alert-danger");
+			$('#mensaje').html('');
+			}
+		});
+		$("#no_P10397S3").on("change",function(){
+			if($(this).prop('checked')){
+			$("#si_P10397S3").parent().parent().removeClass("alert alert-danger");
+			$('#mensaje').html('');
+			}
+		});
+		$("#si_P10397S4").on("change",function(){
+			if($(this).prop('checked')){
+			$("#si_P10397S4").parent().parent().removeClass("alert alert-danger");
+			$('#mensaje').html('');
+			}
+		});
+		$("#no_P10397S4").on("change",function(){
+			if($(this).prop('checked')){
+			$("#si_P10397S4").parent().parent().removeClass("alert alert-danger");
+			$('#mensaje').html('');
+			}
+		});
+		$("#si_P10397S5").on("change",function(){
+			if($(this).prop('checked')){
+			$("#si_P10397S5").parent().parent().removeClass("alert alert-danger");
+			$('#mensaje').html('');
+			}
+		});
+		$("#no_P10397S5").on("change",function(){
+			if($(this).prop('checked')){
+			$("#si_P10397S5").parent().parent().removeClass("alert alert-danger");
+			$('#mensaje').html('');
+			}
+		});
+		$("#P10398S1").on("change",function(){
+			if($(this).prop('checked')){
+			$("#P10398S1").parent().parent().removeClass("alert alert-danger");
+			$('#mensaje').html('');
+			}
+		});
+		$("#P10398S2").on("change",function(){
+			if($(this).prop('checked')){
+			$("#P10398S1").parent().parent().removeClass("alert alert-danger");
+			$('#mensaje').html('');
+			}
+		});
+		$("#P10398S3").on("change",function(){
+			if($(this).prop('checked')){
+			$("#P10398S1").parent().parent().removeClass("alert alert-danger");
+			$('#mensaje').html('');
+			}
+		});
+		$("#P10398S4").on("change",function(){
+			if($(this).prop('checked')){
+			$("#P10398S1").parent().parent().removeClass("alert alert-danger");
+			$('#mensaje').html('');
+			}
+		});
 		if(!$("#art_P10395S1").prop('checked')  && !$("#art_P10395S2").prop('checked') && !$("#art_99999999").prop('checked')){
-			bootbox.alert({message:'Respuesta obligatoria. Por favor, seleccione una opción de la sección P10395 para continuar.', 
+			/*bootbox.alert({message:'Respuesta obligatoria. Por favor, seleccione una opción de la sección P10395 para continuar.', 
                 buttons: {
                     'ok': {
                     label: 'Aceptar',
                     className: 'btn btn-primary btn-success'
                 }
-            }});
+            }});*/
+			$("#art_P10395S1").parent().parent().addClass("alert alert-danger");
+			$('#mensaje').html('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon-question-sign" aria-hidden="true">Respuesta obligatoria. Por favor, seleccione una opción para continuar.</span></div>');
 		}
 		else if(!$("#si_P10396").prop('checked') && $("#si_P10396").is(':visible')  && !$("#no_P10396").prop('checked') && $("#no_P10396").is(':visible')){
-			bootbox.alert({message:'Respuesta obligatoria. Por favor, seleccione una opción de la sección P10396 para continuar.', 
-                buttons: {
-                    'ok': {
-                    label: 'Aceptar',
-                    className: 'btn btn-primary btn-success'
-                }
-            }});
+			$("#si_P10396").parent().parent().addClass("alert alert-danger");
+			$('#mensaje').html('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon-question-sign" aria-hidden="true">Respuesta obligatoria. Por favor, seleccione una opción para continuar.</span></div>');
 		}
+		else if(!$("#si_P10397S1").prop('checked')  && $("#si_P10397S1").is(':visible') && !$("#no_P10397S1").prop('checked')  && $("#no_P10397S1").is(':visible')){
+			$("#si_P10397S1").parent().parent().addClass("alert alert-danger");
+			$('#mensaje').html('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon-question-sign" aria-hidden="true">Respuesta obligatoria. Por favor, seleccione una opción para continuar.</span></div>');
+        }
+		else if(!$("#si_P10397S3").prop('checked')  && $("#si_P10397S3").is(':visible') && !$("#no_P10397S3").prop('checked')  && $("#no_P10397S3").is(':visible')){
+			$("#si_P10397S3").parent().parent().addClass("alert alert-danger");
+			$('#mensaje').html('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon-question-sign" aria-hidden="true">Respuesta obligatoria. Por favor, seleccione una opción para continuar.</span></div>');
+        }
+		else if(!$("#si_P10397S4").prop('checked')  && $("#si_P10397S4").is(':visible') && !$("#no_P10397S4").prop('checked')  && $("#no_P10397S4").is(':visible')){
+			$("#si_P10397S4").parent().parent().addClass("alert alert-danger");
+			$('#mensaje').html('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon-question-sign" aria-hidden="true">Respuesta obligatoria. Por favor, seleccione una opción para continuar.</span></div>');
+        }
+		else if(!$("#si_P10397S5").prop('checked')  && $("#si_P10397S5").is(':visible') && !$("#no_P10397S5").prop('checked')  && $("#no_P10397S5").is(':visible')){
+			$("#si_P10397S5").parent().parent().addClass("alert alert-danger");
+			$('#mensaje').html('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon-question-sign" aria-hidden="true">Respuesta obligatoria. Por favor, seleccione una opción para continuar.</span></div>');
+        }
+		else if(!$("#P10398S1").prop('checked') && $("#P10398S1").is(':visible') && !$("#P10398S2").prop('checked') && $("#P10398S2").is(':visible') && !$("#P10398S3").prop('checked') && $("#P10398S3").is(':visible') && !$("#P10398S4").prop('checked') && $("#P10398S4").is(':visible')){
+			$("#P10398S1").parent().parent().addClass("alert alert-danger");
+			$('#mensaje').html('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon-question-sign" aria-hidden="true">Respuesta obligatoria. Por favor, seleccione una opción para continuar.</span></div>');
+		}
+		
 		else{
 			if ($("#form_5").valid()){
 				
@@ -155,7 +269,7 @@ $(function() {
 		    				$(this).attr('disabled', true);
 		    				$.ajax({
 		    					type: 'POST',
-		    					url: 'Recreacion/guardar',
+		    					url: 'Recreacion/guardar_formJ5',
 		    					cache: false,
 		    					contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 		    					data: args,
@@ -170,7 +284,7 @@ $(function() {
 		    						//$('#CHK_'+ capitulo).addClass('ui-icon ui-icon-check');
 		    						//$('.nav-tabs > .active').next('li').find('a').trigger('click');
 		    						//$('#btn_seguir').html('<span id="btn_seguir"><span> <button type="button" name="btnReminder" class="btn btn-success" onClick="location.reload();">Continuar</button>');
-		    						setTimeout(function(){location.href = location.href}, 2000);
+		    						 setTimeout(function(){location.href = location.href}, 2000);
 		    					},
 		    					error: function (respuesta) {
 		    						$('#mensaje_').html('<div class="alert alert-danger" role="alert"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> Error guardando m&oacute;dulo</div>');
@@ -351,9 +465,100 @@ $(function() {
 	    			$("#P10396S2").prop("disabled",false);
 	            	
 	    		 }
+	       })   
+	       
+	       $("#art_P10397S1A1_99").change(function () {
+	   			opcion=$(this).val();
+	            if($(this).prop('checked')){
+	               // $("#formularioRubros").css("display", "block");
+	            	$("#P10397S1A1").val("");
+	            	$("#P10397S1A1").prop("disabled",true);
+	    		}else{
+	                //$("#formularioRubros").css("display", "none");
+	    			$("#P10397S1A1").prop("disabled",false);
+	            	
+	    		 }
 	       })
+	       
+	        $("#art_P10397S3A1_99").change(function () {
+	   			opcion=$(this).val();
+	            if($(this).prop('checked')){
+	               // $("#formularioRubros").css("display", "block");
+	            	$("#P10397S3A1").val("");
+	            	$("#P10397S3A1").prop("disabled",true);
+	    		}else{
+	                //$("#formularioRubros").css("display", "none");
+	    			$("#P10397S3A1").prop("disabled",false);
+	            	
+	    		 }
+	       })
+	       
+	       $("#art_P10397S4A1_99").change(function () {
+	   			opcion=$(this).val();
+	            if($(this).prop('checked')){
+	               // $("#formularioRubros").css("display", "block");
+	            	$("#P10397S4A1").val("");
+	            	$("#P10397S4A1").prop("disabled",true);
+	    		}else{
+	                //$("#formularioRubros").css("display", "none");
+	    			$("#P10397S4A1").prop("disabled",false);
+	            	
+	    		 }
+	       })
+	       
+	       $("#art_P10397S5A1_99").change(function () {
+	   			opcion=$(this).val();
+	            if($(this).prop('checked')){
+	               // $("#formularioRubros").css("display", "block");
+	            	$("#P10397S5A1").val("");
+	            	$("#P10397S5A1").prop("disabled",true);
+	    		}else{
+	                //$("#formularioRubros").css("display", "none");
+	    			$("#P10397S5A1").prop("disabled",false);
+	            	
+	    		 }
+	       })
+	       
+	       $("#art_P3J1324_99").change(function () {
+	   			opcion=$(this).val();
+	            if($(this).prop('checked')){
+	               // $("#formularioRubros").css("display", "block");
+	            	$("#P3J1324").val("");
+	            	$("#P3J1324").prop("disabled",true);
+	    		}else{
+	                //$("#formularioRubros").css("display", "none");
+	    			$("#P3J1324").prop("disabled",false);
+	            	
+	    		 }
+	       })
+	       
        });
     
+ // Poner punto de miles a los valores estimados
+    $( "#P10396S2" ).on( "keyup blur", function() {
+        // Validaciones
+        //if($(this).attr("name") && !$(this).prop("disabled")) {
+            var numero = $(this).val().replace(/\./g, '');
+            var numConMiles = agregarPuntosMiles(numero);
+            $(this).val(numConMiles);
+            //var idIpt = $(this).attr("id");
+            //$("#" + idIpt.replace("mask_","")).val(numero);
+        //}
+    });
+    
+    $( "#P3J1324" ).on( "keyup blur", function() {
+        // Validaciones
+        //if($(this).attr("name") && !$(this).prop("disabled")) {
+            var numero = $(this).val().replace(/\./g, '');
+            var numConMiles = agregarPuntosMiles(numero);
+            $(this).val(numConMiles);
+            //var idIpt = $(this).attr("id");
+            //$("#" + idIpt.replace("mask_","")).val(numero);
+        //}
+    });
+    
+    
+    //
     $("#si_P10396").click(function(){
     	//alert('mmm');
     	if ($("#si_P10396").prop("checked")){

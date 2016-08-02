@@ -5,11 +5,82 @@
  */
 
 $(function(){
-	
+	$("#frmCompraVivienda").validate({
+        //Mensajes de error
+        errorPlacement: function(error, element) {
+            element.after(error);            
+            error.css('display','inline');
+            error.css('margin-left','10px');                
+            error.css('color',"#FF0000");
+        },
+        submitHandler: function(form) {
+            return true;
+            
+        }
+    });
+    
+	var agregarPuntosMiles = function(numero){
+        return String(numero).split(/(?=(?:\d{3})+$)/).join(".");
+    }
 	ocultarDivsAdicionales([0]); //Ocultar todos los div adicionales
-	
+	//ocultarDivsPreguntas([0]);//
+	//pregunta 1
+	/*$("input[name=p10305]").rules("add", { required   : true,
+        messages: { required:'Debe seleccionar al menos una opci&oacute;n'}
+    });
+    // Valor opcion 1 o 2
+	$("#p10305s1").rules("add", { 
+		required   :   function(){
+			if($("input[name=p10305]").val() == 1 || $("input[name=p10305]").val() == 2)
+				return true;
+			else return false;
+		}, 
+		esEntero: '', 
+		menorQue: 100000,
+        messages: { required:'Este campo es obligatorio',esEntero: "El N&uacute;mero no es v&aacute;lido", menorQue:"Digite un valor mayor o igual a " + agregarPuntosMiles(100000)}
+    });
+
+	//pregunta 2
+	//de contado
+	$("#p10306s1").rules("add", {//contado 
+		required   :   function(){
+			if($("input[name=p10305]").val() == 1 || $("input[name=p10305]").val() == 2)
+				return true;
+			else return false;
+		},
+        messages: { required:'Este campo es obligatorio'}
+    });
+    //a credito
+    $("#p10306s2").rules("add", {//contado 
+		required   :   function(){
+			if($("input[name=p10305]").val() == 1 || $("input[name=p10305]").val() == 2 && !$("#p10306s1").prop("checked"))
+				return true;
+			else return false;
+		},
+        messages: { required:'Este campo es obligatorio'}
+    });
+    // valor de contado
+    $("#p10306s1a1").rules("add", { 
+    	required   :  $("#p10306s2").prop("checked"), 
+    	esEntero: '', menorQue: 100000,
+        messages: { required:'Este campo es obligatorio',esEntero: "El N&uacute;mero no es v&aacute;lido", menorQue:"Digite un valor mayor o igual a " + agregarPuntosMiles(100000)}
+    });
+    $("#p10306s2a1").rules("add", { required   :   $("#p10306s2").prop("checked"), esEntero: '', menorQue: 100000,
+        messages: { required:'Este campo es obligatorio',esEntero: "El N&uacute;mero no es v&aacute;lido", menorQue:"Digite un valor mayor o igual a " + agregarPuntosMiles(100000)}
+    });
+
+    // pregunta 3
+    $("input[name=p10307]").rules("add", { 
+    	required   : function(){
+    		if($("#p10306s1").prop("checked")  && $("#p10306s2").prop("checked"))
+    			return true;
+    		else return false;
+    	},
+        messages: { required:'Debe seleccionar al menos una opci&oacute;n'}
+    });  */  
+
 	//Ocultar / Mostrar Adicionales Pregunta 1
-	$("#p10305[name=p10305]").bind("click",function(){
+	$("input[name=p10305]").bind("click",function(){
 		if ($(this).val()==1 || $(this).val()==2){
 			ocultarDivsAdicionales([1]);
 			mostrarDivsAdicionales([1]);
@@ -20,7 +91,7 @@ $(function(){
 	});
 	
 	//Ocultar / Mostrar Adicionales Pregunta 2
-	$("#p10306s1, #p10306s2").bind("click",function(){
+	/*$("#p10306s1, #p10306s2").bind("click",function(){
 		if ($(this).val()==1){
 			mostrarDivsAdicionales([2]);
 			ocultarDivsAdicionales([3]);
@@ -29,77 +100,118 @@ $(function(){
 			ocultarDivsAdicionales([2]);
 			mostrarDivsAdicionales([3]);
 		}
+	});*/
+	$("#p10306s1, #p10306s2").bind("change",function(){
+		if ($(this).prop("checked") && $(this).attr("id") == "p10306s1"){
+			mostrarDivsAdicionales([2]);
+			$("#p10309s2, #p10309s3").prop('checked', false);
+			$("#p10309s2, #p10309s3").prop('disabled', true);
+			ocultarDivsAdicionales([4]);
+			ocultarDivsAdicionales([5]);
+			//mostrarDivsPreguntas([4]);
+		} else if (!$(this).prop("checked") && $(this).attr("id") == "p10306s1") {
+			ocultarDivsAdicionales([2]);
+			$("#p10309s2, #p10309s3").prop('checked', false);
+			$("#p10309s2, #p10309s3").prop('disabled', false);
+			ocultarDivsAdicionales([4]);
+			ocultarDivsAdicionales([5]);
+			//ocultarDivsPreguntas([4]);
+		}
+		else if ($(this).prop("checked") && $(this).attr("id") == "p10306s2"){
+			mostrarDivsAdicionales([3]);
+			//mostrarDivsPreguntas([3]);
+		} else if (!$(this).prop("checked") && $(this).attr("id") == "p10306s2") {
+			ocultarDivsAdicionales([3]);
+			//ocultarDivsPreguntas([3]);
+		}
+
 	});
 	
 	//Ocultar / Mostrar Adicionales Pregunta 4
-	$("#p10309s1, #p10309s2, #p10309s3, #p10309s4, #p10309s5, #p10309s6").bind("click",function(){
-		if (parseInt($(this).val())==2){
+	$("#p10309s1, #p10309s2, #p10309s3, #p10309s4, #p10309s5, #p10309s6").bind("change",function(){
+		if ($(this).prop("checked") && $(this).attr("id") == "p10309s2"){
 			mostrarDivsAdicionales([4]);
-			ocultarDivsAdicionales([5,6]);						
+			//ocultarDivsAdicionales([5,6]);						
 		}
-		else if (parseInt($(this).val())==3){
-			ocultarDivsAdicionales([4,6]);
-			mostrarDivsAdicionales([5]);			
+		else if (!$(this).prop("checked") && $(this).attr("id") == "p10309s2"){
+			ocultarDivsAdicionales([4]);
 		}
-		else if (parseInt($(this).val())==6){
-			ocultarDivsAdicionales([4,5]);			
+		if ($(this).prop("checked") && $(this).attr("id") == "p10309s3"){
+			mostrarDivsAdicionales([5]);
+		}
+		else if (!$(this).prop("checked") && $(this).attr("id") == "p10309s3"){
+			ocultarDivsAdicionales([5]);
+		}
+		if ($(this).prop("checked") && $(this).attr("id") == "p10309s6"){
+			//ocultarDivsAdicionales([4,5]);			
 			mostrarDivsAdicionales([6]);
 		}
-		else{
+		else if (!$(this).prop("checked") && $(this).attr("id") == "p10309s6"){
+			ocultarDivsAdicionales([6]);
+		}
+		/*else{
 			ocultarDivsAdicionales([4,5,6]);
-		}
+		}*/
 	});
 	
-	//Ocultar / Mostrar Adicionales Pregunta 5
-	$("#p5161s1c14[name=p5161s1c14]").bind("click",function(){
-		if(parseInt($(this).val())==1){
-			mostrarDivsAdicionales([7]);
-		}
-		else{
-			ocultarDivsAdicionales([7]);
-		}		
+	//Mostrar Adicionales Pregunta 5
+	$("#p5161s1c14_1").bind("click",function(){
+			mostrarDivsAdicionales([7]);	
+	});
+
+	//Ocultar Adicionales Pregunta 5
+	$("#p5161s1c14_2").bind("click",function(){
+		ocultarDivsAdicionales([7]);	
 	});
 	
-	//Ocultar / Mostrar Adicionales Pregunta 5 (Parte 2)
-	$("#p5161s2c14[name=p5161s2c14]").bind("click",function(){
-		if(parseInt($(this).val())==1){
-			mostrarDivsAdicionales([8]);
-		}
-		else{
-			ocultarDivsAdicionales([8]);
-		}		
+	//Mostrar Adicionales Pregunta 5 (Parte 2)
+	$("#p5161s2c14_1").bind("click",function(){
+		mostrarDivsAdicionales([8]);
+	});
+
+	//Ocultar Adicionales Pregunta 5 (Parte 2)
+	$("#p5161s2c14_2").bind("click",function(){
+		ocultarDivsAdicionales([8]);
 	});
 	
-	//Ocultar / Mostrar Adicionales Pregunta 6
-	$("#p10312[name=p10312]").bind("click",function(){
-		if (parseInt($(this).val())==1){
-			mostrarDivsAdicionales([9]);
-		}
-		else{			
-			ocultarDivsAdicionales([9]);
-		}
+	//Ocultar Adicionales Pregunta 6
+	$("#p10312_1").bind("click",function(){
+		mostrarDivsAdicionales([9]);
+	});
+
+	//Ocultar Adicionales Pregunta 6
+	$("#p10312_2").bind("click",function(){
+		ocultarDivsAdicionales([9]);
 	});
 	
 	//Ocultar / Mostrar Adicionales Pregunta 7
-	$("#p8697s1, #p8697s2, #p8697s3, #p8697s4, #p8697s5, #p8697s6").bind("click",function(){		
-		if (parseInt($(this).val())==2){ //Prestamo Hipotecario
-			mostrarDivsAdicionales([10]);
-			ocultarDivsAdicionales([11,12,13]);
+	$("#p8697s1, #p8697s2, #p8697s3, #p8697s4, #p8697s5, #p8697s6").bind("change",function(){		
+		if ($(this).is(':checked') && $(this).attr('id') == "p8697s2"){ //Prestamo Hipotecario
+			console.log("numero 2");
+			mostrarDivsAdicionales([10]);			
 		}
-		else if (parseInt($(this).val())==3){ //Prestamo Bancario de libre inversion
+		else if (!$(this).is(':checked') && $(this).attr('id') == "p8697s2"){
+			ocultarDivsAdicionales([10]);
+		}
+		if ($(this).is(':checked') && $(this).attr('id') == "p8697s3"){ //Prestamo Bancario de libre inversion
 			mostrarDivsAdicionales([11]);
-			ocultarDivsAdicionales([10,12,13]);
 		}
-		else if (parseInt($(this).val())==4){ //Subsidios
+		else if(!$(this).is(':checked') && $(this).attr('id') == "p8697s3") {
+			ocultarDivsAdicionales([11]);
+		}
+
+		if ($(this).is(':checked') && $(this).attr('id') == "p8697s4"){ //Subsidios
 			mostrarDivsAdicionales([12]);
-			ocultarDivsAdicionales([10,11,13]);
 		}
-		else if (parseInt($(this).val())==6){ //Otra
+		else if (!$(this).is(':checked') && $(this).attr('id') == "p8697s4"){
+			ocultarDivsAdicionales([12]);
+		}
+
+		if ($(this).is(':checked') && $(this).attr('id') == "p8697s6"){ //Otra
 			mostrarDivsAdicionales([13]);
-			ocultarDivsAdicionales([10,11,12]);
 		}
-		else{
-			ocultarDivsAdicionales([10,11,12,13]);
+		else if (!$(this).is(':checked') && $(this).attr('id') == "p8697s6"){
+			ocultarDivsAdicionales([13]);
 		}
 	});	
 	
@@ -112,11 +224,16 @@ $(function(){
 		var preg3 = validarPregunta3();
 		var preg4 = validarPregunta4();
 		var preg51 = validarPregunta51();
-		var preg52 = validarPregunta52();
+		//var preg52 = validarPregunta52();
 		var preg6 = validarPregunta6();
 		var preg7 = validarPregunta7();
 		
-		if (preg1 && preg2 && preg3 && preg4 && preg51 && preg52 && preg6 && preg7){		
+// temporal pruebas	
+
+		enviarFormulario();//pruebas
+		return false;//prebas
+		
+		/*if (preg1 && preg2 && preg3 && preg4 && preg51 && preg52 && preg6 && preg7){		
 			enviarFormulario();
 		}
 		else{
@@ -131,8 +248,11 @@ $(function(){
 			alert("Preg6: " + preg6);
 			alert("Preg7: " + preg7);
 			***/			
-		}		
+		//}		
 	});
+	
+	
+	
 	
 	
 });
@@ -142,15 +262,74 @@ $(function(){
 //@author dmdiazf / @author hhchavez
 //@since  12/07/2016
 function enviarFormulario(){
-	alert("Ejecutar funcion AJAX y guardar la informacion del formulario");
+	//alert("Ejecutar funcion AJAX y guardar la informacion del formulario");
+	
+	if ($("#frmCompraVivienda").valid() == true){
+		
+			if(window.confirm('Haga clic en Aceptar si realmente quiere guardar y continuar a la siguiente secci\u00f3n.'))
+			{
+				//Activa icono guardando
+				$("#pagCompraViv_error").css("display", "none");
+				$("#pagCompraViv_cargando").css("display", "inline");
+				$("#btnCompraVivienda").attr('disabled','-1');
+				$.ajax({  
+					url: base_url + "modgasmenfrehogar/ViviendaCompra/guardaGrillaCompraViv",
+					type: "POST",
+					dataType: "html",
+					data: $("#frmCompraVivienda").serialize(),
+					success: function(data){
+						if(data ==="-ok-")
+						{	
+							alert('Guardado correctamente !!!');
+							$("#pagCompraViv_cargando").css("display", "none");
+							location.reload();
+						}	
+						else
+						{   alert('ERROR al guardar la secci\u00f3n. Intente nuevamente o recargue la p\u00e1gina.');
+							$("#pagCompraViv_cargando").css("display", "none");
+							$("#pagCompraViv_error").css("display", "inline");
+							$("#btnCompraVivienda").removeAttr('disabled');
+						}	
+						
+					},
+						error: function(result) {
+							alert('ERROR al guardar la secci\u00f3n. Intente nuevamente o recargue la p\u00e1gina.');
+							$("#pagCompraViv_cargando").css("display", "none");
+							$("#pagCompraViv_error").css("display", "inline");
+							$("#btnCompraVivienda").removeAttr('disabled');
+							
+						}
+					
+					});
+			}		
+		}//if			
+		
+	
+	
+	
 }
 
 //Validar la pregunta Nro. 1 del formulario para realizar el envío del formulario
 //@author dmdiazf / @author hhchavez
 //@since  11/07/2016
 function validarPregunta1(){	
-	var preg1 = false;
-	$('input[name="p10305"]').each(function() {
+	$("#ops_pregunta1").removeClass("alert alert-danger");
+	$("#divCV1").removeClass("alert alert-danger");
+	var preg1 = true;
+	console.log($("input[name=p10305]").val());
+	if(!$("#p10305_1").prop("checked") && !$("#p10305_2").prop("checked") && !$("#p10305_3").prop("checked")) {
+		$("#ops_pregunta1").addClass("alert alert-danger");
+		preg1 = false;
+	}	
+    // Valor opcion 1 o 2
+    else if( ($("#p10305_1").prop("checked") || $("#p10305_2").prop("checked") ) && ( ($("#p10305s1").val() == "" && !$("#radp10305s1").is(':checked'))
+    	|| ($("#p10305s1").val() != "" && $("#radp10305s1").is(':checked')) ) )  {
+    	$("#divCV1").addClass("alert alert-danger");
+    	preg1 = false;
+    }
+	
+
+	/*$('input[name="p10305"]').each(function() {
 		if ($(this).is(":checked")){				
 			switch(parseInt($(this).val())){				
 				case 1: //p10305s1
@@ -182,7 +361,7 @@ function validarPregunta1(){
 						break;
 			}
 		}			
-	});
+	});*/
 	return preg1;
 }
 
@@ -190,8 +369,30 @@ function validarPregunta1(){
 //@author dmdiazf / @author hhchavez
 //@since  11/07/2016
 function validarPregunta2(){
-	var preg2 = false;
-	$('input[name="p10306s"]').each(function() {
+	$("#ops_pregunta2").removeClass("alert alert-danger");
+	$("#divCV3").removeClass("alert alert-danger");
+	$("#divCV2").removeClass("alert alert-danger");
+
+	var preg2 = true;
+
+	//de contado o a credito
+	if(!$("#p10306s1").is(":checked") && !$("#p10306s2").is(":checked") && ($("#p10305_1").prop("checked") || $("#p10305_2").prop("checked") ) ) {
+		$("#ops_pregunta2").removeClass("alert alert-danger").addClass("alert alert-danger");
+		preg2 = false;
+	}
+
+    // valor de credito 
+    else if(!$("#radp10306s1a1").is(':checked') && $("#p10306s1a1").val() == "" && $("#p10306s1").prop("checked") ) {
+		$("#divCV2").addClass("alert alert-danger");
+		preg2 = false;
+	}
+	//valor de contado
+	else if(!$("#radp10306s2a1").is(':checked') && $("#p10306s2a1").val() == "" && $("#p10306s2").prop("checked") ) {
+		$("#divCV3").addClass("alert alert-danger");
+		preg2 = false;
+	}
+
+	/*$('input[name="p10306s"]').each(function() {
 		if ($(this).is(":checked")){
 			switch(parseInt($(this).val())){
 				case 1: //p10306s1a1
@@ -221,7 +422,7 @@ function validarPregunta2(){
 						break;
 			}
 		}
-	});
+	});*/
 	return preg2;
 }
 
@@ -231,12 +432,18 @@ function validarPregunta2(){
 //@since  11/07/2016
 function validarPregunta3(){
 	//Validar que todos los radios se encuentren marcados
-	var preg3 = false;
-	$('input[name="p10307"]').each(function(){
+	$("#ops_pregunta3").removeClass("alert alert-danger");
+	var preg3 = true;
+	// pregunta 3
+    if(!$("#p10307_1").prop("checked") && !$("#p10307_2").prop("checked") && $("#p10306s1").prop("checked") ) {
+    	$("#ops_pregunta3").addClass("alert alert-danger");
+		preg2 = false;
+    }
+	/*$('input[name="p10307"]').each(function(){
 		if ($(this).is(":checked")){
 			preg3 = true;
 		}
-	});
+	});*/
 	return preg3;
 }
 
@@ -246,8 +453,29 @@ function validarPregunta3(){
 //@since  11/07/2016
 function validarPregunta4(){
 	//Validar que todos los radios se encuentren marcados
-	var preg4 = false;
-	$('input[name="p10309"]').each(function(){
+	$("#ops_pregunta4").removeClass("alert alert-danger");
+	$("#divCV4").removeClass("alert alert-danger");
+	$("#divCV5").removeClass("alert alert-danger");
+	$("#divCV6").removeClass("alert alert-danger");
+	var preg4 = true;
+	if(!$("#p10309s1").prop("checked") && !$("#p10309s2").prop("checked") && !$("#p10309s3").prop("checked") && !$("#p10309s4").prop("checked") &&  
+		!$("#p10309s5").prop("checked") && !$("#p10309s6").prop("checked") && ($("#p10305_1").prop("checked") || $("#p10305_2").prop("checked") ) ) {
+		$("#ops_pregunta4").addClass("alert alert-danger");
+		preg2 = false;
+	}
+	else if($("#p10309s2").prop("checked") && $("#p10309s2a1").val()=='-'){
+		$("#divCV4").addClass("alert alert-danger");
+		preg2 = false;	
+	}
+	else if($("#p10309s3").prop("checked") && $("#p10309s3a1").val()=='-'){
+		$("#divCV5").addClass("alert alert-danger");
+		preg2 = false;	
+	}
+	else if($("#p10309s6").prop("checked") && $("#p10309s5a1").val()==''){
+		$("#divCV6").addClass("alert alert-danger");
+		preg2 = false;	
+	}
+	/*$('input[name="p10309"]').each(function(){
 		if ($(this).is(":checked")){
 			switch(parseInt($(this).val())){
 				case 1:	preg4 = true;
@@ -283,7 +511,7 @@ function validarPregunta4(){
 						break;
 			}
 		}
-	});
+	});*/
 	return preg4;
 }
 
@@ -292,10 +520,58 @@ function validarPregunta4(){
 //@author dmdiazf / @author hhchavez
 //@since  11/07/2016
 function validarPregunta51(){
+	$("#ops_pregunta5").removeClass("alert alert-danger");
+	$("#divCV7").removeClass("alert alert-danger");
+	$("#opcion71").removeClass("alert alert-danger");
+	$("#opcion72").removeClass("alert alert-danger");
+
+	$("#ops_pregunta5").removeClass("alert alert-danger");
+	$("#divCV8").removeClass("alert alert-danger");
+	$("#opcion81").removeClass("alert alert-danger");
+	$("#opcion82").removeClass("alert alert-danger");
+	
 	//Validar que todos los radios se encuentren marcados
 	var preg51 = false;
-	var preg511 = false;
-	var preg512 = false;
+
+	// 5.1
+	if( ( $("#p10309s4").prop("checked") && !$("#p5161s1c14_1").prop("checked") && !$("#p5161s1c14_2").prop("checked") ) || 
+		( ( $("#p10309s1").prop("checked") || $("#p10309s2").prop("checked") || $("#p10309s3").prop("checked") || $("#p10309s4").prop("checked") || $("#p10309s5").prop("checked") || $("#p10309s6").prop("checked") ) 
+			&& !$("#p5161s2c14_1").prop("checked") && !$("#p5161s2c14_2").prop("checked") ) ) {
+		$("#ops_pregunta5").addClass("alert alert-danger");
+		preg51 = false;
+	}
+	else if($("#p5161s1c14_1").prop("checked") && !$("#p5161s1a1c14_1").prop("checked") && !$("#p5161s1a1c14_2").prop("checked") && !$("#p5161s1a2c14_1").prop("checked") && !$("#p5161s1a2c14_2").prop("checked")) {
+		$("#divCV7").addClass("alert alert-danger");
+		preg51 = false;
+	}
+	else if( ($("#p5161s1a1c14_1").prop("checked") && !$("#radp5161s1a3c14").is(":checked") && $("#p5161s1a3c14").val() == "") || 
+		($("#p5161s1a1c14_2").prop("checked") && $("#radp5161s1a3c14").is(":checked") && $("#p5161s1a3c14").val() != "" ) ){
+		$("#opcion71").addClass("alert alert-danger");
+		preg51 = false;
+	}
+	else if( ($("#p5161s1a2c14_1").prop("checked") && !$("#radp5161s1a4c14").is(":checked") && $("#p5161s1a4c14").val() == "") || 
+		($("#p5161s1a2c14_2").prop("checked") && $("#radp5161s1a4c14").is(":checked") && $("#p5161s1a4c14").val() != "")  ){
+		$("#opcion72").addClass("alert alert-danger");
+		preg51 = false;
+	}
+
+	// 5.2
+	else if($("#p5161s2c14_1").prop("checked") && !$("#p5161s2a1c14_1").prop("checked") && !$("#p5161s2a1c14_2").prop("checked") && !$("#p5161s2a2c14_1").prop("checked") && !$("#p5161s2a2c14_1").prop("checked")) {
+		$("#divCV8").addClass("alert alert-danger");
+		preg52 = false;
+	}
+	else if( ($("#p5161s2a1c14_1").prop("checked") && !$("#radp5161s2a3c14").is(":checked") && $("#p5161s2a3c14").val() == "") || 
+		($("#p5161s1a1c14_2").prop("checked") && ($("#radp5161s2a3c14").is(":checked") && $("#p5161s2a3c14").val() != "") ) ){
+		$("#opcion81").addClass("alert alert-danger");
+		preg52 = false;
+	}
+	else if( ($("#p5161s2a2c14_1").prop("checked") && !$("#radp5161s2a4c14").is(":checked") && $("#p5161s2a4c14").val() == "") || 
+		($("#p5161s1a2c14_2").prop("checked") && ($("#radp5161s2a4c14").is(":checked") && $("#p5161s2a4c14").val() != "") ) ){
+		$("#opcion82").addClass("alert alert-danger");
+		preg52 = false;
+	}
+	
+/*
 	$('input[name="p5161s1c14"]').each(function(){
 		if ($(this).is(":checked")){
 			switch(parseInt($(this).val())){
@@ -366,7 +642,7 @@ function validarPregunta51(){
 	else{
 		preg51 = false;
 	}
-	
+	*/
 	return preg51;
 }
 
@@ -375,10 +651,30 @@ function validarPregunta51(){
 //@author dmdiazf / @author hhchavez
 //@since  11/07/2016
 function validarPregunta52(){
+	$("#ops_pregunta5").removeClass("alert alert-danger");
+	$("#divCV8").removeClass("alert alert-danger");
+	$("#opcion81").removeClass("alert alert-danger");
+	$("#opcion82").removeClass("alert alert-danger");
 	var preg52 = false;
-	var preg521 = false;
-	var preg522 = false;
-	$('input[name="p5161s2c14"]').each(function(){
+
+	// 5.2
+	if($("#p5161s2c14_1").prop("checked") && !$("#p5161s2a1c14_1").prop("checked") && !$("#p5161s2a1c14_2").prop("checked") && !$("#p5161s2a2c14_1").prop("checked") && !$("#p5161s2a2c14_1").prop("checked")) {
+		$("#divCV8").addClass("alert alert-danger");
+		preg52 = false;
+	}
+	else if( ($("#p5161s2a1c14_1").prop("checked") && !$("#radp5161s2a3c14").is(":checked") && $("#p5161s2a3c14").val() == "") || 
+		($("#p5161s1a1c14_2").prop("checked") && ($("#radp5161s2a3c14").is(":checked") && $("#p5161s2a3c14").val() != "") ) ){
+		$("#opcion81").addClass("alert alert-danger");
+		preg52 = false;
+	}
+	else if( ($("#p5161s2a2c14_1").prop("checked") && !$("#radp5161s2a4c14").is(":checked") && $("#p5161s2a4c14").val() == "") || 
+		($("#p5161s1a2c14_2").prop("checked") && ($("#radp5161s2a4c14").is(":checked") && $("#p5161s2a4c14").val() != "") ) ){
+		$("#opcion82").addClass("alert alert-danger");
+		preg52 = false;
+	}
+	//var preg521 = false;
+	//var preg522 = false;
+	/*$('input[name="p5161s2c14"]').each(function(){
 		if ($(this).is(":checked")){
 			switch(parseInt($(this).val())){
 				case 1: //Si
@@ -447,7 +743,7 @@ function validarPregunta52(){
 	}
 	else{
 		preg52 = false;
-	}
+	}*/
 	
 	return preg52;
 }
@@ -457,8 +753,22 @@ function validarPregunta52(){
 //@author dmdiazf / @author hhchavez
 //@since  11/07/2016
 function validarPregunta6(){
-	var preg6 = false;
-	$('input[name="p10312"]').each(function(){
+	$("#ops_p10312").removeClass("alert alert-danger");
+	$("#divCV9").removeClass("alert alert-danger");
+	var preg6 = true;
+
+	if( ( $("#p10305_3").is(':checked') || $("#p10309s1").prop("checked") || $("#p10309s2").prop("checked") || $("#p10309s3").prop("checked") || $("#p10309s4").prop("checked") || 
+		$("#p10309s5").prop("checked") || $("#p10309s6").prop("checked") ) && !$("#p10312_1").is(':checked') && !$("#p10312_2").is(':checked')) {
+		$("#ops_p10312").addClass("alert alert-danger");
+		preg6 = false;
+	}
+	else if($("#p10312_1").is(':checked') && ( ($("#p10312s1").val() == "" && !$("#radp10312s1").is(':checked') ) || 
+	 	($("#p10312s1").val() != "" && $("#radp10312s1").is(':checked') ) ) ) {
+		$("#divCV9").addClass("alert alert-danger");
+		preg6 = false;
+
+	}
+	/*$('input[name="p10312"]').each(function(){
 		if ($(this).is(":checked")){
 			switch(parseInt($(this).val())){
 				case 1: if ($("#p10312s1").is(":enabled") && $("#p10312s1").val()==""){
@@ -480,7 +790,7 @@ function validarPregunta6(){
 						 break;
 			}
 		}		
-	});
+	});*/
 	return preg6;
 }
 
@@ -604,8 +914,8 @@ function ocultarDivsPreguntas(preguntas){
 	for (var i=0; i<preguntas.length; i++){		
 		switch(parseInt(preguntas[i])){
 			case 0: //Ocultar todos los divs
-					$("#pregP10305").hide();
-					$("#pregP10306").hide();
+					//$("#pregP10305").hide();
+					//$("#pregP10306").hide();
 					$("#pregP10307").hide();
 					$("#pregP10309").hide();
 					$("#pregP5161").hide();
@@ -734,6 +1044,7 @@ function ocultarDivsAdicionales(adiciones){
 					if (!$("#divCV1").is(":hidden")){
 						$("#p10305s1").val("");
 						$("#p10305s1").bloquearTexto();
+						//$("#p10305s1").attr('disabled',true);
 						$("#radp10305s1").attr("checked",false);
 						$("#radp10305s1").unbind();
 						$("#divCV1").hide();
@@ -744,6 +1055,7 @@ function ocultarDivsAdicionales(adiciones){
 					if (!$("#divCV2").is(":hidden")){
 						$("#p10306s1a1").val("");
 						$("#p10306s1a1").bloquearTexto();
+						//$("#p10306s1a1").attr('disabled',true);
 						$("#radp10306s1a1").attr("checked",false);
 						$("#divCV2").hide();
 					}
@@ -753,6 +1065,7 @@ function ocultarDivsAdicionales(adiciones){
 					if (!$("#divCV3").is(":hidden")){
 						$("#p10306s2a1").val("");
 						$("#p10306s2a1").bloquearTexto();
+						//$("#p10306s2a1").attr('disabled',true);
 						$("#radp10306s2a1").attr("checked",false);
 						$("#divCV3").hide();
 					}
@@ -790,12 +1103,17 @@ function ocultarDivsAdicionales(adiciones){
 						$("#p5161s1a4c14").val("");
 						$("#p5161s1a3c14").attr("disabled",true);
 						$("#p5161s1a4c14").attr("disabled",true);
+						$("#radp5161s1a3c14").prop("checked",false);
+						$("#radp5161s1a4c14").prop("checked",false);
+						$("#p5161s1a1c14_1").prop("checked",false);
+						$("#p5161s1a1c14_2").prop("checked",false);
+						$("#p5161s1a2c14_1").prop("checked",false);
+						$("#p5161s1a2c14_2").prop("checked",false);
 						$("#opcion71").hide(); //Ocultar los divs dentro del div adicional
 						$("#opcion72").hide(); //Ocultar los divs dentro del div adicional						
 						$("#divCV7").hide();
 					}
-					break;
-					
+					break;					
 			case 8: //Ocultar divCV8
 					if (!$("#divCV8").is(":hidden")){
 						$("#p5161s2a3c14").bloquearTexto();
@@ -804,6 +1122,12 @@ function ocultarDivsAdicionales(adiciones){
 						$("#p5161s2a4c14").val("");	
 						$("#p5161s2a3c14").attr("disabled",true);
 						$("#p5161s2a4c14").attr("disabled",true);
+						$("#radp5161s2a3c14").prop("checked",false);
+						$("#radp5161s2a4c14").prop("checked",false);
+						$("#p5161s2a1c14_1").prop("checked",false);
+						$("#p5161s2a1c14_2").prop("checked",false);
+						$("#p5161s2a2c14_1").prop("checked",false);
+						$("#p5161s2a2c14_2").prop("checked",false);
 						$("#opcion81").hide(); //Ocultar los divs dentro del div adicional
 						$("#opcion82").hide(); //Ocultar los divs dentro del div adicional
 						$("#divCV8").hide();
@@ -812,7 +1136,7 @@ function ocultarDivsAdicionales(adiciones){
 					
 			case 9: //Ocultar divCV9
 					if (!$("#divCV9").is(":hidden")){
-						$("#p10312s1").val();
+						$("#p10312s1").val('');
 						$("#p10312s1").bloquearTexto();
 						$("#radp10312s1").attr("checked",false);
 						$("#divCV9").hide();
@@ -897,8 +1221,11 @@ function mostrarDivsAdicionales(adiciones){
 						$("#radp10305s1").bind("click",function(){
 							$("#p10305s1").val("");
 							$("#p10305s1").bloquearTexto();
-							if ($("#p10305s1").is(":enabled")){
+							if ($(this).prop("checked")){
 								$("#p10305s1").attr("disabled",true);
+							}
+							else {
+								$("#p10305s1").attr("disabled",false);	
 							}
 						});
 						$("#divCV1").show();
@@ -906,6 +1233,7 @@ function mostrarDivsAdicionales(adiciones){
 					break;
 					
 			case 2: //Mostrar divCV2
+					console.log("mostrar");
 					$("#p10306s1a1").bloquearTexto();
 					if ($("#divCV2").is(":hidden")){
 						if ($("#p10306s1a1").is(":disabled")){
@@ -913,11 +1241,15 @@ function mostrarDivsAdicionales(adiciones){
 							$("#p10306s1a1").attr("disabled",false);
 						}						
 						$("#radp10306s1a1").attr("checked",false);
-						$("#radp10306s1a1").bind("click",function(){							
-							if ($("#p10306s1a1").is(":enabled")){
+						$("#radp10306s1a1").bind("change",function(){							
+							if ( $("#radp10306s1a1").prop("checked") ){
 								$("#p10306s1a1").val("");								
 								$("#p10306s1a1").attr("disabled",true);
 							}
+							else {					
+								$("#p10306s1a1").attr("disabled",false);	
+							}
+						
 						});
 						$("#divCV2").show();
 					}
@@ -931,10 +1263,13 @@ function mostrarDivsAdicionales(adiciones){
 							$("#p10306s2a1").attr("disabled",false);
 						}						
 						$("#radp10306s2a1").attr("checked",false);
-						$("#radp10306s2a1").bind("click",function(){							
-							if ($("#p10306s2a1").is(":enabled")){
+						$("#radp10306s2a1").bind("change",function(){							
+							if ($(this).prop("checked")){
 								$("#p10306s2a1").val("");								
 								$("#p10306s2a1").attr("disabled",true);
+							}
+							else {
+								$("#p10306s2a1").attr("disabled",false);	
 							}
 						});
 						$("#divCV3").show();
@@ -971,56 +1306,73 @@ function mostrarDivsAdicionales(adiciones){
 						$("#opcion72").hide(); //Ocultar los divs dentro del div adicional
 						
 						//Asociar funcion de abrir detalles al radio "SI" de la opcion ¿Lo recibio en dinero?
-						$("#p5161s1a1c14[name=p5161s1a1c14]").bind("click",function(){
-							$("#p5161s1a3c14").bloquearTexto();
-							if(parseInt($(this).val())==1){								
+						$("#p5161s1a1c14_1").bind("click",function(){
+							$("#p5161s1a3c14").bloquearTexto();//opcion71
 								$("#p5161s1a3c14").val("");
 								$("#radp5161s1a3c14").attr("checked",false);
 								if ($("#p5161s1a3c14").is(":disabled")){
 									$("#p5161s1a3c14").val("");
 									$("#p5161s1a3c14").attr("disabled",false);
 								}
-								$("#radp5161s1a3c14").bind("click",function(){
-									$("#p5161s1a3c14").val("");
-									$("#p5161s1a3c14").attr("disabled",true);
+								$("#radp5161s1a3c14").bind("change",function(){
+									if($(this).prop("checked")) {
+										$("#p5161s1a3c14").val("");
+										$("#p5161s1a3c14").attr("disabled",true);
+									}
+									else {
+										$("#p5161s1a3c14").val("");
+										$("#p5161s1a3c14").attr("disabled",false);
+									}
 								});								
 								$("#opcion71").show();								
-							}
-							else{
-								$("#p5161s1a3c14").val("");
-								$("#p5161s1a3c14").attr("disabled",true);
-								$("#radp5161s1a3c14").attr("checked",false);								
-								$("#opcion71").hide();								
-							}
+						});
+
+						//Asociar funcion de abrir detalles al radio "NO" de la opcion ¿Lo recibio en dinero?
+						$("#p5161s1a1c14_2").bind("click",function(){
+							$("#p5161s1a3c14").val("");
+							$("#p5161s1a3c14").attr("disabled",true);
+							$("#radp5161s1a3c14").attr("checked",false);								
+							$("#opcion71").hide();
+							$("#radp5161s1a3c14").unbind("change");
 						});
 						
 						//Asociar funcion de abrir detalles al radio "SI" de la opcion ¿Lo recibio en especie?
-						$("#p5161s1a2c14[name=p5161s1a2c14]").bind("click",function(){
+						$("#p5161s1a2c14_1").bind("click",function(){
 							$("#p5161s1a4c14").bloquearTexto();
-							if (parseInt($(this).val())==1){
+							//if (parseInt($(this).val())==1){
 								$("#p5161s1a4c14").val("");
 								$("#radp5161s1a4c14").attr("checked",false);
 								if ($("#p5161s1a4c14").is(":disabled")){
 									$("#p5161s1a4c14").val("");
 									$("#p5161s1a4c14").attr("disabled",false);
 								}
-								$("#radp5161s1a4c14").bind("click",function(){
-									$("#p5161s1a4c14").val("");
-									$("#p5161s1a4c14").attr("disabled",true);
+								$("#radp5161s1a4c14").bind("change",function(){
+									if($(this).prop("checked")) {
+										$("#p5161s1a4c14").val("");
+										$("#p5161s1a4c14").attr("disabled",true);
+									}
+									else {
+										$("#p5161s1a4c14").val("");
+										$("#p5161s1a4c14").attr("disabled",false);
+									}
 								});
 								$("#opcion72").show();
-							}
-							else{
-								$("#p5161s1a4c14").val("");
-								$("#p5161s1a4c14").attr("disabled",true);
-								$("#radp5161s1a4c14").attr("checked",false);
-								$("#opcion72").hide();
-							}							
-						});						
+							//}							
+						});
+
+						//Asociar funcion de abrir detalles al radio "NO" de la opcion ¿Lo recibio en especie?
+						$("#p5161s1a2c14_2").bind("click",function(){
+							$("#p5161s1a4c14").val("");
+							$("#p5161s1a4c14").attr("disabled",true);
+							$("#radp5161s1a4c14").attr("checked",false);
+							$("#opcion72").hide();
+							$("#radp5161s1a4c14").unbind("change");
+						});				
 						
 						$("#divCV7").show();
 					}
 					break;
+
 					
 			case 8: //Mostrar divCV8
 					if ($("#divCV8").is(":hidden")){
@@ -1028,33 +1380,42 @@ function mostrarDivsAdicionales(adiciones){
 						$("#opcion82").hide(); //Ocultar los divs dentro del div adicional
 						
 						//Asociar funcion de abrir detalles al radio "SI" de la opcion ¿Lo recibio en dinero?
-						$("#p5161s2a1c14[name=p5161s2a1c14]").bind("click",function(){
+						$("#p5161s2a1c14_1").bind("click",function(){
 							$("#p5161s2a3c14").bloquearTexto();
-							if(parseInt($(this).val())==1){								
+							//if(parseInt($(this).val())==1){								
 								$("#p5161s2a3c14").val("");
 								$("#radp5161s2a3c14").attr("checked",false);
 								if ($("#p5161s2a3c14").is(":disabled")){
 									$("#p5161s2a3c14").val("");
 									$("#p5161s2a3c14").attr("disabled",false);
 								}
-								$("#radp5161s2a3c14").bind("click",function(){
-									$("#p5161s2a3c14").val("");
-									$("#p5161s2a3c14").attr("disabled",true);
+								$("#radp5161s2a3c14").bind("change",function(){
+									if($(this).prop("checked")) {
+										$("#p5161s2a3c14").val("");
+										$("#p5161s2a3c14").attr("disabled",true);
+									}
+									else {
+										$("#p5161s2a3c14").val("");
+										$("#p5161s2a3c14").attr("disabled",false);
+									}
 								});								
-								$("#opcion81").show();								
-							}
-							else{								
-								$("#p5161s2a3c14").val("");
-								$("#p5161s2a3c14").attr("disabled",true);
-								$("#radp5161s2a3c14").attr("checked",false);								
-								$("#opcion81").hide();																
-							}
+								$("#opcion81").show();						
+							//}
+						});
+
+						//Asociar funcion de abrir detalles al radio "NO" de la opcion ¿Lo recibio en dinero?
+						$("#p5161s2a1c14_2").bind("click",function(){
+							$("#p5161s2a3c14").val("");
+							$("#p5161s2a3c14").attr("disabled",true);
+							$("#radp5161s2a3c14").attr("checked",false);								
+							$("#opcion81").hide();
+							$("#radp5161s2a3c14").unbind("change");
 						});
 						
 						//Asociar funcion de abrir detalles al radio "SI" de la opcion ¿Lo recibio en especie?
-						$("#p5161s2a2c14[name=p5161s2a2c14]").bind("click",function(){
+						$("#p5161s2a2c14_1").bind("click",function(){
 							$("#p5161s2a4c14").bloquearTexto();
-							if (parseInt($(this).val())==1){
+							//if (parseInt($(this).val())==1){
 								$("#opcion82").show();
 								$("#p5161s2a4c14").val("");
 								$("#radp5161s2a4c14").attr("checked",false);
@@ -1062,19 +1423,30 @@ function mostrarDivsAdicionales(adiciones){
 									$("#p5161s2a4c14").val("");
 									$("#p5161s2a4c14").attr("disabled",false);
 								}
-								$("#radp5161s2a4c14").bind("click",function(){
-									$("#p5161s2a4c14").val("");
-									$("#p5161s2a4c14").attr("disabled",true);
+								$("#radp5161s2a4c14").bind("change",function(){
+									if($(this).prop("checked")) {
+										$("#p5161s2a4c14").val("");
+										$("#p5161s2a4c14").attr("disabled",true);
+									}
+									else {
+										$("#p5161s2a4c14").val("");
+										$("#p5161s2a4c14").attr("disabled",false);
+									}
 								});
 								$("#opcion82").show();								
-							}
-							else{								
-								$("#p5161s2a4c14").val("");
-								$("#p5161s2a4c14").attr("disabled",true);
-								$("#radp5161s2a4c14").attr("checked",false);
-								$("#opcion82").hide();								
-							}																					
-						});						
+							//}
+																					
+						});
+
+						//Asociar funcion de abrir detalles al radio "NO" de la opcion ¿Lo recibio en especie?
+						$("#p5161s2a2c14_2").bind("click",function(){
+							$("#p5161s2a4c14").val("");
+							$("#p5161s2a4c14").attr("disabled",true);
+							$("#radp5161s2a4c14").attr("checked",false);
+							$("#opcion82").hide();
+							$("#radp5161s2a4c14").unbind("change");
+						});
+
 						
 						$("#divCV8").show();
 					}
@@ -1088,10 +1460,14 @@ function mostrarDivsAdicionales(adiciones){
 							$("#p10312s1").attr("disabled",false);
 						}						
 						$("#radp10312s1").attr("checked",false);
-						$("#radp10312s1").bind("click",function(){							
-							if ($("#p10312s1").is(":enabled")){
+						$("#radp10312s1").bind("change",function(){							
+							if ($(this).is(":checked")){
 								$("#p10312s1").val("");
 								$("#p10312s1").attr("disabled",true);
+							}
+							else {
+								$("#p10312s1").val("");
+								$("#p10312s1").attr("disabled",false);
 							}
 						});
 						$("#divCV9").show();

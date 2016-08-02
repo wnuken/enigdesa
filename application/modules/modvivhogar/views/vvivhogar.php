@@ -164,7 +164,9 @@ $(function() {
 		if ($v3['TIPO_CAMPO'] == 'NUMERICO' || $v3['TIPO_CAMPO'] == 'NUMNOSABE' || $v3['TIPO_CAMPO'] == 'NUMNOINFO')
 			echo "	$('#". $v3['ID_VARIABLE'] ."').number(true, 0, ',', '.');\n";
 		if ($v3['TIPO_CAMPO'] == 'MAYUSC')
-			echo "	$('#" . $v3 ['ID_VARIABLE'] . "').mayusculas();\n";
+			echo "	$('#". $v3['ID_VARIABLE'] ."').mayusculas();\n";
+		if ($v3['TIPO_CAMPO'] == 'NUMNOSABE')
+			echo "	$('#". $v3['ID_VARIABLE'] ."').numnosabe('". $v3 ['ID_VARIABLE'] ."');\n";
 	}
 ?>
 ///// casos especiales

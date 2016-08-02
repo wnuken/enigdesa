@@ -485,7 +485,8 @@
 	//****************************************************************************************************************
 	$.validator.addMethod("mayorQue", function(value, element, param) {
 		var comp = convertirOperacion(param);
-		var valor = parseInt($(element).val(), 10);
+		var valor = parseInt($(element).val().replace(/\./g, ''), 10);
+		//valor = valor.replace(/\./g, '');
 		if (valor > comp)
 			return false;
 		else
@@ -512,8 +513,8 @@
 	//****************************************************************************************************************
 	$.validator.addMethod("menorQue",function(value, element, param){
 		var comp = convertirOperacion(param);
-		var valor = parseInt($(element).val(), 10);
-	    if (valor < comp)			                            	  
+		var valor = parseInt($(element).val().replace(/\./g, ''), 10);
+		if (valor < comp)			                            	  
 	        return false;
 		else
 		    return true;		    
@@ -523,7 +524,7 @@
     //** Verifica si el valor de un input es un entero
     //*****************************************************************************************************************
     $.validator.addMethod("esEntero", function(value, element, param){
-        var valor = $(element).val();
+        var valor = $(element).val().replace(/\./g, '');
         var expNumerica = /^[0-9]+$/;
         if(!valor.match(expNumerica))
             return false;

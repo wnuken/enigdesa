@@ -147,7 +147,10 @@ class Mform extends CI_Model {
 			$v = str_replace("'", "''", $v);
 			// No asigna ID de la tabla ni campos del sistema (que inician con _)
 			if ($k != $this->id && substr($k, 0, 1) != '_') {
-				$sets .= "$k='$v',";
+				if ($k == 'P548')
+					$sets .= "$k=TO_DATE('$v','YYYY-mm-dd'),";
+				else
+					$sets .= "$k='$v',";
 			}
 		}
 		$sets = substr($sets, 0, -1); // elimina ultima coma
@@ -191,8 +194,8 @@ class Mform extends CI_Model {
      * @author Mario A. Yandar
      */
     public function buscarpersona($id_formulario, $id_persona) {
-        $sql = "SELECT * FROM ENIG_FORM_PERSONAS 
-		WHERE ID_FORMULARIO='" . $id_formulario . "' AND ID_PERSONA='" . $id_persona . "'";
+        $sql = "SELECT P521A,P521B,P521C,P521D,P6020,P6040,TO_CHAR(P548,'YYYY-MM-DD') AS P548,P6050,P10250S1C2,ID_PERSONA 
+		FROM ENIG_FORM_PERSONAS WHERE ID_FORMULARIO='" . $id_formulario . "' AND ID_PERSONA='" . $id_persona . "'";
         $query = $this->db->query($sql);
         $data = array();
         if ($query->num_rows() > 0) {
@@ -203,6 +206,7 @@ class Mform extends CI_Model {
                 $data['P521D'] = $row->P521D;
                 $data['P6020'] = $row->P6020;
                 $data['P6040'] = $row->P6040;
+                $data['P548']  = $row->P548;
                 $data['P6050'] = $row->P6050;
                 $data['P10250S1C2'] = $row->P10250S1C2;
                 $data['_ID_PERSONA'] = $row->ID_PERSONA;

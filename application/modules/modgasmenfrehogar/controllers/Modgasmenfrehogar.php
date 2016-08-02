@@ -15,11 +15,25 @@ class Modgasmenfrehogar extends MX_Controller {
     }
     
     public function index() {
-        $this->load->model(array("formulario/Mformulario", "control/Modmenu", "Modgmfh"));
+        $this->load->model(array("formulario/Mformulario", "control/Modmenu", "Modgmfh", "formulario/Mformulario"));
         $data["id_formulario"] = $this->session->userdata("id_formulario");
         if (empty($data["id_formulario"])) {
             redirect('/');
             return false;
+        }
+        $data["P521"] = 'Usuario'; // nombre del usuario logueado
+        $arrInsc = $this->Mformulario->consultarDatosInscripcion($data["id_formulario"]);
+        if(count($arrInsc) > 0) {
+            $data["P521"] = $arrInsc["NOMBRE1"];
+            if(!empty($arrInsc["NOMBRE2"])) {
+                $data["P521"] .= ' ' . $arrInsc["NOMBRE2"];
+            }
+            if(!empty($arrInsc["APELLID1"])) {
+                $data["P521"] .= ' ' . $arrInsc["APELLID1"];
+            }
+            if(!empty($arrInsc["APELLID2"])) {
+                $data["P521"] .= ' ' . $arrInsc["APELLID2"];
+            }
         }
         $arrParam = array(
             'mod' => 'GMFHOGAR',
