@@ -167,8 +167,7 @@ input[type=radio]:not(old):checked + label > span > span {
 							<?php
 								$j++;
 							endif;
-		?>						<input <?=$input_atr?> type='text' name='mask_<?=$v3['ID_ARTICULO3']?>[<?=$forma_obt[$i-1]?>]' value='' id='mask_<?=$v3['ID_ARTICULO3']?>_<?=$i?>' style="width:80px" autocomplete="off"/>
-								<input <?=$input_atr?> type='hidden' name='val_<?=$v3['ID_ARTICULO3']?>[<?=$forma_obt[$i-1]?>]' value='' id='txt_<?=$v3['ID_ARTICULO3']?>_<?=$i?>' />
+		?>						<input <?=$input_atr?> type='text' name='val_<?=$v3['ID_ARTICULO3']?>[<?=$forma_obt[$i-1]?>]' value='' id='txt_<?=$v3['ID_ARTICULO3']?>_<?=$i?>' style="width:80px" autocomplete="off"/>
 							</td>
 							<?php
 							$input_atr = str_replace("_input", "", $input_atr);

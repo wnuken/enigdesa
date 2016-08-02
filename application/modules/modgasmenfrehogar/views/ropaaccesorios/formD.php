@@ -289,7 +289,7 @@
 										style="display: inline; margin-left: 10px; color: rgb(255, 0, 0);">Digite un valor mayor de 500.</label>
 									</div>
 									<div ng-if="FormulariorHombre.rh[$index].pa.VALOR_PAGADO1">
-										<input 	class="form-control isnumeric" type="text" name="pagado{{rhom.id}}" id="pagado{{rhom.id}}" 
+										<input 	class="form-control isnumeric" type="text" name="pagado1{{rhom.id}}" id="pagado1{{rhom.id}}" 
 										disabled>
 									</div>
 									
@@ -305,7 +305,7 @@
 							</td>
 							<td>
 								<div ng-if="rhom.DEFINE_LUGAR_COMPRA == 1">
-									<select name="sellugar{{rhom.id}}" id="sellugar{{rhom.id}}" class="form-control" ng-model="FormulariorHombre.rh[$index].pa.LUGAR_COMPRA" required>
+									<select name="sellugar{{rhom.id}}" id="sellugar{{rhom.id}}" class="form-control" ng-model="FormulariorHombre.rh[$index].pa.LUGAR_COMPRA" required ng-change="removeAlert('sellugar{{rhom.id}}')">
 										<option value="" disabled>Seleccione...</option>
 										<option value="1">Almacenes, supermercado de cadena, tiendas por departamento o hipermercados</option>
 										<option value="4">Supermercados de cajas de compesanción, cooperativas, fondos de empleados y comisariatos</option>
@@ -333,7 +333,8 @@
 							<td>
 								<div ng-if="rhom.DEFINE_FRECU_COMPRA == 1">
 									<select name="selfre{{rhom.id}}" id="selfre{{rhom.id}}" class="form-control" 
-									ng-model="FormulariorHombre.rh[$index].pa.FRECUENCIA_COMPRA" required>
+									ng-model="FormulariorHombre.rh[$index].pa.FRECUENCIA_COMPRA"
+									ng-change="removeAlert('selfre{{rhom.id}}')" required>
 									<option value="" disabled>Seleccione...</option>
 									<option value="3">Semanal</option>
 									<option value="4">Quincenal</option>
@@ -352,7 +353,7 @@
 
 					<tr align="center" class="">
 						<td><b>SUBTOTAL</b></td>
-						<td> <input class="form-control" readonly="readonly" type="text" name="txt_total" id="txt_total" ng-model="subtotal">  </td>
+						<td> <input class="form-control currency" readonly type="text" name="txt_total" id="txt_total" ng-model="subtotal" is-currency data-thousands="." data-decimal=",">  </td>
 						<td colspan="3">&nbsp;</td>
 					</tr>
 
@@ -360,8 +361,9 @@
 						<td colspan="2">El medio de pago usado PRINCIPALMENTE para comprar los articulos y servicios enunciados en este módulo fue:</td>
 						<td colspan="2"> 
 							<div class="form-group">
-								<select name="mediopago" id="mediopago}" class="form-control" 
-								ng-model="FormulariorHombre.mp['<?php echo $MEDIO_PAGO; ?>']" required>
+								<select name="mediopago" id="mediopago" class="form-control" 
+								ng-model="FormulariorHombre.mp['<?php echo $MEDIO_PAGO; ?>']" 
+								ng-change="removeAlert('mediopago')" required>
 								<option value="" disabled>Seleccione...</option>
 								<option value="1">Tarjeta débito</option>
 								<option value="2">Tarjeta crédito</option>
@@ -384,182 +386,268 @@
 			</tbody>
 		</table>
 	</form>
-	<div class="row text-center">
 
-		<div ng-show="errorVcomprado" class="alert alert-danger alert-dismissible fade in" role="alert">
-			los campos <strong>Valor Pagado</strong> deben ser iguales o mayores a<strong> 500!</strong> </div>
-
-
-			<button class="btn btn-success" ng-disabled="!rHombre3.$valid" ng-click="validateForm4(4)" id="ENV_2_2">
-				Guardar y Continuar
-				<span class="glyphicon glyphicon-chevron-right" aria-hidden="true" title="Continuar"></span>
-			</button>
+	<div class="col-sm-12" id="mensaje_" ng-if="continue[3] == 1">
+		<div class="alert alert-warning" role="alert">
+			<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+			Debe llenar los campos requeridos para continuar.
 		</div>
-
-
 	</div>
 
-	<div ng-if="pagesection == 4">
-
-		<div class="col-sm-12">
-			<form id="Page4" name="Page4">
-				<div class="table-responsive">
-					<table class="table">
-						<tr class="active">
-							<th colspan="13"><div class="text-center">Si lo hubiera tenido que comprar, ¿cuánto habría pagado por el bien o servicio?</div></th>
-						</tr>
-						<tr>
-							<th rowspan="2">Nombre del artículo o servicio ADQUIRIDO por otras formas diferentes a la compra</th>
-							<th colspan="2">adquirido como pago por TRABAJO</th>
-							<th colspan="2">adquirido como REGALO o DONACIÓN</th>
-							<th colspan="2">adquirido como INTERCAMBIO</th>
-							<th colspan="2">PRODUCIDO por el HOGAR</th>
-							<th colspan="2">tomado de un NEGOCIO PROPIO</th>
-							<th colspan="2">adquirido de OTRA FORMA?</th>
-						</tr>
-
-						<tr>
-							<th>Valor estimado</th>
-							<th>No sabe el valor estimado</th>
-							<th>Valor estimado</th>
-							<th>No sabe el valor estimado</th>
-							<th>Valor estimado</th>
-							<th>No sabe el valor estimado</th>
-							<th>Valor estimado</th>
-							<th>No sabe el valor estimado</th>
-							<th>Valor estimado</th>
-							<th>No sabe el valor estimado</th>
-							<th>Valor estimado</th>
-							<th>No sabe el valor estimado</th>
-						</tr>
-
-						<tr ng-repeat="rhom in FormulariorHombre.rh" ng-if="rhom.value === true && 
-						(rhom.ot.RECIBIDO_PAGO === true || rhom.ot.REGALO === true || rhom.ot.INTERCAMBIO === true || rhom.ot.PRODUCIDO === true || rhom.ot.NEGOCIO_PROPIO === true || rhom.ot.OTRA === true)">
-						<td>{{rhom.name}}</td>
-						<td>
-							<div class="form-group" ng-if="rhom.ot.RECIBIDO_PAGO && FormulariorHombre.otraforma[rhom.id]['<?php echo $RECIBIDO_PAGO ?>'] !== false">
-								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control isnumeric" 
-								ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $RECIBIDO_PAGO ?>']" required is-number ng-minlength="4"> 
-							</div>
-							<div class="form-group" ng-if="!rhom.ot.RECIBIDO_PAGO || FormulariorHombre.otraforma[rhom.id]['<?php echo $RECIBIDO_PAGO ?>'] === false">
-								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" disabled> 
-							</div>
-						</td>
-						<td>
-							<div class="form-group" ng-if="rhom.ot.RECIBIDO_PAGO">
-								<input name="{{rhom.id}}1" id="{{rhom.id}}1" type="checkbox"
-								value="false" ng-click="changeValueOT(rhom.id, '<?php echo $RECIBIDO_PAGO ?>')"> 
-							</div>
-							<div class="form-group" ng-if="!rhom.ot.RECIBIDO_PAGO">
-								<input name="value2" id="value2" type="checkbox" disabled> 
-							</div>
-						</td>
-
-						<td>
-							<div class="form-group" ng-if="rhom.ot.REGALO && FormulariorHombre.otraforma[rhom.id]['<?php echo $REGALO ?>'] !== false">
-								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control isnumeric" 
-								ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $REGALO ?>']" required is-number ng-minlength="4"> 
-							</div>
-							<div class="form-group" ng-if="!rhom.ot.REGALO || FormulariorHombre.otraforma[rhom.id]['<?php echo $REGALO ?>'] === false">
-								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" disabled> 
-							</div>
-						</td>
-						<td>
-							<div class="form-group" ng-if="rhom.ot.REGALO">
-								<input name="{{rhom.id}}1" id="{{rhom.id}}1" type="checkbox"
-								value="false" ng-click="changeValueOT(rhom.id, '<?php echo $REGALO ?>')"> 
-							</div>
-							<div class="form-group" ng-if="!rhom.ot.REGALO">
-								<input name="value2" id="value2" type="checkbox" disabled> 
-							</div>
-						</td>
-
-						<td>
-							<div class="form-group" ng-if="rhom.ot.INTERCAMBIO && FormulariorHombre.otraforma[rhom.id]['<?php echo $INTERCAMBIO ?>'] !== false">
-								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control isnumeric" 
-								ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $INTERCAMBIO ?>']" required is-number ng-minlength="4"> 
-							</div>
-							<div class="form-group" ng-if="!rhom.ot.INTERCAMBIO || FormulariorHombre.otraforma[rhom.id]['<?php echo $INTERCAMBIO ?>'] === false">
-								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" disabled> 
-							</div>
-						</td>
-						<td>
-							<div class="form-group" ng-if="rhom.ot.INTERCAMBIO">
-								<input name="{{rhom.id}}1" id="{{rhom.id}}1" type="checkbox"
-								value="false" ng-click="changeValueOT(rhom.id, '<?php echo $INTERCAMBIO ?>')"> 
-							</div>
-							<div class="form-group" ng-if="!rhom.ot.INTERCAMBIO">
-								<input name="value2" id="value2" type="checkbox" disabled> 
-							</div>
-						</td>
-
-						<td>
-							<div class="form-group" ng-if="rhom.ot.PRODUCIDO && FormulariorHombre.otraforma[rhom.id]['<?php echo $PRODUCIDO ?>'] !== false">
-								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control isnumeric" 
-								ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $PRODUCIDO ?>']" required is-number ng-minlength="4"> 
-							</div>
-							<div class="form-group" ng-if="!rhom.ot.PRODUCIDO || FormulariorHombre.otraforma[rhom.id]['<?php echo $PRODUCIDO ?>'] === false">
-								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" disabled> 
-							</div>
-						</td>
-						<td>
-							<div class="form-group" ng-if="rhom.ot.PRODUCIDO">
-								<input name="{{rhom.id}}1" id="{{rhom.id}}1" type="checkbox"
-								value="false" ng-click="changeValueOT(rhom.id, '<?php echo $PRODUCIDO ?>')"> 
-							</div>
-							<div class="form-group" ng-if="!rhom.ot.PRODUCIDO">
-								<input name="value2" id="value2" type="checkbox" disabled> 
-							</div>
-						</td>
-
-						<td>
-							<div class="form-group" ng-if="rhom.ot.NEGOCIO_PROPIO && FormulariorHombre.otraforma[rhom.id]['<?php echo $NEGOCIO_PROPIO ?>'] !== false">
-								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control isnumeric" 
-								ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $NEGOCIO_PROPIO ?>']" required is-number ng-minlength="4"> 
-							</div>
-							<div class="form-group" ng-if="!rhom.ot.NEGOCIO_PROPIO || FormulariorHombre.otraforma[rhom.id]['<?php echo $NEGOCIO_PROPIO ?>'] === false">
-								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" disabled> 
-							</div>
-						</td>
-						<td>
-							<div class="form-group" ng-if="rhom.ot.NEGOCIO_PROPIO">
-								<input name="{{rhom.id}}1" id="{{rhom.id}}1" type="checkbox"
-								value="false" ng-click="changeValueOT(rhom.id, '<?php echo $NEGOCIO_PROPIO ?>')"> 
-							</div>
-							<div class="form-group" ng-if="!rhom.ot.NEGOCIO_PROPIO">
-								<input name="value2" id="value2" type="checkbox" disabled> 
-							</div>
-						</td>
-
-						<td>
-							<div class="form-group" ng-if="rhom.ot.OTRA && FormulariorHombre.otraforma[rhom.id]['<?php echo $OTRA ?>'] !== false">
-								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control isnumeric" 
-								ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $OTRA ?>']" required is-number ng-minlength="4"> 
-							</div>
-							<div class="form-group" ng-if="!rhom.ot.OTRA || FormulariorHombre.otraforma[rhom.id]['<?php echo $OTRA ?>'] === false">
-								<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" disabled> 
-							</div>
-						</td>
-						<td>
-							<div class="form-group" ng-if="rhom.ot.OTRA">
-								<input name="{{rhom.id}}1" id="{{rhom.id}}1" type="checkbox"
-								value="false" ng-click="changeValueOT(rhom.id, '<?php echo $OTRA ?>')"> 
-							</div>
-							<div class="form-group" ng-if="!rhom.ot.OTRA">
-								<input name="value2" id="value2" type="checkbox" disabled> 
-							</div>
-						</td>
-					</tr>
-
-				</table>
-			</div>
-		</form>
-
-		<button class="btn btn-success" ng-disabled="!Page4.$valid" ng-click="validateForm5(5)" id="ENV_2_2">
-			Guardar y Continuar
+	<div class="col-sm-12" id="mensaje_" ng-if="errorVcomprado">
+		<div class="alert alert-danger" role="alert">
+			<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+			los campos <strong>Valor Pagado</strong> deben ser iguales o mayores a<strong> 500!</strong>
+		</div>
+	</div>
+	<div class="row text-center" ng-if="rHombre3.$valid">
+		<button class="btn btn-success" id="ENV_2_2" data-toggle="modal" data-target="#modalPage3">Guardar y Continuar
 			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true" title="Continuar"></span>
 		</button>
 	</div>
+	<div class="row text-center" ng-if="!rHombre3.$valid">
+		<button class="btn btn-success" ng-click="validateContinue(3)" id="ENV_2_2">Guardar y Continuar
+			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true" title="Continuar"></span>
+		</button>
+	</div>
+
+	<!-- Modal -->
+	<div class="modal fade" id="modalPage3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">Confirmación</h4>
+				</div>
+				<div class="modal-body">
+					¿Está usted seguro de querer continuar? Una vez haga clic en Continuar NO podrá cambiar la información proporcionada y NO podrá regresar a esta pantalla. Si quiere editar información de estas respuestas haga clic en Cancelar.
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+					<button type="button" class="btn btn-success" ng-click="validateForm4(4)">Continuar</button>
+				</div>
+			</div>
+		</div>
+	</div> 
+	<!-- Modal -->
+
+
+</div>
+
+<div ng-if="pagesection == 4">
+
+	<div class="col-sm-12">
+		<form id="Page4" name="Page4">
+			<div class="table-responsive">
+				<table class="table">
+					<tr class="active">
+						<th colspan="13"><div class="text-center">Si lo hubiera tenido que comprar, ¿cuánto habría pagado por el bien o servicio?</div></th>
+					</tr>
+					<tr>
+						<th rowspan="2">Nombre del artículo o servicio ADQUIRIDO por otras formas diferentes a la compra</th>
+						<th colspan="2">adquirido como pago por TRABAJO</th>
+						<th colspan="2">adquirido como REGALO o DONACIÓN</th>
+						<th colspan="2">adquirido como INTERCAMBIO</th>
+						<th colspan="2">PRODUCIDO por el HOGAR</th>
+						<th colspan="2">tomado de un NEGOCIO PROPIO</th>
+						<th colspan="2">adquirido de OTRA FORMA?</th>
+					</tr>
+
+					<tr>
+						<th>Valor estimado</th>
+						<th>No sabe el valor estimado</th>
+						<th>Valor estimado</th>
+						<th>No sabe el valor estimado</th>
+						<th>Valor estimado</th>
+						<th>No sabe el valor estimado</th>
+						<th>Valor estimado</th>
+						<th>No sabe el valor estimado</th>
+						<th>Valor estimado</th>
+						<th>No sabe el valor estimado</th>
+						<th>Valor estimado</th>
+						<th>No sabe el valor estimado</th>
+					</tr>
+
+					<tr ng-repeat="rhom in FormulariorHombre.rh" ng-if="rhom.value === true && 
+					(rhom.ot.RECIBIDO_PAGO === true || rhom.ot.REGALO === true || rhom.ot.INTERCAMBIO === true || rhom.ot.PRODUCIDO === true || rhom.ot.NEGOCIO_PROPIO === true || rhom.ot.OTRA === true)">
+					<td>{{rhom.name}}</td>
+					<td>
+						<div class="form-group" ng-if="rhom.ot.RECIBIDO_PAGO && FormulariorHombre.otraforma[rhom.id]['<?php echo $RECIBIDO_PAGO ?>'] !== false">
+							<input name="recibidopago{{rhom.id}}" id="recibidopago{{rhom.id}}" type="text" class="form-control" 
+							ng-model="otraforma[rhom.id]['<?php echo $RECIBIDO_PAGO ?>']" 
+							ng-change="compValor(rhom.id, '<?php echo $RECIBIDO_PAGO ?>')" required>
+							<input name="recibidopago1{{rhom.id}}" id="recibidopago1{{rhom.id}}" type="text" class="form-control isnumeric" 
+							ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $RECIBIDO_PAGO ?>']" required is-number>
+							<label ng-show="FormulariorHombre.otraforma[rhom.id]['<?php echo $RECIBIDO_PAGO ?>'] < 1000"
+								style="display: inline; margin-left: 10px; color: rgb(255, 0, 0);">
+								Digite un valor mayor de 1000.
+							</label>
+						</div>
+						<div class="form-group" ng-if="!rhom.ot.RECIBIDO_PAGO || FormulariorHombre.otraforma[rhom.id]['<?php echo $RECIBIDO_PAGO ?>'] === false">
+							<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" disabled> 
+						</div>
+					</td>
+					<td>
+						<div class="form-group" ng-if="rhom.ot.RECIBIDO_PAGO">
+							<input name="{{rhom.id}}1" id="{{rhom.id}}1" type="checkbox"
+							value="false" ng-click="changeValueOT(rhom.id, '<?php echo $RECIBIDO_PAGO ?>')"> 
+						</div>
+						<div class="form-group" ng-if="!rhom.ot.RECIBIDO_PAGO">
+							<input name="value2" id="value2" type="checkbox" disabled> 
+						</div>
+					</td>
+
+					<td>
+						<div class="form-group" ng-if="rhom.ot.REGALO && FormulariorHombre.otraforma[rhom.id]['<?php echo $REGALO ?>'] !== false">
+							<input name="regalo{{rhom.id}}" id="regalo{{rhom.id}}" type="text" class="form-control" 
+							ng-model="otraforma[rhom.id]['<?php echo $REGALO ?>']" 
+							ng-change="compValor(rhom.id, '<?php echo $REGALO ?>')" required>
+							<input name="regalo1{{rhom.id}}" id="regalo1{{rhom.id}}" type="text" class="form-control isnumeric" 
+							ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $REGALO ?>']" required is-number>
+							<label ng-show="FormulariorHombre.otraforma[rhom.id]['<?php echo $REGALO ?>'] < 1000"
+								style="display: inline; margin-left: 10px; color: rgb(255, 0, 0);">
+								Digite un valor mayor de 1000.
+							</label>
+						</div>
+						<div class="form-group" ng-if="!rhom.ot.REGALO || FormulariorHombre.otraforma[rhom.id]['<?php echo $REGALO ?>'] === false">
+							<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" disabled> 
+						</div>
+					</td>
+					<td>
+						<div class="form-group" ng-if="rhom.ot.REGALO">
+							<input name="{{rhom.id}}1" id="{{rhom.id}}1" type="checkbox"
+							value="false" ng-click="changeValueOT(rhom.id, '<?php echo $REGALO ?>')"> 
+						</div>
+						<div class="form-group" ng-if="!rhom.ot.REGALO">
+							<input name="value2" id="value2" type="checkbox" disabled> 
+						</div>
+					</td>
+
+					<td>
+						<div class="form-group" ng-if="rhom.ot.INTERCAMBIO && FormulariorHombre.otraforma[rhom.id]['<?php echo $INTERCAMBIO ?>'] !== false">
+							<input name="intercambio{{rhom.id}}" id="intercambio{{rhom.id}}" type="text" class="form-control isnumeric" 
+							ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $INTERCAMBIO ?>']" required is-number > 
+						</div>
+						<div class="form-group" ng-if="!rhom.ot.INTERCAMBIO || FormulariorHombre.otraforma[rhom.id]['<?php echo $INTERCAMBIO ?>'] === false">
+							<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" disabled> 
+						</div>
+					</td>
+					<td>
+						<div class="form-group" ng-if="rhom.ot.INTERCAMBIO">
+							<input name="{{rhom.id}}1" id="{{rhom.id}}1" type="checkbox"
+							value="false" ng-click="changeValueOT(rhom.id, '<?php echo $INTERCAMBIO ?>')"> 
+						</div>
+						<div class="form-group" ng-if="!rhom.ot.INTERCAMBIO">
+							<input name="value2" id="value2" type="checkbox" disabled> 
+						</div>
+					</td>
+
+					<td>
+						<div class="form-group" ng-if="rhom.ot.PRODUCIDO && FormulariorHombre.otraforma[rhom.id]['<?php echo $PRODUCIDO ?>'] !== false">
+							<input name="producido{{rhom.id}}" id="producido{{rhom.id}}" type="text" class="form-control isnumeric" 
+							ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $PRODUCIDO ?>']" required is-number > 
+						</div>
+						<div class="form-group" ng-if="!rhom.ot.PRODUCIDO || FormulariorHombre.otraforma[rhom.id]['<?php echo $PRODUCIDO ?>'] === false">
+							<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" disabled> 
+						</div>
+					</td>
+					<td>
+						<div class="form-group" ng-if="rhom.ot.PRODUCIDO">
+							<input name="{{rhom.id}}1" id="{{rhom.id}}1" type="checkbox"
+							value="false" ng-click="changeValueOT(rhom.id, '<?php echo $PRODUCIDO ?>')"> 
+						</div>
+						<div class="form-group" ng-if="!rhom.ot.PRODUCIDO">
+							<input name="value2" id="value2" type="checkbox" disabled> 
+						</div>
+					</td>
+
+					<td>
+						<div class="form-group" ng-if="rhom.ot.NEGOCIO_PROPIO && FormulariorHombre.otraforma[rhom.id]['<?php echo $NEGOCIO_PROPIO ?>'] !== false">
+							<input name="negocio{{rhom.id}}" id="negocio{{rhom.id}}" type="text" class="form-control isnumeric" 
+							ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $NEGOCIO_PROPIO ?>']" required is-number > 
+						</div>
+						<div class="form-group" ng-if="!rhom.ot.NEGOCIO_PROPIO || FormulariorHombre.otraforma[rhom.id]['<?php echo $NEGOCIO_PROPIO ?>'] === false">
+							<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" disabled> 
+						</div>
+					</td>
+					<td>
+						<div class="form-group" ng-if="rhom.ot.NEGOCIO_PROPIO">
+							<input name="{{rhom.id}}1" id="{{rhom.id}}1" type="checkbox"
+							value="false" ng-click="changeValueOT(rhom.id, '<?php echo $NEGOCIO_PROPIO ?>')"> 
+						</div>
+						<div class="form-group" ng-if="!rhom.ot.NEGOCIO_PROPIO">
+							<input name="value2" id="value2" type="checkbox" disabled> 
+						</div>
+					</td>
+
+					<td>
+						<div class="form-group" ng-if="rhom.ot.OTRA && FormulariorHombre.otraforma[rhom.id]['<?php echo $OTRA ?>'] !== false">
+							<input name="otra{{rhom.id}}" id="otra{{rhom.id}}" type="text" class="form-control isnumeric" 
+							ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $OTRA ?>']" required is-number > 
+						</div>
+						<div class="form-group" ng-if="!rhom.ot.OTRA || FormulariorHombre.otraforma[rhom.id]['<?php echo $OTRA ?>'] === false">
+							<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" disabled> 
+						</div>
+					</td>
+					<td>
+						<div class="form-group" ng-if="rhom.ot.OTRA">
+							<input name="{{rhom.id}}1" id="{{rhom.id}}1" type="checkbox"
+							value="false" ng-click="changeValueOT(rhom.id, '<?php echo $OTRA ?>')"> 
+						</div>
+						<div class="form-group" ng-if="!rhom.ot.OTRA">
+							<input name="value2" id="value2" type="checkbox" disabled> 
+						</div>
+					</td>
+				</tr>
+
+			</table>
+		</div>
+	</form>
+
+	<button class="btn btn-success" ng-disabled="!Page4.$valid" ng-click="validateForm5(5)" id="ENV_2_2">
+		Guardar y Continuar
+		<span class="glyphicon glyphicon-chevron-right" aria-hidden="true" title="Continuar"></span>
+	</button>
+</div>
+
+	<div class="col-sm-12" id="mensaje_" ng-if="continue[4] == 1">
+		<div class="alert alert-warning" role="alert">
+			<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+			Debe llenar los campos requeridos para continuar.
+		</div>
+	</div>
+	<div class="row text-center" ng-if="Page4.$valid">
+		<button class="btn btn-success" id="ENV_2_2" data-toggle="modal" data-target="#modalPage4">Guardar y Continuar
+			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true" title="Continuar"></span>
+		</button>
+	</div>
+	<div class="row text-center" ng-if="!Page4.$valid">
+		<button class="btn btn-success" ng-click="validateContinue(4)" id="ENV_2_2">Guardar y Continuar
+			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true" title="Continuar"></span>
+		</button>
+	</div>
+
+
+<!-- Modal -->
+	<div class="modal fade" id="modalPage4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">Confirmación</h4>
+				</div>
+				<div class="modal-body">
+					¿Está usted seguro de querer continuar? Una vez haga clic en Continuar NO podrá cambiar la información proporcionada y NO podrá regresar a esta pantalla. Si quiere editar información de estas respuestas haga clic en Cancelar.
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+					<button type="button" class="btn btn-success" ng-click="validateForm5(5)">Continuar</button>
+				</div>
+			</div>
+		</div>
+	</div> 
+	<!-- Modal -->
+
 </div>
 
 </div>

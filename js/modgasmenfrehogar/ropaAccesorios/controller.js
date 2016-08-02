@@ -76,16 +76,79 @@ appGHogar.directive("isCurrency", function() {
 			isCurrency: '='
 		},
 		link: function(scope, element, attrs, ctrl) {
-			$('.currency').maskMoney({precision:0});
+			$('.currency').maskMoney({precision:0, prefix:'$'});
 		}
 	};
+});
+
+/*** / filter to convert number in currency 
+*** Params:
+*** input => orginal number
+*** separator => thousands separator
+*** prefix => character to represent money
+*** return currency and orginal numbers, in the parameters mask and unmask.
+***/
+appGHogar.filter('currency', function() { 
+	return function(params) {
+		var numberArray = [];
+		var realValue = '';
+		var currencyNumber = '';
+		var pountArray = [];
+		var init = 0;
+		var result = {
+			"mask": '',
+			"unmask": ''
+		};
+
+		if(typeof params.separator == 'undefined'){
+			params.separator = '.';
+		};
+
+		if(typeof params.prefix == 'undefined'){
+			params.prefix = '$';
+		};
+
+		if(typeof params.input != 'undefined' && params.input != ''){
+			var ValueString = new String(params.input);
+			angular.forEach(ValueString, function(element, key){
+				if(!isNaN(key) && !isNaN(element)){
+					realValue = realValue + element;
+					numberArray[init] = element;
+					init++;
+				};		
+			});
+			numberArray.reverse();
+
+			angular.forEach(numberArray, function(element, key){
+
+				if(key != 0 && key % 3 == 0){
+					pountArray[key] = element + params.separator;
+				}else{
+					pountArray[key] = element;
+				};
+			});
+
+			pountArray.reverse();
+
+			angular.forEach(pountArray, function(element, key){
+				currencyNumber = currencyNumber + element;
+			});
+
+			currencyNumber = params.prefix + currencyNumber;
+			result = {
+				"mask": currencyNumber,
+				"unmask": realValue
+			};
+		}
+		return result;
+	}
 });
 
 
 $idSection = $("input#idSection");
 $idFormulario = $("input#idFormulario");
 
-appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageService', '$window', function($scope, dataService, localStorageService, $window) {
+appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageService', '$window', '$filter', function($scope, dataService, localStorageService, $window, $filter) {
 	
 	$scope.FormulariorHombre = {};
 	$scope.validateGroup = [];
@@ -93,6 +156,7 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 	$scope.subtotal = 0;
 	$scope.continue = [];
 	$scope.VALOR_PAGADO = [];
+	$scope.otraforma = [];
 
 	var gg = {
 		"ID_SECCION3": $idSection.val()
@@ -114,32 +178,100 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 	$scope.pagesection = '';
 
 	$scope.validateContinue = function(page){
-		console.log(page);
 		$scope.continue[page] = 1;
 
 		if(page == 2){
 			
 			angular.forEach($scope.FormulariorHombre.rh, function(element, key){
-					var prueba = false;
+				var prueba = false;
 				if(element.value == true){
 					angular.forEach(element.ot, function(element1, key1){
 						console.log(element1);
-					if(element1 == true){
-						prueba = true;
+						if(element1 == true){
+							prueba = true;
+						}
+					});
+
+					if(prueba == false){
+						$("div#itemGroup" + element.id).addClass('alert alert-danger');
 					}
-				});
-
-				if(prueba == false){
-					$("div#itemGroup" + element.id).addClass('alert alert-danger');
 				}
-
-				 console.log(element, ' ', prueba);
-				}
-				
 			});
 
 			// $("div#itemGroup" + idItems).addClass('alert alert-danger');
-		}
+		}else if(page == 3){
+			$scope.errorVcomprado = false;
+			angular.forEach($scope.FormulariorHombre.rh, function(element, key){
+				if( typeof element.pa != 'undefined' && !isNaN(element.pa.VALOR_PAGADO)){
+					vapagado = parseInt(element.pa.VALOR_PAGADO);
+					if(!isNaN(vapagado) && vapagado < 500){
+						$scope.errorVcomprado = true;
+					}
+				}
+
+				if(element.value == true){
+					$('input#pagado' + element.id).removeClass('alert alert-danger');
+					var pagadoEmpty = $('input#pagado' + element.id).val();
+					if(pagadoEmpty == '' || pagadoEmpty == null)
+						$('input#pagado' + element.id).addClass('alert alert-danger');
+
+					$('select#sellugar' + element.id).removeClass('alert alert-danger');
+					var sellugarEmpty = $('select#sellugar' + element.id).val();
+					if(sellugarEmpty == '' || sellugarEmpty == null)
+						$('select#sellugar' + element.id).addClass('alert alert-danger');
+
+					$('select#selfre' + element.id).removeClass('alert alert-danger');
+					var selfreEmpty = $('select#selfre' + element.id).val();
+					if(selfreEmpty == '' || selfreEmpty == null)
+						$('select#selfre' + element.id).addClass('alert alert-danger');
+				}
+			});
+
+			$('select#mediopago').removeClass('alert alert-danger');
+			var mediopagoEmpty = $('select#mediopago').val();
+			if(mediopagoEmpty == '' || mediopagoEmpty == null)
+				$('select#mediopago').addClass('alert alert-danger');
+		}else if(page == 4){
+			angular.forEach($scope.FormulariorHombre.rh, function(element, key){
+				$('input#recibidopago' + element.id).removeClass('alert alert-danger');
+					var recibidopagoEmpty = $('input#recibidopago' + element.id).val();
+					if(recibidopagoEmpty == '' || recibidopagoEmpty == null)
+						$('input#recibidopago' + element.id).addClass('alert alert-danger');
+
+				$('input#regalo' + element.id).removeClass('alert alert-danger');
+					var regaloEmpty = $('input#regalo' + element.id).val();
+					if(regaloEmpty == '' || regaloEmpty == null)
+						$('input#regalo' + element.id).addClass('alert alert-danger');
+
+				$('input#intercambio' + element.id).removeClass('alert alert-danger');
+					var intercambioEmpty = $('input#intercambio' + element.id).val();
+					if(intercambioEmpty == '' || intercambioEmpty == null)
+						$('input#intercambio' + element.id).addClass('alert alert-danger');
+					
+				$('input#producido' + element.id).removeClass('alert alert-danger');
+					var producidoEmpty = $('input#producido' + element.id).val();
+					if(producidoEmpty == '' || producidoEmpty == null)
+						$('input#producido' + element.id).addClass('alert alert-danger');
+
+				$('input#negocio' + element.id).removeClass('alert alert-danger');
+					var negocioEmpty = $('input#negocio' + element.id).val();
+					if(negocioEmpty == '' || negocioEmpty == null)
+						$('input#negocio' + element.id).addClass('alert alert-danger');
+
+				$('input#otra' + element.id).removeClass('alert alert-danger');
+					var otraEmpty = $('input#otra' + element.id).val();
+					if(otraEmpty == '' || otraEmpty == null)
+						$('input#otra' + element.id).addClass('alert alert-danger');
+
+
+			});
+
+		};
+	};
+
+	$scope.removeAlert = function(id){
+		console.log(id);
+		$("#" + id).removeClass('alert alert-danger');
 	};
 
 	$scope.validateForm1 = function(params){
@@ -219,6 +351,7 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 	};
 
 	$scope.validateForm4 = function(params){
+		
 		$scope.errorVcomprado = false;
 		angular.forEach($scope.FormulariorHombre.rh, function(element, key){
 			if( typeof element.pa != 'undefined' && !isNaN(element.pa.VALOR_PAGADO)){
@@ -250,8 +383,9 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 
 			dataService.saveElements(paramssec3, function(dataResponse){
 				console.log(dataResponse);
-			if(dataResponse.result == true){
-				$scope.pagesection = params;
+				if(dataResponse.result == true){
+				// $scope.pagesection = params;
+				$window.location.reload();
 			}else{
 				console.log(dataResponse);
 			};
@@ -311,14 +445,19 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 		var vapagado = 0; 
 
 		var pagado = new String($scope.VALOR_PAGADO[index]);
-				
-		 var pagadoReal = '';
+
+		var pagadoReal = '';
 		angular.forEach(pagado, function(element, key){
-			if(!isNaN(key) && element != '.'){
+			if(!isNaN(key) && element != '.' && element != '$'){
 				console.log(element);
 				pagadoReal = pagadoReal + element;
 			}			
 		});
+
+		if(pagadoReal > 15000000){
+			pagadoReal = 15000000;
+			$scope.VALOR_PAGADO[index] = '$15.000.000';
+		}
 
 		if(typeof $scope.FormulariorHombre.rh[index] == 'undefined' )
 			$scope.FormulariorHombre.rh[index] = [];
@@ -329,7 +468,7 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 		if(typeof $scope.FormulariorHombre.rh[index].pa.VALOR_PAGADO == 'undefined' )
 			$scope.FormulariorHombre.rh[index].pa.VALOR_PAGADO = '';
 
-		 $scope.FormulariorHombre.rh[index].pa.VALOR_PAGADO = pagadoReal;
+		$scope.FormulariorHombre.rh[index].pa.VALOR_PAGADO = pagadoReal;
 
 		angular.forEach(pagado, function(element, key){
 			if(!isNaN(key) && element != '.'){
@@ -337,10 +476,8 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 			}
 		});
 
-
-
 		/*$scope.VALOR_PAGADO[index] =	pagado.replace(rExp, "");
-				console.log($scope.VALOR_PAGADO);*/
+		console.log($scope.VALOR_PAGADO);*/
 
 		angular.forEach($scope.FormulariorHombre.rh, function(element, key){
 			if( typeof element.pa != 'undefined' && !isNaN(element.pa.VALOR_PAGADO)){
@@ -350,6 +487,35 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 			}
 		});
 		$scope.subtotal = subt;
+	};
+
+	$scope.compValor = function(id, idElement){
+			
+		var paramsCurrency = {
+			"input": $scope.otraforma[id][idElement],
+			"separator": '.',
+			"prefix": '$'
+		};
+
+		var resultCurrency = $filter('currency')(paramsCurrency);
+
+		if(resultCurrency.unmask > 15000000){
+			resultCurrency.mask = '$15.000.000';
+			resultCurrency.unmask = 15000000;
+		};
+
+		$scope.otraforma[id][idElement] = resultCurrency.mask;
+
+		if(typeof $scope.FormulariorHombre.otraforma == 'undefined')
+			$scope.FormulariorHombre.otraforma = [];
+
+		if(typeof $scope.FormulariorHombre.otraforma[id] == 'undefined')
+			$scope.FormulariorHombre.otraforma[id] = [];
+
+		if(typeof $scope.FormulariorHombre.otraforma[id][idElement] == 'undefined')
+			$scope.FormulariorHombre.otraforma[id][idElement] = '';
+
+		$scope.FormulariorHombre.otraforma[id][idElement] = resultCurrency.unmask;
 	};
 
 	$scope.resValor = function(index){
@@ -376,12 +542,12 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 		if(typeof $scope.FormulariorHombre.otraforma[idElement][nameElement] == 'undefined' || 
 			$scope.FormulariorHombre.otraforma[idElement][nameElement] !== false){
 			$scope.FormulariorHombre.otraforma[idElement][nameElement] = false;
-		}else if($scope.FormulariorHombre.otraforma[idElement][nameElement] === false){
-			$scope.FormulariorHombre.otraforma[idElement][nameElement] = '';
-		};
-		
-		console.log($scope.FormulariorHombre);
+	}else if($scope.FormulariorHombre.otraforma[idElement][nameElement] === false){
+		$scope.FormulariorHombre.otraforma[idElement][nameElement] = '';
 	};
+
+	console.log($scope.FormulariorHombre);
+};
 
 
 }]);
@@ -519,12 +685,12 @@ appGHogar.controller('Educacion', ['$scope', 'dataService', 'localStorageService
 
 			dataService.saveElements(paramssec3, function(dataResponse){
 				console.log(dataResponse);
-			if(dataResponse.result == true){
-				$scope.pagesection = params;
-			}else{
-				console.log(dataResponse);
-			};
-		});
+				if(dataResponse.result == true){
+					$scope.pagesection = params;
+				}else{
+					console.log(dataResponse);
+				};
+			});
 
 
 		}
@@ -624,12 +790,12 @@ appGHogar.controller('Educacion', ['$scope', 'dataService', 'localStorageService
 		if(typeof $scope.FormulariorHombre.otraforma[idElement][nameElement] == 'undefined' || 
 			$scope.FormulariorHombre.otraforma[idElement][nameElement] !== false){
 			$scope.FormulariorHombre.otraforma[idElement][nameElement] = false;
-		}else if($scope.FormulariorHombre.otraforma[idElement][nameElement] === false){
-			$scope.FormulariorHombre.otraforma[idElement][nameElement] = '';
-		};
-		
-		console.log($scope.FormulariorHombre);
+	}else if($scope.FormulariorHombre.otraforma[idElement][nameElement] === false){
+		$scope.FormulariorHombre.otraforma[idElement][nameElement] = '';
 	};
+
+	console.log($scope.FormulariorHombre);
+};
 
 
 }]);
@@ -638,88 +804,88 @@ appGHogar.controller('SeecionC', ['$scope', 'dataService', 'localStorageService'
 
 	console.log('hola');
 	$scope.meses = [
-		{
-			"id": "97",
-			"value": "Menos de un mes"
-		},
-		{
-			"id": "2",
-			"value": "2"
-		},
-		{
-			"id": "3",
-			"value": "3"
-		}
-		];
+	{
+		"id": "97",
+		"value": "Menos de un mes"
+	},
+	{
+		"id": "2",
+		"value": "2"
+	},
+	{
+		"id": "3",
+		"value": "3"
+	}
+	];
 
-		$scope.servicios = [
-		{
-			"id": "P852055",
-			"servicio": "Acueducto",
-			'idValor': "P10272S1A1",
-			"idMes": "P10272S1A2_1",
-			"idVerifica": "P10272S1A3_1"
-		},
-		{
-			"id": "P852054",
-			"servicio": "Recolección de basuras y aseo",
-			'idValor': "P10272S2A1",
-			"idMes": "P10272S1A2_2",
-			"idVerifica": "P10272S1A3_2"
-		},
-		{
-			"id": "P852053",
-			"servicio": "Alcantarillado",
-			'idValor': "P10272S3A1",
-			"idMes": "P10272S1A2_3",
-			"idVerifica": "P10272S1A3_3"
-		},
-		{
-			"id": "P852051",
-			"servicio": "Energía eléctrica",
-			'idValor': "P10272S4A1",
-			"idMes": "P10272S1A2_4",
-			"idVerifica": "P10272S1A3_4"
-		},
-		{
-			"id": "P852052",
-			"servicio": "Gas natural por tubería",
-			'idValor': "P10272S6A1",
-			"idMes": "P10272S1A2_6",
-			"idVerifica": "P10272S1A3_6"
-		},
-		{
-			"id": "P164651",
-			"servicio": "Teléfono residencial (local y larga distancia)",
-			'idValor': "P10272S7A1",
-			"idMes": "P10272S1A2_7",
-			"idVerifica": "P10272S1A3_7"
-		},
-		{
-			"id": "P164653",
-			"servicio": "Internet fijo (banda ancha, acceso inalámbrico)",
-			'idValor': "P10272S8A1",
-			"idMes": "P10272S1A2_8",
-			"idVerifica": "P10272S1A3_8"
-		},
-		{
-			"id": "P164652",
-			"servicio": "Televisión (cable, satelital, digitalizada, IPTV, antena parabólica)",
-			'idValor': "P10272S9A1",
-			"idMes": "P10272S1A2_9",
-			"idVerifica": "P10272S1A3_9"
-		}
-		];
+	$scope.servicios = [
+	{
+		"id": "P852055",
+		"servicio": "Acueducto",
+		'idValor': "P10272S1A1",
+		"idMes": "P10272S1A2_1",
+		"idVerifica": "P10272S1A3_1"
+	},
+	{
+		"id": "P852054",
+		"servicio": "Recolección de basuras y aseo",
+		'idValor': "P10272S2A1",
+		"idMes": "P10272S1A2_2",
+		"idVerifica": "P10272S1A3_2"
+	},
+	{
+		"id": "P852053",
+		"servicio": "Alcantarillado",
+		'idValor': "P10272S3A1",
+		"idMes": "P10272S1A2_3",
+		"idVerifica": "P10272S1A3_3"
+	},
+	{
+		"id": "P852051",
+		"servicio": "Energía eléctrica",
+		'idValor': "P10272S4A1",
+		"idMes": "P10272S1A2_4",
+		"idVerifica": "P10272S1A3_4"
+	},
+	{
+		"id": "P852052",
+		"servicio": "Gas natural por tubería",
+		'idValor': "P10272S6A1",
+		"idMes": "P10272S1A2_6",
+		"idVerifica": "P10272S1A3_6"
+	},
+	{
+		"id": "P164651",
+		"servicio": "Teléfono residencial (local y larga distancia)",
+		'idValor': "P10272S7A1",
+		"idMes": "P10272S1A2_7",
+		"idVerifica": "P10272S1A3_7"
+	},
+	{
+		"id": "P164653",
+		"servicio": "Internet fijo (banda ancha, acceso inalámbrico)",
+		'idValor': "P10272S8A1",
+		"idMes": "P10272S1A2_8",
+		"idVerifica": "P10272S1A3_8"
+	},
+	{
+		"id": "P164652",
+		"servicio": "Televisión (cable, satelital, digitalizada, IPTV, antena parabólica)",
+		'idValor': "P10272S9A1",
+		"idMes": "P10272S1A2_9",
+		"idVerifica": "P10272S1A3_9"
+	}
+	];
 
-		$scope.alumbrado = [
-			{
-			"id": "P1027255",
-			"servicio": "Alumbrado público",
-			'idValor': "P10272S5A1",
-			"idMes": "P10272S1A2_5",
-			"idVerifica": "P10272S1A3_5"
-			}
-		];
+	$scope.alumbrado = [
+	{
+		"id": "P1027255",
+		"servicio": "Alumbrado público",
+		'idValor': "P10272S5A1",
+		"idMes": "P10272S1A2_5",
+		"idVerifica": "P10272S1A3_5"
+	}
+	];
 
 	$scope.Formulario = {};
 	$scope.validateGroup = [];
@@ -794,4 +960,4 @@ appGHogar.controller('SeecionC', ['$scope', 'dataService', 'localStorageService'
 	}
 
 
-	}]);
+}]);

@@ -13,7 +13,7 @@
         en el cual se solicita información sobre las adquisiciones que realizan todos los miembros del hogar en los bienes y servicios relacionados 
         con: prendas de vestir, muebles, electrodomésticos, salud, educación, comunicaciones, servicios públicos domiciliarios, artículos para el 
         aseo personal y conservación de la vivienda, viajes, entre otros.</blockquote>
-    <p style="text-align: justify;">Este módulo se le asignó a <span style="font-weight: bold;">P521A P521B P521C P521D</span>, persona identificada 
+    <p style="text-align: justify;">Este módulo se le asignó a <span style="font-weight: bold;"><?=$P521?></span>, persona identificada 
         por el hogar como aquella con mayor conocimiento sobre los gastos menos frecuentes que realiza el hogar. Sin embargo, es importante que cada 
         una de las personas del hogar ayude en el suministro de información para el diligenciamiento de este módulo.</p>
     <br />
@@ -68,8 +68,4 @@ if (count($sec) > 0) {
     echo $html;
 }
 ?>
-<div>
-    <input type="radio" name="prueba" value="1" /> 1
-    <input type="radio" name="prueba" value="2" /> 2
-</div>
 <script src="<?= $js_dir ?>"></script>

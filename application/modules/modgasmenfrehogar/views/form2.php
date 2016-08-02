@@ -220,39 +220,39 @@ input[type=radio]:not(old):checked + label > span > span {
                             <div title="" data-original-title="" id="RESP_<?= $var[0]['ID_VARIABLE']?>" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
                                 <small><?= $var[0]['ETIQUETA']?></small>
                             </div>
-                            <div class="example">
+                            <div id="ops_<?= $v3['ID_ARTICULO3'] ?>" class="example" title="" data-original-title=""  data-toggle="popover" data-placement="top" data-trigger="hover" data-content="Respuesta obligatoria. Por favor, seleccione una opci&oacute;n para continuar">
                                 <div>
-                                    <label style="width:200px" for='art_<?= $v3['ID_ARTICULO3'] ?>_1'>Compra o pago</label>
+                                    <label style="width:300px" for='art_<?= $v3['ID_ARTICULO3'] ?>_1'>Compra o pago</label>
                                     <input type='checkbox' name='<?= $v3['ID_ARTICULO3'] ?>[compra]' value='<?= $v3['ID_ARTICULO3'] ?>_1' id='art_<?= $v3['ID_ARTICULO3'] ?>_1' class='ops_<?= $i ?>'/>
                                     <label for='art_<?= $v3['ID_ARTICULO3'] ?>_1'><span><span></span></span></label>
                                 </div>
                                 <div>
-                                    <label style="width:200px" for='art_<?= $v3['ID_ARTICULO3'] ?>_2'>Recibido por trabajo <a title="Los bienes y servicios adquiridos por el hogar que cubren una parte o el total del pago por su trabajo." data-toggle="tooltip" href="#">(?)</a></label>
+                                    <label style="width:300px" for='art_<?= $v3['ID_ARTICULO3'] ?>_2'>Recibido como pago por trabajo <a class="ayuda" title="Los bienes y servicios adquiridos por el hogar que cubren una parte o el total del pago por su trabajo." data-toggle="tooltip" href="#">(?)</a></label>
                                     <input type='checkbox' name='<?= $v3['ID_ARTICULO3'] ?>[recibido_pago]' value='<?= $v3['ID_ARTICULO3'] ?>_2' id='art_<?= $v3['ID_ARTICULO3'] ?>_2' class='ops_<?= $i ?>'/>
                                     <label for='art_<?= $v3['ID_ARTICULO3'] ?>_2'><span><span></span></span></label>
                                 </div>
                                 <div>
-                                    <label style="width:200px" for='art_<?= $v3['ID_ARTICULO3'] ?>_3'>Regalo o donaci&oacute;n</label>
+                                    <label style="width:300px" for='art_<?= $v3['ID_ARTICULO3'] ?>_3'>Regalo o donaci&oacute;n</label>
                                     <input type='checkbox' name='<?= $v3['ID_ARTICULO3'] ?>[regalo]' value='<?= $v3['ID_ARTICULO3'] ?>_3' id='art_<?= $v3['ID_ARTICULO3'] ?>_3' class='ops_<?= $i ?>'/>
                                     <label for='art_<?= $v3['ID_ARTICULO3'] ?>_3'><span><span></span></span></label>
                                 </div>
                                 <div>
-                                    <label style="width:200px" for='art_<?= $v3['ID_ARTICULO3'] ?>_4'>Intercambio</label>
+                                    <label style="width:300px" for='art_<?= $v3['ID_ARTICULO3'] ?>_4'>Intercambio</label>
                                     <input type='checkbox' name='<?= $v3['ID_ARTICULO3'] ?>[intercambio]' value='<?= $v3['ID_ARTICULO3'] ?>_4' id='art_<?= $v3['ID_ARTICULO3'] ?>_4' class='ops_<?= $i ?>'/>
                                     <label for='art_<?= $v3['ID_ARTICULO3'] ?>_4'><span><span></span></span></label>
                                 </div>
                                 <div>
-                                    <label style="width:200px" for='art_<?= $v3['ID_ARTICULO3'] ?>_5'>Producido por el hogar<a title="Los bienes y servicios adquiridos por el hogar al ser producidos en la propia explotación agraria, fábrica o taller por alguno de los miembros del hogar y consumida por ellos mismos." data-toggle="tooltip" href="#">(?)</a></label>
+                                    <label style="width:300px" for='art_<?= $v3['ID_ARTICULO3'] ?>_5'>Producido por el hogar<a class="ayuda" title="Los bienes y servicios adquiridos por el hogar al ser producidos en la propia explotación agraria, fábrica o taller por alguno de los miembros del hogar y consumida por ellos mismos." data-toggle="tooltip" href="#">(?)</a></label>
                                     <input type='checkbox' name='<?= $v3['ID_ARTICULO3'] ?>[producido]' value='<?= $v3['ID_ARTICULO3'] ?>_5' id='art_<?= $v3['ID_ARTICULO3'] ?>_5' class='ops_<?= $i ?>'/>
                                     <label for='art_<?= $v3['ID_ARTICULO3'] ?>_5'><span><span></span></span></label>
                                 </div>
                                 <div>
-                                    <label style="width:200px" for='art_<?= $v3['ID_ARTICULO3'] ?>_6'>Tomado de un negocio propio<a title="Cuando el hogar tiene un negocio propio en el que adquiere artículos para venderlos y obtiene así ingresos, y toma parte de esos artículos para su propio consumo." data-toggle="tooltip" href="#">(?)</a></label>
+                                    <label style="width:300px" for='art_<?= $v3['ID_ARTICULO3'] ?>_6'>Tomado de un negocio propio<a class="ayuda" title="Cuando el hogar tiene un negocio propio en el que adquiere artículos para venderlos y obtiene así ingresos, y toma parte de esos artículos para su propio consumo." data-toggle="tooltip" href="#">(?)</a></label>
                                     <input type='checkbox' name='<?= $v3['ID_ARTICULO3'] ?>[negocio_propio]' value='<?= $v3['ID_ARTICULO3'] ?>_6' id='art_<?= $v3['ID_ARTICULO3'] ?>_6' class='ops_<?= $i ?>'/>
                                     <label for='art_<?= $v3['ID_ARTICULO3'] ?>_6'><span><span></span></span></label>
                                 </div>
                                 <div>
-                                    <label style="width:200px" for='art_<?= $v3['ID_ARTICULO3'] ?>_7'>Otra forma<a title="Se refiere a otras formas distintas a las mencionadas; por ejemplo: un jabón fiado en una tienda de barrio." data-toggle="tooltip" href="#">(?)</a></label>
+                                    <label style="width:300px" for='art_<?= $v3['ID_ARTICULO3'] ?>_7'>Otra forma<a class="ayuda" title="Se refiere a otras formas distintas a las mencionadas; por ejemplo: un jabón fiado en una tienda de barrio." data-toggle="tooltip" href="#">(?)</a></label>
                                     <input type='checkbox' name='<?= $v3['ID_ARTICULO3'] ?>[otra]' value='<?= $v3['ID_ARTICULO3'] ?>_7' id='art_<?= $v3['ID_ARTICULO3'] ?>_7' class='ops_<?= $i ?>' />
                                     <label for='art_<?= $v3['ID_ARTICULO3'] ?>_7'><span><span></span></span></label>
                                 </div>
