@@ -15,12 +15,11 @@
 				<img src="<?php echo base_url('images/' . $LOGO); ?>" alt="logo">
 			</div>
 			<div class="col-sm-8">
-				<h2><?php echo $TITULO1; ?> {{ FormulariorHombre.idSection }}</h2>
+				<h3><font color="#ec971f"><?php echo $TITULO1; ?></font></h3>
 
-				<blockquote>
-					<small><?php echo $TITULO2; ?></small>
-					<?php echo $TITULO3; ?>
-				</blockquote>
+					<h4><?php echo $TITULO2; ?></h4>
+					<h4><?php echo $TITULO3; ?></h4>
+
 			</div>
 
 
@@ -35,9 +34,9 @@
 						<div class="row">
 							<div class="form-group has-feedback" id="div-P10260D11">
 								<div class="col-sm-12">
-									<label class="control-label"><?php echo $TITULO4; ?>?</label>
+									<label class="control-label"><?php echo $TITULO4; ?></label>
 								</div>
-								<div class="col-sm-12">
+								<div class="col-sm-8" id="page0">
 									<div>
 										<input type="radio" name="inititalvalue" value="1" id="inititalvalue1" ng-model="FormulariorHombre.valorVariable" required>
 										<span></span><label>Si</label>
@@ -56,9 +55,23 @@
 						</div>
 					</form>
 				</fieldset>
-				<div class="row text-center">
-					<button class="btn btn-success" ng-disabled="!rHombre.$valid" ng-click="validateForm1(1)" id="ENV_2_2">Guardar y Continuar <span class="glyphicon glyphicon-chevron-right" aria-hidden="true" title="Continuar"></span></button>
+				<div class="col-sm-12" id="mensaje_" ng-if="continue[0] == 1">
+						<div class="col-sm-8">
+							<div class="alert alert-warning" role="alert">
+								<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+								Debe elegir una opción para continuar.
+							</div>
+						</div>
+					</div>
+				<div class="row text-center" ng-if="rHombre.$valid">
+					<button class="btn btn-success"  ng-click="validateForm1(1)" id="ENV_2_2">Guardar y Continuar <span class="glyphicon glyphicon-chevron-right" aria-hidden="true" title="Continuar"></span></button>
 				</div>
+					<div class="row text-center" ng-if="!rHombre.$valid">
+						<button class="btn btn-success" ng-click="validateContinue(0)" id="ENV_2_2">Guardar y Continuar
+							<span class="glyphicon glyphicon-chevron-right" aria-hidden="true" title="Continuar"></span>
+						</button>
+					</div>
+
 			</div>
 		</div>
 	</div>
@@ -66,7 +79,7 @@
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="col-sm-8">
-					<label class="control-label"><?php echo $TITULO5; ?>?</label>
+					<label class="control-label"><?php echo $TITULO5; ?></label>
 				</div>
 			</div>
 			<div class="col-sm-12">
@@ -74,7 +87,7 @@
 					<div class="row">
 						<div ng-repeat="rhom in FormulariorHombre.rh">
 							<div class="form-group has-feedback" id="div-{{rhom.id}}">
-								<div class="col-sm-8">
+								<div class="col-sm-8" id="page1">
 									<div class="checkbox">
 										<label><input type="checkbox" name="{{rhom.id}}" id="{{rhom.id}}" ng-model="FormulariorHombre.rh[$index].value" ng-change="validateBtnS1($index)">
 											<b>{{ rhom.name }}</b></label>
@@ -93,7 +106,7 @@
 						<div class="col-sm-8">
 							<div class="alert alert-warning" role="alert">
 								<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
-								Debe elegir almenos una de las opciones para continuar.
+								Debe elegir al menos una de las opciones para continuar.
 							</div>
 						</div>
 					</div>
@@ -119,7 +132,7 @@
 							<h4 class="modal-title" id="myModalLabel">Confirmación</h4>
 						</div>
 						<div class="modal-body">
-							¿Está usted seguro de querer continuar? Una vez haga clic en Continuar NO podrá cambiar la información proporcionada y NO podrá regresar a esta pantalla. Si quiere editar información de estas respuestas haga clic en Cancelar.
+							¿Está seguro de querer continuar? Una vez haga clic en Continuar NO podrá cambiar la información proporcionada y NO podrá regresar a esta pantalla. Si quiere editar información de estas respuestas haga clic en Cancelar.
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
@@ -144,56 +157,66 @@
 						<div class="row">
 							<div ng-repeat="rhom in FormulariorHombre.rh">
 								<div ng-if="rhom.value == true">
-									<div class="form-group has-feedback" id="div-03120102">
+									<div class="form-group has-feedback" id="div-{{rhom.id}}">
 										<div class="col-sm-12">
 											<div class="col-sm-12">
-												<label><h3 class="control-label" for="03120102">{{ rhom.name }}</h3></label>
+												<label><h3 class="control-label" for="{{rhom.id}}">{{ rhom.name }}</h3></label>
 												<br>
-												<label>¿Cómo lo obtuvieron?</label>
+												<label>¿Cómo lo obtuvieron? {{$index}}</label>
 											</div>
 											<div class="col-sm-2"></div>
 											<div class="col-sm-10" id="itemGroup{{rhom.id}}">
 												<div class="form-input">
 													<input type="hidden" name="{{rhom.id}}" id="{{rhom.id}}" ng-model="validateGroup[$index]" required>
-													<input type="checkbox" name="compra{{rhom.id}}" id="compra{{rhom.id}}" 
+													<input type="checkbox" name="compra{{rhom.id}}" class="ops_1" id="compra{{rhom.id}}" ng-true-value="1" ng-false-value="0"
 													ng-model="FormulariorHombre.rh[$index].ot.COMPRA" ng-change="validateBtnS2($index, rhom.id)">
 													<label><h5 class="control-label" for="555">Compra o pago</h5></label>
 												</div>
 
 												<div class="form-input">
-													<input type="checkbox" name="recibo{{rhom.id}}" id="recibo{{rhom.id}}" 
+													<input type="checkbox" name="recibo{{rhom.id}}" id="recibo{{rhom.id}}" ng-true-value="1" ng-false-value="0"
 													ng-model="FormulariorHombre.rh[$index].ot.RECIBIDO_PAGO" ng-change="validateBtnS2($index, rhom.id)">
-													<label><h5 class="control-label" for="03120102">Recibido como pago por trabajo</h5></label>
+													<label>
+													<h5 class="control-label" for="03120102">Recibido como pago por trabajo
+													<a class="ayuda" title="Los bienes y servicios adquiridos por el hogar que cubren una parte o el total del pago por su trabajo." data-toggle="tooltip" href="#" id="tooltip">(?)</a>
+													</h5> 
+													</label>
 												</div>
 
 												<div class="form-input">
-													<input type="checkbox" name="regalo{{rhom.id}}" id="regalo{{rhom.id}}" 
+													<input type="checkbox" name="regalo{{rhom.id}}" id="regalo{{rhom.id}}" ng-true-value="1" ng-false-value="0"
 													ng-model="FormulariorHombre.rh[$index].ot.REGALO" ng-change="validateBtnS2($index, rhom.id)">
 													<label><h5 class="control-label" for="03120102">Regalo o donación</h5></label>
 												</div>
 
 												<div class="form-input">
-													<input type="checkbox" name="intercambio{{rhom.id}}" id="intercambio{{rhom.id}}" 
+													<input type="checkbox" name="intercambio{{rhom.id}}" id="intercambio{{rhom.id}}" ng-true-value="1" ng-false-value="0"
 													ng-model="FormulariorHombre.rh[$index].ot.INTERCAMBIO" ng-change="validateBtnS2($index, rhom.id)">
 													<label><h5 class="control-label" for="03120102">Intercambio</h5></label>
 												</div>
 
 												<div class="form-input">
-													<input type="checkbox" name="producido{{rhom.id}}" id="producido{{rhom.id}}" 
+													<input type="checkbox" name="producido{{rhom.id}}" id="producido{{rhom.id}}" ng-true-value="1" ng-false-value="0"
 													ng-model="FormulariorHombre.rh[$index].ot.PRODUCIDO" ng-change="validateBtnS2($index, rhom.id)">
-													<label><h5 class="control-label" for="03120102">Producido por el hogar</h5></label>
+													<label><h5 class="control-label" for="03120102">Producido por el hogar
+														<a class="ayuda" title="Se refiere a los bienes y servicios adquiridos por el hogar y que fueron producidos en la propia explotación agraria, fábrica o taller por alguno de los miembros del hogar y consumida por ellos mismos." data-toggle="tooltip" href="#" id="tooltip">(?)</a>
+													</h5></label>
 												</div>
 
 												<div class="form-input">
-													<input type="checkbox" name="propio{{rhom.id}}" id="propio{{rhom.id}}" 
+													<input type="checkbox" name="propio{{rhom.id}}" id="propio{{rhom.id}}" ng-true-value="1" ng-false-value="0"
 													ng-model="FormulariorHombre.rh[$index].ot.NEGOCIO_PROPIO" ng-change="validateBtnS2($index, rhom.id)">
-													<label><h5 class="control-label" for="03120102">Tomado de un negocio propio</h5></label>
+													<label><h5 class="control-label" for="03120102">Tomado de un negocio propio
+													<a class="ayuda" title="Cuando el hogar tiene un negocio propio en el que adquiere artículos para venderlos y obtener así ingresos, y toma parte de esos artículos para su propio consumo." data-toggle="tooltip" href="#" id="tooltip">(?)</a>
+													</h5></label>
 												</div>
 
 												<div class="form-input">
-													<input type="checkbox" name="otra{{rhom.id}}" id="otra{{rhom.id}}" 
+													<input type="checkbox" name="otra{{rhom.id}}" id="otra{{rhom.id}}" ng-true-value="1" ng-false-value="0"
 													ng-model="FormulariorHombre.rh[$index].ot.OTRA" ng-change="validateBtnS2($index, rhom.id)">
-													<label><h5 class="control-label" for="03120102">Otra forma</h5></label>
+													<label><h5 class="control-label" for="03120102">Otra forma
+														<a class="ayuda" title="Se refiere a otras formas distintas a las mencionadas; por ejemplo: un jabón fiado en una tienda de barrio." data-toggle="tooltip" href="#" id="tooltip">(?)</a>
+													</h5></label>
 												</div>
 
 											</div>
@@ -240,7 +263,7 @@
 							<h4 class="modal-title" id="myModalLabel">Confirmación</h4>
 						</div>
 						<div class="modal-body">
-							¿Está usted seguro de querer continuar? Una vez haga clic en Continuar NO podrá cambiar la información proporcionada y NO podrá regresar a esta pantalla. Si quiere editar información de estas respuestas haga clic en Cancelar.
+							¿Está seguro de querer continuar? Una vez haga clic en Continuar NO podrá cambiar la información proporcionada y NO podrá regresar a esta pantalla. Si quiere editar información de estas respuestas haga clic en Cancelar.
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
@@ -273,20 +296,26 @@
 					</thead>
 					<tbody>
 
-						<tr align="center" ng-repeat="rhom in FormulariorHombre.rh" ng-if="rhom.ot.COMPRA === true && rhom.value === true">
+						<tr align="center" ng-repeat="rhom in FormulariorHombre.rh" ng-if="rhom.ot.COMPRA === 1 && rhom.value == true">
 							<td align="left">
 								{{rhom.name}}
 							</td>
 							<td>
 								<div class="form-group">
 									<div ng-if="!FormulariorHombre.rh[$index].pa.VALOR_PAGADO1">
-										<input class="form-control isnumeric currency" type="text" name="pagado{{rhom.id}}" id="pagado{{rhom.id}}"
+										<input class="form-control" type="text" name="pagado{{rhom.id}}" id="pagado{{rhom.id}}"
 										ng-model="VALOR_PAGADO[$index]"
 										ng-disabled="FormulariorHombre.rh[$index].pa.VALOR_PAGADO1" 
-										ng-change="sumValor($index, rhom.id)" required is-currency data-thousands="." data-decimal=",">
-										<input type="hidden" name="valorp{{$index}}" ng-model="FormulariorHombre.rh[$index].pa.VALOR_PAGADO" >
-										<label ng-show="FormulariorHombre.rh[$index].pa.VALOR_PAGADO < 500"
-										style="display: inline; margin-left: 10px; color: rgb(255, 0, 0);">Digite un valor mayor de 500.</label>
+										ng-change="sumValor($index, rhom.id); removeAlert('pagado{{rhom.id}}')" required>
+										<input type="hidden" name="valorp{{$index}}" ng-model="FormulariorHombre.rh[$index].pa.VALOR_PAGADO" required>
+										<label ng-show="FormulariorHombre.rh[$index].pa.VALOR_PAGADO < 1000"
+										style="display: inline; margin-left: 10px; color: rgb(255, 0, 0);">
+										Digite un valor mayor de 1000.
+										</label>
+										<label id="pagado{{rhom.id}}Error" class="hide" 
+										style="display: inline; margin-left: 10px; color: rgb(255, 0, 0);">
+										El campo es obligatorio.
+										</label>
 									</div>
 									<div ng-if="FormulariorHombre.rh[$index].pa.VALOR_PAGADO1">
 										<input 	class="form-control isnumeric" type="text" name="pagado1{{rhom.id}}" id="pagado1{{rhom.id}}" 
@@ -317,12 +346,16 @@
 										<option value="16">Establecimiento especializado en la venta del artículo o la prestación del servicio</option>
 										<option value="17">Farmacias y droguerías</option>
 										<option value="20">Persona particular</option>
-										<option value="21"> Ferias especializada: artesanal, del libro , del hogar, de computadores, etc.</option>
+										<option value="21"> Feria especializada: artesanal, del libro , del hogar, de computadores, etc.</option>
 										<option value="22">A través de Internet</option>
 										<option value="23">Televentas y ventas por catálogo</option>
 										<option value="24">Otro</option>
 										<option value="26">En el exterior (fuera del país)</option>
 									</select>
+									<label id="sellugar{{rhom.id}}Error" class="hide"
+										style="display: inline; margin-left: 10px; color: rgb(255, 0, 0);">
+										El campo es obligatorio.
+										</label>
 								</div>
 								<div ng-if="rhom.DEFINE_LUGAR_COMPRA != 1">
 									<div class="form-group">
@@ -345,7 +378,10 @@
 									<option value="9">Esporádica</option>
 									<option value="10">Semestral</option>
 								</select>
-								<!-- !generalForm.PREDENUPA{{idupa}}{{idpredio}}.$pristine && generalForm.PREDENUPA{{idupa}}{{idpredio}}.$error.required -->
+								<label id="selfre{{rhom.id}}Error" class="hide" 
+										style="display: inline; margin-left: 10px; color: rgb(255, 0, 0);">
+										El campo es obligatorio.
+										</label>
 							</div>
 						</td>
 					</tr>
@@ -353,7 +389,9 @@
 
 					<tr align="center" class="">
 						<td><b>SUBTOTAL</b></td>
-						<td> <input class="form-control currency" readonly type="text" name="txt_total" id="txt_total" ng-model="subtotal" is-currency data-thousands="." data-decimal=",">  </td>
+						<td>
+							<input class="form-control" readonly type="text" name="txt_total" id="txt_total" ng-model="subtotal">
+						</td>
 						<td colspan="3">&nbsp;</td>
 					</tr>
 
@@ -372,6 +410,10 @@
 								<option value="5">Cheques</option>
 								<option value="6">Otro</option>
 							</select>
+							<label id="mediopagoError" class="hide" 
+										style="display: inline; margin-left: 10px; color: rgb(255, 0, 0);">
+										El campo es obligatorio.
+										</label>
 						</div>
 					</td>
 					<td >
@@ -397,7 +439,7 @@
 	<div class="col-sm-12" id="mensaje_" ng-if="errorVcomprado">
 		<div class="alert alert-danger" role="alert">
 			<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
-			los campos <strong>Valor Pagado</strong> deben ser iguales o mayores a<strong> 500!</strong>
+			los campos <strong>Valor Pagado</strong> deben ser iguales o mayores a<strong> 1000!</strong>
 		</div>
 	</div>
 	<div class="row text-center" ng-if="rHombre3.$valid">
@@ -420,7 +462,7 @@
 					<h4 class="modal-title" id="myModalLabel">Confirmación</h4>
 				</div>
 				<div class="modal-body">
-					¿Está usted seguro de querer continuar? Una vez haga clic en Continuar NO podrá cambiar la información proporcionada y NO podrá regresar a esta pantalla. Si quiere editar información de estas respuestas haga clic en Cancelar.
+					¿Está seguro de querer continuar? Una vez haga clic en Continuar NO podrá cambiar la información proporcionada y NO podrá regresar a esta pantalla. Si quiere editar información de estas respuestas haga clic en Cancelar.
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
@@ -469,15 +511,15 @@
 					</tr>
 
 					<tr ng-repeat="rhom in FormulariorHombre.rh" ng-if="rhom.value === true && 
-					(rhom.ot.RECIBIDO_PAGO === true || rhom.ot.REGALO === true || rhom.ot.INTERCAMBIO === true || rhom.ot.PRODUCIDO === true || rhom.ot.NEGOCIO_PROPIO === true || rhom.ot.OTRA === true)">
+					(rhom.ot.RECIBIDO_PAGO === 1 || rhom.ot.REGALO === 1 || rhom.ot.INTERCAMBIO === 1 || rhom.ot.PRODUCIDO === 1 || rhom.ot.NEGOCIO_PROPIO === 1 || rhom.ot.OTRA === 1)">
 					<td>{{rhom.name}}</td>
 					<td>
 						<div class="form-group" ng-if="rhom.ot.RECIBIDO_PAGO && FormulariorHombre.otraforma[rhom.id]['<?php echo $RECIBIDO_PAGO ?>'] !== false">
 							<input name="recibidopago{{rhom.id}}" id="recibidopago{{rhom.id}}" type="text" class="form-control" 
 							ng-model="otraforma[rhom.id]['<?php echo $RECIBIDO_PAGO ?>']" 
 							ng-change="compValor(rhom.id, '<?php echo $RECIBIDO_PAGO ?>')" required>
-							<input name="recibidopago1{{rhom.id}}" id="recibidopago1{{rhom.id}}" type="text" class="form-control isnumeric" 
-							ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $RECIBIDO_PAGO ?>']" required is-number>
+							<input name="recibidopago1{{rhom.id}}" id="recibidopago1{{rhom.id}}" type="hidden" class="form-control isnumeric" 
+							ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $RECIBIDO_PAGO ?>']" required is-number ng-minlength="4">
 							<label ng-show="FormulariorHombre.otraforma[rhom.id]['<?php echo $RECIBIDO_PAGO ?>'] < 1000"
 								style="display: inline; margin-left: 10px; color: rgb(255, 0, 0);">
 								Digite un valor mayor de 1000.
@@ -502,8 +544,8 @@
 							<input name="regalo{{rhom.id}}" id="regalo{{rhom.id}}" type="text" class="form-control" 
 							ng-model="otraforma[rhom.id]['<?php echo $REGALO ?>']" 
 							ng-change="compValor(rhom.id, '<?php echo $REGALO ?>')" required>
-							<input name="regalo1{{rhom.id}}" id="regalo1{{rhom.id}}" type="text" class="form-control isnumeric" 
-							ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $REGALO ?>']" required is-number>
+							<input name="regalo1{{rhom.id}}" id="regalo1{{rhom.id}}" type="hidden" class="form-control isnumeric" 
+							ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $REGALO ?>']" required is-number ng-minlength="4">
 							<label ng-show="FormulariorHombre.otraforma[rhom.id]['<?php echo $REGALO ?>'] < 1000"
 								style="display: inline; margin-left: 10px; color: rgb(255, 0, 0);">
 								Digite un valor mayor de 1000.
@@ -525,8 +567,15 @@
 
 					<td>
 						<div class="form-group" ng-if="rhom.ot.INTERCAMBIO && FormulariorHombre.otraforma[rhom.id]['<?php echo $INTERCAMBIO ?>'] !== false">
-							<input name="intercambio{{rhom.id}}" id="intercambio{{rhom.id}}" type="text" class="form-control isnumeric" 
-							ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $INTERCAMBIO ?>']" required is-number > 
+							<input name="intercambio{{rhom.id}}" id="intercambio{{rhom.id}}" type="text" class="form-control" 
+							ng-model="otraforma[rhom.id]['<?php echo $INTERCAMBIO ?>']" 
+							ng-change="compValor(rhom.id, '<?php echo $INTERCAMBIO ?>')" required>
+							<input name="intercambio1{{rhom.id}}" id="intercambio1{{rhom.id}}" type="hidden" class="form-control isnumeric" 
+							ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $INTERCAMBIO ?>']" required is-number ng-minlength="4">
+							<label ng-show="FormulariorHombre.otraforma[rhom.id]['<?php echo $INTERCAMBIO ?>'] < 1000"
+								style="display: inline; margin-left: 10px; color: rgb(255, 0, 0);">
+								Digite un valor mayor de 1000.
+							</label>
 						</div>
 						<div class="form-group" ng-if="!rhom.ot.INTERCAMBIO || FormulariorHombre.otraforma[rhom.id]['<?php echo $INTERCAMBIO ?>'] === false">
 							<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" disabled> 
@@ -544,8 +593,15 @@
 
 					<td>
 						<div class="form-group" ng-if="rhom.ot.PRODUCIDO && FormulariorHombre.otraforma[rhom.id]['<?php echo $PRODUCIDO ?>'] !== false">
-							<input name="producido{{rhom.id}}" id="producido{{rhom.id}}" type="text" class="form-control isnumeric" 
-							ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $PRODUCIDO ?>']" required is-number > 
+							<input name="producido{{rhom.id}}" id="producido{{rhom.id}}" type="text" class="form-control" 
+							ng-model="otraforma[rhom.id]['<?php echo $PRODUCIDO ?>']"
+							ng-change="compValor(rhom.id, '<?php echo $PRODUCIDO ?>')" required>
+							<input name="producido1{{rhom.id}}" id="producido1{{rhom.id}}" type="hidden" class="form-control isnumeric" 
+							ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $PRODUCIDO ?>']" required is-number ng-minlength="4">
+							<label ng-show="FormulariorHombre.otraforma[rhom.id]['<?php echo $PRODUCIDO ?>'] < 1000"
+								style="display: inline; margin-left: 10px; color: rgb(255, 0, 0);">
+								Digite un valor mayor de 1000.
+							</label>
 						</div>
 						<div class="form-group" ng-if="!rhom.ot.PRODUCIDO || FormulariorHombre.otraforma[rhom.id]['<?php echo $PRODUCIDO ?>'] === false">
 							<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" disabled> 
@@ -563,8 +619,15 @@
 
 					<td>
 						<div class="form-group" ng-if="rhom.ot.NEGOCIO_PROPIO && FormulariorHombre.otraforma[rhom.id]['<?php echo $NEGOCIO_PROPIO ?>'] !== false">
-							<input name="negocio{{rhom.id}}" id="negocio{{rhom.id}}" type="text" class="form-control isnumeric" 
-							ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $NEGOCIO_PROPIO ?>']" required is-number > 
+							<input name="negocio{{rhom.id}}" id="negocio{{rhom.id}}" type="text" class="form-control" 
+							ng-model="otraforma[rhom.id]['<?php echo $NEGOCIO_PROPIO ?>']" 
+							ng-change="compValor(rhom.id, '<?php echo $NEGOCIO_PROPIO ?>')" required>
+							<input name="negocio1{{rhom.id}}" id="negocio1{{rhom.id}}" type="hidden" class="form-control isnumeric" 
+							ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $NEGOCIO_PROPIO ?>']" required is-number ng-minlength="4">
+							<label ng-show="FormulariorHombre.otraforma[rhom.id]['<?php echo $NEGOCIO_PROPIO ?>'] < 1000"
+								style="display: inline; margin-left: 10px; color: rgb(255, 0, 0);">
+								Digite un valor mayor de 1000.
+							</label>
 						</div>
 						<div class="form-group" ng-if="!rhom.ot.NEGOCIO_PROPIO || FormulariorHombre.otraforma[rhom.id]['<?php echo $NEGOCIO_PROPIO ?>'] === false">
 							<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" disabled> 
@@ -582,8 +645,15 @@
 
 					<td>
 						<div class="form-group" ng-if="rhom.ot.OTRA && FormulariorHombre.otraforma[rhom.id]['<?php echo $OTRA ?>'] !== false">
-							<input name="otra{{rhom.id}}" id="otra{{rhom.id}}" type="text" class="form-control isnumeric" 
-							ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $OTRA ?>']" required is-number > 
+							<input name="otra{{rhom.id}}" id="otra{{rhom.id}}" type="text" class="form-control" 
+							ng-model="otraforma[rhom.id]['<?php echo $OTRA ?>']" 
+							ng-change="compValor(rhom.id, '<?php echo $OTRA ?>')" required>
+							<input name="otra{{rhom.id}}" id="otra{{rhom.id}}" type="hidden" class="form-control isnumeric" 
+							ng-model="FormulariorHombre.otraforma[rhom.id]['<?php echo $OTRA ?>']" required is-number ng-minlength="4">
+							<label ng-show="FormulariorHombre.otraforma[rhom.id]['<?php echo $OTRA ?>'] < 1000"
+								style="display: inline; margin-left: 10px; color: rgb(255, 0, 0);">
+								Digite un valor mayor de 1000.
+							</label>
 						</div>
 						<div class="form-group" ng-if="!rhom.ot.OTRA || FormulariorHombre.otraforma[rhom.id]['<?php echo $OTRA ?>'] === false">
 							<input name="{{rhom.id}}" id="{{rhom.id}}" type="text" class="form-control" disabled> 
@@ -603,50 +673,45 @@
 			</table>
 		</div>
 	</form>
+</div>
 
-	<button class="btn btn-success" ng-disabled="!Page4.$valid" ng-click="validateForm5(5)" id="ENV_2_2">
-		Guardar y Continuar
+<div class="col-sm-12" id="mensaje_" ng-if="continue[4] == 1">
+	<div class="alert alert-warning" role="alert">
+		<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+		Debe llenar o completar los campos requeridos para continuar.
+	</div>
+</div>
+<div class="row text-center" ng-if="Page4.$valid">
+	<button class="btn btn-success" id="ENV_2_2" data-toggle="modal" data-target="#modalPage4">Guardar y Continuar
+		<span class="glyphicon glyphicon-chevron-right" aria-hidden="true" title="Continuar"></span>
+	</button>
+</div>
+<div class="row text-center" ng-if="!Page4.$valid">
+	<button class="btn btn-success" ng-click="validateContinue(4)" id="ENV_2_2">Guardar y Continuar
 		<span class="glyphicon glyphicon-chevron-right" aria-hidden="true" title="Continuar"></span>
 	</button>
 </div>
 
-	<div class="col-sm-12" id="mensaje_" ng-if="continue[4] == 1">
-		<div class="alert alert-warning" role="alert">
-			<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
-			Debe llenar los campos requeridos para continuar.
-		</div>
-	</div>
-	<div class="row text-center" ng-if="Page4.$valid">
-		<button class="btn btn-success" id="ENV_2_2" data-toggle="modal" data-target="#modalPage4">Guardar y Continuar
-			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true" title="Continuar"></span>
-		</button>
-	</div>
-	<div class="row text-center" ng-if="!Page4.$valid">
-		<button class="btn btn-success" ng-click="validateContinue(4)" id="ENV_2_2">Guardar y Continuar
-			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true" title="Continuar"></span>
-		</button>
-	</div>
-
 
 <!-- Modal -->
-	<div class="modal fade" id="modalPage4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-					<h4 class="modal-title" id="myModalLabel">Confirmación</h4>
-				</div>
-				<div class="modal-body">
-					¿Está usted seguro de querer continuar? Una vez haga clic en Continuar NO podrá cambiar la información proporcionada y NO podrá regresar a esta pantalla. Si quiere editar información de estas respuestas haga clic en Cancelar.
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-					<button type="button" class="btn btn-success" ng-click="validateForm5(5)">Continuar</button>
-				</div>
+<div class="modal fade" id="modalPage4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Confirmación</h4>
+			</div>
+			<div class="modal-body">
+				¿Está seguro de querer continuar? Una vez haga clic en Continuar NO podrá cambiar la información proporcionada y NO podrá regresar a esta pantalla. Si quiere editar información de estas respuestas haga clic en Cancelar.
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+				<button type="button" class="btn btn-success" ng-click="validateForm5(5)">Continuar</button>
 			</div>
 		</div>
-	</div> 
-	<!-- Modal -->
+	</div>
+</div> 
+<!-- Modal -->
 
 </div>
 

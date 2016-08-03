@@ -158,6 +158,7 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 	$scope.VALOR_PAGADO = [];
 	$scope.otraforma = [];
 
+
 	var gg = {
 		"ID_SECCION3": $idSection.val()
 	};
@@ -180,7 +181,13 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 	$scope.validateContinue = function(page){
 		$scope.continue[page] = 1;
 
-		if(page == 2){
+		if(page == 0){
+			$("div#page0").addClass('alert alert-danger');
+		}else if(page == 1){
+			$("div#page1").addClass('alert alert-danger');
+		}else if(page == 2){
+			$elele = $("#tooltip").tooltip();
+        console.log($elele);
 			
 			angular.forEach($scope.FormulariorHombre.rh, function(element, key){
 				var prueba = false;
@@ -204,7 +211,7 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 			angular.forEach($scope.FormulariorHombre.rh, function(element, key){
 				if( typeof element.pa != 'undefined' && !isNaN(element.pa.VALOR_PAGADO)){
 					vapagado = parseInt(element.pa.VALOR_PAGADO);
-					if(!isNaN(vapagado) && vapagado < 500){
+					if(!isNaN(vapagado) && vapagado < 1000){
 						$scope.errorVcomprado = true;
 					}
 				}
@@ -212,25 +219,34 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 				if(element.value == true){
 					$('input#pagado' + element.id).removeClass('alert alert-danger');
 					var pagadoEmpty = $('input#pagado' + element.id).val();
-					if(pagadoEmpty == '' || pagadoEmpty == null)
+					if(pagadoEmpty == '' || pagadoEmpty == null){
 						$('input#pagado' + element.id).addClass('alert alert-danger');
+						$('label#pagado' + element.id + 'Error').removeClass('hide');
+					}
 
 					$('select#sellugar' + element.id).removeClass('alert alert-danger');
 					var sellugarEmpty = $('select#sellugar' + element.id).val();
-					if(sellugarEmpty == '' || sellugarEmpty == null)
+					if(sellugarEmpty == '' || sellugarEmpty == null){
 						$('select#sellugar' + element.id).addClass('alert alert-danger');
+						$('label#sellugar' + element.id + 'Error').removeClass('hide');
+					}
 
 					$('select#selfre' + element.id).removeClass('alert alert-danger');
 					var selfreEmpty = $('select#selfre' + element.id).val();
-					if(selfreEmpty == '' || selfreEmpty == null)
+					if(selfreEmpty == '' || selfreEmpty == null){
 						$('select#selfre' + element.id).addClass('alert alert-danger');
+						$('label#selfre' + element.id + 'Error').removeClass('hide');
+					}
 				}
 			});
 
 			$('select#mediopago').removeClass('alert alert-danger');
 			var mediopagoEmpty = $('select#mediopago').val();
-			if(mediopagoEmpty == '' || mediopagoEmpty == null)
+			if(mediopagoEmpty == '' || mediopagoEmpty == null){
 				$('select#mediopago').addClass('alert alert-danger');
+				$('label#mediopagoError').removeClass('hide');
+			}
+
 		}else if(page == 4){
 			angular.forEach($scope.FormulariorHombre.rh, function(element, key){
 				$('input#recibidopago' + element.id).removeClass('alert alert-danger');
@@ -272,6 +288,7 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 	$scope.removeAlert = function(id){
 		console.log(id);
 		$("#" + id).removeClass('alert alert-danger');
+		$("#" + id + 'Error').addClass('hide');
 	};
 
 	$scope.validateForm1 = function(params){
@@ -287,7 +304,8 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 
 		dataService.saveSection(paramssec0, function(dataResponse){
 			if($scope.FormulariorHombre.valorVariable == '1' && dataResponse.status == true){
-				$scope.pagesection = params;
+				// $scope.pagesection = params;
+				$window.location.reload();
 			}else{
 				console.log('regarga pagina');
 				$window.location.reload();
@@ -356,7 +374,7 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 		angular.forEach($scope.FormulariorHombre.rh, function(element, key){
 			if( typeof element.pa != 'undefined' && !isNaN(element.pa.VALOR_PAGADO)){
 				vapagado = parseInt(element.pa.VALOR_PAGADO);
-				if(!isNaN(vapagado) && vapagado < 500){
+				if(!isNaN(vapagado) && vapagado < 1000){
 					$scope.errorVcomprado = true;
 				}
 			}
@@ -397,13 +415,19 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 	};
 
 	$scope.validateForm5 = function(params){
-		
+			
+		// var prggr = '';
+		prggr = angular.fromJson($scope.FormulariorHombre.otraforma);
+
+
 		var paramssec4 = {
 			"ID_FORMULARIO": $scope.FormulariorHombre.idFormulario,
 			"ID_SECCION3": $scope.FormulariorHombre.idSection,
-			"OTRA_PAGO": $scope.FormulariorHombre.otraforma,
+			"OTRA_PAGO": prggr,
 			"path": "ropaaccesorios/updateotros"
 		};
+
+		console.log(paramssec4);
 
 		dataService.saveElements(paramssec4, function(dataResponse){
 			if(dataResponse.result == true){
@@ -420,12 +444,14 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 		angular.forEach($scope.FormulariorHombre.rh, function(element, key){
 			if(element.value == true){
 				$scope.activeBtnS1 = element.value
+				$("div#page1").removeClass('alert alert-danger');
 			}
 		});
 		console.log($scope.activeBtnS1);
 	};
 
 	$scope.validateBtnS2 = function(index, idGroup){
+		console.log($scope.FormulariorHombre.rh, ' ', index);
 
 		$("div#itemGroup" + idGroup).removeClass('alert alert-danger');		
 		$scope.validateGroup[index] = '';
@@ -444,19 +470,19 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 		var subt = 0;
 		var vapagado = 0; 
 
-		var pagado = new String($scope.VALOR_PAGADO[index]);
+		var paramsCurrency = {
+			"input": $scope.VALOR_PAGADO[index],
+			"separator": '.',
+			"prefix": '$'
+		};
 
-		var pagadoReal = '';
-		angular.forEach(pagado, function(element, key){
-			if(!isNaN(key) && element != '.' && element != '$'){
-				console.log(element);
-				pagadoReal = pagadoReal + element;
-			}			
-		});
+		var resultCurrency = $filter('currency')(paramsCurrency);
+		$scope.VALOR_PAGADO[index] = resultCurrency.mask;
+		var pagadoReal = resultCurrency.unmask;
 
-		if(pagadoReal > 15000000){
-			pagadoReal = 15000000;
-			$scope.VALOR_PAGADO[index] = '$15.000.000';
+		if(pagadoReal > 5000000){
+			pagadoReal = 5000000;
+			$scope.VALOR_PAGADO[index] = '$5.000.000';
 		}
 
 		if(typeof $scope.FormulariorHombre.rh[index] == 'undefined' )
@@ -470,15 +496,6 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 
 		$scope.FormulariorHombre.rh[index].pa.VALOR_PAGADO = pagadoReal;
 
-		angular.forEach(pagado, function(element, key){
-			if(!isNaN(key) && element != '.'){
-				console.log(element);
-			}
-		});
-
-		/*$scope.VALOR_PAGADO[index] =	pagado.replace(rExp, "");
-		console.log($scope.VALOR_PAGADO);*/
-
 		angular.forEach($scope.FormulariorHombre.rh, function(element, key){
 			if( typeof element.pa != 'undefined' && !isNaN(element.pa.VALOR_PAGADO)){
 				vapagado = parseInt(element.pa.VALOR_PAGADO);
@@ -486,11 +503,20 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 					subt = subt + vapagado;
 			}
 		});
-		$scope.subtotal = subt;
+
+		var paramsCurrencySub = {
+			"input": subt,
+			"separator": '.',
+			"prefix": '$'
+		};
+
+		var resultCurrencySub = $filter('currency')(paramsCurrencySub);
+
+		$scope.subtotal = resultCurrencySub.mask;
 	};
 
 	$scope.compValor = function(id, idElement){
-			
+			console.log($scope.FormulariorHombre.otraforma);
 		var paramsCurrency = {
 			"input": $scope.otraforma[id][idElement],
 			"separator": '.',
@@ -499,23 +525,25 @@ appGHogar.controller('ropaHombre', ['$scope', 'dataService', 'localStorageServic
 
 		var resultCurrency = $filter('currency')(paramsCurrency);
 
-		if(resultCurrency.unmask > 15000000){
-			resultCurrency.mask = '$15.000.000';
-			resultCurrency.unmask = 15000000;
+		if(resultCurrency.unmask > 5000000){
+			resultCurrency.mask = '$5.000.000';
+			resultCurrency.unmask = 5000000;
 		};
 
 		$scope.otraforma[id][idElement] = resultCurrency.mask;
 
 		if(typeof $scope.FormulariorHombre.otraforma == 'undefined')
-			$scope.FormulariorHombre.otraforma = [];
+			$scope.FormulariorHombre.otraforma = {};
 
 		if(typeof $scope.FormulariorHombre.otraforma[id] == 'undefined')
-			$scope.FormulariorHombre.otraforma[id] = [];
+			$scope.FormulariorHombre.otraforma[id] = {};
 
 		if(typeof $scope.FormulariorHombre.otraforma[id][idElement] == 'undefined')
 			$scope.FormulariorHombre.otraforma[id][idElement] = '';
 
 		$scope.FormulariorHombre.otraforma[id][idElement] = resultCurrency.unmask;
+
+		// console.log($scope.FormulariorHombre.otraforma);
 	};
 
 	$scope.resValor = function(index){

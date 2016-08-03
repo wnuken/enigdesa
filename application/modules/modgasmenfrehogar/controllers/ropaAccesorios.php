@@ -60,7 +60,7 @@ class Ropaaccesorios extends MX_Controller {
             if(is_array($validateControl)){
                 foreach ($validateControl as $key => $section) {
 
-                 if($section['ID_SECCION3'] == 'D6'){
+                   if($section['ID_SECCION3'] == 'D6'){
                     $this->idSubModulo = 'E';
                     $section['PAG_SECCION3'] = 1;
                 }
@@ -147,23 +147,23 @@ private function updateControlSection($params){
 }
 
 public function validateinitsection(){
-   $params = $this->input->get(NULL, TRUE);
-   $result = FALSE;
+ $params = $this->input->get(NULL, TRUE);
+ $result = FALSE;
 
-   $paramsGmf['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
-   $paramsGmf['ID_VARIABLE'] = $params['ID_VARIABLE'];
-   $paramsGmf['VALOR_VARIABLE'] = $params['VALOR_VARIABLE'];
+ $paramsGmf['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
+ $paramsGmf['ID_VARIABLE'] = $params['ID_VARIABLE'];
+ $paramsGmf['VALOR_VARIABLE'] = $params['VALOR_VARIABLE'];
 
       // var_dump($paramsGmf);
 
-   $result = $this->Maccesorios->setGmfVariable($paramsGmf);
+ $result = $this->Maccesorios->setGmfVariable($paramsGmf);
 
-   $dataElement['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
-   $dataElement['ID_SECCION3'] =  $params['ID_SECCION3'];
-   $dataElement['PAG_SECCION3'] = 1;
-   $dataElement['FECHA_INI_SEC'] = date('Y/m/d', strtotime('now'));
-   $dataElement['FECHA_FIN_SEC'] = date('Y/m/d', strtotime('now'));
-   if($params['VALOR_VARIABLE'] == 2)
+ $dataElement['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
+ $dataElement['ID_SECCION3'] =  $params['ID_SECCION3'];
+ $dataElement['PAG_SECCION3'] = 1;
+ $dataElement['FECHA_INI_SEC'] = date('Y/m/d', strtotime('now'));
+ $dataElement['FECHA_FIN_SEC'] = date('Y/m/d', strtotime('now'));
+ if($params['VALOR_VARIABLE'] == 2)
     $dataElement['ID_ESTADO_SEC'] = 2;
 $resultControl = $this->Maccesorios->updateGmfControl($dataElement);
 
@@ -185,58 +185,40 @@ public function getelements(){
     $elementsForm = $this->Maccesorios->getElementsForm($params);
     $COMPRA = FALSE; $RECIBIDO_PAGO = FALSE; $REGALO = FALSE; $INTERCAMBIO = FALSE;
     $PRODUCIDO = FALSE; $NEGOCIO_PROPIO = FALSE; $OTRA = FALSE;
+    $OT = array();
 
-    foreach ($elements as $key => $value) {
-       $active = FALSE;
 
-       foreach ($elementsForm as $key1 => $value1) {
-        if($value['ID_ARTICULO3'] == $value1['ID_ARTICULO3']){
-            $active = TRUE;
+     /*echo '<pre>';
+        print_r($elementsForm);
+        echo "</pre>"; */
 
-            if(isset($value1['COMPRA']) && $value1['COMPRA'] == 1)
-                $COMPRA = TRUE;
+        foreach ($elements as $key => $value) {
+         $result[$key] = array(
+            'name' => $value['ETIQUETA'],
+            'id' =>  $value['ID_ARTICULO3'],
+            'value' => FALSE,
+            'DEFINE_LUGAR_COMPRA' => $value['DEFINE_LUGAR_COMPRA'],
+            'DEFINE_FRECU_COMPRA' => $value['DEFINE_FRECU_COMPRA'],
+            'ot' => ''
+            );
 
-            if(isset($value1['RECIBIDO_PAGO']) && $value1['RECIBIDO_PAGO'] == 1)
-                $RECIBIDO_PAGO = TRUE;
-
-            if(isset($value1['REGALO']) && $value1['REGALO'] == 1)
-                $REGALO = TRUE;
-
-            if(isset($value1['INTERCAMBIO']) && $value1['INTERCAMBIO'] == 1)
-                $INTERCAMBIO = TRUE;
-
-            if(isset($value1['PRODUCIDO']) && $value1['PRODUCIDO'] == 1)
-                $PRODUCIDO = TRUE;
-
-            if(isset($value1['NEGOCIO_PROPIO']) && $value1['NEGOCIO_PROPIO'] == 1)
-                $NEGOCIO_PROPIO = TRUE;
-
-            if(isset($value1['OTRA']) && $value1['OTRA'] == 1)
-                $OTRA = TRUE;
+         foreach ($elementsForm as $key1 => $value1) {
+            if($value['ID_ARTICULO3'] == $value1['ID_ARTICULO3']){
+                $result[$key]['value'] = TRUE;
+                $result[$key]['ot']['COMPRA'] = intval($value1['COMPRA']);
+                $result[$key]['ot']['RECIBIDO_PAGO'] = intval($value1['RECIBIDO_PAGO']);
+                $result[$key]['ot']['REGALO'] = intval($value1['REGALO']);
+                $result[$key]['ot']['INTERCAMBIO'] = intval($value1['INTERCAMBIO']);
+                $result[$key]['ot']['PRODUCIDO'] = intval($value1['PRODUCIDO']);
+                $result[$key]['ot']['NEGOCIO_PROPIO'] = intval($value1['NEGOCIO_PROPIO']);
+                $result[$key]['ot']['OTRA'] = intval($value1['OTRA']);
+            }
         }
+
+
     }
-
-    $result[$key] = array(
-        'name' => $value['ETIQUETA'],
-        'id' =>  $value['ID_ARTICULO3'],
-        'value' => $active,
-        'DEFINE_LUGAR_COMPRA' => $value['DEFINE_LUGAR_COMPRA'],
-        'DEFINE_FRECU_COMPRA' => $value['DEFINE_FRECU_COMPRA'],
-        'ot' => array(
-            'COMPRA' => $COMPRA, 
-            'RECIBIDO_PAGO' => $RECIBIDO_PAGO,
-            'REGALO' => $REGALO,
-            'INTERCAMBIO' => $INTERCAMBIO,
-            'PRODUCIDO' => $PRODUCIDO,
-            'NEGOCIO_PROPIO' => $NEGOCIO_PROPIO,
-            'OTRA' => $OTRA
-            )
-        );
-
-
-}
-$response = json_encode($result);
-print $response;
+    $response = json_encode($result);
+    print $response;
 }
 
 public function savesetarticulos(){
@@ -281,8 +263,11 @@ public function updatearticulos(){
             $jArray = json_decode($value);
 
             foreach ($jArray as $key => $value) {
-                if($value == true)
-                    $paramsElement[$key] = 1;
+                if($value == 1){
+                    $paramsElement[$key] = $value;
+                }else{
+                    $paramsElement[$key] = NULL;
+                }
             }
 
             $result = $this->Maccesorios->setArticulos($paramsElement);
@@ -362,6 +347,8 @@ public function updatecompra(){
 public function updateotros(){
     $params = $this->input->get(NULL, TRUE);
 
+    $OTRA_PAGO = array();
+    $resultVariables = array();
     $dataElement['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
     $dataElement['ID_SECCION3'] = $params['ID_SECCION3'];
     $dataElement['ID_ESTADO_SEC'] = 2;
@@ -375,8 +362,12 @@ public function updateotros(){
         $resultControl = $this->Maccesorios->updateGmfControl($dataElement);
     }
 
-    $OTRA_PAGO = json_decode($params['OTRA_PAGO'], TRUE);
+    if(isset($params['OTRA_PAGO'])){
+        $OTRA_PAGO = json_decode($params['OTRA_PAGO'], TRUE);
+    }
+    
     $dataFormas['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
+    
     foreach ($OTRA_PAGO as $key => $articulo3) {
         $dataFormas['ID_ARTICULO3'] = $key;
         foreach ($articulo3 as $key1 => $value) {
