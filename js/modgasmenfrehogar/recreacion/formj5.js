@@ -14,15 +14,15 @@ $(function() {
 		//ignore:"",
 		rules : {
 			P10395S1A1 : {required   :  true,
-							mayorQue:20,
+							mayorQue:365,
 							menorQue:1
 			},
 			P10395S2A1 : {	required : true,
-							mayorQue:20,
+							mayorQue:365,
 							menorQue:1
 			}, 
 			P10396S1 : {	required : true,
-							mayorQue : 20,
+							mayorQue : 365,
 							menorQue : 1
 			},
 			P10396S2 : {	required : true,
@@ -31,19 +31,19 @@ $(function() {
 							
 			},
 			P10397S1A1 : {	required : true,
-							mayorQue : 20,
+							mayorQue : 365,
 							menorQue : 1
 			},
 			P10397S3A1 : {	required : true,
-							mayorQue : 20,
+							mayorQue : 365,
 							menorQue : 1
 			},
 			P10397S4A1 : {	required : true,
-							mayorQue : 20,
+							mayorQue : 365,
 							menorQue : 1
 			},
 			P10397S5A1 : {	required : true,
-							mayorQue : 20,
+							mayorQue : 365,
 							menorQue : 1
 			},
 			P3J1324 : {	required : true,
@@ -53,40 +53,40 @@ $(function() {
 			
 		},
 		messages : {
-			P10395S1A1 : {	required:"Falta cantidad de viajes nacional.",
+			P10395S1A1 : {	required:"Respuesta obligatoria. Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.l.",
 							mayorQue:"Digite un valor menor o igual de 365",
 							menorQue:"Digite un valor mayor de 0" 
 			},
-			P10395S2A1 : {	required:"Falta cantidad de viajes internacional.",
+			P10395S2A1 : {	required:"Respuesta obligatoria. Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.",
 							mayorQue:"Digite un valor menor o igual de 365",
 							menorQue:"Digite un valor mayor de 0" 
 			},
-			P10396S1 : {	required:"Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.",
-							mayorQue:"Digite un valor menor o igual de 20",
+			P10396S1 : {	required:"Respuesta obligatoria. Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.",
+							mayorQue:"Digite un valor menor o igual de 365",
 							menorQue:"Digite un valor mayor de 0" 
 			},
-			P10396S2 : {	required:" Por favor, digite un valor o seleccione una opci&oacute;n para continuar.",
+			P10396S2 : {	required:"Respuesta obligatoria. Por favor, digite un valor o seleccione una opci&oacute;n para continuar.",
 							mayorQue:"Digite un valor menor o igual de 20.000.000",
 							menorQue:"Digite un valor mayor de 50.000"
 							
 			},
-			P10397S1A1 : {	required:"Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.",
-							mayorQue:"Digite un valor menor o igual de 20",
+			P10397S1A1 : {	required:"Respuesta obligatoria. Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.",
+							mayorQue:"Digite un valor menor o igual de 365",
 							menorQue:"Digite un valor mayor de 0" 
 			},
-			P10397S3A1 : {	required:"Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.",
-							mayorQue:"Digite un valor menor o igual de 20",
+			P10397S3A1 : {	required:"Respuesta obligatoria. Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.",
+							mayorQue:"Digite un valor menor o igual de 365",
 							menorQue:"Digite un valor mayor de 0" 
 			},
-			P10397S4A1 : {	required:"Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.",
-							mayorQue:"Digite un valor menor o igual de 20",
+			P10397S4A1 : {	required:"Respuesta obligatoria. Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.",
+							mayorQue:"Digite un valor menor o igual de 365",
 							menorQue:"Digite un valor mayor de 0" 
 			},
-			P10397S5A1 : {	required:"Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.",
-							mayorQue:"Digite un valor menor o igual de 20",
+			P10397S5A1 : {	required:"Respuesta obligatoria. Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.",
+							mayorQue:"Digite un valor menor o igual de 365",
 							menorQue:"Digite un valor mayor de 0" 
 			},
-			P3J1324 : {	required:" Por favor, digite un valor o seleccione una opci&oacute;n para continuar.",
+			P3J1324 : {	required:"Respuesta obligatoria. Por favor, digite un valor o seleccione una opci&oacute;n para continuar.",
 							mayorQue:"Digite un valor menor o igual de 20.000.000",
 							menorQue:"Digite un valor mayor de 50.000" 
 			}
@@ -340,18 +340,18 @@ $(function() {
 	            	$("#mostrar_P10396").show();  
 	            	$("#no_P10396").prop("disabled",true);
 	    			$("#no_P10396").prop("checked",false);
-	    			$("#art_P10395S1").prop("checked",true);
-	    			$("#art_P10395S2").prop("checked",true);
+	    			//$("#art_P10395S1").prop("checked",true);
+	    			//$("#art_P10395S2").prop("checked",true);
 	    			$(".ocultarAlojamiento").hide();
-	    			$("#mostrar_P10395S1").show();
-	    			$("#mostrar_P10395S2").show();
+	    			//$("#mostrar_P10395S1").show();
+	    			//$("#mostrar_P10395S2").show();
 	            }else{
 	                //$("#formularioRubros").css("display", "none");
 	            	$("#mostrar_P10396").hide();
 	            	$("#no_P10396").prop("disabled",false);
 	    			$("#no_P10396").prop("checked",false);
-	    			$("#art_P10395S1").prop("checked",false);
-	    			$("#art_P10395S2").prop("checked",false);
+	    			//$("#art_P10395S1").prop("checked",false);
+	    			//$("#art_P10395S2").prop("checked",false);
 	    			$(".ocultarAlojamiento").show();
 	    			//$("#mostrar_P10395S1").hide();
 	    			//$("#mostrar_P10395S2").hide();

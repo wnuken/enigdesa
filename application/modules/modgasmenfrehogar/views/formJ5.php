@@ -74,13 +74,13 @@ background:#E9EFCA
 </style>
 <script src="<?= $js_dir ?>"></script>
 <hr />
-<div class="row secondHead themeHead">
-    <div class="col-sm-2 hidden-xs"><img src="<?php echo base_url("images/form_icon-ingresospersonales.png"); ?>" alt="Imagen sección hogar"></div>
+<div class="">
+    <div class="col-sm-2 hidden-xs"><img src="<?php echo base_url("images/ico_gmf_21.png"); ?>" alt="Imagen sección hogar"></div>
     <!--<div class="col-sm-4 col-md-3 col-lg-2 col-xs-12">
         
     </div>-->
     <!--<div class="col-sm-5 ">-->
-    <h2><?= $secc[0]['TITULO1'] ?></h2>
+    <h3><font color="#ec971f"><?= $secc[0]['TITULO1'] ?></font></h3>
     <h4><?= $secc[0]['TITULO2'] ?></h4>
     <h5><?= $secc[0]['TITULO3'] ?></h5>
     <!--</div>-->
@@ -115,7 +115,7 @@ background:#E9EFCA
                             <label class="control-label" for="P10395">P10395</label>
 
                             <div title="" data-original-title="" id="RESP_P10395" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
-                                ¿De P10303 del 2015 a P10303S1 del 2016 usted o alg&uacute;n miembro del hogar realiz&oacute; viajes a destinos nacionales e internacionales?
+                                ¿De <? echo $ultimoa['ULTIMOA'];  ?> usted o alg&uacute;n miembro del hogar realiz&oacute; viajes a destinos nacionales e internacionales?
                             </div>
                         <br>
                         
@@ -193,7 +193,7 @@ background:#E9EFCA
 							</div>
 						</div>
 						<div>
-							<input type='checkbox' name='P10396S1_99' value='99' id='art_P10396S1_99' class='ops_2'/>
+							<input type='checkbox' name='P10396S1_99' value='9999' id='art_P10396S1_99' class='ops_2'/>
 							<label for="art_P10396S1_99" id="art_P10396S1_99"><span></span>No sabe o no informa</label>
 						</div>
 	            	</div>
@@ -209,7 +209,7 @@ background:#E9EFCA
 							</div>
 						</div>
 						<div>
-							<input type='checkbox' name='P10396S2_99' value='99' id='art_P10396S2_99' class='ops_2'/>
+							<input type='checkbox' name='P10396S2_99' value='9999' id='art_P10396S2_99' class='ops_2'/>
 							<label for="art_P10396S2_99" id="art_P10396S2_99"><span></span>No sabe o no informa</label>
 						</div>
 	            	</div>
@@ -250,7 +250,7 @@ background:#E9EFCA
 									</div>
 								</div>
 								<div>
-									<input type='checkbox' name='P10397S1A1_99' value='99' id='art_P10397S1A1_99' class='ops_2'/>
+									<input type='checkbox' name='P10397S1A1_99' value='9999' id='art_P10397S1A1_99' class='ops_2'/>
 									<label for="art_P10397S1A1_99" id="art_P10397S1A1_99"><span></span>No sabe o no informa</label>
 								</div>
 			            	</div>
@@ -284,7 +284,7 @@ background:#E9EFCA
 									</div>
 								</div>
 								<div>
-									<input type='checkbox' name='P10397S3A1_99' value='99' id='art_P10397S3A1_99' class='ops_2'/>
+									<input type='checkbox' name='P10397S3A1_99' value='9999' id='art_P10397S3A1_99' class='ops_2'/>
 									<label for="art_P10397S1A1_99" id="art_P10397S1A1_99"><span></span>No sabe o no informa</label>
 								</div>
 			            	</div>
@@ -316,7 +316,7 @@ background:#E9EFCA
 									</div>
 								</div>
 								<div>
-									<input type='checkbox' name='P10397S4A1_99' value='99' id='art_P10397S4A1_99' class='ops_2'/>
+									<input type='checkbox' name='P10397S4A1_99' value='9999' id='art_P10397S4A1_99' class='ops_2'/>
 									<label for="art_P10397S4A1_99" id="art_P10397S4A1_99"><span></span>No sabe o no informa</label>
 								</div>
 			            	</div>
@@ -348,7 +348,7 @@ background:#E9EFCA
 									</div>
 								</div>
 								<div>
-									<input type='checkbox' name='P10397S5A1_99' value='99' id='art_P10397S5A1_99' class='ops_2'/>
+									<input type='checkbox' name='P10397S5A1_99' value='9999' id='art_P10397S5A1_99' class='ops_2'/>
 									<label for="art_P10397S5A1_99" id="art_P10397S5A1_99"><span></span>No sabe o no informa</label>
 								</div>
 			            	</div>
@@ -382,7 +382,7 @@ background:#E9EFCA
 									</div>
 								</div>
 								<div>
-									<input type='checkbox' name='P3J1324_99' value='99' id='art_P3J1324_99' class='ops_4'/>
+									<input type='checkbox' name='P3J1324_99' value='9999' id='art_P3J1324_99' class='ops_4'/>
 									<label for="art_P3J1324_99" id="art_P3J1324_99"><span></span>No sabe o no informa</label>
 								</div>
 							</div>

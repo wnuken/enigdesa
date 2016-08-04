@@ -501,9 +501,8 @@ class Recreacion extends MX_Controller {
     	$data['secc'] = $this->Modgmfh->listar_secciones(array("id" => $this->idSeccion));
     	$data['var'] = $this->Modgmfh->lista_variables_param(array("seccion" => $this->idSeccion, "pagina" => 2));
     	$data['preg']["var"] = $this->Modgmfh->lista_formaObtencion(array("seccion" => $this->idSeccion, "id_formulario" => $data["id_formulario"]));
-    	
     	$data["view"] = "formJ5";
-    	
+    	$data['ultimoa']= $this->Mformulario->consultarDatosInscripcion($data["id_formulario"]);
     	$this->load->view("layout", $data);
     }
     

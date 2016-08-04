@@ -57,8 +57,21 @@
 		}
 		if ($("#form_sec3").valid() == true){
 		
-			if(window.confirm('Haga clic en Aceptar si realmente quiere guardar y continuar a la siguiente secci\u00f3n.'))
-			{
+			//if(window.confirm('Haga clic en Aceptar si realmente quiere guardar y continuar a la siguiente secci\u00f3n.'))
+			bootbox.confirm({
+                title: 'Confirmación',
+                message: '¿Está seguro de querer continuar? Una vez haga clic en Continuar NO podrá cambiar la información proporcionada y NO podrá regresar a esta pantalla. Si quiere editar información de estas respuestas haga clic en Cancelar.',
+                buttons: {
+                    'cancel': {
+                    label: 'Cancelar',
+                    className: 'btn btn-primary btn-success'
+                },
+                'confirm': {
+                    label: 'Continuar',
+                    className: 'btn btn-primary btn-success'
+                }
+            }, callback: function(result) {
+				if(result) {// Si dio clic en continuar
 				//Activa icono guardando
 				$("#pag3_error").css("display", "none");
 				$("#pag3_cargando").css("display", "inline");
@@ -92,7 +105,8 @@
 						}
 					
 					});
-			}		
+				}	
+			}});		
 		}//if			
 		/*else
 		{

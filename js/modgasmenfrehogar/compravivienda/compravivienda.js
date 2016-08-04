@@ -6,6 +6,80 @@
 
 $(function(){
 	$("#frmCompraVivienda").validate({
+		rules : {
+			p10305s1 : {required   :  false,
+							menorQue: 100000
+			},
+			p10306s1a1 : {	required : false,
+							menorQue: 100000
+			}, 
+			p10306s2a1 : {	required : false,
+							menorQue : 100000
+			},
+			p5161s1a3c14 : {	required : false,
+							mayorQue : 35000000,
+							menorQue : 500000
+							
+			},
+			p5161s1a4c14 : {	required : false,
+							mayorQue : 35000000,
+							menorQue : 500000
+			},
+			p5161s2a3c14 : {	required : false,
+							mayorQue : 35000000,
+							menorQue : 500000
+			},
+			p5161s2a4c14 : {	required : false,
+							mayorQue : 35000000,
+							menorQue : 500000
+			},
+			p10312s1 : {	required : false,
+							mayorQue : 35000000,
+							menorQue : 500000
+			},
+			p8697s4a1 : {	required : false,
+							mayorQue : 35000000,
+							menorQue : 500000
+			}
+			
+		},
+		messages : {
+			p10305s1 : {	required:"Respuesta obligatoria. Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.l.",
+							menorQue:"Digite un valor menor o igual a 100.000",
+			},
+			p10306s1a1 : {	required:"Respuesta obligatoria. Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.",
+							menorQue:"Digite un valor menor o igual a 100.000",
+			},
+			p10306s2a1 : {	required:"Respuesta obligatoria. Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.",
+							menorQue:"Digite un valor menor o igual de 100.000",
+			},
+			p5161s1a3c14 : {	required:"Respuesta obligatoria. Por favor, digite un valor o seleccione una opci&oacute;n para continuar.",
+							mayorQue:"Digite un valor menor o igual de 35.000.000",
+							menorQue:"Digite un valor mayor de 500.000"
+							
+			},
+			p5161s1a4c14 : {	required:"Respuesta obligatoria. Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.",
+							mayorQue:"Digite un valor menor o igual de 35.000.000",
+							menorQue:"Digite un valor mayor de 500.000" 
+			},
+			p5161s2a3c14 : {	required:"Respuesta obligatoria. Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.",
+							mayorQue:"Digite un valor menor o igual de 35.000.000",
+							menorQue:"Digite un valor mayor de 500.000" 
+			},
+			p5161s2a4c14 : {	required:"Respuesta obligatoria. Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.",
+							mayorQue:"Digite un valor menor o igual de 35.000.000",
+							menorQue:"Digite un valor mayor de 500.000" 
+			},
+			p10312s1 : {	required:"Respuesta obligatoria. Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.",
+							mayorQue:"Digite un valor menor o igual de 35.000.000",
+							menorQue:"Digite un valor mayor de 500.000" 
+			},
+			p8697s4a1 : {	required:"Respuesta obligatoria. Por favor, digite un valor o seleccione una opci&oacute;n para continuar.",
+							mayorQue:"Digite un valor menor o igual de 35.000.000",
+							menorQue:"Digite un valor mayor de 500.000" 
+			}
+					
+		},
         //Mensajes de error
         errorPlacement: function(error, element) {
             element.after(error);            
@@ -18,69 +92,80 @@ $(function(){
             
         }
     });
+	$("#p10305s1, #p10306s1a1, #p10306s2a1").largo(15);
+	$("#p5161s1a3c14, #p5161s1a4c14, #p5161s2a3c14, #p5161s2a4c14, #p10312s1, #p8697s4a1").largo(8);
+	$("#p10309s5a1, #p8697s7a1").largo(500);
+
     
 	var agregarPuntosMiles = function(numero){
         return String(numero).split(/(?=(?:\d{3})+$)/).join(".");
     }
+    var hallarAncestroMasCercano = function(elem,idsarr){
+        for(i in idsarr) {
+        	j = 1;
+        	elem = elem.parent();
+        	var id = elem.attr("id");
+        	//console.log("id="+id);
+        	while(id != idsarr[i] && !elem.is('body')){
+        		console.log(id +" != "+ idsarr[i]);
+        		//console.log(id);
+        		elem = elem.parent();
+        		id = elem.attr("id");
+        		console.log(id);
+        		j++;    		
+        	}
+        	console.log(idsarr[i]+" tiene un numero de saltos de "+j);
+        }
+
+    }
+    var revalidarPreguntas = function(id){
+    	if(id.indexOf('p10305') != -1) {
+    		//console.log("revalida pregunta 1");
+    		//console.log($.contains( $("#ops_pregunta1"), $(this)) );
+    		///console.log($.contains( $(this), $("#divCV1") ) );
+    		//console.log($(this).parents("#main-ops_pregunta1"));
+    		//console.log($(this).parents("#main-divCV1"));
+    		//$("#ops_pregunta1").removeClass("alert alert-danger");
+			//$("#divCV1").removeClass("alert alert-danger");
+			//console.log("-----"+$('#'+id).attr('id'));
+			hallarAncestroMasCercano($('#'+id),['ops_pregunta1','divCV1']);
+    		var preg1 = validarPregunta1(null);
+    	}
+    	if(id.indexOf('p10306') != -1) {
+    		console.log("revalida pregunta 2");
+    		var preg2 = validarPregunta2();
+    	}
+    	if(id.indexOf('p10307') != -1) {
+    		console.log("revalida pregunta 3");
+			var preg3 = validarPregunta3();
+		}
+		if(id.indexOf('p10309s') != -1) {
+			console.log("revalida pregunta 4");
+			var preg4 = validarPregunta4();
+		}
+		if(id.indexOf('p5161s') != -1) {
+			console.log("revalida pregunta 5");
+			var preg51 = validarPregunta51();
+			//var preg52 = validarPregunta52();
+		}
+		if(id.indexOf('p10312') != -1) {
+			console.log("revalida pregunta 6");
+			var preg6 = validarPregunta6();
+		}
+		if(id.indexOf('p8697s') != -1) {
+			console.log("revalida pregunta 7");
+			var preg7 = validarPregunta7();
+		}
+    };
+    $("input:checkbox,input:radio").on("change", function () {
+    	console.log("tooltip is:" + $("#ops_pregunta1").data('ui-tooltip'));
+    	revalidarPreguntas($(this).attr('id'));
+    });
 	ocultarDivsAdicionales([0]); //Ocultar todos los div adicionales
-	//ocultarDivsPreguntas([0]);//
-	//pregunta 1
-	/*$("input[name=p10305]").rules("add", { required   : true,
-        messages: { required:'Debe seleccionar al menos una opci&oacute;n'}
-    });
-    // Valor opcion 1 o 2
-	$("#p10305s1").rules("add", { 
-		required   :   function(){
-			if($("input[name=p10305]").val() == 1 || $("input[name=p10305]").val() == 2)
-				return true;
-			else return false;
-		}, 
-		esEntero: '', 
-		menorQue: 100000,
-        messages: { required:'Este campo es obligatorio',esEntero: "El N&uacute;mero no es v&aacute;lido", menorQue:"Digite un valor mayor o igual a " + agregarPuntosMiles(100000)}
-    });
-
-	//pregunta 2
-	//de contado
-	$("#p10306s1").rules("add", {//contado 
-		required   :   function(){
-			if($("input[name=p10305]").val() == 1 || $("input[name=p10305]").val() == 2)
-				return true;
-			else return false;
-		},
-        messages: { required:'Este campo es obligatorio'}
-    });
-    //a credito
-    $("#p10306s2").rules("add", {//contado 
-		required   :   function(){
-			if($("input[name=p10305]").val() == 1 || $("input[name=p10305]").val() == 2 && !$("#p10306s1").prop("checked"))
-				return true;
-			else return false;
-		},
-        messages: { required:'Este campo es obligatorio'}
-    });
-    // valor de contado
-    $("#p10306s1a1").rules("add", { 
-    	required   :  $("#p10306s2").prop("checked"), 
-    	esEntero: '', menorQue: 100000,
-        messages: { required:'Este campo es obligatorio',esEntero: "El N&uacute;mero no es v&aacute;lido", menorQue:"Digite un valor mayor o igual a " + agregarPuntosMiles(100000)}
-    });
-    $("#p10306s2a1").rules("add", { required   :   $("#p10306s2").prop("checked"), esEntero: '', menorQue: 100000,
-        messages: { required:'Este campo es obligatorio',esEntero: "El N&uacute;mero no es v&aacute;lido", menorQue:"Digite un valor mayor o igual a " + agregarPuntosMiles(100000)}
-    });
-
-    // pregunta 3
-    $("input[name=p10307]").rules("add", { 
-    	required   : function(){
-    		if($("#p10306s1").prop("checked")  && $("#p10306s2").prop("checked"))
-    			return true;
-    		else return false;
-    	},
-        messages: { required:'Debe seleccionar al menos una opci&oacute;n'}
-    });  */  
+	//ocultarDivsPreguntas([0]);// 
 
 	//Ocultar / Mostrar Adicionales Pregunta 1
-	$("input[name=p10305]").bind("click",function(){
+	$("input[name=p10305]").bind("change",function(){
 		if ($(this).val()==1 || $(this).val()==2){
 			ocultarDivsAdicionales([1]);
 			mostrarDivsAdicionales([1]);
@@ -187,7 +272,6 @@ $(function(){
 	//Ocultar / Mostrar Adicionales Pregunta 7
 	$("#p8697s1, #p8697s2, #p8697s3, #p8697s4, #p8697s5, #p8697s6").bind("change",function(){		
 		if ($(this).is(':checked') && $(this).attr('id') == "p8697s2"){ //Prestamo Hipotecario
-			console.log("numero 2");
 			mostrarDivsAdicionales([10]);			
 		}
 		else if (!$(this).is(':checked') && $(this).attr('id') == "p8697s2"){
@@ -219,7 +303,7 @@ $(function(){
 	//Botón para realizar validaciones y envio del formulario
 	$("#btnCompraVivienda").bind("click",function(){		
 		
-		var preg1 = validarPregunta1();
+		var preg1 = validarPregunta1(null);
 		var preg2 = validarPregunta2();
 		var preg3 = validarPregunta3();
 		var preg4 = validarPregunta4();
@@ -230,25 +314,15 @@ $(function(){
 		
 // temporal pruebas	
 
-		enviarFormulario();//pruebas
-		return false;//prebas
-		
-		/*if (preg1 && preg2 && preg3 && preg4 && preg51 && preg52 && preg6 && preg7){		
+		//enviarFormulario();//pruebas
+		//return false;//prebas
+		$('#mensaje_').html('');	
+		if (preg1 && preg2 && preg3 && preg4 && preg51 && preg52 && preg6 && preg7 && $("#frmCompraVivienda").valid() ){		
 			enviarFormulario();
 		}
 		else{
-			alert("Debe responder todas las preguntas del formulario.");
-			/***
-			alert("Preg1: " + preg1);
-			alert("Preg2: " + preg2);
-			alert("Preg3: " + preg3);
-			alert("Preg4: " + preg4);
-			alert("Preg51: " + preg51);
-			alert("Preg52: " + preg52);
-			alert("Preg6: " + preg6);
-			alert("Preg7: " + preg7);
-			***/			
-		//}		
+			$('#mensaje_').html('<div class="alert alert-warning" role="alert"><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>Hay campos que requieren correcciones, por favor verifique e intente nuevamente</div>');
+		}		
 	});
 	
 	
@@ -261,47 +335,57 @@ $(function(){
 //Ejecuta función AJAX y guarda la informacion diligenciada en el formulario
 //@author dmdiazf / @author hhchavez
 //@since  12/07/2016
-function enviarFormulario(){
-	//alert("Ejecutar funcion AJAX y guardar la informacion del formulario");
-	
+function enviarFormulario(){	
 	if ($("#frmCompraVivienda").valid() == true){
-		
-			if(window.confirm('Haga clic en Aceptar si realmente quiere guardar y continuar a la siguiente secci\u00f3n.'))
-			{
-				//Activa icono guardando
-				$("#pagCompraViv_error").css("display", "none");
-				$("#pagCompraViv_cargando").css("display", "inline");
-				$("#btnCompraVivienda").attr('disabled','-1');
-				$.ajax({  
-					url: base_url + "modgasmenfrehogar/ViviendaCompra/guardaGrillaCompraViv",
-					type: "POST",
-					dataType: "html",
-					data: $("#frmCompraVivienda").serialize(),
-					success: function(data){
-						if(data ==="-ok-")
-						{	
-							alert('Guardado correctamente !!!');
-							$("#pagCompraViv_cargando").css("display", "none");
-							location.reload();
-						}	
-						else
-						{   alert('ERROR al guardar la secci\u00f3n. Intente nuevamente o recargue la p\u00e1gina.');
-							$("#pagCompraViv_cargando").css("display", "none");
-							$("#pagCompraViv_error").css("display", "inline");
-							$("#btnCompraVivienda").removeAttr('disabled');
-						}	
-						
-					},
-						error: function(result) {
-							alert('ERROR al guardar la secci\u00f3n. Intente nuevamente o recargue la p\u00e1gina.');
-							$("#pagCompraViv_cargando").css("display", "none");
-							$("#pagCompraViv_error").css("display", "inline");
-							$("#btnCompraVivienda").removeAttr('disabled');
+		bootbox.confirm({
+                title: 'Confirmación',
+                message: '¿Está seguro de querer continuar? Una vez haga clic en Continuar NO podrá cambiar la información proporcionada y NO podrá regresar a esta pantalla. Si quiere editar información de estas respuestas haga clic en Cancelar.',
+                buttons: {
+                    'cancel': {
+                    label: 'Cancelar',
+                    className: 'btn btn-primary btn-success'
+                },
+                'confirm': {
+                    label: 'Continuar',
+                    className: 'btn btn-primary btn-success'
+                }
+            }, callback: function(result) {
+                if(result) {
+                    //Activa icono guardando
+					$("#pagCompraViv_error").css("display", "none");
+					$("#pagCompraViv_cargando").css("display", "inline");
+					$("#btnCompraVivienda").attr('disabled','-1');
+					$.ajax({  
+						url: base_url + "modgasmenfrehogar/ViviendaCompra/guardaGrillaCompraViv",
+						type: "POST",
+						dataType: "html",
+						data: $("#frmCompraVivienda").serialize(),
+						success: function(data){
+							if(data ==="-ok-")
+							{	
+								alert('Guardado correctamente !!!');
+								$("#pagCompraViv_cargando").css("display", "none");
+								location.reload();
+							}	
+							else
+							{   alert('ERROR al guardar la secci\u00f3n. Intente nuevamente o recargue la p\u00e1gina.');
+								$("#pagCompraViv_cargando").css("display", "none");
+								$("#pagCompraViv_error").css("display", "inline");
+								$("#btnCompraVivienda").removeAttr('disabled');
+							}	
 							
-						}
-					
-					});
-			}		
+						},
+							error: function(result) {
+								alert('ERROR al guardar la secci\u00f3n. Intente nuevamente o recargue la p\u00e1gina.');
+								$("#pagCompraViv_cargando").css("display", "none");
+								$("#pagCompraViv_error").css("display", "inline");
+								$("#btnCompraVivienda").removeAttr('disabled');
+								
+							}
+						
+						});
+                }
+            }});	
 		}//if			
 		
 	
@@ -312,56 +396,33 @@ function enviarFormulario(){
 //Validar la pregunta Nro. 1 del formulario para realizar el envío del formulario
 //@author dmdiazf / @author hhchavez
 //@since  11/07/2016
-function validarPregunta1(){	
+function validarPregunta1(secc){
+	if(typeof $("#ops_pregunta1").data('ui-tooltip') != 'undefined'){
+		$("#ops_pregunta1").tooltip('destroy');
+		$("#ops_pregunta1").popover('destroy');
+	}
+	if(typeof $("#divCV1").data('ui-tooltip') != 'undefined'){
+		$("#divCV1").tooltip('destroy');
+		$("#divCV1").popover('destroy');
+	}
 	$("#ops_pregunta1").removeClass("alert alert-danger");
 	$("#divCV1").removeClass("alert alert-danger");
 	var preg1 = true;
-	console.log($("input[name=p10305]").val());
-	if(!$("#p10305_1").prop("checked") && !$("#p10305_2").prop("checked") && !$("#p10305_3").prop("checked")) {
+	if( (secc == null || secc == 'ops_pregunta1') && !$("#p10305_1").prop("checked") && !$("#p10305_2").prop("checked") && !$("#p10305_3").prop("checked") ) {
 		$("#ops_pregunta1").addClass("alert alert-danger");
+		$("#ops_pregunta1").tooltip();
+		$("#ops_pregunta1").popover();
 		preg1 = false;
 	}	
     // Valor opcion 1 o 2
-    else if( ($("#p10305_1").prop("checked") || $("#p10305_2").prop("checked") ) && ( ($("#p10305s1").val() == "" && !$("#radp10305s1").is(':checked'))
+    else if( (secc == null || secc == 'divCV1') && ($("#p10305_1").prop("checked") || $("#p10305_2").prop("checked") ) && ( ($("#p10305s1").val() == "" && !$("#radp10305s1").is(':checked'))
     	|| ($("#p10305s1").val() != "" && $("#radp10305s1").is(':checked')) ) )  {
     	$("#divCV1").addClass("alert alert-danger");
+    	$("#divCV1").tooltip();
+		$("#divCV1").popover();
     	preg1 = false;
     }
 	
-
-	/*$('input[name="p10305"]').each(function() {
-		if ($(this).is(":checked")){				
-			switch(parseInt($(this).val())){				
-				case 1: //p10305s1
-						if ($("#p10305s1").is(":enabled") && $("#p10305s1").val()==""){								
-							preg1 = false;								
-						}
-						else if (!$("#radp10305s1").is(":checked") && $("p10305s1").val()==""){								
-							preg1 = false;								
-						}
-						else{								
-							preg1 = true;								
-						}
-						break;
-				case 2: //p10305s1
-						if ($("#p10305s1").is(":enabled") && $("#p10305s1").val()==""){							
-							preg1 = false;								
-						}
-						else if (!$("#radp10305s1").is(":checked") && $("#p10305s1").val()==""){							
-							preg1 = false;								
-						}
-						else{							
-							preg1 = true;								
-						}							
-						break;
-				case 3: preg1 = true;
-						break;
-				default: 
-						preg1 = false;
-						break;
-			}
-		}			
-	});*/
 	return preg1;
 }
 
@@ -369,6 +430,18 @@ function validarPregunta1(){
 //@author dmdiazf / @author hhchavez
 //@since  11/07/2016
 function validarPregunta2(){
+	if(typeof $("#ops_pregunta2").data('ui-tooltip') != 'undefined'){
+		$("#ops_pregunta2").tooltip('destroy');
+		$("#ops_pregunta2").popover('destroy');
+	}
+	if(typeof $("#divCV3").data('ui-tooltip') != 'undefined'){
+		$("#divCV3").tooltip('destroy');
+		$("#divCV3").popover('destroy');
+	}
+	if(typeof $("#divCV2").data('ui-tooltip') != 'undefined'){
+		$("#divCV2").tooltip('destroy');
+		$("#divCV2").popover('destroy');
+	}
 	$("#ops_pregunta2").removeClass("alert alert-danger");
 	$("#divCV3").removeClass("alert alert-danger");
 	$("#divCV2").removeClass("alert alert-danger");
@@ -378,51 +451,26 @@ function validarPregunta2(){
 	//de contado o a credito
 	if(!$("#p10306s1").is(":checked") && !$("#p10306s2").is(":checked") && ($("#p10305_1").prop("checked") || $("#p10305_2").prop("checked") ) ) {
 		$("#ops_pregunta2").removeClass("alert alert-danger").addClass("alert alert-danger");
+		$("#ops_pregunta2").tooltip();
+		$("#ops_pregunta2").popover();
 		preg2 = false;
 	}
 
     // valor de credito 
     else if(!$("#radp10306s1a1").is(':checked') && $("#p10306s1a1").val() == "" && $("#p10306s1").prop("checked") ) {
 		$("#divCV2").addClass("alert alert-danger");
+		$("#divCV2").tooltip();
+		$("#divCV2").popover();
 		preg2 = false;
 	}
 	//valor de contado
 	else if(!$("#radp10306s2a1").is(':checked') && $("#p10306s2a1").val() == "" && $("#p10306s2").prop("checked") ) {
 		$("#divCV3").addClass("alert alert-danger");
+		$("#divCV3").tooltip();
+		$("#divCV3").popover();
 		preg2 = false;
 	}
 
-	/*$('input[name="p10306s"]').each(function() {
-		if ($(this).is(":checked")){
-			switch(parseInt($(this).val())){
-				case 1: //p10306s1a1
-						if ($("#p10306s1a1").is(":enabled") && $("#p10306s1a1").val()==""){
-							preg2 = false;
-						}
-						else if(!$("#radp10306s1a1").is(":checked") && $("#p10306s1a1").val()==""){
-							preg2 = false;
-						}
-						else{
-							preg2 = true;
-						}
-						break;
-				case 2: //p10306s2a1
-					    if ($("#p10306s2a1").is(":enabled") && $("#p10306s2a1").val()==""){
-					    	preg2 = false;
-					    }
-					    else if(!$("#radp10306s2a1").is(":checked") && $("#p10306s2a1").val()==""){
-					    	preg2 = false;
-					    }
-					    else{
-					    	preg2 = true;
-					    }
-						break;
-				default: 
-						preg2 = false;
-						break;
-			}
-		}
-	});*/
 	return preg2;
 }
 
@@ -432,18 +480,20 @@ function validarPregunta2(){
 //@since  11/07/2016
 function validarPregunta3(){
 	//Validar que todos los radios se encuentren marcados
+	if(typeof $("#ops_pregunta3").data('ui-tooltip') != 'undefined'){
+		$("#ops_pregunta3").tooltip('destroy');
+		$("#ops_pregunta3").popover('destroy');
+	}
 	$("#ops_pregunta3").removeClass("alert alert-danger");
 	var preg3 = true;
 	// pregunta 3
     if(!$("#p10307_1").prop("checked") && !$("#p10307_2").prop("checked") && $("#p10306s1").prop("checked") ) {
     	$("#ops_pregunta3").addClass("alert alert-danger");
+    	$("#ops_pregunta3").tooltip();
+		$("#ops_pregunta3").popover();
 		preg2 = false;
     }
-	/*$('input[name="p10307"]').each(function(){
-		if ($(this).is(":checked")){
-			preg3 = true;
-		}
-	});*/
+
 	return preg3;
 }
 
@@ -453,6 +503,22 @@ function validarPregunta3(){
 //@since  11/07/2016
 function validarPregunta4(){
 	//Validar que todos los radios se encuentren marcados
+	if(typeof $("#ops_pregunta4").data('ui-tooltip') != 'undefined'){
+		$("#ops_pregunta4").tooltip('destroy');
+		$("#ops_pregunta4").popover('destroy');
+	}
+	if(typeof $("#divCV4").data('ui-tooltip') != 'undefined'){
+		$("#divCV4").tooltip('destroy');
+		$("#divCV4").popover('destroy');
+	}
+	if(typeof $("#divCV5").data('ui-tooltip') != 'undefined'){
+		$("#divCV5").tooltip('destroy');
+		$("#divCV5").popover('destroy');
+	}
+	if(typeof $("#divCV6").data('ui-tooltip') != 'undefined'){
+		$("#divCV6").tooltip('destroy');
+		$("#divCV6").popover('destroy');
+	}
 	$("#ops_pregunta4").removeClass("alert alert-danger");
 	$("#divCV4").removeClass("alert alert-danger");
 	$("#divCV5").removeClass("alert alert-danger");
@@ -461,57 +527,28 @@ function validarPregunta4(){
 	if(!$("#p10309s1").prop("checked") && !$("#p10309s2").prop("checked") && !$("#p10309s3").prop("checked") && !$("#p10309s4").prop("checked") &&  
 		!$("#p10309s5").prop("checked") && !$("#p10309s6").prop("checked") && ($("#p10305_1").prop("checked") || $("#p10305_2").prop("checked") ) ) {
 		$("#ops_pregunta4").addClass("alert alert-danger");
+		$("#ops_pregunta4").tooltip();
+		$("#ops_pregunta4").popover();
 		preg2 = false;
 	}
 	else if($("#p10309s2").prop("checked") && $("#p10309s2a1").val()=='-'){
 		$("#divCV4").addClass("alert alert-danger");
+		$("#divCV4").tooltip();
+		$("#divCV4").popover();
 		preg2 = false;	
 	}
 	else if($("#p10309s3").prop("checked") && $("#p10309s3a1").val()=='-'){
 		$("#divCV5").addClass("alert alert-danger");
+		$("#divCV5").tooltip();
+		$("#divCV5").popover();
 		preg2 = false;	
 	}
 	else if($("#p10309s6").prop("checked") && $("#p10309s5a1").val()==''){
 		$("#divCV6").addClass("alert alert-danger");
+		$("#divCV6").tooltip();
+		$("#divCV6").popover();
 		preg2 = false;	
 	}
-	/*$('input[name="p10309"]').each(function(){
-		if ($(this).is(":checked")){
-			switch(parseInt($(this).val())){
-				case 1:	preg4 = true;
-						break;
-				case 2: //p10309s2a1
-					    if ($("#p10309s2a1").val()=='-'){
-					    	preg4 = false;
-					    }
-					    else{
-					    	preg4 = true;
-					    }
-						break;
-				case 3: if ($("#p10309s3a1").val()=='-'){
-							preg4 = false;
-						}
-						else{
-							preg4 = true;
-						}
-						break;
-				case 4: preg4 = true;
-						break;
-				case 5: preg4 = true;	
-						break;
-				case 6: if ($("#p10309s5a1").val()==""){
-							preg4 = false;
-						}
-						else{
-							preg4 = true;
-						}
-						break;
-				default: 
-						preg4 = false;
-						break;
-			}
-		}
-	});*/
 	return preg4;
 }
 
@@ -520,12 +557,39 @@ function validarPregunta4(){
 //@author dmdiazf / @author hhchavez
 //@since  11/07/2016
 function validarPregunta51(){
+	if(typeof $("#ops_pregunta5").data('ui-tooltip') != 'undefined'){
+		$("#ops_pregunta5").tooltip('destroy');
+		$("#ops_pregunta5").popover('destroy');
+	}
+	if(typeof $("#divCV7").data('ui-tooltip') != 'undefined'){
+		$("#divCV7").tooltip('destroy');
+		$("#divCV7").popover('destroy');
+	}
+	if(typeof $("#opcion71").data('ui-tooltip') != 'undefined'){
+		$("#opcion71").tooltip('destroy');
+		$("#opcion71").popover('destroy');
+	}
+	if(typeof $("#opcion72").data('ui-tooltip') != 'undefined'){
+		$("#opcion72").tooltip('destroy');
+		$("#opcion72").popover('destroy');
+	}
+	if(typeof $("#divCV8").data('ui-tooltip') != 'undefined'){
+		$("#divCV8").tooltip('destroy');
+		$("#divCV8").popover('destroy');
+	}
+	if(typeof $("#opcion81").data('ui-tooltip') != 'undefined'){
+		$("#opcion81").tooltip('destroy');
+		$("#opcion81").popover('destroy');
+	}
+	if(typeof $("#opcion82").data('ui-tooltip') != 'undefined'){
+		$("#opcion82").tooltip('destroy');
+		$("#opcion82").popover('destroy');
+	}
 	$("#ops_pregunta5").removeClass("alert alert-danger");
 	$("#divCV7").removeClass("alert alert-danger");
 	$("#opcion71").removeClass("alert alert-danger");
 	$("#opcion72").removeClass("alert alert-danger");
 
-	$("#ops_pregunta5").removeClass("alert alert-danger");
 	$("#divCV8").removeClass("alert alert-danger");
 	$("#opcion81").removeClass("alert alert-danger");
 	$("#opcion82").removeClass("alert alert-danger");
@@ -538,20 +602,28 @@ function validarPregunta51(){
 		( ( $("#p10309s1").prop("checked") || $("#p10309s2").prop("checked") || $("#p10309s3").prop("checked") || $("#p10309s4").prop("checked") || $("#p10309s5").prop("checked") || $("#p10309s6").prop("checked") ) 
 			&& !$("#p5161s2c14_1").prop("checked") && !$("#p5161s2c14_2").prop("checked") ) ) {
 		$("#ops_pregunta5").addClass("alert alert-danger");
+		$("#ops_pregunta5").tooltip();
+		$("#ops_pregunta5").popover();
 		preg51 = false;
 	}
 	else if($("#p5161s1c14_1").prop("checked") && !$("#p5161s1a1c14_1").prop("checked") && !$("#p5161s1a1c14_2").prop("checked") && !$("#p5161s1a2c14_1").prop("checked") && !$("#p5161s1a2c14_2").prop("checked")) {
 		$("#divCV7").addClass("alert alert-danger");
+		$("#divCV7").tooltip();
+		$("#divCV7").popover();
 		preg51 = false;
 	}
 	else if( ($("#p5161s1a1c14_1").prop("checked") && !$("#radp5161s1a3c14").is(":checked") && $("#p5161s1a3c14").val() == "") || 
 		($("#p5161s1a1c14_2").prop("checked") && $("#radp5161s1a3c14").is(":checked") && $("#p5161s1a3c14").val() != "" ) ){
 		$("#opcion71").addClass("alert alert-danger");
+		$("#opcion71").tooltip();
+		$("#opcion71").popover();
 		preg51 = false;
 	}
 	else if( ($("#p5161s1a2c14_1").prop("checked") && !$("#radp5161s1a4c14").is(":checked") && $("#p5161s1a4c14").val() == "") || 
 		($("#p5161s1a2c14_2").prop("checked") && $("#radp5161s1a4c14").is(":checked") && $("#p5161s1a4c14").val() != "")  ){
 		$("#opcion72").addClass("alert alert-danger");
+		$("#opcion72").tooltip();
+		$("#opcion72").popover();
 		preg51 = false;
 	}
 
@@ -563,86 +635,19 @@ function validarPregunta51(){
 	else if( ($("#p5161s2a1c14_1").prop("checked") && !$("#radp5161s2a3c14").is(":checked") && $("#p5161s2a3c14").val() == "") || 
 		($("#p5161s1a1c14_2").prop("checked") && ($("#radp5161s2a3c14").is(":checked") && $("#p5161s2a3c14").val() != "") ) ){
 		$("#opcion81").addClass("alert alert-danger");
+		$("#opcion81").tooltip();
+		$("#opcion81").popover();
 		preg52 = false;
 	}
 	else if( ($("#p5161s2a2c14_1").prop("checked") && !$("#radp5161s2a4c14").is(":checked") && $("#p5161s2a4c14").val() == "") || 
 		($("#p5161s1a2c14_2").prop("checked") && ($("#radp5161s2a4c14").is(":checked") && $("#p5161s2a4c14").val() != "") ) ){
 		$("#opcion82").addClass("alert alert-danger");
+		$("#opcion82").tooltip();
+		$("#opcion82").popover();
 		preg52 = false;
 	}
 	
-/*
-	$('input[name="p5161s1c14"]').each(function(){
-		if ($(this).is(":checked")){
-			switch(parseInt($(this).val())){
-				case 1: //Si Recibe del gobierno
-						//Recibio en dinero
-						preg51 = true;
-						$('input[name="p5161s1a1c14"]').each(function(){
-							if ($(this).is(":checked")){
-								switch(parseInt($(this).val())){
-									case 1:  //Si
-											 if ($("#p5161s1a3c14").is(":enabled") && $("#p5161s1a3c14").val()==""){												 
-												 preg511 = false;
-											 }
-											 else if(!$("#radp5161s1a3c14").is(":checked") && $("#p5161s1a3c14").val()==""){												 
-												 preg511 = false;
-											 }
-											 else{												 
-												 preg511 = true;
-											 }
-											 break;
-									case 2:  //No
-											 preg511 = true;
-											 break;
-									default: preg511 = false;
-									         break;
-								}
-							}							
-						});
-						//Recibio en especie
-						$('input[name="p5161s1a2c14"]').each(function(){
-							if ($(this).is(":checked")){
-								switch(parseInt($(this).val())){
-									case 1:  //Si
-											 if ($("#p5161s1a4c14").is(":enabled") && $("#p5161s1a4c14").val()==""){
-												preg512 = false;
-											 }
-											 else if (!$("#radp5161s1a4c14").is(":checked") && $("#p5161s1a4c14").val()==""){
-												preg512 = false;
-											 }
-											 else{
-												preg512 = true;
-											 }
-											 break;
-									case 2:  //No
-											 preg512 = true;
-											 break;
-									default: preg512 = false;
-									         break;
-								}
-							}							
-						});
-						break;
-						
-				case 2: //No Recibe del gobierno
-						preg51 = true;
-						break;
-						
-				default: 
-						preg51 = false;
-						break;
-			}
-		}
-	});
-	
-	if (preg51 && preg511 && preg512){
-		preg51 = true;
-	}
-	else{
-		preg51 = false;
-	}
-	*/
+
 	return preg51;
 }
 
@@ -660,90 +665,24 @@ function validarPregunta52(){
 	// 5.2
 	if($("#p5161s2c14_1").prop("checked") && !$("#p5161s2a1c14_1").prop("checked") && !$("#p5161s2a1c14_2").prop("checked") && !$("#p5161s2a2c14_1").prop("checked") && !$("#p5161s2a2c14_1").prop("checked")) {
 		$("#divCV8").addClass("alert alert-danger");
+		$("#divCV8").tooltip();
+		$("#divCV8").popover();
 		preg52 = false;
 	}
 	else if( ($("#p5161s2a1c14_1").prop("checked") && !$("#radp5161s2a3c14").is(":checked") && $("#p5161s2a3c14").val() == "") || 
 		($("#p5161s1a1c14_2").prop("checked") && ($("#radp5161s2a3c14").is(":checked") && $("#p5161s2a3c14").val() != "") ) ){
 		$("#opcion81").addClass("alert alert-danger");
+		$("#opcion81").tooltip();
+		$("#opcion81").popover();
 		preg52 = false;
 	}
 	else if( ($("#p5161s2a2c14_1").prop("checked") && !$("#radp5161s2a4c14").is(":checked") && $("#p5161s2a4c14").val() == "") || 
 		($("#p5161s1a2c14_2").prop("checked") && ($("#radp5161s2a4c14").is(":checked") && $("#p5161s2a4c14").val() != "") ) ){
 		$("#opcion82").addClass("alert alert-danger");
+		$("#opcion82").tooltip();
+		$("#opcion82").popover();
 		preg52 = false;
 	}
-	//var preg521 = false;
-	//var preg522 = false;
-	/*$('input[name="p5161s2c14"]').each(function(){
-		if ($(this).is(":checked")){
-			switch(parseInt($(this).val())){
-				case 1: //Si
-						//Recibio en dinero
-						preg52 = true;
-						$('input[name="p5161s2a1c14"]').each(function(){
-							if ($(this).is(":checked")){
-								switch(parseInt($(this).val())){
-									case 1:  //Si
-											 if ($("#p5161s2a3c14").is(":enabled") && $("#p5161s2a3c14").val()==""){												
-												preg521 = false;
-											 }
-											 else if(!$("#radp5161s2a3c14").is(":checked") && $("#p5161s2a3c14").val()==""){												
-												preg521 = false;
-											 }
-											 else{
-												preg521 = true;
-											 }
-											 break;
-									case 2:  //No
-											 preg521 = true;
-											 break;
-									default: preg521 = false;
-									         break;
-								}
-							}							
-						});
-						//Recibio en especie
-						$('input[name="p5161s2a2c14"]').each(function(){
-							if ($(this).is(":checked")){
-								switch(parseInt($(this).val())){
-									case 1:  //Si
-											 if ($("#p5161s2a4c14").is(":enabled") && $("#p5161s2a4c14").val()==""){
-												preg522 = false;
-											 }
-											 else if (!$("#radp5161s2a4c14").is(":checked") && $("#p5161s2a4c14").val()==""){
-												preg522 = false;
-											 }
-											 else{
-										 		preg522 = true;
-											 }
-											 break;
-									case 2:  //No
-											 preg522 = true;
-											 break;
-									default: preg522 = false;
-											 break;
-								}
-							}							
-						});
-						break;
-						
-				case 2: //No
-						preg52 = true;
-						break;
-						
-				default: 
-						preg52 = false;
-						break;
-			}
-		}
-	});
-	
-	if (preg52 && preg521 && preg522){
-		preg52 = true;
-	}
-	else{
-		preg52 = false;
-	}*/
 	
 	return preg52;
 }
@@ -753,6 +692,14 @@ function validarPregunta52(){
 //@author dmdiazf / @author hhchavez
 //@since  11/07/2016
 function validarPregunta6(){
+	if(typeof $("#ops_p10312").data('ui-tooltip') != 'undefined'){
+		$("#ops_p10312").tooltip('destroy');
+		$("#ops_p10312").popover('destroy');
+	}
+	if(typeof $("#divCV9").data('ui-tooltip') != 'undefined'){
+		$("#divCV9").tooltip('destroy');
+		$("#divCV9").popover('destroy');
+	}
 	$("#ops_p10312").removeClass("alert alert-danger");
 	$("#divCV9").removeClass("alert alert-danger");
 	var preg6 = true;
@@ -760,37 +707,18 @@ function validarPregunta6(){
 	if( ( $("#p10305_3").is(':checked') || $("#p10309s1").prop("checked") || $("#p10309s2").prop("checked") || $("#p10309s3").prop("checked") || $("#p10309s4").prop("checked") || 
 		$("#p10309s5").prop("checked") || $("#p10309s6").prop("checked") ) && !$("#p10312_1").is(':checked') && !$("#p10312_2").is(':checked')) {
 		$("#ops_p10312").addClass("alert alert-danger");
+		$("#ops_p10312").tooltip();
+		$("#ops_p10312").popover();
 		preg6 = false;
 	}
 	else if($("#p10312_1").is(':checked') && ( ($("#p10312s1").val() == "" && !$("#radp10312s1").is(':checked') ) || 
 	 	($("#p10312s1").val() != "" && $("#radp10312s1").is(':checked') ) ) ) {
 		$("#divCV9").addClass("alert alert-danger");
+		$("#divCV9").tooltip();
+		$("#divCV9").popover();
 		preg6 = false;
 
 	}
-	/*$('input[name="p10312"]').each(function(){
-		if ($(this).is(":checked")){
-			switch(parseInt($(this).val())){
-				case 1: if ($("#p10312s1").is(":enabled") && $("#p10312s1").val()==""){
-							preg6 = false;
-						}
-						else if (!$("#radp10312s1").is(":checked") && $("#p10312s1").val()==""){
-							preg6 = false;
-						}
-						else{
-							preg6 = true;
-						} 
-						break;
-						
-				case 2: //No
-						preg6 = true;
-						break;
-				
-				default: preg6 = false;
-						 break;
-			}
-		}		
-	});*/
 	return preg6;
 }
 
@@ -798,110 +726,68 @@ function validarPregunta6(){
 //@author dmdiazf / @author hhchavez
 //@since  11/07/2016
 function validarPregunta7(){
-	var preg7 = false;
-	var preg71 = false;
-	var preg72 = false;
-	$('input[name="p8697"]').each(function(){
-		if ($(this).is(":checked")){
-			switch(parseInt($(this).val())){
-				case 1: //Recursos Propios 
-						preg7 = true;
-						break;
-						
-				case 2: //Prestamo Hipotecario					
-					    if ($("#p8697s2a1").val()=='-'){
-					    	preg7 = false;
-					    }
-					    else{
-					    	preg7 = true;
-					    }						
-						break;
-						
-				case 3: //Prestamo bancario de libre inversion
-					 	if ($("#p8697s3a1").val()=='-'){
-					    	preg7 = false;
-					    }
-					    else{
-					    	preg7 = true;
-					    }
-						break;
-						
-				case 4: //Subsidios
-						//En dinero
-						preg7 = true;
-						$('input[name="p8697s4a2"]').each(function(){
-							if ($(this).is(":checked")){
-								switch(parseInt($(this).val())){
-									case 1:  //Si
-											 if ($("#p8697s4a4").is(":enabled") && $("#p8697s4a4").val()==""){												 
-												 preg71 = false;
-											 }
-											 else if ($("#p8697s4a4").val()=="" && !$("#radp8697s4a4").is(":checked")){												 
-												 preg71 = false;
-											 }
-											 else{												 
-												 preg71 = true;
-											 }
-											 break;
-									case 2:  //No
-											 preg71 = true;
-											 break;
-									default: preg71 = false;
-											 break;
-								}
-							}							
-						});
-						//En Especie	
-						$('input[name="p8697s4a3"]').each(function(){							
-							if ($(this).is(":checked")){								
-								switch(parseInt($(this).val())){
-									case 1:  //Si
-											 if ($("#p8697s4a5").is(":enabled") && $("#p8697s4a5").val()==""){												
-												preg72 = false;
-											 }
-											 else if (!$("#radp8697s4a5").is(":checked") && $("#p8697s4a5").val()==""){												
-												preg72 = false;
-											 }
-											 else{												
-												preg72 = true;
-											 }
-											 break;											
-									case 2:  //No
-											 preg72 = true;
-											 break;
-									default: preg72 = false;
-									 		 break;		
-								}								
-							}							
-						});
-						
-						if (preg7 && preg71 && preg72){
-							preg7 = true;
-						}
-						else{
-							preg7 = false;
-						}
-						break;
-						
-				case 5: //Fondos
-						preg7 = true;
-						break;
-				
-				case 6: //Otra
-						if ($("#p8697s6a1").val()==""){
-							preg7 = false;
-						}
-						else{
-							preg7 = true;
-						}
-					    break;
-					    
-				default: 
-						preg7 = false;
-						break;
-			}
-		}
-	});
+	if(typeof $("#ops_pregunta7").data('ui-tooltip') != 'undefined'){
+		$("#ops_pregunta7").tooltip('destroy');
+		$("#ops_pregunta7").popover('destroy');
+	}
+	if(typeof $("#divCV10").data('ui-tooltip') != 'undefined'){
+		$("#divCV10").tooltip('destroy');
+		$("#divCV10").popover('destroy');
+	}
+	if(typeof $("#divCV11").data('ui-tooltip') != 'undefined'){
+		$("#divCV11").tooltip('destroy');
+		$("#divCV11").popover('destroy');
+	}
+	if(typeof $("#divCV12").data('ui-tooltip') != 'undefined'){
+		$("#divCV12").tooltip('destroy');
+		$("#divCV12").popover('destroy');
+	}
+	if(typeof $("#divCV13").data('ui-tooltip') != 'undefined'){
+		$("#divCV13").tooltip('destroy');
+		$("#divCV13").popover('destroy');
+	}
+	$("#ops_pregunta7").removeClass("alert alert-danger");
+	$("#divCV10").removeClass("alert alert-danger");	
+	$("#divCV11").removeClass("alert alert-danger");
+	$("#divCV12").removeClass("alert alert-danger");
+	$("#divCV13").removeClass("alert alert-danger");
+	var preg7 = true;
+	//var preg71 = false;
+	//var preg72 = false;
+
+	if( ($("#p10312_1").is(':checked') || $("#p10312_2").is(':checked')) && !$("#p8697s1").is(':checked') && !$("#p8697s2").is(':checked') && !$("#p8697s3").is(':checked')
+		 && !$("#p8697s4").is(':checked') && !$("#p8697s5").is(':checked') && !$("#p8697s6").is(':checked')) {
+		$("#ops_pregunta7").addClass("alert alert-danger");
+		$("#ops_pregunta7").tooltip();
+		$("#ops_pregunta7").popover();
+		preg7 = false;
+	}
+
+	if( $("#p8697s2a1").val() == "-" && $("#p8697s2").is(':checked') ){
+		$("#divCV10").addClass("alert alert-danger");
+		$("#divCV10").tooltip();
+		$("#divCV10").popover();
+		preg7 = false;
+	}
+
+	if( $("#p8697s3a1").val() == "-" && $("#p8697s3").is(':checked') ){
+		$("#divCV11").addClass("alert alert-danger");
+		$("#divCV11").tooltip();
+		$("#divCV11").popover();
+		preg7 = false;
+	}
+	if( $("#p8697s4").is(':checked') && ( ( $("#p8697s4a1").val() == "" && !$("#radp8697s4a1").is(':checked')) || ( !$("#p8697s4a2").is(':checked') && !$("#p8697s4a3").is(':checked') )  ) ){
+		$("#divCV12").addClass("alert alert-danger");
+		$("#divCV12").tooltip();
+		$("#divCV12").popover();
+		preg7 = false;
+	}
+	if( $("#p8697s6").is(':checked') && $("#p8697s6a1").val() == "" ){
+		$("#divCV13").addClass("alert alert-danger");
+		$("#divCV13").tooltip();
+		$("#divCV13").popover();
+		preg7 = false;
+	}
 	return preg7;
 }
 
@@ -1161,12 +1047,14 @@ function ocultarDivsAdicionales(adiciones){
 					
 			case 12: //Ocultar divCV12
 					if (!$("#divCV12").is(":hidden")){
-						$("#p8697s4a4").bloquearTexto();
-						$("#p8697s4a5").bloquearTexto();
-						$("#p8697s4a4").val("");
-						$("#p8697s4a5").val("");
-						$("#p8697s4a4").attr("disabled",true);
-						$("#p8697s4a5").attr("disabled",true);						
+						$("#p8697s4a1").bloquearTexto();
+						//$("#p8697s4a5").bloquearTexto();
+						$("#p8697s4a1").val("");
+						//$("#p8697s4a5").val("");
+						$("#p8697s4a1").attr("disabled",true);
+						//$("#p8697s4a5").attr("disabled",true);
+						$("#p8697s4a3").attr('checked',false);
+						$("#p8697s4a2").attr('checked',false);
 						$("#opcion121").hide(); //Ocultar los divs dentro del div adicional
 						$("#opcion122").hide(); //Ocultar los divs dentro del div adicional	
 						$("#divCV12").hide();
@@ -1223,6 +1111,7 @@ function mostrarDivsAdicionales(adiciones){
 							$("#p10305s1").bloquearTexto();
 							if ($(this).prop("checked")){
 								$("#p10305s1").attr("disabled",true);
+								$('#p10305s1-error').remove();
 							}
 							else {
 								$("#p10305s1").attr("disabled",false);	
@@ -1233,7 +1122,6 @@ function mostrarDivsAdicionales(adiciones){
 					break;
 					
 			case 2: //Mostrar divCV2
-					console.log("mostrar");
 					$("#p10306s1a1").bloquearTexto();
 					if ($("#divCV2").is(":hidden")){
 						if ($("#p10306s1a1").is(":disabled")){
@@ -1245,6 +1133,7 @@ function mostrarDivsAdicionales(adiciones){
 							if ( $("#radp10306s1a1").prop("checked") ){
 								$("#p10306s1a1").val("");								
 								$("#p10306s1a1").attr("disabled",true);
+								$('#p10306s1a1-error').remove();
 							}
 							else {					
 								$("#p10306s1a1").attr("disabled",false);	
@@ -1267,6 +1156,7 @@ function mostrarDivsAdicionales(adiciones){
 							if ($(this).prop("checked")){
 								$("#p10306s2a1").val("");								
 								$("#p10306s2a1").attr("disabled",true);
+								$('#p10306s2a1-error').remove();
 							}
 							else {
 								$("#p10306s2a1").attr("disabled",false);	
@@ -1318,6 +1208,7 @@ function mostrarDivsAdicionales(adiciones){
 									if($(this).prop("checked")) {
 										$("#p5161s1a3c14").val("");
 										$("#p5161s1a3c14").attr("disabled",true);
+										$('#p5161s1a3c14-error').remove();
 									}
 									else {
 										$("#p5161s1a3c14").val("");
@@ -1350,6 +1241,7 @@ function mostrarDivsAdicionales(adiciones){
 									if($(this).prop("checked")) {
 										$("#p5161s1a4c14").val("");
 										$("#p5161s1a4c14").attr("disabled",true);
+										$('#p5161s1a4c14-error').remove();
 									}
 									else {
 										$("#p5161s1a4c14").val("");
@@ -1393,6 +1285,7 @@ function mostrarDivsAdicionales(adiciones){
 									if($(this).prop("checked")) {
 										$("#p5161s2a3c14").val("");
 										$("#p5161s2a3c14").attr("disabled",true);
+										$('#p5161s2a3c14-error').remove();
 									}
 									else {
 										$("#p5161s2a3c14").val("");
@@ -1427,6 +1320,7 @@ function mostrarDivsAdicionales(adiciones){
 									if($(this).prop("checked")) {
 										$("#p5161s2a4c14").val("");
 										$("#p5161s2a4c14").attr("disabled",true);
+										$('#p5161s2a4c14-error').remove();
 									}
 									else {
 										$("#p5161s2a4c14").val("");
@@ -1464,6 +1358,7 @@ function mostrarDivsAdicionales(adiciones){
 							if ($(this).is(":checked")){
 								$("#p10312s1").val("");
 								$("#p10312s1").attr("disabled",true);
+								$('#p10312s1-error').remove();
 							}
 							else {
 								$("#p10312s1").val("");
@@ -1494,56 +1389,91 @@ function mostrarDivsAdicionales(adiciones){
 					if ($("#divCV12").is(":hidden")){
 						$("#opcion121").hide();
 						$("#opcion122").hide();
+
+						$("#p8697s4a1").bloquearTexto();
+						$("#p8697s4a1").val("");
+						$("#radp8697s4a1").attr("checked",false);
+						if ($("#p8697s4a1").is(":disabled")){
+							$("#p8697s4a1").val("");
+							$("#p8697s4a1").attr("disabled",false);
+						}
+						$("#radp8697s4a1").bind("change",function(){
+							if($(this).is(':checked')) {
+								$("#p8697s4a1").val("");
+								$("#p8697s4a1").attr("disabled",true);
+								$('#p8697s4a1-error').remove();
+							}
+							else {
+								$("#p8697s4a1").val("");
+								$("#p8697s4a1").attr("disabled",false);
+							}
+						});								
+						$("#opcion121").show();																
 						
 						//Asociar funcion de abrir detalles al radio "SI" de la opcion ¿Lo recibio en dinero?
-						$("#p8697s4a2[name=p8697s4a2]").bind("click",function(){
+						/*$("#p8697s4a2_1").bind("change",function(){
 							$("#p8697s4a4").bloquearTexto();
-							if(parseInt($(this).val())==1){								
+							if($(this).is(':checked')){
 								$("#p8697s4a4").val("");
 								$("#radp8697s4a4").attr("checked",false);
 								if ($("#p8697s4a4").is(":disabled")){
 									$("#p8697s4a4").val("");
 									$("#p8697s4a4").attr("disabled",false);
 								}
-								$("#radp8697s4a4").bind("click",function(){
-									$("#p8697s4a4").val("");
-									$("#p8697s4a4").attr("disabled",true);
+								$("#radp8697s4a4").bind("change",function(){
+									if($(this).is(':checked')) {
+										$("#p8697s4a4").val("");
+										$("#p8697s4a4").attr("disabled",true);
+									}
+									else {
+										$("#p8697s4a4").val("");
+										$("#p8697s4a4").attr("disabled",false);
+									}
 								});								
 								$("#opcion121").show();																
-							}
-							else{
-								$("#p8697s4a4").val("");
-								$("#p8697s4a4").attr("disabled",true);
-								$("#radp8697s4a4").attr("checked",false);								
-								$("#opcion121").hide();																
-							}							
+							}						
+						});
+
+						//Asociar funcion de abrir detalles al radio "NO" de la opcion ¿Lo recibio en dinero?
+						$("#p8697s4a2_2").bind("change",function(){
+							$("#p8697s4a4").val("");
+							$("#p8697s4a4").attr("disabled",true);
+							$("#radp8697s4a4").attr("checked",false);								
+							$("#opcion121").hide();	
 						});
 						
 						//Asociar funcion de abrir detalles al radio "SI" de la opcion ¿Lo recibio en especie?
-						$("#p8697s4a3[name=p8697s4a3]").bind("click",function(){
+						$("#p8697s4a3_1").bind("change",function(){
 							$("#p8697s4a5").bloquearTexto();
-							if (parseInt($(this).val())==1){
-								$("#opcion122").show();
+							if ($(this).is(':checked') ){
+								//$("#opcion122").show();
 								$("#p8697s4a5").val("");
 								$("#radp8697s4a5").attr("checked",false);
 								if ($("#p8697s4a5").is(":disabled")){
 									$("#p8697s4a5").val("");
 									$("#p8697s4a5").attr("disabled",false);
 								}
-								$("#radp8697s4a5").bind("click",function(){
-									$("#p8697s4a5").val("");
-									$("#p8697s4a5").attr("disabled",true);
+								$("#radp8697s4a5").bind("change",function(){
+									if($(this).is(':checked')) {
+										$("#p8697s4a5").val("");
+										$("#p8697s4a5").attr("disabled",true);
+									}
+									else {
+										$("#p8697s4a5").val("");
+										$("#p8697s4a5").attr("disabled",false);	
+									}
 								});
 								$("#opcion122").show();								
-							}
-							else{								
-								$("#p8697s4a5").val("");
-								$("#p8697s4a5").attr("disabled",true);
-								$("#radp8697s4a5").attr("checked",false);
-								$("#opcion122").hide();	
-								
-							}																					
+							}																			
 						});
+
+						//Asociar funcion de abrir detalles al radio "NO" de la opcion ¿Lo recibio en especie?
+						$("#p8697s4a3_2").bind("change",function(){
+							$("#p8697s4a5").val("");
+							$("#p8697s4a5").attr("disabled",true);
+							$("#radp8697s4a5").attr("checked",false);
+							$("#opcion122").hide();
+						});*/
 						$("#divCV12").show();
 					}
 					break;		

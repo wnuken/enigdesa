@@ -64,7 +64,28 @@
 			echo "&nbsp;&nbsp;";
 		}
 		if ($v3['TIPO_CAMPO'] == "SELUNICA") {
-			echo mostrar_select($v3, $preg['opc']);
+			if ($secc['ID_SECCION'] == "03EDUCACION" && $secc['PAGINA'] == "3") {
+				$html = "";
+				if (count($v3) > 0) {
+					$html = "<select id='" . $v3['ID_VARIABLE'] . "' name='" . $v3['ID_VARIABLE'] . "' tabindex='". $v3['ORDEN'] . "'>\n";
+					foreach ($preg['opc'] as $k1 => $v1) {
+						$sel = "";
+						$cls = "";
+						if ($v3['ID_VARIABLE'] == $v1 ['ID_VARIABLE']) {
+							if ($v3['VR_DEFECTO'] == $v1['ID_VALOR'])
+								$sel = 'selected';
+							if ($v1['ID_VALOR'] != '100' && $v1['ID_VALOR'] != '999')
+								$cls = "class='G". substr($v1['ID_VALOR'],0,1) ."'";
+							$html .= "<option value='". $v1['ID_VALOR'] ."' $sel $cls>". $v1['ETIQUETA'] ."</option>\n";
+						}
+					}
+					$html .= "</select>\n";
+				}
+				echo $html;
+			}
+			else {
+				echo mostrar_select($v3, $preg['opc']);
+			}
 		}
 		else if ($v3['TIPO_CAMPO'] == "SELUNICA_RAD") {
 			echo mostrar_radios($v3, $preg['opc']);
@@ -223,8 +244,15 @@ $(function() {
 			//alert("valor es: " + keyvalue); 
 		}
 	});
-	
 
+	var originalSelect = $('#P6210S1').html();
+	$('[name=P6210]').change(function (e) {
+		var selected = $('[name=P6210]:checked').val();
+		$('#P6210S1').html(originalSelect);
+		if (selected) {
+			$('#P6210S1 option').not('.G'+ selected).remove();
+		}
+	});
 	$('#P6040').dependencias3('P6040', 'P5170', '5'); //
 	$('#P6040').dependencias3('P6040', 'P1650', '10'); //
 	$('[name=P8610]').dependencias('P8610', 'GRP_P6207', [1]);

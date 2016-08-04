@@ -291,6 +291,13 @@ $(function() {
 		if ($v['E'] == "OFF" || $v['F'] == "SI")
 			$disab .= "$k,";
 	}
+	if (empty($activo)) {
+		echo "	$('#ID_SECCION').val(dia[6][0]);\n";
+		echo "	$('#_DIA_ART').val(dia[6][1]);\n";
+		echo "	$('#_DIA_COM').val(dia[6][1]);\n";
+		$activo = "			active: 6,\n";
+		$id = "07GDP7";
+	}
 	$disab = "		disabled: [". substr($disab, 0, -1) ."]\n";
 	// Tiempo expirado para el formulario. Devuelve al menu anterior
 	if ($sindia) {

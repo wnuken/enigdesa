@@ -423,7 +423,7 @@ class Emeudlh extends MX_Controller {
                             $mensajes .= $m;
                     }
                     // Se verifica que los valores en los campos de texto esten dentro del rango establecido, si la correspondiente forma de obtencion es igual a 1
-                    else if($v1[$v2] == 1 && isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) && $rangoMayor != "" && $rangoMenor != "" && $id_seccion != "G3" && $id_seccion != "G4" &&
+                    else if($v1[$v2] == 1 && isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) && $rangoMayor != "" && $rangoMenor != "" /*&& $id_seccion != "G3" && $id_seccion != "G4"*/ &&
                         ($val_input < $rangoMenor || $val_input > $rangoMayor ) ) {
                         $m = "'Los valores estimados no pueden ser menores a " . number_format($rangoMenor) . " o mayores a " . number_format($rangoMayor) . "',";
                         $inputs .= "'txt_" . $v1['ID_ARTICULO3'] . "_" . ($j +1) . "',";
@@ -431,13 +431,13 @@ class Emeudlh extends MX_Controller {
                             $mensajes .= $m;
                     }
                     // Se verifica que los valores en los campos de texto esten dentro del rango establecido o sean cero (solo para secciones G3 y G4), si la correspondiente forma de obtencion es igual a 1
-                    else if($v1[$v2] == 1 && isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) && $rangoMayor != "" && $rangoMenor != "" && ($id_seccion == "G3" || $id_seccion == "G4") &&
+                    /*else if($v1[$v2] == 1 && isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) && $rangoMayor != "" && $rangoMenor != "" && ($id_seccion == "G3" || $id_seccion == "G4") &&
                         ($val_input < $rangoMenor || $val_input > $rangoMayor ) && $val_input <> 0 ) {
                         $m = "'Los valores estimados no pueden ser menores a " . number_format($rangoMenor) . " o mayores a " . number_format($rangoMayor) . " o diferentes a cero.',";
                         $inputs .= "'txt_" . $v1['ID_ARTICULO3'] . "_" . ($j +1) . "',";
                         if(substr_count($mensajes, $m) == 0)
                             $mensajes .= $m;
-                    }
+                    }*/
 
                     // Se guarda en un array los arrays de insercion cuando el campo de texto viene con un valor
                     if ( $v1[$v2] == 1 && isset($_POST['val_' . $v1['ID_ARTICULO3']][strtolower($v2)]) ){

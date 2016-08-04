@@ -345,6 +345,28 @@ class Modsec3 extends My_model {
 		return $cifra;
 	}
 	
+	/**
+     * Trae periodos para colocar en el titulo
+     * @access Public
+     * @author hhchavezv
+	 * @param  
+	 * @return 
+     */
+	public function consultarPeriodoTitulo($id_formulario) {
+        $sql = "SELECT UPPER(ULTIMOA) AS ULTIMOA, UPPER(ULTIMOM) AS ULTIMOM FROM ENIG_FORM_INSCRIPCION WHERE ID_FORMULARIO = '$id_formulario'";
+	
+		$data=array();
+        $query = $this->db->query($sql);
+        if ($query->num_rows()>0){    			
+    			foreach($query->result() as $row){
+    				$data["ULTIMOA"] = $row->ULTIMOA;
+					$data["ULTIMOM"] = $row->ULTIMOM;					
+    			}		
+    		}
+		
+        $this->db->close();
+        return $data;
+    }
 
 }
 //EOC

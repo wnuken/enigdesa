@@ -90,7 +90,7 @@ $(function () {
             $('[data-toggle="popover"]').popover('destroy');
             bootbox.confirm({
                 title: 'Confirmación',
-                message: '¿Está usted seguro de querer continuar? Una vez haga clic en Continuar NO podrá cambiar la información proporcionada y NO podrá regresar a esta pantalla. Si quiere editar información de estas respuestas haga clic en Cancelar.',
+                message: '¿Está seguro de querer continuar? Una vez haga clic en Continuar NO podrá cambiar la información proporcionada y NO podrá regresar a esta pantalla. Si quiere editar información de estas respuestas haga clic en Cancelar.',
                 buttons: {
                     'cancel': {
                     label: 'Cancelar',

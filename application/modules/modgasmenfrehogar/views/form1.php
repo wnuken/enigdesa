@@ -64,10 +64,14 @@ input[type=radio]:not(old):checked + label > span > span {
     background-image : -webkit-linear-gradient(rgb(85,85,85), rgb(136,136,136));
     background-image : linear-gradient(rgb(85,85,85), rgb(136,136,136));
 }
+h2 {
+    font-size: 24px;
+}
 </style>
 <hr />
-<div class="row secondHead themeHead">
-    <div class="col-sm-2 hidden-xs"><img src="<?php echo base_url("images/form_icon-ingresospersonales.png"); ?>" alt="Imagen sección hogar"></div>
+<!--<div class="row secondHead themeHead">-->
+<div class="row secondHead">
+    <div class="col-sm-2 hidden-x2"><img src="<?php echo base_url("images/".$secc[0]['LOGO']); ?>" alt="Imagen sección hogar"></div>
     <!--<div class="col-sm-4 col-md-3 col-lg-2 col-xs-12">
         
     </div>-->

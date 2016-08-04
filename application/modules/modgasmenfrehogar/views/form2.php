@@ -179,13 +179,16 @@ input[type=radio]:not(old):checked + label > span > span {
   border-width: 0 5px 5px;
   border-bottom-color: #000;
 }
+h2 {
+    font-size: 24px;
+}
 </style>
 <hr />
-<div class="row secondHead themeHead">
-    <div class="col-sm-2 hidden-xs"><img src="<?php echo base_url("images/form_icon-ingresospersonales.png"); ?>" alt="Imagen sección hogar"></div>
-        <h2><?= $secc[0]['TITULO1'] ?></h2>
-        <h4><?= $secc[0]['TITULO2'] ?></h4>
-        <h5><?= $secc[0]['TITULO3'] ?></h5>
+<div class="row secondHead">
+    <div class="col-sm-2 hidden-xs"><img src="<?php echo base_url("images/".$secc[0]['LOGO']); ?>" alt="Imagen sección hogar"></div>
+    <h2><?= $secc[0]['TITULO1'] ?></h2>
+    <h4><?= $secc[0]['TITULO2'] ?></h4>
+    <h5><?= $secc[0]['TITULO3'] ?></h5>
 </div>
 <div class="container">
     <div class="row">

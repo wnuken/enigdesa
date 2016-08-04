@@ -165,7 +165,7 @@
 		</div>
 		<div class="col-md-4">		
 			<div class="row" id="div_otro_pago" name="div_otro_pago"> 		
-				<div class="col-md-3">C&uacute;al:</div>
+				<div class="col-md-3">Cu&aacute;l:</div>
 				<div class="col-md-9">
 					<!-- <input type="text" name="<?php echo $medio_pago["nom_otro"];?>" id="<?php echo $medio_pago["nom_otro"];?>" class="form-control" >-->
 					<input type="text" placeholder="Especifique" name="txt_otro_medio_pago" id="txt_otro_medio_pago" class="form-control" maxlength="98" >				

@@ -362,6 +362,7 @@ $(function() {
 <?
 	$disab = "";
 	$sindia = true;
+	$activo = "";
 	foreach ($dias as $k=>$v) {
 		if ($v['E'] == "HOY") {
 			echo "	$('#ID_SECCION').val(dia[$k][0]);\n";
@@ -369,12 +370,18 @@ $(function() {
 			echo "	$('#_DIA_COM').val(dia[$k][1]);\n";
 			$activo = "			active: $k,\n";
 			$id = $v['S'];
-			if ($v['F'] == "NO") {
+			if ($v['F'] == "NO")
 				$sindia = false;
-			}
 		}
 		if ($v['E'] == "OFF" || $v['F'] == "SI")
 			$disab .= "$k,";
+	}
+	if (empty($activo)) {
+		echo "	$('#ID_SECCION').val(dia[13][0]);\n";
+		echo "	$('#_DIA_ART').val(dia[13][1]);\n";
+		echo "	$('#_DIA_COM').val(dia[13][1]);\n";
+		$activo = "			active: 13,\n";
+		$id = "14DIA14";
 	}
 	$disab = "		disabled: [". substr($disab, 0, -1) ."]\n";
 	// Tiempo expirado para el formulario. Devuelve al menu anterior

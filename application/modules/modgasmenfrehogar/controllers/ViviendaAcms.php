@@ -86,7 +86,12 @@ class ViviendaAcms extends MX_Controller {
                     break;
                 case 3:
 					$data['secc'] = $this->Modgmfh->listar_secciones(array("id" =>"C1"));
-					$data["titulo_1"]=$data['secc'][0]['TITULO1'];//"de ______ del 2016";
+					
+					$this->load->model("Modsec3");
+					$periodo=$this->Modsec3->consultarPeriodoTitulo($data["id_formulario"]);
+					$periodo_mes=" DE ".$periodo["ULTIMOM"];
+					$data["titulo_1"]=$data['secc'][0]['TITULO1'].$periodo_mes;
+					
 					$data["subtitulo_2"]=$data['secc'][0]['TITULO2'];
 					$data["subtitulo_3"]=$data['secc'][0]['TITULO3'];
 					$data["js_dir"] = base_url('js/modgasmenfrehogar/form3.js');					
@@ -104,7 +109,12 @@ class ViviendaAcms extends MX_Controller {
                     break;
                 case 7:
 					$data['secc'] = $this->Modgmfh->listar_secciones(array("id" =>"C2"));
-					$data["titulo_1"]=$data['secc'][0]['TITULO1'];//" - de P10260C12 del 2015 a P10260S1C12 del 2016";
+					
+					$this->load->model("Modsec3");
+					$periodo=$this->Modsec3->consultarPeriodoTitulo($data["id_formulario"]);
+					$periodo_anio=" DE ".$periodo["ULTIMOA"];
+					$data["titulo_1"]=$data['secc'][0]['TITULO1'].$periodo_anio;
+					
 					$data["subtitulo_2"]=$data['secc'][0]['TITULO2'];
 					$data["subtitulo_3"]=$data['secc'][0]['TITULO3'];							
 					$data["js_dir"] = base_url('js/modgasmenfrehogar/form3.js');					

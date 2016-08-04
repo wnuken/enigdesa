@@ -43,13 +43,13 @@ $(function () {
         
         if(!isNaN(valor_maximo) && !isNaN(valor_maximo) && $(this).attr("name") && !$(this).prop("disabled") && $(this).attr("id").indexOf("txt_") != -1){
             // Validaciones
-            if( $("#ID_SECCION3").val() != "G3" && $("#ID_SECCION3").val() != "G4") {
+            //if( $("#ID_SECCION3").val() != "G3" && $("#ID_SECCION3").val() != "G4") {
                 $(this).rules("add", { required   :   true, esEntero: '', menorQue: valor_minimo, mayorQue: valor_maximo,
                     messages: { required   :  "Digite un valor.", esEntero: "El N&uacute;mero no es v&aacute;lido", menorQue:"Digite un valor mayor o igual a " + agregarPuntosMiles(valor_minimo), mayorQue:"Digite un valor menor o igual a " + agregarPuntosMiles(valor_maximo)}
                 });
-            }
+            //}
             // Para las secciones G3 y G4 ademas de estar en el rango tambien se acepta 0 como valor estimado
-            else {
+            /*else {
                 var idInput_ = "#" + $(this).attr("id");
                 $(this).rules("add", { 
                     required   :   true,
@@ -73,7 +73,7 @@ $(function () {
                         mayorQue:"Digite un valor menor o igual a " + agregarPuntosMiles(valor_maximo) + ", o igual a cero"                        
                     }
                 });
-            }
+            }*/
         }
     });
 
@@ -103,19 +103,20 @@ $(function () {
 
         var idChb = $(this).attr("id");
         idInput = "#" + idChb.replace("chb_","txt_");
-        idInputMask = "#" + idChb.replace("chb_","mask_");
+        //idInputMask = "#" + idChb.replace("chb_","mask_");
 
         if($(this).prop("checked")) {
             $(idInput).prop("disabled",true);
             $(idInput).val("");
-            $(idInputMask).prop("disabled",true);
-            $(idInputMask).val("");
+            //$(idInputMask).prop("disabled",true);
+            //$(idInputMask).val("");
+            $(idInput + '-error').remove();
         }
         else {
             $(idInput).prop("disabled",false);
             $(idInput).val("");
-            $(idInputMask).prop("disabled",false);
-            $(idInputMask).val("");
+            //$(idInputMask).prop("disabled",false);
+            //$(idInputMask).val("");
         }
         
         //var inputs = $(".activo").length, condicion = 1;
@@ -156,7 +157,7 @@ $(function () {
             //if(confirmacion) {
             bootbox.confirm({
                 title: 'Confirmación',
-                message: '¿Está usted seguro de querer continuar? Una vez haga clic en Continuar NO podrá cambiar la información proporcionada y NO podrá regresar a esta pantalla. Si quiere editar información de estas respuestas haga clic en Cancelar.',
+                message: '¿Está seguro de querer continuar? Una vez haga clic en Continuar NO podrá cambiar la información proporcionada y NO podrá regresar a esta pantalla. Si quiere editar información de estas respuestas haga clic en Cancelar.',
                 buttons: {
                     'cancel': {
                     label: 'Cancelar',
