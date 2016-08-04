@@ -9,7 +9,6 @@ if(!isset($idFormulario))
 ?>
 </div>
 <script src="<?php echo base_url("/js/modgasmenfrehogar/jquery.numeric.min.js"); ?>"></script>
-<script src="<?php echo base_url("/js/modgasmenfrehogar/jquery.maskMoney.js"); ?>"></script>
 <script src="<?php echo base_url("/js/angular/angular.min.js"); ?>"></script>
 <script src="<?php echo base_url("/js/angular/angular-local-storage.min.js"); ?>"></script>
-<script src="<?php echo base_url("/js/modgasmenfrehogar/ropaAccesorios/controller.js"); ?>"></script>
+<script src="<?php echo base_url("/js/modgasmenfrehogar/seccionsDEF/controller.js"); ?>"></script>

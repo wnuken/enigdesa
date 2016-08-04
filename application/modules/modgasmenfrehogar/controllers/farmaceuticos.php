@@ -70,6 +70,22 @@ class Farmaceuticos extends MX_Controller {
                         if($section['PAG_SECCION3'] == 0)
                             $section['PAG_SECCION3'] = 1;
 
+                        if($section['ID_SECCION3'] == 'F1'){
+                            $data['TITULO4'] = '';
+                            $data['TITULO5'] = 'De la siguiente lista de artículos y servicios, indique aquellas que usted o algún miembro del hogar compró, adquirió o le regalaron el pasado mes de P10260E11:';
+                            $data['TITULO6'] = 'De los articulos y servicios previamente elegidos, responda lo siguiente:';
+                        }
+                        if($section['ID_SECCION3'] == 'F2'){
+                            $data['TITULO4'] = '';
+                            $data['TITULO5'] = 'De la siguiente lista de artículos y servicios, indique aquellas que usted o algún miembro del hogar compró, adquirió o le regalaron durante P10260E12 del 2015 a del P10260S1E12 2016:';
+                            $data['TITULO6'] = 'De los articulos y servicios previamente elegidos, responda lo siguiente:';
+                        }
+                        if($section['ID_SECCION3'] == 'F3'){
+                            $data['TITULO4'] = '';
+                            $data['TITULO5'] = 'De la siguiente lista de artículos y servicios, indique aquellas que usted o algún miembro del hogar compró, adquirió o le regalaron durante P10260E12 del 2015 a del P10260S1E12 2016:';
+                            $data['TITULO6'] = 'De los articulos y servicios previamente elegidos, responda lo siguiente:';
+                        }
+
                         if($section['ID_ESTADO_SEC'] < 2 && $section['ID_SECCION3'] != ($this->idSubModulo . '0')){
                             $data['pageSection'] = $section['PAG_SECCION3'];
                             $data['idSection'] = $section['ID_SECCION3'];
@@ -125,23 +141,23 @@ class Farmaceuticos extends MX_Controller {
         }
 
         public function validateinitsection(){
-           $params = $this->input->get(NULL, TRUE);
-           $result = FALSE;
+         $params = $this->input->get(NULL, TRUE);
+         $result = FALSE;
 
-           $paramsGmf['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
-           $paramsGmf['ID_VARIABLE'] = $params['ID_VARIABLE'];
-           $paramsGmf['VALOR_VARIABLE'] = $params['VALOR_VARIABLE'];
+         $paramsGmf['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
+         $paramsGmf['ID_VARIABLE'] = $params['ID_VARIABLE'];
+         $paramsGmf['VALOR_VARIABLE'] = $params['VALOR_VARIABLE'];
 
       // var_dump($paramsGmf);
 
-           $result = $this->Maccesorios->setGmfVariable($paramsGmf);
+         $result = $this->Maccesorios->setGmfVariable($paramsGmf);
 
-           $dataElement['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
-           $dataElement['ID_SECCION3'] =  $params['ID_SECCION3'];
-           $dataElement['PAG_SECCION3'] = 1;
-           $dataElement['FECHA_INI_SEC'] = date('Y/m/d', strtotime('now'));
-           $dataElement['FECHA_FIN_SEC'] = date('Y/m/d', strtotime('now'));
-           if($params['VALOR_VARIABLE'] == 2)
+         $dataElement['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
+         $dataElement['ID_SECCION3'] =  $params['ID_SECCION3'];
+         $dataElement['PAG_SECCION3'] = 1;
+         $dataElement['FECHA_INI_SEC'] = date('Y/m/d', strtotime('now'));
+         $dataElement['FECHA_FIN_SEC'] = date('Y/m/d', strtotime('now'));
+         if($params['VALOR_VARIABLE'] == 2)
             $dataElement['ID_ESTADO_SEC'] = 2;
         $resultControl = $this->Maccesorios->updateGmfControl($dataElement);
 
@@ -158,63 +174,63 @@ class Farmaceuticos extends MX_Controller {
 
 
     public function getelements(){
-    $params = $this->input->get(NULL, TRUE);
-    $elements = $this->Maccesorios->getElements($params);
-    $elementsForm = $this->Maccesorios->getElementsForm($params);
-    $COMPRA = FALSE; $RECIBIDO_PAGO = FALSE; $REGALO = FALSE; $INTERCAMBIO = FALSE;
-    $PRODUCIDO = FALSE; $NEGOCIO_PROPIO = FALSE; $OTRA = FALSE;
+        $params = $this->input->get(NULL, TRUE);
+        $elements = $this->Maccesorios->getElements($params);
+        $elementsForm = $this->Maccesorios->getElementsForm($params);
+        $COMPRA = FALSE; $RECIBIDO_PAGO = FALSE; $REGALO = FALSE; $INTERCAMBIO = FALSE;
+        $PRODUCIDO = FALSE; $NEGOCIO_PROPIO = FALSE; $OTRA = FALSE;
 
-    foreach ($elements as $key => $value) {
-       $active = FALSE;
+        foreach ($elements as $key => $value) {
+         $active = FALSE;
 
-       foreach ($elementsForm as $key1 => $value1) {
-        if($value['ID_ARTICULO3'] == $value1['ID_ARTICULO3']){
-            $active = TRUE;
+         foreach ($elementsForm as $key1 => $value1) {
+            if($value['ID_ARTICULO3'] == $value1['ID_ARTICULO3']){
+                $active = TRUE;
 
-            if(isset($value1['COMPRA']) && $value1['COMPRA'] == 1)
-                $COMPRA = TRUE;
+                if(isset($value1['COMPRA']) && $value1['COMPRA'] == 1)
+                    $COMPRA = TRUE;
 
-            if(isset($value1['RECIBIDO_PAGO']) && $value1['RECIBIDO_PAGO'] == 1)
-                $RECIBIDO_PAGO = TRUE;
+                if(isset($value1['RECIBIDO_PAGO']) && $value1['RECIBIDO_PAGO'] == 1)
+                    $RECIBIDO_PAGO = TRUE;
 
-            if(isset($value1['REGALO']) && $value1['REGALO'] == 1)
-                $REGALO = TRUE;
+                if(isset($value1['REGALO']) && $value1['REGALO'] == 1)
+                    $REGALO = TRUE;
 
-            if(isset($value1['INTERCAMBIO']) && $value1['INTERCAMBIO'] == 1)
-                $INTERCAMBIO = TRUE;
+                if(isset($value1['INTERCAMBIO']) && $value1['INTERCAMBIO'] == 1)
+                    $INTERCAMBIO = TRUE;
 
-            if(isset($value1['PRODUCIDO']) && $value1['PRODUCIDO'] == 1)
-                $PRODUCIDO = TRUE;
+                if(isset($value1['PRODUCIDO']) && $value1['PRODUCIDO'] == 1)
+                    $PRODUCIDO = TRUE;
 
-            if(isset($value1['NEGOCIO_PROPIO']) && $value1['NEGOCIO_PROPIO'] == 1)
-                $NEGOCIO_PROPIO = TRUE;
+                if(isset($value1['NEGOCIO_PROPIO']) && $value1['NEGOCIO_PROPIO'] == 1)
+                    $NEGOCIO_PROPIO = TRUE;
 
-            if(isset($value1['OTRA']) && $value1['OTRA'] == 1)
-                $OTRA = TRUE;
+                if(isset($value1['OTRA']) && $value1['OTRA'] == 1)
+                    $OTRA = TRUE;
+            }
         }
+
+        $result[$key] = array(
+            'name' => $value['ETIQUETA'],
+            'id' =>  $value['ID_ARTICULO3'],
+            'value' => $active,
+            'DEFINE_LUGAR_COMPRA' => $value['DEFINE_LUGAR_COMPRA'],
+            'DEFINE_FRECU_COMPRA' => $value['DEFINE_FRECU_COMPRA'],
+            'ot' => array(
+                'COMPRA' => $COMPRA, 
+                'RECIBIDO_PAGO' => $RECIBIDO_PAGO,
+                'REGALO' => $REGALO,
+                'INTERCAMBIO' => $INTERCAMBIO,
+                'PRODUCIDO' => $PRODUCIDO,
+                'NEGOCIO_PROPIO' => $NEGOCIO_PROPIO,
+                'OTRA' => $OTRA
+                )
+            );
+
+
     }
-
-    $result[$key] = array(
-        'name' => $value['ETIQUETA'],
-        'id' =>  $value['ID_ARTICULO3'],
-        'value' => $active,
-        'DEFINE_LUGAR_COMPRA' => $value['DEFINE_LUGAR_COMPRA'],
-        'DEFINE_FRECU_COMPRA' => $value['DEFINE_FRECU_COMPRA'],
-        'ot' => array(
-            'COMPRA' => $COMPRA, 
-            'RECIBIDO_PAGO' => $RECIBIDO_PAGO,
-            'REGALO' => $REGALO,
-            'INTERCAMBIO' => $INTERCAMBIO,
-            'PRODUCIDO' => $PRODUCIDO,
-            'NEGOCIO_PROPIO' => $NEGOCIO_PROPIO,
-            'OTRA' => $OTRA
-            )
-        );
-
-
-}
-$response = json_encode($result);
-print $response;
+    $response = json_encode($result);
+    print $response;
 }
 
 public function savesetarticulos(){
