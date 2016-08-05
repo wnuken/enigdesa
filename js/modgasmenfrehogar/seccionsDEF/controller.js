@@ -823,7 +823,7 @@ appGHogar.controller('Educacion', ['$scope', 'dataService', 'localStorageService
 
 }]);
 
-appGHogar.controller('SeecionC', ['$scope', 'dataService', 'localStorageService', '$window', function($scope, dataService, localStorageService, $window) {
+appGHogar.controller('SeccionC', ['$scope', 'dataService', 'localStorageService', '$window', function($scope, dataService, localStorageService, $window) {
 
 	console.log('hola');
 	$scope.meses = [
@@ -834,6 +834,138 @@ appGHogar.controller('SeecionC', ['$scope', 'dataService', 'localStorageService'
 	{
 		"id": "2",
 		"value": "2"
+	},
+	{
+		"id": "3",
+		"value": "3"
+	},
+	{
+		"id": "3",
+		"value": "3"
+	},
+	{
+		"id": "3",
+		"value": "3"
+	},
+	{
+		"id": "3",
+		"value": "3"
+	},
+	{
+		"id": "3",
+		"value": "3"
+	},
+	{
+		"id": "3",
+		"value": "3"
+	},
+	{
+		"id": "3",
+		"value": "3"
+	},
+	{
+		"id": "3",
+		"value": "3"
+	},
+	{
+		"id": "3",
+		"value": "3"
+	},
+	{
+		"id": "3",
+		"value": "3"
+	},
+	{
+		"id": "3",
+		"value": "3"
+	},
+	{
+		"id": "3",
+		"value": "3"
+	},
+	{
+		"id": "3",
+		"value": "3"
+	},
+	{
+		"id": "3",
+		"value": "3"
+	},
+	{
+		"id": "3",
+		"value": "3"
+	},
+	{
+		"id": "3",
+		"value": "3"
+	},
+	{
+		"id": "3",
+		"value": "3"
+	},
+	{
+		"id": "3",
+		"value": "3"
+	},
+	{
+		"id": "3",
+		"value": "3"
+	},
+	{
+		"id": "3",
+		"value": "3"
+	},
+	{
+		"id": "3",
+		"value": "3"
+	},
+	{
+		"id": "3",
+		"value": "3"
+	},
+	{
+		"id": "3",
+		"value": "3"
+	},
+	{
+		"id": "3",
+		"value": "3"
+	},
+	{
+		"id": "3",
+		"value": "3"
+	},
+	{
+		"id": "3",
+		"value": "3"
+	},
+	{
+		"id": "3",
+		"value": "3"
+	},
+	{
+		"id": "3",
+		"value": "3"
+	},
+	{
+		"id": "3",
+		"value": "3"
+	},
+	{
+		"id": "3",
+		"value": "3"
+	},
+	{
+		"id": "3",
+		"value": "3"
+	},
+	{
+		"id": "3",
+		"value": "3"
+	},
+	{
+		"id": "3",
+		"value": "3"
 	},
 	{
 		"id": "3",
@@ -943,8 +1075,8 @@ appGHogar.controller('SeecionC', ['$scope', 'dataService', 'localStorageService'
 
 		dataService.saveSection(paramssec0, function(dataResponse){
 			console.log(dataResponse);
-			if($scope.Formulario.valorVariable == '1' && dataResponse.status == true){
-				$scope.pagesection = params;
+			if(dataResponse.status == true){
+				$window.location.reload();
 			}else{
 				console.log('regarga pagina');
 				// $window.location.reload();

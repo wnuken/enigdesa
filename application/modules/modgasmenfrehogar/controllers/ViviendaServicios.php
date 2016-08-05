@@ -27,6 +27,8 @@ class ViviendaServicios extends MX_Controller {
     }
 
     public function index() {
+
+
         $dataElement["id_formulario"] = $this->session->userdata("id_formulario");
         if (empty($dataElement["id_formulario"])) {
             redirect('/');
@@ -88,7 +90,7 @@ class ViviendaServicios extends MX_Controller {
                         $data['idVariable'] = $section['ID_VARIABLE_VP'];
                         $data['variable'] = $valueVariable['VALOR_VARIABLE'];
                         $data['LOGO'] = $section['LOGO'];
-                        $data["view"]="ropaaccesorios/form1";
+                        $data["view"]="setionsDEF/form1";
                         $this->load->view("layout", $data);
                         return false;
                     }
@@ -96,10 +98,6 @@ class ViviendaServicios extends MX_Controller {
                 }
             }
         }
-
-
-
-
 
 
     }else{
@@ -170,9 +168,9 @@ public function validateinitsection(){
    $dataElement['ID_SECCION3'] =  $params['ID_SECCION3'];
    $dataElement['PAG_SECCION3'] = 2;
    $dataElement['FECHA_FIN_SEC'] = date('Y/m/d', strtotime('now'));
-   if($params['VALOR_VARIABLE'] == 2)
-    $dataElement['ID_ESTADO_SEC'] = 2;
-$resultControl = $this->Maccesorios->updateGmfControl($dataElement);
+   /*if($params['VALOR_VARIABLE'] == 2)
+    $dataElement['ID_ESTADO_SEC'] = 2;*/
+    $resultControl = $this->Maccesorios->updateGmfControl($dataElement);
 
 
 $resposeArray = array(

@@ -1,4 +1,4 @@
-<div ng-controller="SeecionC">
+<div ng-controller="SeccionC">
 	<div class="hide">
 		<input type="hidden" name="idSection" id="idSection" value="<?php echo $idSection; ?>">
 		<input type="hidden" name="idFormulario" id="idFormulario" value="<?php echo $this->session->userdata("id_formulario"); ?>">
@@ -16,12 +16,9 @@
 				<img src="<?php echo base_url('images/' . $LOGO); ?>" alt="logo">
 			</div>
 			<div class="col-sm-8">
-				<h2><?php echo $TITULO1; ?> {{ Formulario.idSection }}</h2>
-
-				<blockquote>
-					<small><?php echo $TITULO2; ?></small>
-					<?php echo $TITULO3; ?>
-				</blockquote>
+				<h3><font color="#ec971f"><?php echo $TITULO1; ?></font></h3>
+					<h4><?php echo $TITULO2; ?></h4>
+					<h4><?php echo $TITULO3; ?></h4>
 			</div>
 
 
@@ -32,7 +29,7 @@
 		<div class="row">
 			<div class="col-sm-12 col-md-offset-1">
 				<fieldset>
-					<form class="form-enph" id="FormAlumbrado" name="FormAlumbrado" class="FormAlumbrado">
+					<form class="form-enph" id="FormServicios" name="FormServicios" class="FormServicios">
 						<div class="row">
 							<div class="form-group has-feedback" id="div-P10260D11">
 								<div class="col-sm-12">
@@ -57,9 +54,15 @@
 						</div>
 					</form>
 				</fieldset>
-				<div class="row text-center">
-					<button class="btn btn-success" ng-disabled="!FormAlumbrado.$valid" ng-click="validateForm1(2)" id="ENV_2_2">Guardar y Continuar <span class="glyphicon glyphicon-chevron-right" aria-hidden="true" title="Continuar"></span></button>
+				<div class="row text-center" ng-if="FormServicios.$valid">
+					<button class="btn btn-success"  ng-click="validateForm1(2)" id="ENV_2_2">Guardar y Continuar <span class="glyphicon glyphicon-chevron-right" aria-hidden="true" title="Continuar"></span></button>
 				</div>
+					<div class="row text-center" ng-if="!FormServicios.$valid">
+						<button class="btn btn-success" ng-click="validateContinue(0)" id="ENV_2_2">Guardar y Continuar
+							<span class="glyphicon glyphicon-chevron-right" aria-hidden="true" title="Continuar"></span>
+						</button>
+					</div>
+
 			</div>
 		</div>
 	</div>

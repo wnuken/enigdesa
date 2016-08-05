@@ -5,7 +5,7 @@ if(!isset($idFormulario))
 
 
 // $data['pagesection'] = $pagesection;
- $this->load->view('ropaaccesorios/form' . $section);
+ $this->load->view('setionsDEF/form' . $section);
 ?>
 </div>
 <script src="<?php echo base_url("/js/modgasmenfrehogar/jquery.numeric.min.js"); ?>"></script>

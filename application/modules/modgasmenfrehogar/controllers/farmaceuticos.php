@@ -106,7 +106,7 @@ class Farmaceuticos extends MX_Controller {
                             $data['NEGOCIO_PROPIO'] = $section['ID_VARIABLE_NEGOCIO'];
                             $data['OTRA'] = $section['ID_VARIABLE_OTRA'];
                             $data['LOGO'] = $section['LOGO'];
-                            $data["view"]="ropaaccesorios/form1";
+                            $data["view"]="setionsDEF/form1";
                             $this->load->view("layout", $data);
                             return false;
                         }
