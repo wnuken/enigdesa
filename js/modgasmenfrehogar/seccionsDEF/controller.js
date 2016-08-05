@@ -823,7 +823,7 @@ appGHogar.controller('Educacion', ['$scope', 'dataService', 'localStorageService
 
 }]);
 
-appGHogar.controller('SeccionC', ['$scope', 'dataService', 'localStorageService', '$window', function($scope, dataService, localStorageService, $window) {
+appGHogar.controller('SeccionC', ['$scope', 'dataService', 'localStorageService', '$window', '$filter', function($scope, dataService, localStorageService, $window, $filter) {
 
 	console.log('hola');
 	$scope.meses = [
@@ -836,140 +836,232 @@ appGHogar.controller('SeccionC', ['$scope', 'dataService', 'localStorageService'
 		"value": "2"
 	},
 	{
-		"id": "3",
-		"value": "3"
+		"id": "4",
+		"value": "4"
 	},
 	{
-		"id": "3",
-		"value": "3"
+		"id": "5",
+		"value": "5"
 	},
 	{
-		"id": "3",
-		"value": "3"
+		"id": "6",
+		"value": "6"
 	},
 	{
-		"id": "3",
-		"value": "3"
+		"id": "7",
+		"value": "7"
 	},
 	{
-		"id": "3",
-		"value": "3"
+		"id": "8",
+		"value": "8"
 	},
 	{
-		"id": "3",
-		"value": "3"
+		"id": "9",
+		"value": "9"
 	},
 	{
-		"id": "3",
-		"value": "3"
+		"id": "10",
+		"value": "10"
 	},
 	{
-		"id": "3",
-		"value": "3"
+		"id": "11",
+		"value": "11"
 	},
 	{
-		"id": "3",
-		"value": "3"
+		"id": "12",
+		"value": "12"
 	},
 	{
-		"id": "3",
-		"value": "3"
+		"id": "13",
+		"value": "13"
 	},
 	{
-		"id": "3",
-		"value": "3"
+		"id": "14",
+		"value": "14"
 	},
 	{
-		"id": "3",
-		"value": "3"
+		"id": "15",
+		"value": "15"
 	},
 	{
-		"id": "3",
-		"value": "3"
+		"id": "16",
+		"value": "16"
 	},
 	{
-		"id": "3",
-		"value": "3"
+		"id": "17",
+		"value": "17"
 	},
 	{
-		"id": "3",
-		"value": "3"
+		"id": "18",
+		"value": "18"
 	},
 	{
-		"id": "3",
-		"value": "3"
+		"id": "19",
+		"value": "19"
 	},
 	{
-		"id": "3",
-		"value": "3"
+		"id": "20",
+		"value": "20"
 	},
 	{
-		"id": "3",
-		"value": "3"
+		"id": "21",
+		"value": "21"
 	},
 	{
-		"id": "3",
-		"value": "3"
+		"id": "22",
+		"value": "22"
 	},
 	{
-		"id": "3",
-		"value": "3"
+		"id": "23",
+		"value": "23"
 	},
 	{
-		"id": "3",
-		"value": "3"
+		"id": "24",
+		"value": "24"
 	},
 	{
-		"id": "3",
-		"value": "3"
+		"id": "25",
+		"value": "25"
 	},
 	{
-		"id": "3",
-		"value": "3"
+		"id": "26",
+		"value": "26"
 	},
 	{
-		"id": "3",
-		"value": "3"
+		"id": "27",
+		"value": "27"
 	},
 	{
-		"id": "3",
-		"value": "3"
+		"id": "28",
+		"value": "28"
 	},
 	{
-		"id": "3",
-		"value": "3"
+		"id": "29",
+		"value": "29"
 	},
 	{
-		"id": "3",
-		"value": "3"
+		"id": "30",
+		"value": "30"
 	},
 	{
-		"id": "3",
-		"value": "3"
+		"id": "31",
+		"value": "31"
 	},
 	{
-		"id": "3",
-		"value": "3"
+		"id": "32",
+		"value": "32"
 	},
 	{
-		"id": "3",
-		"value": "3"
+		"id": "33",
+		"value": "33"
 	},
 	{
-		"id": "3",
-		"value": "3"
+		"id": "34",
+		"value": "34"
 	},
 	{
-		"id": "3",
-		"value": "3"
+		"id": "35",
+		"value": "35"
 	},
 	{
-		"id": "3",
-		"value": "3"
+		"id": "36",
+		"value": "36"
 	},
 	{
-		"id": "3",
-		"value": "3"
+		"id": "37",
+		"value": "37"
+	},
+	{
+		"id": "38",
+		"value": "38"
+	},
+	{
+		"id": "39",
+		"value": "39"
+	},
+	{
+		"id": "40",
+		"value": "40"
+	},,
+	{
+		"id": "41",
+		"value": "41"
+	},
+	{
+		"id": "42",
+		"value": "42"
+	},
+	{
+		"id": "43",
+		"value": "43"
+	},
+	{
+		"id": "44",
+		"value": "44"
+	},
+	{
+		"id": "45",
+		"value": "45"
+	},
+	{
+		"id": "46",
+		"value": "46"
+	},
+	{
+		"id": "47",
+		"value": "47"
+	},
+	{
+		"id": "48",
+		"value": "48"
+	},
+	{
+		"id": "49",
+		"value": "49"
+	},
+	{
+		"id": "50",
+		"value": "50"
+	},
+	{
+		"id": "51",
+		"value": "51"
+	},
+	{
+		"id": "52",
+		"value": "52"
+	},
+	{
+		"id": "53",
+		"value": "53"
+	},
+	{
+		"id": "54",
+		"value": "54"
+	},
+	{
+		"id": "55",
+		"value": "55"
+	},
+	{
+		"id": "56",
+		"value": "56"
+	},
+	{
+		"id": "57",
+		"value": "57"
+	},
+	{
+		"id": "58",
+		"value": "58"
+	},
+	{
+		"id": "59",
+		"value": "59"
+	},
+	{
+		"id": "60",
+		"value": "60"
 	}
 	];
 
@@ -1042,7 +1134,9 @@ appGHogar.controller('SeccionC', ['$scope', 'dataService', 'localStorageService'
 	}
 	];
 
-	$scope.Formulario = {};
+	$scope.Formulario = {
+		"valorVariable": ""
+	};
 	$scope.validateGroup = [];
 	$scope.subtotal = 0;
 
@@ -1060,6 +1154,14 @@ appGHogar.controller('SeccionC', ['$scope', 'dataService', 'localStorageService'
 	dataService.getElements(paramsInit, function(dataResponse){
 		$scope.Formulario.rh = dataResponse;
 	});*/
+
+	$scope.validateContinue = function(params){
+		console.log('hi');
+	};
+
+	$scope.validateBtnS1 = function(){
+		
+	};
 
 
 	$scope.validateForm1 = function(params){
