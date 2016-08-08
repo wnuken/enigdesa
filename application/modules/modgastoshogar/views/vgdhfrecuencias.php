@@ -226,7 +226,9 @@ $(function() {
 			// 2016-04-05 - mayandarl - Asignacion de tipos de datos
 			foreach ( $preg['var'] as $v3 ) {
 				if ($v3['ID_VARIABLE'] == 'NC2_CC_P3_S1')
-					echo "	$('#" . $v3 ['ID_VARIABLE'] ."_-_". $v2['ID_VALOR'] ."').number(true, 0, ',', '.');\n";
+					echo "	$('#" . $v3['ID_VARIABLE'] ."_-_". $v2['ID_VALOR'] ."').number(true, 0, ',', '.');\n";
+				if ($v3['TIPO_CAMPO'] == 'NUMNOSABE')
+					echo "	$('#". $v3['ID_VARIABLE'] ."_-_". $v2['ID_VALOR'] ."').numnosabe('". $v3['ID_VARIABLE'] ."_-_". $v2['ID_VALOR'] ."');\n";
 			}
 			echo "\t\$('#NC2_CC_P3_S1_-_". $v2['ID_VALOR'] ."_99').click(function () {
 				$('#NC2_CC_P3_S1_-_". $v2['ID_VALOR'] ."').val('99');

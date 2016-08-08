@@ -253,6 +253,7 @@ $(function ()
 				valor = false;
 			else
 				valor = true;
+			$(this).val($(this).val().toUpperCase());
 			return valor;
 		});
 	};

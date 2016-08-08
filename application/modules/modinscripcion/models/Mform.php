@@ -147,9 +147,9 @@ class Mform extends CI_Model {
 			$v = str_replace("'", "''", $v);
 			// No asigna ID de la tabla ni campos del sistema (que inician con _)
 			if ($k != $this->id && substr($k, 0, 1) != '_') {
-				if ($k == 'P548')
-					$sets .= "$k=TO_DATE('$v','YYYY-mm-dd'),";
-				else
+				//if ($k == 'P548')
+				//	$sets .= "$k=TO_DATE('$v','YYYY-mm-dd'),";
+				//else
 					$sets .= "$k='$v',";
 			}
 		}
@@ -194,7 +194,8 @@ class Mform extends CI_Model {
      * @author Mario A. Yandar
      */
     public function buscarpersona($id_formulario, $id_persona) {
-        $sql = "SELECT P521A,P521B,P521C,P521D,P6020,P6040,TO_CHAR(P548,'YYYY-MM-DD') AS P548,P6050,P10250S1C2,ID_PERSONA 
+		//TO_CHAR(TO_DATE(P548,'DD/MM/YY'),'YYYY-MM-DD') AS 
+        $sql = "SELECT P521A,P521B,P521C,P521D,P6020,P6040,P6050,P10250S1C2,ID_PERSONA,P548
 		FROM ENIG_FORM_PERSONAS WHERE ID_FORMULARIO='" . $id_formulario . "' AND ID_PERSONA='" . $id_persona . "'";
         $query = $this->db->query($sql);
         $data = array();

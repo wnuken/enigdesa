@@ -27,6 +27,8 @@ class Modgmfh extends My_model {
      * @return Array    $data       Registros devueltos por la consulta
      */
     public function listar_secciones($arrDatos) {
+        $this->load->model(array("formulario/Mformulario"));
+        $id_formulario = $this->session->userdata("id_formulario");
         $data = array();
         $cond = '';
         $i = 0;
@@ -61,6 +63,7 @@ class Modgmfh extends My_model {
         $query = $this->db->query($sql);
         while ($row = $query->unbuffered_row('array')) {
             $data[$i] = $row;
+            $data[$i]['TITULO1'] = $this->Mformulario->asignarFechasEtiqueta( $data[$i]['TITULO1'], $id_formulario);
             $i++;
         }
         $this->db->close();
@@ -402,6 +405,8 @@ class Modgmfh extends My_model {
      * @return Array    $data       Registros devueltos por la consulta
      */
     public function lista_variables_param($arrDatos) {
+        $this->load->model(array("formulario/Mformulario"));
+        $id_formulario = $this->session->userdata("id_formulario");
         $data = array();
         $cond = '';
         $i = 0;
@@ -437,6 +442,7 @@ class Modgmfh extends My_model {
         $query = $this->db->query($sql);
         while ($row = $query->unbuffered_row('array')) {
             $data[$i] = $row;
+            $data[$i]['ETIQUETA'] = $this->Mformulario->asignarFechasEtiqueta( $data[$i]['ETIQUETA'], $id_formulario);
             $i++;
         }
         $this->db->close();

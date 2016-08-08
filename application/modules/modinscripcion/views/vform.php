@@ -373,8 +373,8 @@ foreach ($datpersonal_var as $k => $v) {
     if ($v ['TIPO_DATO'] == 'NUMERICO')
         echo "\t$('#" . $v ['ID_VARIABLE'] . "').numerico();\n";
     if ($v ['TIPO_CAMPO'] == 'MAYUSC') {
-		echo "\t$('#" . $v ['ID_VARIABLE'] . "').mayusculas();\n";
-		//echo "\t$('#" . $v ['ID_VARIABLE'] . "').texto();\n";
+		//echo "\t$('#" . $v ['ID_VARIABLE'] . "').mayusculas();\n";
+		echo "\t$('#" . $v ['ID_VARIABLE'] . "').texto();\n";
 	}
 }
 // 2016-03-31 - mayandarl - Asignacion de valores iniciales
@@ -404,8 +404,8 @@ foreach ($familia_var as $k => $v) {
     if ($v ['TIPO_DATO'] == 'NUMERICO')
         echo "\t$('#" . $v ['ID_VARIABLE'] . "').numerico();\n";
     if ($v ['TIPO_CAMPO'] == 'MAYUSC') {
-        echo "\t$('#" . $v ['ID_VARIABLE'] . "').mayusculas();\n";
-        //echo "\t$('#" . $v ['ID_VARIABLE'] . "').texto();\n";
+        //echo "\t$('#" . $v ['ID_VARIABLE'] . "').mayusculas();\n";
+        echo "\t$('#" . $v ['ID_VARIABLE'] . "').texto();\n";
 	}
 }
 // 2016-04-05 - mayandarl - Asignacion de valores iniciales

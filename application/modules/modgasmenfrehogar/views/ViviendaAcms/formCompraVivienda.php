@@ -67,6 +67,9 @@ input[type=radio]:not(old):checked + label > span > span {
 h2 {
     font-size: 24px;
 }
+input[type=checkbox]:not(old) {
+  margin-left:-30px;
+}
 </style>
 <script src="<?php echo base_url("/js/modgasmenfrehogar/compravivienda/compravivienda.js"); ?>"></script>
 <!--<div class="page-header">
@@ -74,15 +77,24 @@ h2 {
     <p class="lead">Alquiler, Combustibles, Mantenimiento y Servicios de la vivienda.</p>
 </div>-->
 
-<div class="row secondHead">
-    <div class="col-sm-2 hidden-xs"><img src="<?php echo base_url("images/ico_gmf_07.png"); ?>" alt="Imagen sección hogar"></div>
     <!--<div class="col-sm-4 col-md-3 col-lg-2 col-xs-12">
         
     </div>-->
     <!--<div class="col-sm-5 ">-->
-    <h2>Gastos en el &uacute;ltimo a&ntilde;o</h2>
+    <!--<h2>Gastos en el &uacute;ltimo a&ntilde;o</h2>
     <h4>Alquiler, Combustibles, Mantenimiento y Servicios de la vivienda.</h4>
-    <h5>COMPRA Y ADECUACIÓN DE VIVIENDA</h5>
+    <h5>COMPRA Y ADECUACIÓN DE VIVIENDA</h5>-->
+    <!--</div>-->
+
+<div class="row secondHead">
+    <div class="col-sm-2 hidden-x2"><img src="<?php echo base_url("images/".$secc[0]['LOGO']); ?>" alt="Imagen sección hogar"></div>
+    <!--<div class="col-sm-4 col-md-3 col-lg-2 col-xs-12">
+        
+    </div>-->
+    <!--<div class="col-sm-5 ">-->
+    <h2><?= $secc[0]['TITULO1'] ?></h2>
+    <h4><?= $secc[0]['TITULO2'] ?></h4>
+    <h5><?= $secc[0]['TITULO3'] ?></h5>
     <!--</div>-->
 </div>
 
@@ -91,9 +103,15 @@ h2 {
 <input type="hidden" name="ID_FORMULARIO" id="ID_FORMULARIO" value="<?php echo $id_formulario;?>" />
 
 <div id="pregP10305" class="row">
-	<div class="col-md-12" class="has-feedback">
-		<label class="control-label">De P10304 del 2015 a P10304S1 del 2016, &iquest; usted o alg&uacute;n miembro del hogar realiz&oacute; la compra de vivienda nueva o usada diferente a la que habitan?</label>
-	</div>
+	<!--<div class="col-md-12" class="has-feedback">
+		<label class="control-label">De agosto de 2015 y julio de 2016, &iquest; usted o alg&uacute;n miembro del hogar realiz&oacute; la compra de vivienda nueva o usada diferente a la que habitan?</label>
+	</div>-->
+	<label class='control-label' for='<?= isset($var[0]['ID_VARIABLE']) ? $var[0]['ID_VARIABLE'] : "" ?>'  ><?= isset($var[0]['ID_VARIABLE']) ? $var[0]['ID_VARIABLE'] : "" ?></label>
+    <div title="" data-original-title="" id="RESP_<?= isset($var[0]['ID_VARIABLE']) ? $var[0]['ID_VARIABLE'] : "" ?>" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
+        <?= isset($var[0]['ETIQUETA']) ? $var[0]['ETIQUETA'] : "" ?>
+    </div>
+    <br>
+
 	<div id="ops_pregunta1" class="col-md-12" title="" data-original-title=""  data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Respuesta obligatoria. Por favor, seleccione una opci&oacute;n para continuar">
 		<div class="radio">
 			<input type="radio" id="p10305_1" name="p10305" value="1">
@@ -408,9 +426,14 @@ h2 {
 <br/>
 
 <div id="pregP10312" class="row">
-	<div class="col-md-12">
+	<!--<div class="col-md-12">
 		<label>De P10311 del 2015 a  P10311S1 del 2016, &iquest;usted o alg&uacute;n miembro del hogar realiz&oacute; alguna adecuaci&oacute;n, ampliaci&oacute;n o subdivisi&oacute;n de la vivienda?</label>
-	</div>
+	</div>-->
+	<label class='control-label' for='<?= isset($var[1]['ID_VARIABLE']) ? $var[1]['ID_VARIABLE'] : "" ?>'  ><?= isset($var[1]['ID_VARIABLE']) ? $var[1]['ID_VARIABLE'] : "" ?></label>
+    <div title="" data-original-title="" id="RESP_<?= isset($var[1]['ID_VARIABLE']) ? $var[1]['ID_VARIABLE'] : "" ?>" data-toggle="popover" data-placement="top" data-trigger="hover" data-content="">
+        <?= isset($var[1]['ETIQUETA']) ? $var[1]['ETIQUETA'] : "" ?>
+    </div>
+    <br>
 	<div id="ops_p10312" class="col-md-12" title="" data-original-title=""  data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Respuesta obligatoria. Por favor, seleccione una opci&oacute;n para continuar">
 		<div class="radio">
 			<input type="radio" id="p10312_1" name="p10312" value="1"/>
@@ -531,7 +554,7 @@ h2 {
         	<input type="checkbox" id="p8697s6" name="p8697s6" value="1"/>
         	<label for="p8697s6"><span><span></span></span>Otra</label>
         </div>
-        	<div id="divCV13" class="col-md-12 jumbotron" style="padding: 0px;" title="" data-original-title=""  data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Respuesta obligatoria. Por favor, seleccione una opci&oacute;n para continuar">		
+        	<div id="divCV13" class="col-md-12 jumbotron" style="padding: 0px;" title="" data-original-title=""  data-toggle="popover" data-placement="bottom" data-trigger="hover" data-content="Respuesta obligatoria. Por favor, diligencie el campo para continuar">		
 				<div class="radio form-group">
 					<label>&iquest; Cu&aacute;l ?<input type="text" id="p8697s6a1" name="p8697s6a1" value="" placeholder="Especifique" class="form-control" size="70"/></label>
 				</div>		

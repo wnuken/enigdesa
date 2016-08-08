@@ -229,6 +229,7 @@ h2 {
                                     <input type='checkbox' name='<?= $v3['ID_ARTICULO3'] ?>[compra]' value='<?= $v3['ID_ARTICULO3'] ?>_1' id='art_<?= $v3['ID_ARTICULO3'] ?>_1' class='ops_<?= $i ?>'/>
                                     <label for='art_<?= $v3['ID_ARTICULO3'] ?>_1'><span><span></span></span></label>
                                 </div>
+                                <?php if($v3['ID_ARTICULO3'] != '12700201')://Si es libreta militar no se muestran estas opciones?>
                                 <div>
                                     <label style="width:300px" for='art_<?= $v3['ID_ARTICULO3'] ?>_2'>Recibido como pago por trabajo <a class="ayuda" title="Los bienes y servicios adquiridos por el hogar que cubren una parte o el total del pago por su trabajo." data-toggle="tooltip" href="#">(?)</a></label>
                                     <input type='checkbox' name='<?= $v3['ID_ARTICULO3'] ?>[recibido_pago]' value='<?= $v3['ID_ARTICULO3'] ?>_2' id='art_<?= $v3['ID_ARTICULO3'] ?>_2' class='ops_<?= $i ?>'/>
@@ -259,6 +260,7 @@ h2 {
                                     <input type='checkbox' name='<?= $v3['ID_ARTICULO3'] ?>[otra]' value='<?= $v3['ID_ARTICULO3'] ?>_7' id='art_<?= $v3['ID_ARTICULO3'] ?>_7' class='ops_<?= $i ?>' />
                                     <label for='art_<?= $v3['ID_ARTICULO3'] ?>_7'><span><span></span></span></label>
                                 </div>
+                                <?php endif;?>
                             </div>
 <?php 
     if($i < count($preg['var'])):

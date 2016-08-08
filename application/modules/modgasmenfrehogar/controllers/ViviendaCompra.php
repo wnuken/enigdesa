@@ -10,6 +10,7 @@ class ViviendaCompra extends MX_Controller {
     private $idModulo;
     private $idCapitulo;
     private $idSeccion;
+    private $idSubModulo;
     
     public function __construct() {
         parent::__construct();
@@ -18,8 +19,9 @@ class ViviendaCompra extends MX_Controller {
         $this->module = (!empty($this->module)) ? $this->module: 'login';
         $this->submodule = "ViviendaCompra";
        /* $this->idModulo = 'GMFHOGAR';
-        $this->idCapitulo = '';
-        $this->idSeccion = 'C1';*/
+        $this->idCapitulo = '';*/
+        $this->idSeccion = 'C4';
+        $this->idSubModulo = 'C';
     }
     
     /**
@@ -28,6 +30,23 @@ class ViviendaCompra extends MX_Controller {
      * @since  05/07/2016
      */    
     public function index() {
+        $this->load->model(array("Modgmfh"));
+        $id_formulario = $this->session->userdata("id_formulario");
+
+        $arrSA = $this->Modgmfh->listar_secciones_avances(array( "id0" => $this->idSubModulo , "estado" => array(0,1), "idForm" => $id_formulario));
+        //echo count($arrSA) . " || " . $arrSA[0]['ID_ESTADO_SEC'];  
+        if (count($arrSA) == 0 || (count($arrSA) > 0 && $arrSA[0]['ID_ESTADO_SEC'] == 2) ) {
+            redirect(base_url($this->module));
+            return false;
+        }
+
+        
+        $fechahoraactual = $this->Modgmfh->consultar_fecha_hora();
+        $fechaactual = substr($fechahoraactual, 0, 10);
+        $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 1, "FECHA_INI_SEC" => $fechaactual, "PAG_SECCION3" => 1 ), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => 'C4'));
+        $data['secc'] = $this->Modgmfh->listar_secciones(array("id" => $this->idSeccion ));        
+        $data['var'] = $this->Modgmfh->lista_variables_param(array( "seccion" => $this->idSeccion, "pagina" => 1));
+
 		$data["id_formulario"] = $this->session->userdata("id_formulario");
 		$data["view"] = 'ViviendaAcms/formCompraVivienda';
 		$this->load->view("layout", $data);
@@ -98,27 +117,33 @@ class ViviendaCompra extends MX_Controller {
     }
 	
 	/** Guarda pagina C14.CompraAdecuaciónVivnda_Año
-     * @author hhchavezv
+     * @author hhchavezv @author cemedinaa
      * @since 2016-08-01
 	 * @return echo "-ok-" si guarda correctamente, si no "ERROR"
      */
     public function guardaGrillaCompraViv() {
-        
-		$this->load->model("ViviendaAcms/Modcompraviv");
+        $id_formulario = $this->session->userdata("id_formulario");
+		$this->load->model(array("ViviendaAcms/Modcompraviv","Modgmfh"));
 		// Convierte en variables php lo que llega por POST
+        $arrDatos = array();
 		foreach($_POST as $nombre_campo => $valor){	    	
 	  			$asignacion = "\$" . $nombre_campo . "='" . $valor . "';";
 	   			eval($asignacion);
 			}
-		
+
+        //pr($arrDatos);		
 	
 		$result=$this->Modcompraviv->guardaCompraViv($_POST);	
 
 		//pr($_POST);			
-		$result=false;// pruebas
+		//$result=false;// pruebas
 		
 		if($result){
-			echo "-ok-";			
+			echo "-ok-";            
+            $fechahoraactual = $this->Modgmfh->consultar_fecha_hora();
+            $fechaactual = substr($fechahoraactual, 0, 10);
+            $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual ), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => 'C4'));
+            $this->Modgmfh->ejecutar_update('ENIG_ADMIN_GMF_CONTROL', array( "ID_ESTADO_SEC" => 2, "FECHA_FIN_SEC" => $fechaactual ), array( "ID_FORMULARIO" => $id_formulario, "ID_SECCION3" => 'C0'));
 		}	
 		else
 			echo "ERROR";
