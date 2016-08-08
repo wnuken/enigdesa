@@ -1144,6 +1144,7 @@ appGHogar.controller('SeccionC', ['$scope', 'dataService', 'localStorageService'
 		"ID_SECCION3": $idSection.val()
 	};
 
+	console.log($scope.Formulario);
 	/*var paramsInit = {
 		"elements" : {
 			"ID_SECCION3": "D3"
@@ -1186,7 +1187,6 @@ appGHogar.controller('SeccionC', ['$scope', 'dataService', 'localStorageService'
 		});	
 	};
 
-
 	$scope.validateForm2 = function(params){
 		var paramssec0 = {
 			"elements" : {
@@ -1205,7 +1205,6 @@ appGHogar.controller('SeccionC', ['$scope', 'dataService', 'localStorageService'
 			}
 		});	
 	};
-
 
 	$scope.activeValor = function(idServicio, idValor){
 		$scope.Formulario.valor[idServicio] = false;

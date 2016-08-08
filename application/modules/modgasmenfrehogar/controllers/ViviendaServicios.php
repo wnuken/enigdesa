@@ -2,7 +2,7 @@
 
 /**
  * Controlador para el submodulo de gastos en recreacion, diversion, cultura y viajes
- * @author oagarzond
+ * @author brisan
  * @since 2016-06-20
  */
 class ViviendaServicios extends MX_Controller {
@@ -27,7 +27,6 @@ class ViviendaServicios extends MX_Controller {
     }
 
     public function index() {
-
 
         $dataElement["id_formulario"] = $this->session->userdata("id_formulario");
         if (empty($dataElement["id_formulario"])) {
@@ -90,7 +89,7 @@ class ViviendaServicios extends MX_Controller {
                         $data['idVariable'] = $section['ID_VARIABLE_VP'];
                         $data['variable'] = $valueVariable['VALOR_VARIABLE'];
                         $data['LOGO'] = $section['LOGO'];
-                        $data["view"]="setionsDEF/form1";
+                        $data["view"]="sectionsDEF/form1";
                         $this->load->view("layout", $data);
                         return false;
                     }

@@ -20,9 +20,6 @@
 				<h4><?php echo $TITULO2; ?></h4>
 				<h4><?php echo $TITULO3; ?></h4>
 			</div>
-
-
-
 		</div>
 	</div>
 	<div ng-if="pagesection == 1">
@@ -31,19 +28,20 @@
 				<fieldset>
 					<form class="form-enph" id="FormServicios" name="FormServicios" class="FormServicios">
 						<div class="row">
+						<input type="text">
 							<div class="form-group has-feedback" id="div-P10260D11">
 								<div class="col-sm-12">
 									<label class="control-label">¿Su vivienda cuenta con el servicio de alumbrado público?</label>
 								</div>
 								<div class="col-sm-12" id="page0">
 									<div>
-										<input type="radio" name="inititalvalue" value="1" id="inititalvalue1" ng-model="Formulario.valorVariable" required>
+										<input type="radio" name="inititalvalue" ng-value="1" id="inititalvalue1" ng-model="Formulario.valorVariable" required>
 										<span></span><label>Si</label>
 									</div>
 
 									<br>
 									<div>
-										<input type="radio" name="inititalvalue" value="2" id="inititalvalue2" ng-model="Formulario.valorVariable">
+										<input type="radio" name="inititalvalue" ng-value="2" id="inititalvalue2" ng-model="Formulario.valorVariable">
 										<label><span></span>No</label>
 									</div>
 								</div>
