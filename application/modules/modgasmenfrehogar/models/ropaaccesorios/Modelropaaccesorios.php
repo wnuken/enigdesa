@@ -196,6 +196,24 @@ class Modelropaaccesorios extends My_model {
 
         return $result;
     }
+
+    public function getFormViviendas($params){
+        $this->db->select("*");
+        $this->db->where('ID_FORMULARIO',$params['ID_FORMULARIO']);
+        $this->db->limit(1);
+        $query = $this->db->get('ENIG_FORM_VIVIENDAS');
+        $result = $query->row_array();
+        return $result;
+    }
+
+    public function getFormHogares($params){
+        $this->db->select("*");
+        $this->db->where('ID_FORMULARIO',$params['ID_FORMULARIO']);
+        $this->db->limit(1);
+        $query = $this->db->get('ENIG_FORM_HOGARES');
+        $result = $query->row_array();
+        return $result;
+    }
     
 
 

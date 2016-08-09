@@ -152,34 +152,34 @@ private function updateControlSection($params){
 }
 
 public function validateinitsection(){
-   $params = $this->input->get(NULL, TRUE);
-   $result = FALSE;
+ $params = $this->input->get(NULL, TRUE);
+ $result = FALSE;
 
-   $paramsGmf['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
-   $paramsGmf['ID_VARIABLE'] = $params['ID_VARIABLE'];
-   $paramsGmf['VALOR_VARIABLE'] = $params['VALOR_VARIABLE'];
+ $paramsGmf['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
+ $paramsGmf['ID_VARIABLE'] = $params['ID_VARIABLE'];
+ $paramsGmf['VALOR_VARIABLE'] = $params['VALOR_VARIABLE'];
 
       // var_dump($paramsGmf);
 
-   $result = $this->Maccesorios->setGmfVariable($paramsGmf);
+ $result = $this->Maccesorios->setGmfVariable($paramsGmf);
 
-   $dataElement['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
-   $dataElement['ID_SECCION3'] =  $params['ID_SECCION3'];
-   $dataElement['PAG_SECCION3'] = 2;
-   $dataElement['FECHA_FIN_SEC'] = date('Y/m/d', strtotime('now'));
+ $dataElement['ID_FORMULARIO'] = $params['ID_FORMULARIO'];
+ $dataElement['ID_SECCION3'] =  $params['ID_SECCION3'];
+ $dataElement['PAG_SECCION3'] = 2;
+ $dataElement['FECHA_FIN_SEC'] = date('Y/m/d', strtotime('now'));
    /*if($params['VALOR_VARIABLE'] == 2)
-    $dataElement['ID_ESTADO_SEC'] = 2;*/
-    $resultControl = $this->Maccesorios->updateGmfControl($dataElement);
+   $dataElement['ID_ESTADO_SEC'] = 2;*/
+   $resultControl = $this->Maccesorios->updateGmfControl($dataElement);
 
 
-$resposeArray = array(
+   $resposeArray = array(
     'status' => $result,
     'mesage' => 'OK',
     'resultControl' => $resultControl,
     'paramsGmf' => $paramsGmf
     );
-$response = json_encode($resposeArray);
-echo $response;
+   $response = json_encode($resposeArray);
+   echo $response;
 }
 
 
@@ -191,9 +191,9 @@ public function getelements(){
     $PRODUCIDO = FALSE; $NEGOCIO_PROPIO = FALSE; $OTRA = FALSE;
 
     foreach ($elements as $key => $value) {
-       $active = FALSE;
+     $active = FALSE;
 
-       foreach ($elementsForm as $key1 => $value1) {
+     foreach ($elementsForm as $key1 => $value1) {
         if($value['ID_ARTICULO3'] == $value1['ID_ARTICULO3']){
             $active = TRUE;
 
@@ -369,6 +369,122 @@ public function updateotros(){
         $resultControl = $this->Maccesorios->updateGmfControl($dataElement);
     }
 
+
+}
+
+public function listMonth(){
+
+    $dataElement["id_formulario"] = $this->session->userdata("id_formulario");
+    if (empty($dataElement["id_formulario"])) {
+        redirect('/');
+        return false;
+    }
+
+    $month[0] = array('id' => 99, 
+        'value' => 'menos de un mes'); 
+
+    for ($i=1; $i <= 60; $i++) { 
+        $month[$i] =  array('id' => $i, 
+            'value' => $i
+            );
+    }
+
+    $jsonMonth = json_encode($month);
+
+    echo $jsonMonth;
+
+}
+
+public function listServices(){
+
+    $dataElement["id_formulario"] = $this->session->userdata("id_formulario");
+    if (empty($dataElement["id_formulario"])) {
+        redirect('/');
+        return false;
+    }
+
+    $paramsVivienda['ID_FORMULARIO'] = $dataElement["id_formulario"]; 
+    $formViviendas = $this->Maccesorios->getFormViviendas($paramsVivienda);
+    $formHogares = $this->Maccesorios->getFormHogares($paramsVivienda);
+
+    $services = array(
+        '0' => array(
+            "id" => "P8520S5",
+            "servicio" => "Acueducto",
+            'idValor' => "P10272S1A1",
+            "idMes" => "P10272S1A2_1",
+            "idVerifica" => "P10272S1A3_1",
+            "value" => intval($formViviendas['P8520S5'])
+            ),
+        '1' => array(
+            "id" => "P8520S4",
+            "servicio" => "Recolección de basuras y aseo",
+            'idValor' => "P10272S2A1",
+            "idMes" => "P10272S1A2_2",
+            "idVerifica" => "P10272S1A3_2",
+            "value" => intval($formViviendas['P8520S4'])
+            ),
+        '2' => array(
+            "id" => "P8520S3",
+            "servicio" => "Alcantarillado",
+            'idValor' => "P10272S3A1",
+            "idMes" => "P10272S1A2_3",
+            "idVerifica" => "P10272S1A3_3",
+            "value" => intval($formViviendas['P8520S3'])
+            ),
+        '3' => array(
+            "id" => "P8520S1",
+            "servicio" => "Energía eléctrica",
+            'idValor' => "P10272S4A1",
+            "idMes" => "P10272S1A2_4",
+            "idVerifica" => "P10272S1A3_4",
+            "value" => intval($formViviendas['P8520S1'])
+            ),
+        '4' => array(
+            "id" => "P10272S5",
+            "servicio" => "Alumbrado público",
+            'idValor' => "P10272S5A1",
+            "idMes" => "P10272S1A2_5",
+            "idVerifica" => "P10272S1A3_5",
+            "value" => intval(1)
+            ),
+        '5' => array(
+            "id" => "P8520S2",
+            "servicio" => "Gas natural por tubería",
+            'idValor' => "P10272S6A1",
+            "idMes" => "P10272S1A2_6",
+            "idVerifica" => "P10272S1A3_6",
+            "value" => intval($formViviendas['P8520S2'])
+            ),
+        '6' => array(
+            "id" => "P1646S1",
+            "servicio" => "Teléfono residencial (local y larga distancia)",
+            'idValor' => "P10272S7A1",
+            "idMes" => "P10272S1A2_7",
+            "idVerifica" => "P10272S1A3_7",
+            "value" => intval($formHogares['P1646S1'])
+            ),
+        '7' => array(
+            "id" => "P1646S3",
+            "servicio" => "Internet fijo (banda ancha, acceso inalámbrico)",
+            'idValor' => "P10272S8A1",
+            "idMes" => "P10272S1A2_8",
+            "idVerifica" => "P10272S1A3_8",
+            "value" => intval($formHogares['P1646S3'])
+            ),
+        '8' => array(
+           "id" => "P1646S2",
+           "servicio" => "Televisión (cable, satelital, digitalizada, IPTV, antena parabólica)",
+           'idValor' => "P10272S9A1",
+           "idMes" => "P10272S1A2_9",
+           "idVerifica" => "P10272S1A3_9",
+           "value" => intval($formHogares['P1646S2'])
+           )
+        );
+
+    $jsonServices = json_encode($services);
+
+    echo $jsonServices;
 
 }
 

@@ -1,5 +1,6 @@
 <div ng-controller="SeccionC">
 	<div class="hide">
+		<div ng-init="baseurl = '<?php echo base_url(); ?>'"></div>
 		<input type="hidden" name="idSection" id="idSection" value="<?php echo $idSection; ?>">
 		<input type="hidden" name="idFormulario" id="idFormulario" value="<?php echo $this->session->userdata("id_formulario"); ?>">
 		<div ng-init="pagesection = <?php echo $pageSection; ?>"></div>
@@ -97,7 +98,7 @@
 													<small>*</small>
 												</th>
 											</tr>
-											<tr ng-repeat="servicio in servicios" ng-if="servicio.value == 1">
+											<tr ng-repeat="servicio in servicios track by $index" ng-if="servicio.value == 1">
 												<th>{{servicio.servicio}}</th>
 												<td>
 													<div style="max-width: 900px;">

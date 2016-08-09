@@ -1,14 +1,14 @@
 
-	var appGHogar = angular.module('appGHogar',['LocalStorageModule']);
+var appGHogar = angular.module('appGHogar',['LocalStorageModule']);
 
-	appGHogar.config(function(localStorageServiceProvider){
-		localStorageServiceProvider
-		.setPrefix('app-hogar');
+appGHogar.config(function(localStorageServiceProvider){
+	localStorageServiceProvider
+	.setPrefix('app-hogar');
 	  // .setStorageType('sessionStorage');
 	});
 
 
-	appGHogar.service('dataService', function($http) {
+appGHogar.service('dataService', function($http) {
 	// delete $http.defaults.headers.common['X-Requested-With'];
 
 	this.saveSection = function(params, callbackFunc) {
@@ -55,31 +55,31 @@
 	    	console.log("error");
 	    });
 	};
-	});
+});
 
-	appGHogar.directive("isNumber", function() {
-		return {
-			require: "ngModel",
-			scope: {
-				isNumber: '='
-			},
-			link: function(scope, element, attrs, ctrl) {
-				$("input.isnumeric").numeric();
-			}
-		};
-	});
+appGHogar.directive("isNumber", function() {
+	return {
+		require: "ngModel",
+		scope: {
+			isNumber: '='
+		},
+		link: function(scope, element, attrs, ctrl) {
+			$("input.isnumeric").numeric();
+		}
+	};
+});
 
-	appGHogar.directive("isCurrency", function() {
-		return {
-			require: "ngModel",
-			scope: {
-				isCurrency: '='
-			},
-			link: function(scope, element, attrs, ctrl) {
-				$('.currency').maskMoney({precision:0, prefix:'$'});
-			}
-		};
-	});
+appGHogar.directive("isCurrency", function() {
+	return {
+		require: "ngModel",
+		scope: {
+			isCurrency: '='
+		},
+		link: function(scope, element, attrs, ctrl) {
+			$('.currency').maskMoney({precision:0, prefix:'$'});
+		}
+	};
+});
 
 	/*** / filter to convert number in currency 
 	*** Params:
@@ -182,7 +182,7 @@
 				$("div#page1").addClass('alert alert-danger');
 			}else if(page == 2){
 				$elele = $("#tooltip").tooltip();
-	        console.log($elele);
+				console.log($elele);
 				
 				angular.forEach($scope.Formulario.rh, function(element, key){
 					var prueba = false;
@@ -245,34 +245,34 @@
 			}else if(page == 4){
 				angular.forEach($scope.Formulario.rh, function(element, key){
 					$('input#recibidopago' + element.id).removeClass('alert alert-danger');
-						var recibidopagoEmpty = $('input#recibidopago' + element.id).val();
-						if(recibidopagoEmpty == '' || recibidopagoEmpty == null)
-							$('input#recibidopago' + element.id).addClass('alert alert-danger');
+					var recibidopagoEmpty = $('input#recibidopago' + element.id).val();
+					if(recibidopagoEmpty == '' || recibidopagoEmpty == null)
+						$('input#recibidopago' + element.id).addClass('alert alert-danger');
 
 					$('input#regalo' + element.id).removeClass('alert alert-danger');
-						var regaloEmpty = $('input#regalo' + element.id).val();
-						if(regaloEmpty == '' || regaloEmpty == null)
-							$('input#regalo' + element.id).addClass('alert alert-danger');
+					var regaloEmpty = $('input#regalo' + element.id).val();
+					if(regaloEmpty == '' || regaloEmpty == null)
+						$('input#regalo' + element.id).addClass('alert alert-danger');
 
 					$('input#intercambio' + element.id).removeClass('alert alert-danger');
-						var intercambioEmpty = $('input#intercambio' + element.id).val();
-						if(intercambioEmpty == '' || intercambioEmpty == null)
-							$('input#intercambio' + element.id).addClass('alert alert-danger');
-						
+					var intercambioEmpty = $('input#intercambio' + element.id).val();
+					if(intercambioEmpty == '' || intercambioEmpty == null)
+						$('input#intercambio' + element.id).addClass('alert alert-danger');
+
 					$('input#producido' + element.id).removeClass('alert alert-danger');
-						var producidoEmpty = $('input#producido' + element.id).val();
-						if(producidoEmpty == '' || producidoEmpty == null)
-							$('input#producido' + element.id).addClass('alert alert-danger');
+					var producidoEmpty = $('input#producido' + element.id).val();
+					if(producidoEmpty == '' || producidoEmpty == null)
+						$('input#producido' + element.id).addClass('alert alert-danger');
 
 					$('input#negocio' + element.id).removeClass('alert alert-danger');
-						var negocioEmpty = $('input#negocio' + element.id).val();
-						if(negocioEmpty == '' || negocioEmpty == null)
-							$('input#negocio' + element.id).addClass('alert alert-danger');
+					var negocioEmpty = $('input#negocio' + element.id).val();
+					if(negocioEmpty == '' || negocioEmpty == null)
+						$('input#negocio' + element.id).addClass('alert alert-danger');
 
 					$('input#otra' + element.id).removeClass('alert alert-danger');
-						var otraEmpty = $('input#otra' + element.id).val();
-						if(otraEmpty == '' || otraEmpty == null)
-							$('input#otra' + element.id).addClass('alert alert-danger');
+					var otraEmpty = $('input#otra' + element.id).val();
+					if(otraEmpty == '' || otraEmpty == null)
+						$('input#otra' + element.id).addClass('alert alert-danger');
 
 
 				});
@@ -410,7 +410,7 @@
 		};
 
 		$scope.validateForm5 = function(params){
-				
+
 			// var prggr = '';
 			prggr = angular.fromJson($scope.Formulario.otraforma);
 
@@ -511,7 +511,7 @@
 		};
 
 		$scope.compValor = function(id, idElement){
-				console.log($scope.Formulario.otraforma);
+			console.log($scope.Formulario.otraforma);
 			var paramsCurrency = {
 				"input": $scope.otraforma[id][idElement],
 				"separator": '.',
@@ -573,7 +573,7 @@
 	};
 
 
-	}]);
+}]);
 
 
 	/*appGHogar.controller('Educacion', ['$scope', 'dataService', 'localStorageService', '$window', function($scope, dataService, localStorageService, $window) {
@@ -821,355 +821,56 @@
 	};
 
 
-	}]);*/
+}]);*/
 
-	appGHogar.controller('SeccionC', ['$scope', 'dataService', 'localStorageService', '$window', '$filter', '$timeout', function($scope, dataService, localStorageService, $window, $filter, $timeout) {
+appGHogar.controller('SeccionC', ['$scope', 'dataService', 'localStorageService', '$window', '$filter', '$timeout', function($scope, dataService, localStorageService, $window, $filter, $timeout) {
 
-		$scope.meses = [
-		{
-			"id": "97",
-			"value": "Menos de un mes"
-		},
-		{
-			"id": "2",
-			"value": "2"
-		},
-		{
-			"id": "4",
-			"value": "4"
-		},
-		{
-			"id": "5",
-			"value": "5"
-		},
-		{
-			"id": "6",
-			"value": "6"
-		},
-		{
-			"id": "7",
-			"value": "7"
-		},
-		{
-			"id": "8",
-			"value": "8"
-		},
-		{
-			"id": "9",
-			"value": "9"
-		},
-		{
-			"id": "10",
-			"value": "10"
-		},
-		{
-			"id": "11",
-			"value": "11"
-		},
-		{
-			"id": "12",
-			"value": "12"
-		},
-		{
-			"id": "13",
-			"value": "13"
-		},
-		{
-			"id": "14",
-			"value": "14"
-		},
-		{
-			"id": "15",
-			"value": "15"
-		},
-		{
-			"id": "16",
-			"value": "16"
-		},
-		{
-			"id": "17",
-			"value": "17"
-		},
-		{
-			"id": "18",
-			"value": "18"
-		},
-		{
-			"id": "19",
-			"value": "19"
-		},
-		{
-			"id": "20",
-			"value": "20"
-		},
-		{
-			"id": "21",
-			"value": "21"
-		},
-		{
-			"id": "22",
-			"value": "22"
-		},
-		{
-			"id": "23",
-			"value": "23"
-		},
-		{
-			"id": "24",
-			"value": "24"
-		},
-		{
-			"id": "25",
-			"value": "25"
-		},
-		{
-			"id": "26",
-			"value": "26"
-		},
-		{
-			"id": "27",
-			"value": "27"
-		},
-		{
-			"id": "28",
-			"value": "28"
-		},
-		{
-			"id": "29",
-			"value": "29"
-		},
-		{
-			"id": "30",
-			"value": "30"
-		},
-		{
-			"id": "31",
-			"value": "31"
-		},
-		{
-			"id": "32",
-			"value": "32"
-		},
-		{
-			"id": "33",
-			"value": "33"
-		},
-		{
-			"id": "34",
-			"value": "34"
-		},
-		{
-			"id": "35",
-			"value": "35"
-		},
-		{
-			"id": "36",
-			"value": "36"
-		},
-		{
-			"id": "37",
-			"value": "37"
-		},
-		{
-			"id": "38",
-			"value": "38"
-		},
-		{
-			"id": "39",
-			"value": "39"
-		},
-		{
-			"id": "40",
-			"value": "40"
-		},,
-		{
-			"id": "41",
-			"value": "41"
-		},
-		{
-			"id": "42",
-			"value": "42"
-		},
-		{
-			"id": "43",
-			"value": "43"
-		},
-		{
-			"id": "44",
-			"value": "44"
-		},
-		{
-			"id": "45",
-			"value": "45"
-		},
-		{
-			"id": "46",
-			"value": "46"
-		},
-		{
-			"id": "47",
-			"value": "47"
-		},
-		{
-			"id": "48",
-			"value": "48"
-		},
-		{
-			"id": "49",
-			"value": "49"
-		},
-		{
-			"id": "50",
-			"value": "50"
-		},
-		{
-			"id": "51",
-			"value": "51"
-		},
-		{
-			"id": "52",
-			"value": "52"
-		},
-		{
-			"id": "53",
-			"value": "53"
-		},
-		{
-			"id": "54",
-			"value": "54"
-		},
-		{
-			"id": "55",
-			"value": "55"
-		},
-		{
-			"id": "56",
-			"value": "56"
-		},
-		{
-			"id": "57",
-			"value": "57"
-		},
-		{
-			"id": "58",
-			"value": "58"
-		},
-		{
-			"id": "59",
-			"value": "59"
-		},
-		{
-			"id": "60",
-			"value": "60"
-		}
-		];
+	$scope.meses = [];
+	$scope.servicios = [];
+	$scope.Formulario = {};
+	$scope.serviciosValor = [];
+	$scope.validateGroup = [];
+	$scope.subtotal = 0;
 
-		$scope.servicios = [
-		{
-			"id": "P852055",
-			"servicio": "Acueducto",
-			'idValor': "P10272S1A1",
-			"idMes": "P10272S1A2_1",
-			"idVerifica": "P10272S1A3_1",
-			"value": 1
-		},
-		{
-			"id": "P852054",
-			"servicio": "Recolección de basuras y aseo",
-			'idValor': "P10272S2A1",
-			"idMes": "P10272S1A2_2",
-			"idVerifica": "P10272S1A3_2",
-			"value": 1
-		},
-		{
-			"id": "P852053",
-			"servicio": "Alcantarillado",
-			'idValor': "P10272S3A1",
-			"idMes": "P10272S1A2_3",
-			"idVerifica": "P10272S1A3_3",
-			"value": 1
-		},
-		{
-			"id": "P852051",
-			"servicio": "Energía eléctrica",
-			'idValor': "P10272S4A1",
-			"idMes": "P10272S1A2_4",
-			"idVerifica": "P10272S1A3_4",
-			"value": 1
-		},
-		{
-			"id": "P1027255",
-			"servicio": "Alumbrado público",
-			'idValor': "P10272S5A1",
-			"idMes": "P10272S1A2_5",
-			"idVerifica": "P10272S1A3_5",
-			"value": 1
-		},
-		{
-			"id": "P852052",
-			"servicio": "Gas natural por tubería",
-			'idValor': "P10272S6A1",
-			"idMes": "P10272S1A2_6",
-			"idVerifica": "P10272S1A3_6",
-			"value": 1
-		},
-		{
-			"id": "P164651",
-			"servicio": "Teléfono residencial (local y larga distancia)",
-			'idValor': "P10272S7A1",
-			"idMes": "P10272S1A2_7",
-			"idVerifica": "P10272S1A3_7",
-			"value": 1
-		},
-		{
-			"id": "P164653",
-			"servicio": "Internet fijo (banda ancha, acceso inalámbrico)",
-			'idValor': "P10272S8A1",
-			"idMes": "P10272S1A2_8",
-			"idVerifica": "P10272S1A3_8",
-			"value": 1
-		},
-		{
-			"id": "P164652",
-			"servicio": "Televisión (cable, satelital, digitalizada, IPTV, antena parabólica)",
-			'idValor': "P10272S9A1",
-			"idMes": "P10272S1A2_9",
-			"idVerifica": "P10272S1A3_9",
-			"value": 1
-		}
-		];
+	$scope.continue = [];
 
-		$scope.alumbrado = [
-		{
-			"id": "P1027255",
-			"servicio": "Alumbrado público",
-			'idValor': "P10272S5A1",
-			"idMes": "P10272S1A2_5",
-			"idVerifica": "P10272S1A3_5"
-		}
-		];
+	$timeout(function () {
+		console.log($scope.baseurl);
 
-		$scope.Formulario = {};
-		$scope.serviciosValor = [];
-		$scope.validateGroup = [];
-		$scope.subtotal = 0;
+		var paramsMonth = {
+			"elements" : { 'value': ''},				
+			"path": $scope.baseurl + "modgasmenfrehogar/ViviendaServicios/listMonth"
+		};
 
-		$scope.continue = [];
+		dataService.getElements(paramsMonth, function(dataResponse){
+			$scope.meses = dataResponse;					
+			if(typeof $scope.meses == 'undefined' || $scope.meses == null)
+				$scope.meses = [];
+		});
 
-		$timeout(function () {
-			console.log($scope.pagesection);
-			$('div#pagesection' + $scope.pagesection).removeClass('hide');
-		}, 500);
+		var paramsServicios = {
+			"elements" : { 'value': ''},				
+			"path": $scope.baseurl + "modgasmenfrehogar/ViviendaServicios/listServices"
+		};
 
-		$scope.validateContinue = function(params){
-			$scope.continue[0] = 1;
-			if(params == 0){
-				$("div#page0").addClass('alert alert-danger');
-			};
-			if(params == 1){
-				angular.forEach($scope.servicios, function(element, key){
+		dataService.getElements(paramsServicios, function(dataResponse){
+			$scope.servicios = dataResponse;					
+			if(typeof $scope.servicios == 'undefined' || $scope.servicios == null)
+				$scope.servicios = [];
+		});
+
+		$('div#pagesection' + $scope.pagesection).removeClass('hide');
+	}, 500);
+
+	$scope.validateContinue = function(params){
+		$scope.continue[0] = 1;
+		if(params == 0){
+			$("div#page0").addClass('alert alert-danger');
+		};
+		if(params == 1){
+			angular.forEach($scope.servicios, function(element, key){
 				console.log(element.idValor);
-				
+
 				var valueElement = $("input#valor" + element.id).val();
 				if(typeof valueElement !== 'undefined' && valueElement == ''){
 					$("input#valor" + element.id).addClass("alert alert-danger");
@@ -1192,93 +893,92 @@
 
 			});
 
-			};
+		};
+	};
+
+	$scope.validateValor = function(index, id){
+		var paramsCurrency = {
+			"input": $scope.serviciosValor[index],
+			"separator": '.',
+			"prefix": '$'
 		};
 
-		$scope.validateValor = function(index, id){
-			var paramsCurrency = {
-				"input": $scope.serviciosValor[index],
-				"separator": '.',
-				"prefix": '$'
-			};
+		var resultCurrency = $filter('currency')(paramsCurrency);
 
-			var resultCurrency = $filter('currency')(paramsCurrency);
+		$scope.serviciosValor[index] = resultCurrency.mask;
 
-			$scope.serviciosValor[index] = resultCurrency.mask;
+		if(typeof $scope.Formulario.servicios == 'undefined')
+			$scope.Formulario.servicios = {};
 
-			if(typeof $scope.Formulario.servicios == 'undefined')
-				$scope.Formulario.servicios = {};
-	
-				$scope.Formulario.servicios[index] = resultCurrency.unmask;
+		$scope.Formulario.servicios[index] = resultCurrency.unmask;
 
-				if(resultCurrency.unmask < 1000){
-					$("span#valor" + id + "Warning").removeClass("hide");
-				}else{
-					$("span#valor" + id + "Warning").addClass("hide");
-				};
-
-
-		};
-
-		$scope.removeAlert = function(id){
-			$("#" + id).removeClass('alert alert-danger');
-			$("#" + id + 'Error').addClass('hide');
-		};
-
-		$scope.validateBtnS1 = function(){
-			
+		if(resultCurrency.unmask < 1000){
+			$("span#valor" + id + "Warning").removeClass("hide");
+		}else{
+			$("span#valor" + id + "Warning").addClass("hide");
 		};
 
 
-		$scope.validateForm1 = function(params){
-			var paramssec0 = {
-				"elements" : {
-					"ID_FORMULARIO": $scope.Formulario.idFormulario,
-					"ID_VARIABLE": $scope.Formulario.idVariable,
-					"VALOR_VARIABLE": $scope.Formulario.valorVariable,
-					"ID_SECCION3": $scope.Formulario.idSection
-				},				
-				"path": "ViviendaServicios/validateinitsection"
-			};
+	};
 
-			dataService.saveSection(paramssec0, function(dataResponse){
-				console.log(dataResponse);
-				if(dataResponse.status == true){
-					$window.location.reload();
-				}else{
-					console.log('regarga pagina');
+	$scope.removeAlert = function(id){
+		$("#" + id).removeClass('alert alert-danger');
+		$("#" + id + 'Error').addClass('hide');
+	};
+
+	$scope.validateBtnS1 = function(){
+
+	};
+
+
+	$scope.validateForm1 = function(params){
+		var paramssec0 = {
+			"elements" : {
+				"ID_FORMULARIO": $scope.Formulario.idFormulario,
+				"ID_VARIABLE": $scope.Formulario.idVariable,
+				"VALOR_VARIABLE": $scope.Formulario.valorVariable,
+				"ID_SECCION3": $scope.Formulario.idSection
+			},				
+			"path": $scope.baseurl + "modgasmenfrehogar/ViviendaServicios/validateinitsection"
+		};
+
+		dataService.saveSection(paramssec0, function(dataResponse){
+			console.log(dataResponse);
+			if(dataResponse.status == true){
+				$window.location.reload();
+			}else{
+				console.log('regarga pagina');
 					// $window.location.reload();
 				}
 			});	
+	};
+
+	$scope.validateForm2 = function(params){
+		var paramssec0 = {
+			"elements" : {
+				"form": $scope.Formulario
+			},				
+			"path": $scope.baseurl + "modgasmenfrehogar/ViviendaServicios/saveseccionc"
 		};
 
-		$scope.validateForm2 = function(params){
-			var paramssec0 = {
-				"elements" : {
-					"form": $scope.Formulario
-				},				
-				"path": "ViviendaServicios/saveseccionc"
-			};
-
-			dataService.saveSection(paramssec0, function(dataResponse){
-				console.log(dataResponse);
-				if(dataResponse.status == true){
+		dataService.saveSection(paramssec0, function(dataResponse){
+			console.log(dataResponse);
+			if(dataResponse.status == true){
 					//$scope.pagesection = params;
-					// $window.location.reload();
+					$window.location.reload();
 				}else{
 					console.log('error');
 				}
 			});	
-		};
+	};
 
-		$scope.activeValor = function(idServicio, idValor){
-			$scope.Formulario.valor[idServicio] = false;
-			$scope.Formulario.servicios[idValor] = '';
-		};
+	$scope.activeValor = function(idServicio, idValor){
+		$scope.Formulario.valor[idServicio] = false;
+		$scope.Formulario.servicios[idValor] = '';
+	};
 
-		$scope.changeValor = function(idValor, value){
-			$scope.Formulario.servicios[idValor] = value;
-		}
-
-
-	}]);
+	$scope.changeValor = function(idValor, value){
+		$scope.Formulario.servicios[idValor] = value;
+		$scope.serviciosValor[idValor] = '';
+	}
+}]);
