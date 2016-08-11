@@ -1,11 +1,11 @@
 
-var appGHogar = angular.module('appGHogar',['LocalStorageModule']);
+var appGHogar = angular.module('appGHogar',[]);
 
-appGHogar.config(function(localStorageServiceProvider){
+/*appGHogar.config(function(localStorageServiceProvider){
 	localStorageServiceProvider
 	.setPrefix('app-hogar');
 	  // .setStorageType('sessionStorage');
-	});
+	});*/
 
 
 appGHogar.service('dataService', function($http) {
@@ -148,7 +148,7 @@ appGHogar.directive("isCurrency", function() {
 	$idSection = $("input#idSection");
 	$idFormulario = $("input#idFormulario");
 
-	appGHogar.controller('seccionsController', ['$scope', 'dataService', 'localStorageService', '$window', '$filter', function($scope, dataService, localStorageService, $window, $filter) {
+	appGHogar.controller('seccionsController', ['$scope', 'dataService', '$window', '$filter', function($scope, dataService, $window, $filter) {
 		
 		$scope.Formulario = {};
 		$scope.validateGroup = [];
@@ -158,6 +158,17 @@ appGHogar.directive("isCurrency", function() {
 		$scope.VALOR_PAGADO = [];
 		$scope.otraforma = [];
 		$scope.noValida = false;
+		$scope.showTooltip = [];
+		$scope.showTooltip1 = [];
+		$scope.showTooltip2 = [];
+		$scope.showTooltip3 = [];
+/*		$scope.hoverIn = function(){
+    $scope.showTooltip = true;
+};
+
+$scope.hoverOut = function(){
+    $scope.showTooltip = false;
+};*/
 
 		var paramsInit = {
 			"elements" : {
@@ -576,254 +587,7 @@ appGHogar.directive("isCurrency", function() {
 }]);
 
 
-	/*appGHogar.controller('Educacion', ['$scope', 'dataService', 'localStorageService', '$window', function($scope, dataService, localStorageService, $window) {
-		
-		$scope.Formulario = {};
-		$scope.validateGroup = [];
-		$scope.validateCompra = [];
-		$scope.subtotal = 0;
-
-		var gg = {
-			"ID_SECCION3": $idSection.val()
-		};
-
-		var paramsInit = {
-			"elements" : {
-				"ID_SECCION3": $idSection.val(),
-				"ID_FORMULARIO": $idFormulario.val()
-			},				
-			"path": "Educacion/getelements"
-		};
-
-		dataService.getElements(paramsInit, function(dataResponse){
-			$scope.Formulario.rh = dataResponse;
-			console.log(dataResponse);
-		});
-
-		$scope.pagesection = '';
-
-		$scope.validateForm1 = function(params){
-			var paramssec0 = {
-				"elements" : {
-					"ID_FORMULARIO": $scope.Formulario.idFormulario,
-					"ID_VARIABLE": $scope.Formulario.idVariable,
-					"VALOR_VARIABLE": $scope.Formulario.valorVariable,
-					"ID_SECCION3": $scope.Formulario.idSection
-				},				
-				"path": "Educacion/validateinitsection"
-			};
-
-			dataService.saveSection(paramssec0, function(dataResponse){
-				if($scope.Formulario.valorVariable == '1' && dataResponse.status == true){
-					$scope.pagesection = params;
-				}else{
-					console.log('regarga pagina');
-					$window.location.reload();
-				}
-			});	
-		};
-
-		$scope.validateForm2 = function(params){
-			var paramssec1 = {
-				"ID_FORMULARIO": $scope.Formulario.idFormulario,
-				"ID_SECCION3": $scope.Formulario.idSection,
-				"path": "Educacion/savesetarticulos"
-			};
-
-			angular.forEach($scope.Formulario.rh, function(element, key){
-				if(element.value == true){
-					paramssec1[key] = element.id;
-				}
-			});
-			dataService.saveElements(paramssec1, function(dataResponse){
-				if(dataResponse.result == true && dataResponse.control == true){
-					$scope.pagesection = params;
-				}else{
-					console.log(dataResponse);
-				}
-			});
-			
-		};
-
-		$scope.validateForm3 = function(params){
-			var secccion4 = 1;
-
-			angular.forEach($scope.validateCompra, function(element, key){
-				if(element == true)
-					secccion4 = 0;
-			});
-
-			var paramssec2 = {
-				"ID_FORMULARIO": $scope.Formulario.idFormulario,
-				"ID_SECCION3": $scope.Formulario.idSection,
-				"PAG_SECCION3": (params + secccion4),
-				"path": "Educacion/updatearticulos"
-			};
-
-			angular.forEach($scope.Formulario.rh, function(element, key){
-				if(element.value == true){
-					paramssec2[element.id] = element.ot;
-				}
-			});
-
-			dataService.saveElements(paramssec2, function(dataResponse){
-				if(dataResponse.result == true){
-					$scope.pagesection = (params + secccion4);
-				}else{
-					console.log(dataResponse);
-				}
-			});
-
-		};
-
-		$scope.validateForm4 = function(params){
-			$scope.errorVcomprado = false;
-			angular.forEach($scope.Formulario.rh, function(element, key){
-				if( typeof element.pa != 'undefined' && !isNaN(element.pa.VALOR_PAGADO)){
-					vapagado = parseInt(element.pa.VALOR_PAGADO);
-					if(!isNaN(vapagado) && vapagado < 500){
-						$scope.errorVcomprado = true;
-					}
-				}
-			});
-
-			if($scope.errorVcomprado == true){
-				console.log('mensaje de error');
-			}else{
-				$scope.errorVcomprado = false;
-				console.log('se valida');
-
-				var paramssec3 = {
-					"ID_FORMULARIO": $scope.Formulario.idFormulario,
-					"ID_SECCION3": $scope.Formulario.idSection,
-					"MEDIO_PAGO": $scope.Formulario.mp,
-					"path": "Educacion/updatecompra"
-				};
-
-				angular.forEach($scope.Formulario.rh, function(element, key){
-					if(element.value == true){
-						paramssec3[element.id] = element.pa;
-					}
-				});
-
-				dataService.saveElements(paramssec3, function(dataResponse){
-					console.log(dataResponse);
-					if(dataResponse.result == true){
-						$scope.pagesection = params;
-					}else{
-						console.log(dataResponse);
-					};
-				});
-
-
-			}
-
-		};
-
-		$scope.validateForm5 = function(params){
-			var paramssec4 = {};
-			if($scope.Formulario.idSection == 'D6'){
-				var paramssec4 = {
-					"ID_FORMULARIO": $scope.Formulario.idFormulario,
-					"ID_SECCION3": $scope.Formulario.idSection,
-					"OTRA_PAGO": $scope.Formulario.otraforma,
-					"path": "ropaaccesorios/updateotros"
-				};
-			}else{
-				var paramssec4 = {
-					"ID_FORMULARIO": $scope.Formulario.idFormulario,
-					"ID_SECCION3": $scope.Formulario.idSection,
-					"OTRA_PAGO": $scope.Formulario.otraforma,
-					"path": "Educacion/updateotros"
-				};
-			};
-
-			dataService.saveElements(paramssec4, function(dataResponse){
-				if(dataResponse.result == true){
-					$window.location.reload();
-				}else{
-					console.log(dataResponse);
-				};
-			});
-		};
-
-		
-
-		$scope.validateBtnS1 = function(index){
-			console.log($scope.Formulario);
-			$scope.activeBtnS1 = false;
-			angular.forEach($scope.Formulario.rh, function(element, key){
-				if(element.value == true){
-					$scope.activeBtnS1 = element.value;
-				}
-			});
-			// console.log($scope.activeBtnS1);
-		};
-
-		$scope.validateBtnS2 = function(index){
-			
-			$scope.validateGroup[index] = '';
-			angular.forEach($scope.Formulario.rh[index].ot, function(element, key){
-				console.log(element);
-				if(element == true)
-					$scope.validateGroup[index] = true;
-
-				if(key == "COMPRA")
-					$scope.validateCompra[index] = element;
-			});
-
-			//console.log($scope.elid);
-		};
-
-		$scope.sumValor = function(index){
-			console.log($scope.Formulario);
-			var subt = 0;
-			var vapagado = 0; 
-			angular.forEach($scope.Formulario.rh, function(element, key){
-				if( typeof element.pa != 'undefined' && !isNaN(element.pa.VALOR_PAGADO)){
-					vapagado = parseInt(element.pa.VALOR_PAGADO);
-					if(!isNaN(vapagado))
-						subt = subt + vapagado;
-				}
-			});
-			$scope.subtotal = subt;
-		};
-
-		$scope.resValor = function(index){
-			if($scope.Formulario.rh[index].pa.VALOR_PAGADO1 == true && !isNaN($scope.Formulario.rh[index].pa.VALOR_PAGADO)){
-				var pagado = parseInt($scope.Formulario.rh[index].pa.VALOR_PAGADO);
-				var subtotal = parseInt($scope.subtotal);
-				if(subtotal >= pagado){
-					$scope.subtotal = subtotal - pagado;
-				}
-				$scope.Formulario.rh[index].pa.VALOR_PAGADO = '';
-				
-			}
-		}
-
-		$scope.changeValueOT = function(idElement, nameElement){
-			if(typeof $scope.Formulario.otraforma == 'undefined'){
-				$scope.Formulario.otraforma = [];
-			};
-
-			if(typeof $scope.Formulario.otraforma[idElement] == 'undefined'){
-				$scope.Formulario.otraforma[idElement] = [];
-			};
-
-			if(typeof $scope.Formulario.otraforma[idElement][nameElement] == 'undefined' || 
-				$scope.Formulario.otraforma[idElement][nameElement] !== false){
-				$scope.Formulario.otraforma[idElement][nameElement] = false;
-		}else if($scope.Formulario.otraforma[idElement][nameElement] === false){
-			$scope.Formulario.otraforma[idElement][nameElement] = '';
-		};
-
-		console.log($scope.Formulario);
-	};
-
-
-}]);*/
-
-appGHogar.controller('SeccionC', ['$scope', 'dataService', 'localStorageService', '$window', '$filter', '$timeout', function($scope, dataService, localStorageService, $window, $filter, $timeout) {
+appGHogar.controller('SeccionC', ['$scope', 'dataService', '$window', '$filter', '$timeout', function($scope, dataService, $window, $filter, $timeout) {
 
 	$scope.meses = [];
 	$scope.servicios = [];
