@@ -52,9 +52,12 @@ class Ropaaccesorios extends MX_Controller {
 
             $validateControl = $this->getControlSection();
 
+            $paramsInscripcion['ID_FORMULARIO'] = $this->idFormulario;
+            $resultInscripcion = $this->Maccesorios->getInscripcion($paramsInscripcion);
+
             /* echo '<pre>';
-            print_r($validateControl);
-            echo "</pre>"; */
+            print_r($resultInscripcion);
+            echo "</pre>";*/
 
             if(is_array($validateControl)){
                 foreach ($validateControl as $key => $section) {
@@ -66,32 +69,32 @@ class Ropaaccesorios extends MX_Controller {
 
 
                 if($section['ID_SECCION3'] == 'D1'){
-                    $data['TITULO4'] = 'De P10260D11 a P10260S1D11 del 2016, ¿usted o algún miembro del hogar compró, adquirió o le regalaron prendas de vestir o calzado para HOMBRE?';
-                    $data['TITULO5'] = 'De la siguiente lista de artículos y servicios indique aquellos que usted o algún miembro del hogar compró, adquirió o le regalaron durante los últimos tres meses de P10260D11 a P10260S1D11 del 2016:';
+                    $data['TITULO4'] = 'De ' . $resultInscripcion['ULTIMOS3M'] . ', ¿usted o algún miembro del hogar compró, adquirió o le regalaron prendas de vestir o calzado para HOMBRE?';
+                    $data['TITULO5'] = 'De la siguiente lista de artículos y servicios indique aquellos que usted o algún miembro del hogar compró, adquirió o le regalaron durante los últimos tres meses de ' . $resultInscripcion['ULTIMOS3M'] . ':';
                     $data['TITULO6'] = 'De las prendas de vestir para HOMBRE elegidas, responda la siguiente información:';
                 }
                 if($section['ID_SECCION3'] == 'D2'){
-                    $data['TITULO4'] = 'De P10260D12 a P10260S1D12 del 2016, ¿usted o algún miembro del hogar compró, adquirió o le regalaron prendas de vestir o calzado para MUJER?';
-                    $data['TITULO5'] = 'De la siguiente lista de prendas de vestir para MUJER, indique aquellas que usted o algún miembro del hogar compró, adquirió o le regalaron durante P10260D12 a P10260S1D12 del 2016:';
+                    $data['TITULO4'] = 'De ' . $resultInscripcion['ULTIMOS3M'] . ', ¿usted o algún miembro del hogar compró, adquirió o le regalaron prendas de vestir o calzado para MUJER?';
+                    $data['TITULO5'] = 'De la siguiente lista de prendas de vestir para MUJER, indique aquellas que usted o algún miembro del hogar compró, adquirió o le regalaron durante ' . $resultInscripcion['ULTIMOS3M'] . ':';
                     $data['TITULO6'] = 'De las prendas de vestir para MUJER elegidas, responda la siguiente información:';
                 }
                 if($section['ID_SECCION3'] == 'D3'){
-                    $data['TITULO4'] = 'De P10260D13 a P10260S1D13 del 2016, ¿usted o algún miembro del hogar compró, adquirió o le regalaron prendas de vestir o calzado para NIÑO?';
-                    $data['TITULO5'] = 'De la siguiente lista de prendas de vestir para NIÑO, indique aquellas que usted o algún miembro del hogar compró, adquirió o le regalaron durante P10260D13 a P10260S1D13 del 2016:';
+                    $data['TITULO4'] = 'De ' . $resultInscripcion['ULTIMOS3M'] . ', ¿usted o algún miembro del hogar compró, adquirió o le regalaron prendas de vestir o calzado para NIÑO?';
+                    $data['TITULO5'] = 'De la siguiente lista de prendas de vestir para NIÑO, indique aquellas que usted o algún miembro del hogar compró, adquirió o le regalaron durante ' . $resultInscripcion['ULTIMOS3M'] . ':';
                     $data['TITULO6'] = 'De las prendas de vestir para NIÑO elegidas, responda la siguiente información:';
                 }
                 if($section['ID_SECCION3'] == 'D4'){
-                    $data['TITULO4'] = 'De P10260D14 a P10260S1D14 del 2016, ¿usted o algún miembro del hogar compró, adquirió o le regalaron prendas de vestir o calzado para NIÑA?';
-                    $data['TITULO5'] = 'De la siguiente lista de prendas de vestir para NIÑA, indique aquellas que usted o algún miembro del hogar compró, adquirió o le regalaron durante P10260D14 a P10260S1D14 del 2016:';
+                    $data['TITULO4'] = 'De ' . $resultInscripcion['ULTIMOS3M'] . ', ¿usted o algún miembro del hogar compró, adquirió o le regalaron prendas de vestir o calzado para NIÑA?';
+                    $data['TITULO5'] = 'De la siguiente lista de prendas de vestir para NIÑA, indique aquellas que usted o algún miembro del hogar compró, adquirió o le regalaron durante ' . $resultInscripcion['ULTIMOS3M'] . ':';
                     $data['TITULO6'] = 'De las prendas de vestir para NIÑA elegidas, responda lo siguiente:';
                 }
                 if($section['ID_SECCION3'] == 'D5'){
-                    $data['TITULO4'] = 'De P10260D15 a P10260S1D15 del 2016, ¿usted o algún miembro del hogar compró, adquirió o le regalaron prendas de vestir o calzado para BEBÉ?';
-                    $data['TITULO5'] = 'De la siguiente lista de prendas de vestir para BEBÉ, indique aquellas que usted o algún miembro del hogar compró, adquirió o le regalaron durante P10260D15 a P10260S1D15 del 2016:';
+                    $data['TITULO4'] = 'De ' . $resultInscripcion['ULTIMOS3M'] . ', ¿usted o algún miembro del hogar compró, adquirió o le regalaron prendas de vestir o calzado para BEBÉ?';
+                    $data['TITULO5'] = 'De la siguiente lista de prendas de vestir para BEBÉ, indique aquellas que usted o algún miembro del hogar compró, adquirió o le regalaron durante ' . $resultInscripcion['ULTIMOS3M'] . ':';
                     $data['TITULO6'] = 'De las prendas de vestir para BEBÉ elegidas, responda lo siguiente:';
                 }
                 if($section['ID_SECCION3'] == 'D6'){
-                    $data['TITULO5'] = 'De la siguiente lista de artículos y servicios, indique aquellas que usted o algún miembro del hogar compró, adquirió o le regalaron durante P10260D16 a P10260S1D16 del 2016:';
+                    $data['TITULO5'] = 'De la siguiente lista de artículos y servicios, indique aquellas que usted o algún miembro del hogar compró, adquirió o le regalaron durante ' . $resultInscripcion['ULTIMOS3M'] . ':';
                     $data['TITULO6'] = 'De la lista de artículos y servicios elegidos, responda lo siguiente:';
                 }
 

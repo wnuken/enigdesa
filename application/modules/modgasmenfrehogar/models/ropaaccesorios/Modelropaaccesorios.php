@@ -214,6 +214,15 @@ class Modelropaaccesorios extends My_model {
         $result = $query->row_array();
         return $result;
     }
+
+    public function getInscripcion($params){
+        $this->db->select("*");
+        $this->db->where('ID_FORMULARIO',$params['ID_FORMULARIO']);
+        $this->db->limit(1);
+        $query = $this->db->get('ENIG_FORM_INSCRIPCION');
+        $result = $query->row_array();
+        return $result;
+    }
     
 
 

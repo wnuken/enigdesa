@@ -1,9 +1,14 @@
+<style>
+	 input[type=checkbox].form-control {
+		width: 20px;
+		height: 20px;
+		top: -4px;
+	}
+</style>
 <div ng-app="appGHogar">
 <?php
 if(!isset($idFormulario))
 	$idFormulario = '';
-
-
 // $data['pagesection'] = $pagesection;
  $this->load->view('sectionsDEF/form' . $section);
 ?>

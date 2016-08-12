@@ -111,12 +111,12 @@
 																	ng-model="serviciosValor[servicio.idValor]" class="form-control" required>
 																</div>
 																<input type="hidden" name="valor{{servicio.id}}1" id="valor{{servicio.id}}1" 
-																ng-model="Formulario.servicios[servicio.idValor]" class="form-control" ng-minleght="4" required>
+																ng-model="Formulario.servicios[servicio.idValor]" class="form-control" ng-minleght="3" required>
 																<span class="text-center label label-danger hide" id="valor{{servicio.id}}Error">
 																	<b>El campo es obligatorio</b>
 																</span>
 																<span class="text-center label label-warning hide" id="valor{{servicio.id}}Warning">
-																	<b>El valor debe ser igual o mayor a 1000</b>
+																	<b>El valor debe ser igual o mayor a 100</b>
 																</span>
 															</div>
 															<div class="form-group" ng-if="Formulario.valor[servicio.id]">

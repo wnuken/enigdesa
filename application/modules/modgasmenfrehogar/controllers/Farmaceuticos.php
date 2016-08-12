@@ -62,6 +62,19 @@ class Farmaceuticos extends MX_Controller {
 
                 $validateControl = $this->getControlSection();
 
+                $paramsInscripcion['ID_FORMULARIO'] = $this->idFormulario;
+            $resultInscripcion = $this->Maccesorios->getInscripcion($paramsInscripcion);
+
+            $sucriptionDateArray = explode(' ', $resultInscripcion['FECHORA_INSC']); 
+            $month = strtotime(str_replace('/', '.', $sucriptionDateArray[0]) . '-1 month');
+            $month3 = strtotime(str_replace('/', '.', $sucriptionDateArray[0]) . '-4 month');
+            $year = strtotime(str_replace('/', '.', $sucriptionDateArray[0]) . '-1 year -1 month');
+
+            setlocale(LC_TIME, "es_ES");
+            $lastmonth = strftime('%e de %B del %Y', $month);
+            $lastmonth3 = strftime('%e de %B del %Y', $month3);
+            $lastyear = strftime('%e de %B del %Y', $year);
+
 
 
 
@@ -72,17 +85,17 @@ class Farmaceuticos extends MX_Controller {
 
                         if($section['ID_SECCION3'] == 'F1'){
                             $data['TITULO4'] = '';
-                            $data['TITULO5'] = 'De la siguiente lista de artículos y servicios, indique aquellas que usted o algún miembro del hogar compró, adquirió o le regalaron el pasado mes de P10260E11:';
+                            $data['TITULO5'] = 'De la siguiente lista de artículos y servicios, indique aquellas que usted o algún miembro del hogar compró, adquirió o le regalaron el pasado mes de '. $resultInscripcion['ULTIMOM'] .':';
                             $data['TITULO6'] = 'De los articulos y servicios previamente elegidos, responda lo siguiente:';
                         }
                         if($section['ID_SECCION3'] == 'F2'){
                             $data['TITULO4'] = '';
-                            $data['TITULO5'] = 'De la siguiente lista de artículos y servicios, indique aquellas que usted o algún miembro del hogar compró, adquirió o le regalaron durante P10260E12 del 2015 a del P10260S1E12 2016:';
+                            $data['TITULO5'] = 'De la siguiente lista de artículos y servicios, indique aquellas que usted o algún miembro del hogar compró, adquirió o le regalaron durante el ' . $lastmonth3 . ' al '. $lastmonth .':';
                             $data['TITULO6'] = 'De los articulos y servicios previamente elegidos, responda lo siguiente:';
                         }
                         if($section['ID_SECCION3'] == 'F3'){
                             $data['TITULO4'] = '';
-                            $data['TITULO5'] = 'De la siguiente lista de artículos y servicios, indique aquellas que usted o algún miembro del hogar compró, adquirió o le regalaron durante P10260E12 del 2015 a del P10260S1E12 2016:';
+                            $data['TITULO5'] = 'De la siguiente lista de artículos y servicios, indique aquellas que usted o algún miembro del hogar compró, adquirió o le regalaron durante el ' . $lastyear . ' al '. $lastmonth .':';
                             $data['TITULO6'] = 'De los articulos y servicios previamente elegidos, responda lo siguiente:';
                         }
 

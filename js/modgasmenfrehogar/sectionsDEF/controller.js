@@ -8,7 +8,7 @@ var appGHogar = angular.module('appGHogar',[]);
 	});*/
 
 
-appGHogar.service('dataService', function($http) {
+	appGHogar.service('dataService', function($http) {
 	// delete $http.defaults.headers.common['X-Requested-With'];
 
 	this.saveSection = function(params, callbackFunc) {
@@ -57,29 +57,29 @@ appGHogar.service('dataService', function($http) {
 	};
 });
 
-appGHogar.directive("isNumber", function() {
-	return {
-		require: "ngModel",
-		scope: {
-			isNumber: '='
-		},
-		link: function(scope, element, attrs, ctrl) {
-			$("input.isnumeric").numeric();
-		}
-	};
-});
+	appGHogar.directive("isNumber", function() {
+		return {
+			require: "ngModel",
+			scope: {
+				isNumber: '='
+			},
+			link: function(scope, element, attrs, ctrl) {
+				$("input.isnumeric").numeric();
+			}
+		};
+	});
 
-appGHogar.directive("isCurrency", function() {
-	return {
-		require: "ngModel",
-		scope: {
-			isCurrency: '='
-		},
-		link: function(scope, element, attrs, ctrl) {
-			$('.currency').maskMoney({precision:0, prefix:'$'});
-		}
-	};
-});
+	appGHogar.directive("isCurrency", function() {
+		return {
+			require: "ngModel",
+			scope: {
+				isCurrency: '='
+			},
+			link: function(scope, element, attrs, ctrl) {
+				$('.currency').maskMoney({precision:0, prefix:'$'});
+			}
+		};
+	});
 
 	/*** / filter to convert number in currency 
 	*** Params:
@@ -148,7 +148,7 @@ appGHogar.directive("isCurrency", function() {
 	$idSection = $("input#idSection");
 	$idFormulario = $("input#idFormulario");
 
-	appGHogar.controller('seccionsController', ['$scope', 'dataService', '$window', '$filter', function($scope, dataService, $window, $filter) {
+	appGHogar.controller('seccionsController', ['$scope', 'dataService', '$window', '$filter', '$timeout', function($scope, dataService, $window, $filter, $timeout) {
 		
 		$scope.Formulario = {};
 		$scope.validateGroup = [];
@@ -158,10 +158,43 @@ appGHogar.directive("isCurrency", function() {
 		$scope.VALOR_PAGADO = [];
 		$scope.otraforma = [];
 		$scope.noValida = false;
-		$scope.showTooltip = [];
-		$scope.showTooltip1 = [];
-		$scope.showTooltip2 = [];
-		$scope.showTooltip3 = [];
+
+		$timeout(function () {
+			if($scope.Formulario.idSection == 'D1' || $scope.Formulario.idSection == 'D3' || $scope.Formulario.idSection == 'D4'){
+				$scope.minPage3 = 1000;
+				$scope.maxPage3 = 5000000;
+			};
+			if($scope.Formulario.idSection == 'D2'){
+				$scope.minPage3 = 1000;
+				$scope.maxPage3 = 15000000;
+			};
+			if($scope.Formulario.idSection == 'D5'){
+				$scope.minPage3 = 1000;
+				$scope.maxPage3 = 30000000;
+			};
+			if($scope.Formulario.idSection == 'D6' || $scope.Formulario.idSection == 'E1'){
+				$scope.minPage3 = 500;
+				$scope.maxPage3 = 10000000;
+			};
+			if($scope.Formulario.idSection == 'E2'){
+				$scope.minPage3 = 500;
+				$scope.maxPage3 = 30000000;
+			};
+			if($scope.Formulario.idSection == 'F1'){
+				$scope.minPage3 = 500;
+				$scope.maxPage3 = 5000000;
+			};
+			if($scope.Formulario.idSection == 'F2'){
+				$scope.minPage3 = 1000;
+				$scope.maxPage3 = 20000000;
+			};
+			if($scope.Formulario.idSection == 'F3'){
+				$scope.minPage3 = 6000;
+				$scope.maxPage3 = 30000000;
+			};
+		}, 500);
+
+		// 
 /*		$scope.hoverIn = function(){
     $scope.showTooltip = true;
 };
@@ -170,46 +203,46 @@ $scope.hoverOut = function(){
     $scope.showTooltip = false;
 };*/
 
-		var paramsInit = {
-			"elements" : {
-				"ID_SECCION3": $idSection.val(),
-				"ID_FORMULARIO": $idFormulario.val()
-			},				
-			"path": "ropaaccesorios/getelements"
-		};
+var paramsInit = {
+	"elements" : {
+		"ID_SECCION3": $idSection.val(),
+		"ID_FORMULARIO": $idFormulario.val()
+	},				
+	"path": "ropaaccesorios/getelements"
+};
 
-		dataService.getElements(paramsInit, function(dataResponse){
-			$scope.Formulario.rh = dataResponse;
-		});
+dataService.getElements(paramsInit, function(dataResponse){
+	$scope.Formulario.rh = dataResponse;
+});
 
-		$scope.pagesection = '';
+$scope.pagesection = '';
 
-		$scope.validateContinue = function(page){
-			$scope.continue[page] = 1;
+$scope.validateContinue = function(page){
+	$scope.continue[page] = 1;
 
-			if(page == 0){
-				$("div#page0").addClass('alert alert-danger');
-			}else if(page == 1){
-				$("div#page1").addClass('alert alert-danger');
-			}else if(page == 2){
-				$elele = $("#tooltip").tooltip();
-				console.log($elele);
-				
-				angular.forEach($scope.Formulario.rh, function(element, key){
-					var prueba = false;
-					if(element.value == true){
-						angular.forEach(element.ot, function(element1, key1){
-							console.log(element1);
-							if(element1 == true){
-								prueba = true;
-							}
-						});
+	if(page == 0){
+		$("div#page0").addClass('alert alert-danger');
+	}else if(page == 1){
+		$("div#page1").addClass('alert alert-danger');
+	}else if(page == 2){
+		$elele = $("#tooltip").tooltip();
+		console.log($elele);
 
-						if(prueba == false){
-							$("div#itemGroup" + element.id).addClass('alert alert-danger');
-						}
+		angular.forEach($scope.Formulario.rh, function(element, key){
+			var prueba = false;
+			if(element.value == true){
+				angular.forEach(element.ot, function(element1, key1){
+					console.log(element1);
+					if(element1 == true){
+						prueba = true;
 					}
 				});
+
+				if(prueba == false){
+					$("div#itemGroup" + element.id).addClass('alert alert-danger');
+				}
+			}
+		});
 
 				// $("div#itemGroup" + idItems).addClass('alert alert-danger');
 			}else if(page == 3){
@@ -217,7 +250,7 @@ $scope.hoverOut = function(){
 				angular.forEach($scope.Formulario.rh, function(element, key){
 					if( typeof element.pa != 'undefined' && !isNaN(element.pa.VALOR_PAGADO)){
 						vapagado = parseInt(element.pa.VALOR_PAGADO);
-						if(!isNaN(vapagado) && vapagado < 1000){
+						if(!isNaN(vapagado) && vapagado < $scope.minPage3){
 							$scope.errorVcomprado = true;
 						}
 					}
@@ -251,6 +284,13 @@ $scope.hoverOut = function(){
 				if(mediopagoEmpty == '' || mediopagoEmpty == null){
 					$('select#mediopago').addClass('alert alert-danger');
 					$('label#mediopagoError').removeClass('hide');
+				}
+
+				$('input#cual').removeClass('alert alert-danger');
+				var mediopagoEmpty = $('input#cual').val();
+				if(mediopagoEmpty == '' || mediopagoEmpty == null){
+					$('input#cual').addClass('alert alert-danger');
+					$('label#cualError').removeClass('hide');
 				}
 
 			}else if(page == 4){
@@ -380,7 +420,7 @@ $scope.hoverOut = function(){
 			angular.forEach($scope.Formulario.rh, function(element, key){
 				if( typeof element.pa != 'undefined' && !isNaN(element.pa.VALOR_PAGADO)){
 					vapagado = parseInt(element.pa.VALOR_PAGADO);
-					if(!isNaN(vapagado) && vapagado < 1000){
+					if(!isNaN(vapagado) && vapagado < $scope.minPage3){
 						$scope.errorVcomprado = true;
 					}
 				}
@@ -486,10 +526,21 @@ $scope.hoverOut = function(){
 			$scope.VALOR_PAGADO[index] = resultCurrency.mask;
 			var pagadoReal = resultCurrency.unmask;
 
-			if(pagadoReal > 5000000){
-				pagadoReal = 5000000;
-				$scope.VALOR_PAGADO[index] = '$5.000.000';
-			}
+			/*if(pagadoReal > $scope.maxPage3){
+				
+
+				var paramsCurrencyMax = {
+				"input": $scope.maxPage3,
+				"separator": '.',
+				"prefix": '$'
+			};
+
+			var resultCurrencyMax = $filter('currency')(paramsCurrencyMax);
+
+				pagadoReal = resultCurrencyMax.unmask;
+
+				$scope.VALOR_PAGADO[index] = resultCurrencyMax.mask;
+			};*/
 
 			if(typeof $scope.Formulario.rh[index] == 'undefined' )
 				$scope.Formulario.rh[index] = [];
@@ -531,10 +582,10 @@ $scope.hoverOut = function(){
 
 			var resultCurrency = $filter('currency')(paramsCurrency);
 
-			if(resultCurrency.unmask > 5000000){
+			/*if(resultCurrency.unmask > $scope.maxPage3){
 				resultCurrency.mask = '$5.000.000';
-				resultCurrency.unmask = 5000000;
-			};
+				resultCurrency.unmask = $scope.maxPage3;
+			};*/
 
 			$scope.otraforma[id][idElement] = resultCurrency.mask;
 
@@ -555,11 +606,30 @@ $scope.hoverOut = function(){
 		$scope.resValor = function(index){
 			if($scope.Formulario.rh[index].pa.VALOR_PAGADO1 == true && !isNaN($scope.Formulario.rh[index].pa.VALOR_PAGADO)){
 				var pagado = parseInt($scope.Formulario.rh[index].pa.VALOR_PAGADO);
-				var subtotal = parseInt($scope.subtotal);
-				if(subtotal >= pagado){
-					$scope.subtotal = subtotal - pagado;
-				}
+
+				var paramsCurrency = {
+					"input": $scope.subtotal,
+					"separator": '.',
+					"prefix": '$'
+				};
+
+				var resultCurrency = $filter('currency')(paramsCurrency);
+
+				var subtotal = parseInt(resultCurrency.unmask);
+				if(!isNaN(pagado)){
+					var totalC2 = subtotal - pagado;
+					var paramsCurrency1 = {
+						"input": totalC2,
+						"separator": '.',
+						"prefix": '$'
+					};
+					var resultCurrency1 = $filter('currency')(paramsCurrency1);
+					$scope.subtotal = resultCurrency1.mask;
+				};
+
 				$scope.Formulario.rh[index].pa.VALOR_PAGADO = '';
+				$scope.VALOR_PAGADO[index] = '';
+
 				
 			}
 		}
@@ -595,6 +665,8 @@ appGHogar.controller('SeccionC', ['$scope', 'dataService', '$window', '$filter',
 	$scope.serviciosValor = [];
 	$scope.validateGroup = [];
 	$scope.subtotal = 0;
+	$scope.minPage3 = 100;
+	$scope.maxPage3 = 5000000;
 
 	$scope.continue = [];
 
@@ -676,7 +748,7 @@ appGHogar.controller('SeccionC', ['$scope', 'dataService', '$window', '$filter',
 
 		$scope.Formulario.servicios[index] = resultCurrency.unmask;
 
-		if(resultCurrency.unmask < 1000){
+		if(resultCurrency.unmask < $scope.minPage3){
 			$("span#valor" + id + "Warning").removeClass("hide");
 		}else{
 			$("span#valor" + id + "Warning").addClass("hide");
