@@ -126,7 +126,7 @@
 															<div class="form-group" ng-if="Formulario.valor[servicio.id]">
 																<div class="input-group">
 																	<span class="input-group-addon">Valor</span>
-																	<input type="text" name="valor{{servicio.id}}" id="valor{{servicio.id}}" readonly class="form-control" 
+																	<input type="text" name="valor{{servicio.id}}2" id="valor{{servicio.id}}2" readonly class="form-control" 
 																	ng-click="activeValor(servicio.id, servicio.idValor)">
 																</div>
 															</div>
