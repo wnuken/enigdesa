@@ -637,7 +637,7 @@
 		ng-model="otraforma[rhom.id]['<?php echo $RECIBIDO_PAGO ?>']" 
 		ng-change="compValor(rhom.id, '<?php echo $RECIBIDO_PAGO ?>')" required>
 		<input name="recibidopago1{{rhom.id}}" id="recibidopago1{{rhom.id}}" type="hidden" class="form-control isnumeric" 
-		ng-model="Formulario.otraforma[rhom.id]['<?php echo $RECIBIDO_PAGO ?>']" required is-number ng-minlength="4">
+		ng-model="Formulario.otraforma[rhom.id]['<?php echo $RECIBIDO_PAGO ?>']" required is-number>
 		<label ng-show="Formulario.otraforma[rhom.id]['<?php echo $RECIBIDO_PAGO ?>'] < minPage3"
 			style="display: inline; margin-left: 10px; color: rgb(255, 0, 0);">
 			Digite un valor mayor de {{minPage3}}.
@@ -666,7 +666,7 @@
 		ng-model="otraforma[rhom.id]['<?php echo $REGALO ?>']" 
 		ng-change="compValor(rhom.id, '<?php echo $REGALO ?>')" required>
 		<input name="regalo1{{rhom.id}}" id="regalo1{{rhom.id}}" type="hidden" class="form-control isnumeric" 
-		ng-model="Formulario.otraforma[rhom.id]['<?php echo $REGALO ?>']" required is-number ng-minlength="4">
+		ng-model="Formulario.otraforma[rhom.id]['<?php echo $REGALO ?>']" required is-number>
 		<label ng-show="Formulario.otraforma[rhom.id]['<?php echo $REGALO ?>'] < minPage3"
 			style="display: inline; margin-left: 10px; color: rgb(255, 0, 0);">
 			Digite un valor mayor de {{minPage3}}.
@@ -695,7 +695,7 @@
 		ng-model="otraforma[rhom.id]['<?php echo $INTERCAMBIO ?>']" 
 		ng-change="compValor(rhom.id, '<?php echo $INTERCAMBIO ?>')" required>
 		<input name="intercambio1{{rhom.id}}" id="intercambio1{{rhom.id}}" type="hidden" class="form-control isnumeric" 
-		ng-model="Formulario.otraforma[rhom.id]['<?php echo $INTERCAMBIO ?>']" required is-number ng-minlength="4">
+		ng-model="Formulario.otraforma[rhom.id]['<?php echo $INTERCAMBIO ?>']" required is-number>
 		<label ng-show="Formulario.otraforma[rhom.id]['<?php echo $INTERCAMBIO ?>'] < minPage3"
 			style="display: inline; margin-left: 10px; color: rgb(255, 0, 0);">
 			Digite un valor mayor de {{minPage3}}.
@@ -724,7 +724,7 @@
 		ng-model="otraforma[rhom.id]['<?php echo $PRODUCIDO ?>']"
 		ng-change="compValor(rhom.id, '<?php echo $PRODUCIDO ?>')" required>
 		<input name="producido1{{rhom.id}}" id="producido1{{rhom.id}}" type="hidden" class="form-control isnumeric" 
-		ng-model="Formulario.otraforma[rhom.id]['<?php echo $PRODUCIDO ?>']" required is-number ng-minlength="4">
+		ng-model="Formulario.otraforma[rhom.id]['<?php echo $PRODUCIDO ?>']" required is-number>
 		<label ng-show="Formulario.otraforma[rhom.id]['<?php echo $PRODUCIDO ?>'] < minPage3"
 			style="display: inline; margin-left: 10px; color: rgb(255, 0, 0);">
 			Digite un valor mayor de {{minPage3}}.
@@ -754,7 +754,7 @@
 		ng-model="otraforma[rhom.id]['<?php echo $NEGOCIO_PROPIO ?>']" 
 		ng-change="compValor(rhom.id, '<?php echo $NEGOCIO_PROPIO ?>')" required>
 		<input name="negocio1{{rhom.id}}" id="negocio1{{rhom.id}}" type="hidden" class="form-control isnumeric" 
-		ng-model="Formulario.otraforma[rhom.id]['<?php echo $NEGOCIO_PROPIO ?>']" required is-number ng-minlength="4">
+		ng-model="Formulario.otraforma[rhom.id]['<?php echo $NEGOCIO_PROPIO ?>']" required is-number>
 		<label ng-show="Formulario.otraforma[rhom.id]['<?php echo $NEGOCIO_PROPIO ?>'] < minPage3"
 			style="display: inline; margin-left: 10px; color: rgb(255, 0, 0);">
 			Digite un valor mayor de {{minPage3}}.
@@ -784,7 +784,7 @@
 		ng-model="otraforma[rhom.id]['<?php echo $OTRA ?>']" 
 		ng-change="compValor(rhom.id, '<?php echo $OTRA ?>')" required>
 		<input name="otra{{rhom.id}}" id="otra{{rhom.id}}" type="hidden" class="form-control isnumeric" 
-		ng-model="Formulario.otraforma[rhom.id]['<?php echo $OTRA ?>']" required is-number ng-minlength="4">
+		ng-model="Formulario.otraforma[rhom.id]['<?php echo $OTRA ?>']" required is-number>
 		<label ng-show="Formulario.otraforma[rhom.id]['<?php echo $OTRA ?>'] < minPage3"
 			style="display: inline; margin-left: 10px; color: rgb(255, 0, 0);">
 			Digite un valor mayor de {{minPage3}}.
