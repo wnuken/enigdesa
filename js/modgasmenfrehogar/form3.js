@@ -24,7 +24,7 @@
 			txt_total    		: {	required        :  "Verifique el subtotal.", expresion :  "No hay artículos o servicios comprados o pagados."},
 			txt_total_credito    		: {	required        :  "Verifique el subtotal.", expresion :  "No hay artículos o servicios comprados o pagados."},
 			sel_medio_pago    	: {	comboBox        :  "Seleccione una opci&oacute;n."},
-			txt_otro_medio_pago : {	required        :  "Diligencie c&uacute;al otro medio de pago. ", 
+			txt_otro_medio_pago : {	required        :  "Diligencie cu&aacute;l otro medio de pago. ", 
 														minlength		:  "Mínimo 5 caracteres",
 														maxlength	:  "Máximo 100 caracteres"},
 			
@@ -58,19 +58,26 @@
 		if ($("#form_sec3").valid() == true){
 		
 			//if(window.confirm('Haga clic en Aceptar si realmente quiere guardar y continuar a la siguiente secci\u00f3n.'))
-			bootbox.confirm({
+			bootbox.confirm({ // o dialog 
                 title: 'Confirmación',
                 message: '¿Está seguro de querer continuar? Una vez haga clic en Continuar NO podrá cambiar la información proporcionada y NO podrá regresar a esta pantalla. Si quiere editar información de estas respuestas haga clic en Cancelar.',
                 buttons: {
                     'cancel': {
                     label: 'Cancelar',
                     className: 'btn btn-primary btn-success'
-                },
-                'confirm': {
-                    label: 'Continuar',
-                    className: 'btn btn-primary btn-success'
-                }
-            }, callback: function(result) {
+					},
+					'confirm': {
+						label: 'Continuar',
+						className: 'btn btn-primary btn-success'
+						/*,callback: function() {
+							alert("great success");
+						}*/
+					}
+					
+				}
+				,onEscape: false
+				,closeButton: false				
+			, callback: function(result) {
 				if(result) {// Si dio clic en continuar
 				//Activa icono guardando
 				$("#pag3_error").css("display", "none");
@@ -83,13 +90,35 @@
 					data: $("#form_sec3").serialize(),
 					success: function(data){
 						if(data ==="-ok-")
-						{	
-							alert('Guardado correctamente !!!');
-							$("#pag3_cargando").css("display", "none");
-							location.reload();
+						{								
+						/*	bootbox.alert({message:'Guardado correctamente !!!', 
+							buttons: {
+								'ok': {
+								label: 'Aceptar',
+								className: 'btn btn-primary btn-success'
+							}
+							}
+							,onEscape: false
+							,closeButton: false
+							});*/
+							$("#pag3_cargando").html("<b>Guardado correctamente !!!</b>");
+							//$("#pag3_cargando").css("display", "none");
+							 setTimeout(function () {
+                                    location.href = location.href
+                                }, 2000);
+							//location.reload();	
 						}	
 						else
-						{   alert('ERROR al guardar la secci\u00f3n. Intente nuevamente o recargue la p\u00e1gina.');
+						{  
+							bootbox.alert({message:'ERROR al guardar la secci\u00f3n. Intente nuevamente o recargue la p\u00e1gina.', 
+							buttons: {
+								'ok': {
+								label: 'Aceptar',
+								className: 'btn btn-primary btn-success'
+							}
+							}
+							,closeButton: false
+							});
 							$("#pag3_cargando").css("display", "none");
 							$("#pag3_error").css("display", "inline");
 							$("#"+nom_boton_form3).removeAttr('disabled');
@@ -97,21 +126,25 @@
 						
 					},
 						error: function(result) {
-							alert('ERROR al guardar la secci\u00f3n. Intente nuevamente o recargue la p\u00e1gina.');
+							bootbox.alert({message:'ERROR al guardar la secci\u00f3n. Intente nuevamente o recargue la p\u00e1gina.', 
+							buttons: {
+								'ok': {
+								label: 'Aceptar',
+								className: 'btn btn-primary btn-success'
+							}
+							}
+							,closeButton: false
+							});
 							$("#pag3_cargando").css("display", "none");
 							$("#pag3_error").css("display", "inline");
-							$("#"+nom_boton_form3).removeAttr('disabled');
-							
+							$("#"+nom_boton_form3).removeAttr('disabled');							
 						}
 					
 					});
 				}	
 			}});		
 		}//if			
-		/*else
-		{
-			alert("El formulario tiene errores. Revise y corrija.");
-		}*/
+		
 	});
 	
 	
@@ -179,8 +212,35 @@ function pag3_valida_articulos_pagados()
 			$( valor_credito ).numerico().largo(agregarPuntosMiles(rango_max).length);
 		}
 		
-		// Validaciones
-		$(valor).rules("add", { required   :   true,  
+		// Elige validacion para valor pagado, dependiendo de si esta presente columna credito en cuyo caso se permite el cero.
+		if($(valor_credito).length >0){// si existe
+					
+			$(valor_credito).rules("add", { required   :   true,  
+										//menorQue_puntoMiles:rango_min,  										
+										expresion: '( quitarPuntoMiles($("'+valor_credito+'").val()) > 0 && quitarPuntoMiles($("'+valor_credito+'").val()) < '+rango_min+')',
+										mayorQue_puntoMiles:rango_max,
+										esEntero_puntoMiles : true, 
+							 messages: { required   :  "Digite un valor.", 
+										//menorQue_puntoMiles:"Digite un valor mayor de "+agregarPuntosMiles(rango_min), 
+										expresion:"Digite un valor mayor de "+agregarPuntosMiles(rango_min)+", o digite cero" , 
+										mayorQue_puntoMiles:"Digite un valor menor de "+agregarPuntosMiles(rango_max)+", o digite cero",
+										esEntero_puntoMiles: "Digite solo números."}
+					});
+					
+			$(valor).rules("add", { required   :   true,  
+								//menorQue_puntoMiles:rango_min,
+								expresion: '( quitarPuntoMiles($("'+valor+'").val()) > 0 && quitarPuntoMiles($("'+valor+'").val()) < '+rango_min+')',	
+								mayorQue_puntoMiles:rango_max,
+								esEntero_puntoMiles : true, 
+					 messages: { required   :  "Digite un valor.", 
+								 expresion:"Digite un valor mayor de "+agregarPuntosMiles(rango_min)+", o digite cero", 
+								 mayorQue_puntoMiles:"Digite un valor menor de "+agregarPuntosMiles(rango_max)+", o digite cero",
+								 esEntero_puntoMiles: "Digite solo números."
+							   }
+					});		
+										
+		}else{// Sin columna credito
+			$(valor).rules("add", { required   :   true,  
 								menorQue_puntoMiles:rango_min, 
 								mayorQue_puntoMiles:rango_max,
 								esEntero_puntoMiles : true, 
@@ -189,20 +249,6 @@ function pag3_valida_articulos_pagados()
 								 mayorQue_puntoMiles:"Digite un valor menor de "+agregarPuntosMiles(rango_max),
 								 esEntero_puntoMiles: "Digite solo números."
 							   }
-					});
-		/*$(no_recuerda).rules("add", { required   :   true, 
-					 messages: { required   :  "Digite un valor."}
-					});*/
-					
-		if($(valor_credito).length >0){// si existe
-		$(valor_credito).rules("add", { required   :   true,  
-										menorQue_puntoMiles:rango_min, 
-										mayorQue_puntoMiles:rango_max,
-										esEntero_puntoMiles : true, 
-							 messages: { required   :  "Digite un valor.", 
-										menorQue_puntoMiles:"Digite un valor mayor de "+agregarPuntosMiles(rango_min), 
-										mayorQue_puntoMiles:"Digite un valor menor de "+agregarPuntosMiles(rango_max),
-										esEntero_puntoMiles: "Digite solo números."}
 					});
 		}			
 		$(lugar).rules("add", { comboBox   :   '-', 

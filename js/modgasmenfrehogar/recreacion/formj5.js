@@ -18,11 +18,11 @@ $(function() {
 							menorQue:1
 			},
 			P10395S2A1 : {	required : true,
-							mayorQue:365,
+							mayorQue:20,
 							menorQue:1
 			}, 
 			P10396S1 : {	required : true,
-							mayorQue : 365,
+							mayorQue : 20,
 							menorQue : 1
 			},
 			P10396S2 : {	required : true,
@@ -31,19 +31,19 @@ $(function() {
 							
 			},
 			P10397S1A1 : {	required : true,
-							mayorQue : 365,
+							mayorQue : 20,
 							menorQue : 1
 			},
 			P10397S3A1 : {	required : true,
-							mayorQue : 365,
+							mayorQue : 20,
 							menorQue : 1
 			},
 			P10397S4A1 : {	required : true,
-							mayorQue : 365,
+							mayorQue : 20,
 							menorQue : 1
 			},
 			P10397S5A1 : {	required : true,
-							mayorQue : 365,
+							mayorQue : 20,
 							menorQue : 1
 			},
 			P3J1324 : {	required : true,
@@ -54,15 +54,15 @@ $(function() {
 		},
 		messages : {
 			P10395S1A1 : {	required:"Respuesta obligatoria. Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.l.",
-							mayorQue:"Digite un valor menor o igual de 365",
+							mayorQue:"Digite un valor menor o igual de 20",
 							menorQue:"Digite un valor mayor de 0" 
 			},
 			P10395S2A1 : {	required:"Respuesta obligatoria. Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.",
-							mayorQue:"Digite un valor menor o igual de 365",
+							mayorQue:"Digite un valor menor o igual de 20",
 							menorQue:"Digite un valor mayor de 0" 
 			},
 			P10396S1 : {	required:"Respuesta obligatoria. Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.",
-							mayorQue:"Digite un valor menor o igual de 365",
+							mayorQue:"Digite un valor menor o igual de 20",
 							menorQue:"Digite un valor mayor de 0" 
 			},
 			P10396S2 : {	required:"Respuesta obligatoria. Por favor, digite un valor o seleccione una opci&oacute;n para continuar.",
@@ -71,19 +71,19 @@ $(function() {
 							
 			},
 			P10397S1A1 : {	required:"Respuesta obligatoria. Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.",
-							mayorQue:"Digite un valor menor o igual de 365",
+							mayorQue:"Digite un valor menor o igual de 20",
 							menorQue:"Digite un valor mayor de 0" 
 			},
 			P10397S3A1 : {	required:"Respuesta obligatoria. Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.",
-							mayorQue:"Digite un valor menor o igual de 365",
+							mayorQue:"Digite un valor menor o igual de 20",
 							menorQue:"Digite un valor mayor de 0" 
 			},
 			P10397S4A1 : {	required:"Respuesta obligatoria. Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.",
-							mayorQue:"Digite un valor menor o igual de 365",
+							mayorQue:"Digite un valor menor o igual de 20",
 							menorQue:"Digite un valor mayor de 0" 
 			},
 			P10397S5A1 : {	required:"Respuesta obligatoria. Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.",
-							mayorQue:"Digite un valor menor o igual de 365",
+							mayorQue:"Digite un valor menor o igual de 20",
 							menorQue:"Digite un valor mayor de 0" 
 			},
 			P3J1324 : {	required:"Respuesta obligatoria. Por favor, digite un valor o seleccione una opci&oacute;n para continuar.",

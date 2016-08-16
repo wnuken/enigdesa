@@ -39,7 +39,7 @@ $(function () {
         $( "input[type=text]" ).numerico().largo(agregarPuntosMiles($("#VALOR_MAXIMO").val()).length);
     }
 
-    $( "input[type=text]" ).each(function() {
+    $( "input[type=text]" ).each(function() {	
         
         if(!isNaN(valor_maximo) && !isNaN(valor_maximo) && $(this).attr("name") && !$(this).prop("disabled") && $(this).attr("id").indexOf("txt_") != -1){
             // Validaciones

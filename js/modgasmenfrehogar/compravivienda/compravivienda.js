@@ -45,38 +45,38 @@ $(function(){
 		},
 		messages : {
 			p10305s1 : {	required:"Respuesta obligatoria. Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.l.",
-							menorQue:"Digite un valor menor o igual a 100.000",
+							menorQue:"Digite un valor mayor o igual a 100.000",
 			},
 			p10306s1a1 : {	required:"Respuesta obligatoria. Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.",
-							menorQue:"Digite un valor menor o igual a 100.000",
+							menorQue:"Digite un valor mayor o igual a 100.000",
 			},
 			p10306s2a1 : {	required:"Respuesta obligatoria. Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.",
-							menorQue:"Digite un valor menor o igual de 100.000",
+							menorQue:"Digite un valor mayor o igual a 100.000",
 			},
 			p5161s1a3c14 : {	required:"Respuesta obligatoria. Por favor, digite un valor o seleccione una opci&oacute;n para continuar.",
-							mayorQue:"Digite un valor menor o igual de 35.000.000",
-							menorQue:"Digite un valor mayor de 500.000"
+							mayorQue:"Digite un valor menor o igual a 35.000.000",
+							menorQue:"Digite un valor mayor o igual a 500.000"
 							
 			},
 			p5161s1a4c14 : {	required:"Respuesta obligatoria. Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.",
-							mayorQue:"Digite un valor menor o igual de 35.000.000",
-							menorQue:"Digite un valor mayor de 500.000" 
+							mayorQue:"Digite un valor menor o igual a 35.000.000",
+							menorQue:"Digite un valor mayor o igual a 500.000" 
 			},
 			p5161s2a3c14 : {	required:"Respuesta obligatoria. Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.",
-							mayorQue:"Digite un valor menor o igual de 35.000.000",
-							menorQue:"Digite un valor mayor de 500.000" 
+							mayorQue:"Digite un valor menor o igual a 35.000.000",
+							menorQue:"Digite un valor mayor o igual a 500.000" 
 			},
 			p5161s2a4c14 : {	required:"Respuesta obligatoria. Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.",
-							mayorQue:"Digite un valor menor o igual de 35.000.000",
-							menorQue:"Digite un valor mayor de 500.000" 
+							mayorQue:"Digite un valor menor o igual a 35.000.000",
+							menorQue:"Digite un valor mayor o igual a 500.000" 
 			},
 			p10312s1 : {	required:"Respuesta obligatoria. Por favor, digite un n&uacute;mero o seleccione una opci&oacute;n para continuar.",
-							mayorQue:"Digite un valor menor o igual de 35.000.000",
-							menorQue:"Digite un valor mayor de 500.000" 
+							mayorQue:"Digite un valor menor o igual a 35.000.000",
+							menorQue:"Digite un valor mayor o igual a 500.000" 
 			},
 			p8697s4a1 : {	required:"Respuesta obligatoria. Por favor, digite un valor o seleccione una opci&oacute;n para continuar.",
-							mayorQue:"Digite un valor menor o igual de 35.000.000",
-							menorQue:"Digite un valor mayor de 500.000" 
+							mayorQue:"Digite un valor menor o igual a 35.000.000",
+							menorQue:"Digite un valor mayor o igual a 500.000" 
 			}
 					
 		},
@@ -95,6 +95,7 @@ $(function(){
 	$("#p10305s1, #p10306s1a1, #p10306s2a1").largo(15);
 	$("#p5161s1a3c14, #p5161s1a4c14, #p5161s2a3c14, #p5161s2a4c14, #p10312s1, #p8697s4a1").largo(8);
 	$("#p10309s5a1, #p8697s7a1").largo(500);
+	
 
 	$.fn.Mayusculas = function(){
 		return this.keypress(function(event){
@@ -186,16 +187,60 @@ $(function(){
     });
 
 	ocultarDivsAdicionales([0]); //Ocultar todos los div adicionales
-	//ocultarDivsPreguntas([0]);// 
+	ocultarDivsPreguntas([0]);// Ocultar preguntas
 
 	//Ocultar / Mostrar Adicionales Pregunta 1
 	$("input[name=p10305]").bind("change",function(){
 		if ($(this).val()==1 || $(this).val()==2){
 			ocultarDivsAdicionales([1]);
 			mostrarDivsAdicionales([1]);
+
+			// Mostrar pregunta 2
+			mostrarDivsPreguntas([2]);
+			// Mostrar pregunta 3
+			mostrarDivsPreguntas([3]);
+			// mostrar pregunta 4
+			mostrarDivsPreguntas([4]);
+			// mostrar pregunta 5
+			//mostrarDivsPreguntas([5]);
+			// Ocultar divs adicionales pregunta 6
+			$("#p10312_1, #p10312_2").prop("checked",false);
+			ocultarDivsAdicionales([9]);
+			// Ocultar pregunta 6
+			ocultarDivsPreguntas([6]);
+			// Ocultar pregunta 6
+			ocultarDivsPreguntas([6]);
+			// Ocultar pregunta 7
+			ocultarDivsPreguntas([7]);
 		}	
 		else{
 			ocultarDivsAdicionales([1]);
+			// quitar las selecciones de la pregunta 2 a la 5
+			$("#p10306s1, #p10306s2, #p10307_1, #p10307_2, #p10309s1, #p10309s2, #p10309s3, #p10309s4, #p10309s5, #p10309s6, #p5161s1c14_1, #p5161s1c14_2, #p5161s2c14_1, #p5161s2c14_2").prop("checked",false);
+			// Ocultar pregunta 2 De contado
+			ocultarDivsAdicionales([2]);
+			// Ocultar pregunta 2 De contado A Crédito
+			ocultarDivsAdicionales([3]);
+			// Ocultar pregunta 2
+			ocultarDivsPreguntas([2]);
+			// Ocultar pregunta 3
+			ocultarDivsPreguntas([3]);
+			// Ocultar divs Adicionales pregunta 4
+			ocultarDivsAdicionales([4]);
+			ocultarDivsAdicionales([5]);
+			ocultarDivsAdicionales([6]);
+			// Ocultar pregunta 4
+			ocultarDivsPreguntas([4]);
+			// Ocultar divs adicionales pregunta 5
+			ocultarDivsAdicionales([7]);
+			ocultarDivsAdicionales([8]);
+			// Ocultar pregunta 5
+			ocultarDivsPreguntas([5]);
+
+			// Ocultar pregunta 6
+			mostrarDivsPreguntas([6]);
+			// Ocultar pregunta 7
+			mostrarDivsPreguntas([7]);
 		}	
 	});
 	
@@ -213,26 +258,43 @@ $(function(){
 	$("#p10306s1, #p10306s2").bind("change",function(){
 		if ($(this).prop("checked") && $(this).attr("id") == "p10306s1"){
 			mostrarDivsAdicionales([2]);
-			$("#p10309s2, #p10309s3").prop('checked', false);
-			$("#p10309s2, #p10309s3").prop('disabled', true);
-			ocultarDivsAdicionales([4]);
-			ocultarDivsAdicionales([5]);
+			/*if(!$("#p10306s2").is(":checked")) {
+				$("#p10309s2, #p10309s3").prop('checked', false);
+				$("#p10309s2, #p10309s3").prop('disabled', true);
+				ocultarDivsAdicionales([4]);
+				ocultarDivsAdicionales([5]);
+			}*/
 			//mostrarDivsPreguntas([4]);
 		} else if (!$(this).prop("checked") && $(this).attr("id") == "p10306s1") {
 			ocultarDivsAdicionales([2]);
-			$("#p10309s2, #p10309s3").prop('checked', false);
+			/*$("#p10309s2, #p10309s3").prop('checked', false);
 			$("#p10309s2, #p10309s3").prop('disabled', false);
 			ocultarDivsAdicionales([4]);
-			ocultarDivsAdicionales([5]);
+			ocultarDivsAdicionales([5]);*/
 			//ocultarDivsPreguntas([4]);
 		}
 		else if ($(this).prop("checked") && $(this).attr("id") == "p10306s2"){
 			mostrarDivsAdicionales([3]);
 			//mostrarDivsPreguntas([3]);
+
 		} else if (!$(this).prop("checked") && $(this).attr("id") == "p10306s2") {
 			ocultarDivsAdicionales([3]);
 			//ocultarDivsPreguntas([3]);
 		}
+
+		if(!$("#p10306s2").is(':checked') && $("#p10306s1").is(':checked')) {
+			$("#p10309s2, #p10309s3").prop('checked', false);
+			$("#p10309s2, #p10309s3").prop('disabled', true);
+			ocultarDivsAdicionales([4]);
+			ocultarDivsAdicionales([5]);	
+		}
+		else {
+			//$("#p10309s2, #p10309s3").prop('checked', false);
+			$("#p10309s2, #p10309s3").prop('disabled', false);
+			//ocultarDivsAdicionales([4]);
+			//ocultarDivsAdicionales([5]);
+		}
+
 
 	});
 	
@@ -258,6 +320,39 @@ $(function(){
 		else if (!$(this).prop("checked") && $(this).attr("id") == "p10309s6"){
 			ocultarDivsAdicionales([6]);
 		}
+		if ($(this).prop("checked") && $(this).attr("id") == "p10309s4"){
+			// Ocultar pregunta 5
+			mostrarDivsPreguntas([5]);
+		}
+		else if (!$(this).prop("checked") && $(this).attr("id") == "p10309s4"){
+			// Ocultar divs adicionales pregunta 5
+			$("#p5161s1c14_1, #p5161s1c14_2, #p5161s2c14_1, #p5161s2c14_2").prop("checked",false);
+			ocultarDivsAdicionales([7]);
+			ocultarDivsAdicionales([8]);
+			// Ocultar pregunta 5
+			ocultarDivsPreguntas([5]);
+		}
+		if ($(this).prop("checked") && ($(this).attr("id") == "p10309s1" || $(this).attr("id") == "p10309s5") ){
+			// Ocultar pregunta 6
+			mostrarDivsPreguntas([6]);
+			// Ocultar pregunta 7
+			mostrarDivsPreguntas([7]);
+		}
+		else if (!$(this).prop("checked") && ($(this).attr("id") == "p10309s1" || $(this).attr("id") == "p10309s5") ){
+			// Ocultar divs adicionales pregunta 6
+			ocultarDivsAdicionales([9]);
+			// Ocultar pregunta 6
+			ocultarDivsPreguntas([6]);
+			// Ocultar divs adicionales pregunta 7
+			$("#p10312_1, #p10312_2, #p8697s1, #p8697s, #p8697s3, #p8697s4, #p8697s5, #p8697s6").prop("checked",false);
+			ocultarDivsAdicionales([10]);
+			ocultarDivsAdicionales([11]);
+			ocultarDivsAdicionales([12]);
+			ocultarDivsAdicionales([13]);
+			// Ocultar pregunta 7
+			ocultarDivsPreguntas([7]);
+
+		}
 		/*else{
 			ocultarDivsAdicionales([4,5,6]);
 		}*/
@@ -270,7 +365,7 @@ $(function(){
 
 	//Ocultar Adicionales Pregunta 5
 	$("#p5161s1c14_2").bind("click",function(){
-		ocultarDivsAdicionales([7]);	
+		ocultarDivsAdicionales([7]);
 	});
 	
 	//Mostrar Adicionales Pregunta 5 (Parte 2)
@@ -520,7 +615,7 @@ function validarPregunta3(secc){
 	
 	var preg3 = true;
 	// pregunta 3
-    if( (secc == null || secc == 'ops_pregunta3') && !$("#p10307_1").prop("checked") && !$("#p10307_2").prop("checked") && $("#p10306s1").prop("checked") ) {
+    if( (secc == null || secc == 'ops_pregunta3') && !$("#p10307_1").prop("checked") && !$("#p10307_2").prop("checked") && $("#p10306s1").prop("checked") && $("#p10306s2").prop("checked") ) {
     	$("#ops_pregunta3").addClass("alert alert-danger");
     	$("#ops_pregunta3").tooltip();
 		$("#ops_pregunta3").popover();
@@ -741,8 +836,8 @@ function validarPregunta6(secc){
 	
 	var preg6 = true;
 
-	if( (secc == null || secc == 'ops_p10312') && ( $("#p10305_3").is(':checked') || $("#p10309s1").prop("checked") || $("#p10309s2").prop("checked") || $("#p10309s3").prop("checked") || $("#p10309s4").prop("checked") || 
-		$("#p10309s5").prop("checked") || $("#p10309s6").prop("checked") ) && !$("#p10312_1").is(':checked') && !$("#p10312_2").is(':checked')) {
+	if( (secc == null || secc == 'ops_p10312') && ( $("#p10305_3").is(':checked') || $("#p10309s1").prop("checked") || /*$("#p10309s2").prop("checked") || $("#p10309s3").prop("checked") || $("#p10309s4").prop("checked") ||*/ 
+		$("#p10309s5").prop("checked")/* || $("#p10309s6").prop("checked")*/ ) && !$("#p10312_1").is(':checked') && !$("#p10312_2").is(':checked')) {
 		$("#ops_p10312").addClass("alert alert-danger");
 		$("#ops_p10312").tooltip();
 		$("#ops_p10312").popover();
@@ -839,7 +934,7 @@ function ocultarDivsPreguntas(preguntas){
 		switch(parseInt(preguntas[i])){
 			case 0: //Ocultar todos los divs
 					//$("#pregP10305").hide();
-					//$("#pregP10306").hide();
+					$("#pregP10306").hide();
 					$("#pregP10307").hide();
 					$("#pregP10309").hide();
 					$("#pregP5161").hide();
