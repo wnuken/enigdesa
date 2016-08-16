@@ -112,12 +112,16 @@
 																</div>
 																<input type="hidden" name="valor{{servicio.id}}1" id="valor{{servicio.id}}1" 
 																ng-model="Formulario.servicios[servicio.idValor]" class="form-control" ng-minleght="3" required>
-																<span class="text-center label label-danger hide" id="valor{{servicio.id}}Error">
-																	<b>El campo es obligatorio</b>
-																</span>
-																<span class="text-center label label-warning hide" id="valor{{servicio.id}}Warning">
-																	<b>El valor debe ser igual o mayor a 100</b>
-																</span>
+																<label id="valor{{servicio.id}}Error" class="hide text-center" style="display: inline; margin-left: 10px; color: rgb(255, 0, 0);">
+																	El campo es obligatorio.
+																</label>
+																<label id="valor{{servicio.id}}Warning" class="hide text-center" style="display: inline; margin-left: 10px; color: rgb(255, 0, 0);">
+																	El valor debe ser igual o mayor a $100
+																</label>
+																<label id="valor{{servicio.id}}Warning1" class="hide text-center" style="display: inline; margin-left: 10px; color: rgb(255, 0, 0);">
+																	El valor debe ser menor o igual a $5.000.000
+																</label>								
+																
 															</div>
 															<div class="form-group" ng-if="Formulario.valor[servicio.id]">
 																<div class="input-group">
@@ -158,9 +162,9 @@
 														<option value="" selected disabled>Seleccione</option>
 														<option ng-repeat="mes in meses" value="{{mes.id}}">{{mes.value}}</option>
 													</select>
-													<span class="text-center label label-danger hide" id="meses{{servicio.id}}Error">
-														<b>Debe escoger un valor</b>
-													</span>
+													<label id="meses{{servicio.id}}Error" class="hide text-center" style="display: inline; margin-left: 10px; color: rgb(255, 0, 0);">
+														Debe escoger un valor
+													</label>													
 												</div>
 											</td>
 											<td>
@@ -181,11 +185,17 @@
 															ng-change="removeAlert('verifica{{servicio.id}}')">
 														</div>
 													</div>
-													<span class="text-center label label-danger hide" id="verifica{{servicio.id}}Error">
-														<b>Debe seleccionar una opción</b>
-													</span>
+													<label id="verifica{{servicio.id}}Error" class="hide text-center" style="display: inline; margin-left: 10px; color: rgb(255, 0, 0);">
+														Debe seleccionar una opción
+													</label>
 												</div>
 											</td>
+										</tr>
+										<tr>
+											<td>
+												<b>Subtotal:</b>
+											</td>
+											<td colspan="3"><b>{{subtotal}}</b></td>
 										</tr>
 									</table>
 								</div>

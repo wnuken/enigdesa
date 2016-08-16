@@ -64,7 +64,8 @@ class Ropaaccesorios extends MX_Controller {
 
                  if($section['ID_SECCION3'] == 'D6'){
                     $this->idSubModulo = 'E';
-                    $section['PAG_SECCION3'] = 1;
+                    if($section['PAG_SECCION3'] == 0)
+                        $section['PAG_SECCION3'] = 1;
                 }
 
 

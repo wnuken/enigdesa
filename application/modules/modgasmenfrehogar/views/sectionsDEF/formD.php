@@ -1,5 +1,6 @@
 <div ng-controller="seccionsController">
-	<div class="ff">
+	<div class="hide">
+		<div ng-init="baseurl = '<?php echo base_url(); ?>'"></div>
 		<input type="hidden" name="idSection" id="idSection" value="<?php echo $idSection; ?>">
 		<input type="hidden" name="idFormulario" id="idFormulario" value="<?php echo $this->session->userdata("id_formulario"); ?>">
 		<div ng-init="pagesection = <?php echo $pageSection; ?>"></div>
@@ -479,7 +480,13 @@
 <div class="col-sm-12" id="mensaje_" ng-if="errorVcomprado">
 	<div class="alert alert-danger" role="alert">
 		<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
-		los campos <strong>Valor Pagado</strong> deben ser iguales o mayores a<strong> 1000!</strong>
+		los campos <strong>Valor Pagado</strong> deben ser iguales o mayores a<strong> {{minPage3}}!</strong>
+	</div>
+</div>
+<div class="col-sm-12" id="mensaje_" ng-if="errorVcomprado1">
+	<div class="alert alert-danger" role="alert">
+		<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
+		los campos <strong>Valor Pagado</strong> deben ser menores o iguales a<strong> {{maxPage3}}!</strong>
 	</div>
 </div>
 <div class="row text-center" ng-if="Page3.$valid">

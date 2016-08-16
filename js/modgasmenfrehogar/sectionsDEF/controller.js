@@ -158,8 +158,27 @@ var appGHogar = angular.module('appGHogar',[]);
 		$scope.VALOR_PAGADO = [];
 		$scope.otraforma = [];
 		$scope.noValida = false;
+		$scope.errorVcomprado = false;
+		$scope.errorVcomprado1 = false;
 
 		$timeout(function () {
+
+			var paramsInit = {
+				"elements" : {
+					"ID_SECCION3": $idSection.val(),
+					"ID_FORMULARIO": $idFormulario.val()
+				},				
+				"path": $scope.baseurl + "modgasmenfrehogar/ropaaccesorios/getelements"
+			};
+
+			dataService.getElements(paramsInit, function(dataResponse){
+				$scope.Formulario.rh = dataResponse;
+				console.log(dataResponse);
+			});
+			
+
+			console.log($scope.Formulario.rh, ' ', $idSection.val());
+
 			if($scope.Formulario.idSection == 'D1' || $scope.Formulario.idSection == 'D3' || $scope.Formulario.idSection == 'D4'){
 				$scope.minPage3 = 1000;
 				$scope.maxPage3 = 5000000;
@@ -194,26 +213,6 @@ var appGHogar = angular.module('appGHogar',[]);
 			};
 		}, 500);
 
-		// 
-/*		$scope.hoverIn = function(){
-    $scope.showTooltip = true;
-};
-
-$scope.hoverOut = function(){
-    $scope.showTooltip = false;
-};*/
-
-var paramsInit = {
-	"elements" : {
-		"ID_SECCION3": $idSection.val(),
-		"ID_FORMULARIO": $idFormulario.val()
-	},				
-	"path": "ropaaccesorios/getelements"
-};
-
-dataService.getElements(paramsInit, function(dataResponse){
-	$scope.Formulario.rh = dataResponse;
-});
 
 $scope.pagesection = '';
 
@@ -247,12 +246,17 @@ $scope.validateContinue = function(page){
 				// $("div#itemGroup" + idItems).addClass('alert alert-danger');
 			}else if(page == 3){
 				$scope.errorVcomprado = false;
+				$scope.errorVcomprado1 = false;
 				angular.forEach($scope.Formulario.rh, function(element, key){
 					if( typeof element.pa != 'undefined' && !isNaN(element.pa.VALOR_PAGADO)){
 						vapagado = parseInt(element.pa.VALOR_PAGADO);
 						if(!isNaN(vapagado) && vapagado < $scope.minPage3){
 							$scope.errorVcomprado = true;
+						};
+						if(!isNaN(vapagado) && vapagado > $scope.maxPage3){
+							$scope.errorVcomprado1 = true;
 						}
+
 					}
 
 					if(element.value == true){
@@ -345,7 +349,7 @@ $scope.validateContinue = function(page){
 					"VALOR_VARIABLE": $scope.Formulario.valorVariable,
 					"ID_SECCION3": $scope.Formulario.idSection
 				},				
-				"path": "ropaaccesorios/validateinitsection"
+				"path": $scope.baseurl + "modgasmenfrehogar/ropaaccesorios/validateinitsection"
 			};
 
 			dataService.saveSection(paramssec0, function(dataResponse){
@@ -364,7 +368,7 @@ $scope.validateContinue = function(page){
 			var paramssec1 = {
 				"ID_FORMULARIO": $scope.Formulario.idFormulario,
 				"ID_SECCION3": $scope.Formulario.idSection,
-				"path": "ropaaccesorios/savesetarticulos"
+				"path": $scope.baseurl + "modgasmenfrehogar/ropaaccesorios/savesetarticulos"
 			};
 
 			angular.forEach($scope.Formulario.rh, function(element, key){
@@ -395,7 +399,7 @@ $scope.validateContinue = function(page){
 				"ID_FORMULARIO": $scope.Formulario.idFormulario,
 				"ID_SECCION3": $scope.Formulario.idSection,
 				"PAG_SECCION3": (params + secccion4),
-				"path": "ropaaccesorios/updatearticulos"
+				"path": $scope.baseurl + "modgasmenfrehogar/ropaaccesorios/updatearticulos"
 			};
 
 			angular.forEach($scope.Formulario.rh, function(element, key){
@@ -436,7 +440,7 @@ $scope.validateContinue = function(page){
 					"ID_FORMULARIO": $scope.Formulario.idFormulario,
 					"ID_SECCION3": $scope.Formulario.idSection,
 					"MEDIO_PAGO": $scope.Formulario.mp,
-					"path": "ropaaccesorios/updatecompra"
+					"path": $scope.baseurl + "modgasmenfrehogar/ropaaccesorios/updatecompra"
 				};
 
 				angular.forEach($scope.Formulario.rh, function(element, key){
@@ -462,15 +466,14 @@ $scope.validateContinue = function(page){
 
 		$scope.validateForm5 = function(params){
 
-			// var prggr = '';
-			prggr = angular.fromJson($scope.Formulario.otraforma);
+			otraPago = angular.fromJson($scope.Formulario.otraforma);
 
 
 			var paramssec4 = {
 				"ID_FORMULARIO": $scope.Formulario.idFormulario,
 				"ID_SECCION3": $scope.Formulario.idSection,
-				"OTRA_PAGO": prggr,
-				"path": "ropaaccesorios/updateotros"
+				"OTRA_PAGO": otraPago,
+				"path": $scope.baseurl + "modgasmenfrehogar/ropaaccesorios/updateotros"
 			};
 
 			console.log(paramssec4);
@@ -664,7 +667,7 @@ appGHogar.controller('SeccionC', ['$scope', 'dataService', '$window', '$filter',
 	$scope.Formulario = {};
 	$scope.serviciosValor = [];
 	$scope.validateGroup = [];
-	$scope.subtotal = 0;
+	$scope.subtotal = '';
 	$scope.minPage3 = 100;
 	$scope.maxPage3 = 5000000;
 
@@ -710,13 +713,13 @@ appGHogar.controller('SeccionC', ['$scope', 'dataService', '$window', '$filter',
 				var valueElement = $("input#valor" + element.id).val();
 				if(typeof valueElement !== 'undefined' && valueElement == ''){
 					$("input#valor" + element.id).addClass("alert alert-danger");
-					$("span#valor" + element.id + "Error").removeClass("hide");
+					$("label#valor" + element.id + "Error").removeClass("hide");
 				};
 
 				var valueSelect = $("select#meses" + element.id).val();
 				if(typeof valueSelect !== 'undefined' && valueElement == ''){
 					$("select#meses" + element.id).addClass("alert alert-danger");
-					$("span#meses" + element.id + "Error").removeClass("hide");
+					$("label#meses" + element.id + "Error").removeClass("hide");
 				};
 
 				if(typeof $scope.Formulario.servicios == 'undefined')
@@ -724,7 +727,7 @@ appGHogar.controller('SeccionC', ['$scope', 'dataService', '$window', '$filter',
 
 				if(typeof $scope.Formulario.servicios[element.idVerifica] == 'undefined'){
 					$("div#verifica" + element.id).addClass("alert alert-danger");
-					$("span#verifica" + element.id + "Error").removeClass("hide");
+					$("label#verifica" + element.id + "Error").removeClass("hide");
 				};
 
 			});
@@ -748,10 +751,35 @@ appGHogar.controller('SeccionC', ['$scope', 'dataService', '$window', '$filter',
 
 		$scope.Formulario.servicios[index] = resultCurrency.unmask;
 
+		$scope.subtotal = 0;
+		angular.forEach($scope.Formulario.servicios, function(element, key){
+			console.log(element, ' ', key);
+			var valueServicios = parseInt(element);
+			if(!isNaN(valueServicios))
+				$scope.subtotal = $scope.subtotal + valueServicios;
+		});
+
+		var paramsCurrencySubt = {
+			"input": $scope.subtotal,
+			"separator": '.',
+			"prefix": '$'
+		};
+
+		var resultCurrencySubt = $filter('currency')(paramsCurrencySubt);
+		$scope.subtotal = resultCurrencySubt.mask;
+
+
+
 		if(resultCurrency.unmask < $scope.minPage3){
-			$("span#valor" + id + "Warning").removeClass("hide");
+			$("label#valor" + id + "Warning").removeClass("hide");
 		}else{
-			$("span#valor" + id + "Warning").addClass("hide");
+			$("label#valor" + id + "Warning").addClass("hide");
+		};
+
+		if(resultCurrency.unmask > $scope.maxPage3){
+			$("label#valor" + id + "Warning1").removeClass("hide");
+		}else{
+			$("label#valor" + id + "Warning1").addClass("hide");
 		};
 
 
@@ -814,6 +842,31 @@ appGHogar.controller('SeccionC', ['$scope', 'dataService', '$window', '$filter',
 	};
 
 	$scope.changeValor = function(idValor, value){
+
+		var valueField = parseInt($scope.Formulario.servicios[idValor]);
+
+		console.log(valueField);
+		if(!isNaN(valueField) && valueField != 99 && valueField != 98 && valueField != 0){
+			var paramsCurrencySubt = {
+			"input": $scope.subtotal,
+			"separator": '.',
+			"prefix": '$'
+		};
+
+		var resultCurrencySubt = $filter('currency')(paramsCurrencySubt);
+			var subtotal = resultCurrencySubt.unmask - valueField;
+
+			var paramsCurrencySubt = {
+			"input": subtotal,
+			"separator": '.',
+			"prefix": '$'
+		};
+
+		var resultCurrencySubt = $filter('currency')(paramsCurrencySubt);
+			$scope.subtotal = resultCurrencySubt.mask;
+
+		};
+
 		$scope.Formulario.servicios[idValor] = value;
 		$scope.serviciosValor[idValor] = '';
 	}
